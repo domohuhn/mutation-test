@@ -4,12 +4,14 @@ import 'package:xml/xml.dart' as xml;
 import 'mutations.dart';
 import 'commands.dart';
 import 'errors.dart';
+import 'range.dart';
 
 /// Reads the xml configuration file
 class Configuration {
   List<String> files = [];
   List<Mutation> mutations = [];
   List<Command> commands = [];
+  List<Range> exclusions = [];
   bool toplevelFound = false;
   bool verbose;
   bool dry;
@@ -42,10 +44,10 @@ class Configuration {
     if (verbose) {
       print('- configuration file version $str');
     }
+
     _processXMLNode(root,'files',(xml.XmlElement el) {
       _processXMLNode(el,'file',_addFile);
     });
-    
     if (verbose) {
       print(' ${files.length} input files');
     }
@@ -56,8 +58,17 @@ class Configuration {
     if (verbose) {
       print(' ${mutations.length} mutation rules');
     }
+
+    _processXMLNode(root,'exclude',(xml.XmlElement el) {
+      _processXMLNode(el,'range',_addRange);
+    });
+    if (verbose) {
+      print(' ${exclusions.length} exclusion rules');
+    }
     
-    _processXMLNode(root,'commands',_addAllCommands);
+    _processXMLNode(root,'commands',(xml.XmlElement el) {
+      _processXMLNode(el,'command',_addCommand);
+    });
     if (verbose) {
       print(' ${commands.length} commands will be executed to check for survivors');
     }
@@ -76,9 +87,14 @@ class Configuration {
     }
     files.add(element.text);
   }
-
-  void _addAllCommands(xml.XmlElement element) {
-    _processXMLNode(element,'command',_addCommand);
+  
+  void _addRange(xml.XmlElement element) {
+    final begin = element.getAttribute('begin');
+    final end = element.getAttribute('end');
+    if (begin==null || end == null) {
+      throw Error('Every <range> needs a begin and end attribute!');
+    }
+    exclusions.add(Range(begin, end));
   }
   
   void _addCommand(xml.XmlElement element) {

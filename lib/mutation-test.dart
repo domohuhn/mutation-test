@@ -8,15 +8,19 @@ import 'test-runner.dart';
 import 'errors.dart';
 import 'configuration.dart';
 import 'string-helpers.dart';
+import 'report-format.dart';
+import 'range.dart';
+export 'report-format.dart';
 
 /// Runs the mutation tests using the xml configuration file [inputFile].
-/// Undetected modifications are written to a [outputPath].
+/// Undetected modifications are written to a file in [outputPath] using the 
+/// specified [format].
 /// 
 /// The amount of output to the command line is controlled via [verbose].
 /// You can perform a [dry] run that wil not run any tests or perform any modifications,
 /// but will list all found mutations per file.
 /// Returns true if all modifications were detected by the test commands. 
-bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry) {
+bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format) {
   final configuration = Configuration.fromFile(inputFile, verbose, dry);
   final tests = TestRunner();
 
@@ -25,7 +29,7 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
   for (final current in configuration.files) {
     final source = File(current).readAsStringSync();
     var count = countMutations(configuration,source);
-    print('$current : performing $count mutations');
+    print('$current : performing up to $count mutations (ignoring exclusions)');
     if (dry || count==0) {
       continue;
     }
@@ -37,8 +41,7 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
     // restore orignal
     File(current).writeAsStringSync(source);
   }
-  tests.printResults();
-  tests.writeMarkdownReport(outputPath, inputFile);
+  createReport(tests,outputPath,inputFile,format);
   return tests.foundAll;
 }
 
@@ -79,7 +82,9 @@ int doMutationTests(Configuration config, TestRunner test, String filename, Stri
     }
     final matches = mutation.pattern.allMatches(original);
     for ( final m in matches ) {
-      failed += doReplacements(config,test,filename,original,m,mutation.replacements);
+      if(!isInExclusionRange(config.exclusions,original,m.start)) {
+        failed += doReplacements(config,test,filename,original,m,mutation.replacements);
+      }
     }
   }
   return failed;
@@ -118,5 +123,15 @@ void addMutationtoTestRunner(TestRunner test,String file, int absoluteStart, int
   final lineEndMutated = findEndOfLineFromPosition(mutated, absoluteStart);
   final mut = UndetectedMutation(line,mutationStart ,mutationEnd,original.substring(lineStart,lineEnd), mutated.substring(lineStart,lineEndMutated));
   test.addMutation(file, mut);
+}
+
+/// Checks if a mutation is in an exclusion range
+bool isInExclusionRange(List<Range> exclusions, String text, int position) {
+  for(final ex in exclusions) {
+    if(ex.isInExclusionRange(text, position)) {
+      return true;
+    }
+  }
+  return false;
 }
 

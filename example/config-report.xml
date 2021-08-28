@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<undetected-mutations>
+<file name="example/source.dart">
+<mutation line="6">
+<original>  } else if (b&amp;lt;= 0 &amp;&amp; c &amp;gt; 0) {</original>
+<modified>  } else if (b&amp;lt;= 0 || c &amp;gt; 0) {</modified>
+</mutation>
+<mutation line="4">
+<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c &amp;&amp; b==c)) {</modified>
+</mutation>
+<mutation line="9">
+<original>  return a * b + c;</original>
+<modified>  return a * b - c;</modified>
+</mutation>
+<mutation line="13">
+<original>  return a*x*x + b * x + c;</original>
+<modified>  return a*x*x + b * x - c;</modified>
+</mutation>
+<mutation line="13">
+<original>  return a*x*x + b * x + c;</original>
+<modified>  return a*x+x + b * x + c;</modified>
+</mutation>
+<mutation line="4">
+<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b!=c)) {</modified>
+</mutation>
+</file>
+<file name="example/source2.dart">
+<mutation line="15">
+<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    if (y&amp;lt;=0.0 || text != &amp;apos;&amp;apos;) {</modified>
+</mutation>
+<mutation line="18">
+<original>        &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>        || text != &amp;apos;&amp;apos;) {</modified>
+</mutation>
+<mutation line="10">
+<original>    return number1*x/number2;</original>
+<modified>    return number1*x*number2;</modified>
+</mutation>
+<mutation line="17">
+<original>    } else if ( y==0.0</original>
+<modified>    } else if ( y!=0.0</modified>
+</mutation>
+<mutation line="15">
+<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    if (y&amp;lt;=0.0 &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
+</mutation>
+<mutation line="18">
+<original>        &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>        &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
+</mutation>
+</file>
+</undetected-mutations>

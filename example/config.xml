@@ -2,6 +2,7 @@
 <mutations version="1.0">
   <files>
     <file>example/source.dart</file>
+    <file>example/source2.dart</file>
   </files>
   <rules>
     <pattern text="&#38;&#38;">
@@ -34,7 +35,12 @@
       <mutation text="=="/>
     </pattern>
   </rules>
+  <exclude>
+    <range begin="/*" end="*/"/>
+    <range begin="//" end="\n"/>
+  </exclude>
   <commands>
-    <command name="Dart test" group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>
+    <command name="Test source" group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>
+    <command name="Test source2" group="test" expected-return="0" working-directory=".">dart test test/example2_test.dart</command>
   </commands>
 </mutations>

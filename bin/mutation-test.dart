@@ -9,13 +9,15 @@ void main(List<String> arguments) {
   final verbose = 'verbose';
   final dry = 'dry';
   final output = 'output';
+  final format = 'format';
 
   final parser = ArgParser()
     ..addFlag(help, abbr: 'h', help: 'Displays this text', negatable: false)
     ..addFlag(example, abbr: 'e', help: 'Shows a simple XML configuration file tha can be used as input', negatable: false)
     ..addFlag(verbose, abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
     ..addFlag(dry, abbr: 'd', help: 'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
-    ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.');
+    ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
+    ..addOption(format, abbr: 'f', help: 'Sets the report format', valueHelp: 'One of html/md/xml/none', defaultsTo: 'html');
 
   late ArgResults argResults;
   try {
@@ -42,10 +44,27 @@ void main(List<String> arguments) {
     printUsage(parser);
   }
 
+  var reportFormatStr = argResults[format];
+  var fmt = ReportFormat.NONE;
+  if (reportFormatStr == 'html') {
+    fmt = ReportFormat.HTML;
+  } else if (reportFormatStr == 'md') {
+    fmt = ReportFormat.MARKDOWN;
+  } else if (reportFormatStr == 'xml') {
+    fmt = ReportFormat.XML;
+  } else if (reportFormatStr == 'none') {
+    fmt = ReportFormat.NONE;
+  } else if (reportFormatStr == 'all') {
+    fmt = ReportFormat.ALL;
+  }  else {
+    print('Unsupported output format: $reportFormatStr');
+    printUsage(parser);
+  }
+
   var foundAll = true;
   try {
     for (final file in argResults.rest) {
-      var result = runMutationTest(file, argResults[output], argResults[verbose], argResults[dry]);
+      var result = runMutationTest(file, argResults[output], argResults[verbose], argResults[dry], fmt);
       foundAll = result && foundAll;
     }
   } catch (e) {
