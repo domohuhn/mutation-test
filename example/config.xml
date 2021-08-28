@@ -27,6 +27,12 @@
       <mutation text="*"/>
       <mutation text="+"/>
     </pattern>
+    <pattern text="==">
+      <mutation text="!="/>
+    </pattern>
+    <pattern text="!=">
+      <mutation text="=="/>
+    </pattern>
   </rules>
   <commands>
     <command name="Dart test" group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>

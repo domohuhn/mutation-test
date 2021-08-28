@@ -1,58 +1,155 @@
+import 'package:mutation_test/mutations.dart';
+
 import 'configuration.dart';
+import 'string-helpers.dart';
 import 'dart:io';
 
+/// Runs the tests for mutations and stores the results.
 class TestRunner {
-  Map<String,int> groupStatistics = {};
-  Map<String,int> commandStatistics = {};
-  int totalFound = 0;
-  int totalRuns = 0;
-
+  /// statistics which command group caught how many mutations
+  final Map<String,int> _groupStatistics = {};
+  /// statistics which command caught how many mutations
+  final Map<String,int> _commandStatistics = {};
   
+  /// stores the undetected mutations
+  final Map<String,List<UndetectedMutation>> _undetectedMutations = {};
+
+  int _totalFound = 0;
+  int _totalRuns = 0;
+  
+  /// Prepares the testrunner to run the tests specified in [config]
   void prepare(Configuration config) {
     for (final cmd in config.commands) {
       if (cmd.group.isNotEmpty) {
-        groupStatistics[cmd.group] = 0;
+        _groupStatistics[cmd.group] = 0;
       }
       if (cmd.name.isNotEmpty) {
-        commandStatistics[cmd.name] = 0;
+        _commandStatistics[cmd.name] = 0;
       }
     }
   }
 
-  bool run(Configuration config) {
-    totalRuns += 1;
+  /// Runs all test commands from [config] in document order.
+  /// 
+  /// The method will return true in case all tests pass (the mutation was not detected).
+  /// If [outputOnFailure] is true, the complete command output will be printed.
+  bool run(Configuration config, {bool outputOnFailure=false}) {
+    _totalRuns += 1;
     for (final cmd in config.commands) {
       var result = Process.runSync(cmd.command, cmd.arguments, workingDirectory: cmd.directory);
       if (result.exitCode != cmd.expectedReturnValue) {
         if (config.verbose) {
-          print('Test failed: ${cmd.command} with return code ${result.exitCode}');
+          print('Found mutation: Test command failed ${cmd.command} with return code ${result.exitCode}');
+        }
+        if (outputOnFailure) {
+          print('FAILED TEST COMMAND: "${cmd.original}"');
+          print('-- stdout: \n ${result.stdout}');
+          print('-- stderr: \n ${result.stderr}');
+          print('-- return code: \n ${result.exitCode} (expected: ${cmd.expectedReturnValue})');
         }
         if (cmd.group.isNotEmpty) {
-          groupStatistics.update(cmd.group, (v) => v+1, ifAbsent: () => 1);
+          _groupStatistics.update(cmd.group, (v) => v+1, ifAbsent: () => 1);
         }
         if (cmd.name.isNotEmpty) {
-          commandStatistics.update(cmd.name, (v) => v+1, ifAbsent: () => 1);
+          _commandStatistics.update(cmd.name, (v) => v+1, ifAbsent: () => 1);
         }
-        totalFound += 1;
+        _totalFound += 1;
         return false;
       }
     }
     if (config.verbose) {
-      print('All Tests ok');
+      print('All Tests ok: Mutation survived');
     }
     return true;
   }
 
+  /// Prints the statistics at the end of the execution.
   void printResults() {
+    var fixedTotal = _totalRuns-1;
     print('  --- Results ---');
     print('Test command statistics:');
-    commandStatistics.forEach((k, v) => print('  Command : $k, Found mutations: $v'));
+    _commandStatistics.forEach((k, v) => print('  Command : $k, Found mutations: $v'));
     print('Test group statistics:');
-    groupStatistics.forEach((k, v) => print('  Group : $k, Found mutations: $v'));
-    print('\nTotal tests: $totalRuns\nSurviving Mutations: ${totalRuns-totalFound-1}');
+    _groupStatistics.forEach((k, v) => print('  Group : $k, Found mutations: $v'));
+    print('\nTotal tests: $fixedTotal\nUndetected Mutations: ${fixedTotal-_totalFound} (${asPercentString(fixedTotal-_totalFound,fixedTotal)})');
+
+
   }
 
-  bool get foundAll => totalRuns-1-totalFound == 0;
+  /// Checks if all mutations were found.
+  bool get foundAll => _totalRuns-1-_totalFound == 0;
+
+  /// Adds the undetected [mutation] from [file] to the list.
+  void addMutation(String file, UndetectedMutation mutation) {
+    if (_undetectedMutations.containsKey(file)) {
+      var list = _undetectedMutations[file];
+      if(list == null) {
+        _undetectedMutations[file] = [mutation];
+      }
+      else {
+        list.add(mutation);
+      }
+    }
+    else {
+      _undetectedMutations[file] = [mutation];
+    }
+  }
+
+  
+  /// Writes the results of the tests to a markdown file in directory [outpath].
+  /// The report will be named like the [input], but ending with "-report.md".
+  void writeMarkdownReport(String outpath, String input) {
+    var start = 0;
+    if (input.contains('/')) {
+      start = input.lastIndexOf('/');
+    } else {
+      start = input.lastIndexOf('\\');
+    }
+    var end = input.lastIndexOf('.');
+    var name = '$outpath/${input.substring(start,end)}-report.md';
+    var text = _createMarkdownHeader(input);
+    _undetectedMutations.forEach((key, value) {
+      text += '## Undetected mutations in file : $key\n';
+      for (final mut in value) {
+        text += mut.toMarkdown().replaceAll('*', '\*');
+      }
+      text += '\n\n';
+    });
+    File(name).writeAsStringSync(text);
+  }
+
+  String _createMarkdownHeader(String name) {
+    var fixedTotal = _totalRuns-1;
+    var rv = '''# Mutation report
+This is a mutation report generated by mutation-test.
+
+${DateTime.now()}
+
+| Key           | Value                     |
+| ------------- | ------------------------- |
+| Input file    | $name                     |
+| Mutations     | $fixedTotal                        |
+| Undetected    | ${fixedTotal-_totalFound}                        |
+| Undetected%   | ${asPercentString(fixedTotal-_totalFound, fixedTotal)}                        |
+
+
+## Detections ordered by test groups
+
+| Group         | Count      |
+| ------------- | ---------- |
+''';
+    _groupStatistics.forEach((k, v){rv += '| $k            | $v         |\n';});
+    rv += '''
+
+
+## Detection by test commands
+
+| Command       | Count      |
+| ------------- | ---------- |
+''';
+    _commandStatistics.forEach((k, v){rv += '| $k            | $v         |\n';});
+    return rv+'\n\n';
+  }
 
 }
 

@@ -26,7 +26,7 @@ class Configuration {
       _processTopLevel(element);
     }
     if (!toplevelFound) {
-      throw InputError('Could not find xml element <mutations>');
+      throw Error('Could not find xml element <mutations>');
     }
   }
 
@@ -34,10 +34,10 @@ class Configuration {
     var str = root.getAttribute('version');
     toplevelFound = true;
     if (str == null) {
-      throw InputError('No version attribute found in xml element <mutations>!');
+      throw Error('No version attribute found in xml element <mutations>!');
     }
     if (double.parse(str) != 1.0) {
-      throw InputError('Configuration file version not supported!');
+      throw Error('Configuration file version not supported!');
     }
     if (verbose) {
       print('- configuration file version $str');
@@ -72,7 +72,7 @@ class Configuration {
   void _addFile(xml.XmlElement element) {
     final path = element.text;
     if (!File(path).existsSync()) {
-      throw InputError('Input file "$path" not found!');
+      throw Error('Input file "$path" not found!');
     }
     files.add(element.text);
   }
@@ -84,13 +84,13 @@ class Configuration {
   void _addCommand(xml.XmlElement element) {
     var text = element.text.split(' ');
     if (text.isEmpty) {
-      throw InputError('Received empty text for a <command>');
+      throw Error('Received empty text for a <command>');
     }
     final process = text[0];
     final args = <String>[];
     args.addAll(text);
     args.removeAt(0);
-    final cmd = Command(process,args);
+    final cmd = Command(element.text,process,args);
     final name = element.getAttribute('name');
     if (name != null) {
       cmd.name = name;
@@ -110,18 +110,18 @@ class Configuration {
   void _addMutationRule(xml.XmlElement element) {
     var str = element.getAttribute('text');
     if (str == null) {
-      throw InputError('Each <pattern> must have a text attribute!');
+      throw Error('Each <pattern> must have a text attribute!');
     }
     var mutation = Mutation(str);
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {
-        throw InputError('Each <mutation> must have a text attribute!');
+        throw Error('Each <mutation> must have a text attribute!');
       }
       mutation.replacements.add(replacement);
     }
     if (mutation.replacements.isEmpty) {
-      throw InputError('Each <pattern> must have at least a single <mutation> child!');
+      throw Error('Each <pattern> must have at least a single <mutation> child!');
     }
     mutations.add(mutation);
   }

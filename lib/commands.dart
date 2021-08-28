@@ -10,9 +10,10 @@ class Command {
   String group = '';
   String? directory;
   int expectedReturnValue = 0;
+  final String original;
   final String command;
   final List<String> arguments;
 
-  Command(this.command, this.arguments);
+  Command(this.original, this.command, this.arguments);
 }
 

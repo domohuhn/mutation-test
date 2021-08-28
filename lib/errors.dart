@@ -1,11 +1,12 @@
 
-
-class InputError implements Exception {
+/// A simple exception for any error.
+class Error implements Exception {
+  /// cause of the error
   String cause;
-  InputError(this.cause);
+  Error(this.cause);
 
   @override
   String toString(){
-    return 'InputError: '+cause;
+    return 'Error: '+cause;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:mutation_test/string_helpers.dart';
+import 'package:mutation_test/string-helpers.dart';
 import 'package:test/test.dart';
 
 void main() {

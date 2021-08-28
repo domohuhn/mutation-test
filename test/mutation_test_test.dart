@@ -1,4 +1,4 @@
-import 'package:mutation_test/mutation_test.dart';
+import 'package:mutation_test/mutation-test.dart';
 import 'package:test/test.dart';
 
 void main() {

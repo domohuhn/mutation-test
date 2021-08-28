@@ -1,5 +1,7 @@
 import 'dart:math';
 
+/// Finds the line number at [position] in a multiline [text].
+/// Indexing starts at 1.
 int findLineFromPosition(String text, int position) {
   var rv = 0;
   for(var i=0; i<min(text.length,position); i++) {
@@ -10,7 +12,7 @@ int findLineFromPosition(String text, int position) {
   return rv+1;
 }
 
-
+/// Finds the start position of the line at [position] in a multiline [text].
 int findBeginOfLineFromPosition(String text, int position) {
   var rv = 0;
   for(var i=0; i<min(text.length-1,position); i++) {
@@ -21,6 +23,7 @@ int findBeginOfLineFromPosition(String text, int position) {
   return rv;
 }
 
+/// Finds the end position of the line at [position] in a multiline [text].
 int findEndOfLineFromPosition(String text, int position) {
   var rv = position;
   for(var i=position; i<text.length; i++) {
@@ -29,5 +32,14 @@ int findEndOfLineFromPosition(String text, int position) {
     }
   }
   return rv;
+}
+
+/// Converts the inputs to a percentage string "[fraction]/[total]%"
+String asPercentString(int fraction, int total) {
+  var percent = 0.0;
+  if (total>0) {
+    percent = 100.0*fraction/total;
+  }
+  return '${percent.toStringAsFixed(2)}%';
 }
 

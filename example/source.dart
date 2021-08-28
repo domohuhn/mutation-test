@@ -1,7 +1,7 @@
 
 
 int conditions(int a, int b, int c) {
-  if (a==b && (a<c || b>c)) {
+  if (a==b && (a<c || b>c || b==c)) {
     return a+c;
   } else if (b<= 0 && c > 0) {
     return a-b;

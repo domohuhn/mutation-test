@@ -1,4 +1,4 @@
-import 'package:mutation_test/mutation_test.dart';
+import 'package:mutation_test/mutation-test.dart';
 import 'package:args/args.dart';
 import 'dart:io';
 
@@ -14,7 +14,7 @@ void main(List<String> arguments) {
     ..addFlag(help, abbr: 'h', help: 'Displays this text', negatable: false)
     ..addFlag(example, abbr: 'e', help: 'Shows a simple XML configuration file tha can be used as input', negatable: false)
     ..addFlag(verbose, abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
-    ..addFlag(dry, abbr: 'd', help: 'Dry run - loads the configuration and checks all files, but runs no tests', negatable: false, defaultsTo: false)
+    ..addFlag(dry, abbr: 'd', help: 'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
     ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.');
 
   late ArgResults argResults;
@@ -35,6 +35,11 @@ void main(List<String> arguments) {
     argResults = parser.parse(arguments);
   } catch (e) {
     handleCommandLineError(parser,e.toString());
+  }
+
+  if (argResults.rest.isEmpty) {
+    print('No input files present!');
+    printUsage(parser);
   }
 
   var foundAll = true;
