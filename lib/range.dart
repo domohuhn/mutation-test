@@ -10,10 +10,26 @@ class Range {
 
   /// Checks if [position] in [text] is inside an exclusion range 
   /// defined by the start and end token in this instance.
-  bool isInExclusionRange(String text, int position) {
-    var start = findFirstTokenBeforePosition(text, position, startToken);
-    var end = findFirstTokenAfterPosition(text, position, endToken);
-    return start <= position && position <= end;
+  bool isInRange(String text, int position) {
+    // TODO check exclusion ranges from start of file
+    // search begin / end pairs
+    //var shiftStart = startToken.length-1;
+    //var startSearch = position-shiftStart>0? position-shiftStart : position;
+    var start = findFirstTokenBeforePosition(text, position, startToken); 
+    //print('CHECKING $position in [$start,xxxx] Start "$startToken" End "$endToken" ');
+    if (start<0) {
+      return false;
+    }
+    if(start==position && position>0 && isInRange(text,position-1)) {
+      return true;
+    }
+    var shiftEnd = endToken.length-1;
+    var end = findFirstTokenAfterPosition(text, start, endToken);
+    //print('CHECKING $position in [$start,${end+shiftEnd}] Start "$startToken" End "$endToken" ');
+    if (end<0 || start>=end) {
+      return false;
+    }
+    return start <= position && position <= end+shiftEnd;
   }
 
 }

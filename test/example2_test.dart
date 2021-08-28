@@ -22,6 +22,5 @@ void main() {
   test('TestData format 3', () {
      expect(data.format(2.0),'default 2.0');
   });
-
 }
 

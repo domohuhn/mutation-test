@@ -70,7 +70,7 @@ class Configuration {
       _processXMLNode(el,'command',_addCommand);
     });
     if (verbose) {
-      print(' ${commands.length} commands will be executed to check for survivors');
+      print(' ${commands.length} commands will be executed to detected mutations');
     }
   }
 
@@ -89,10 +89,22 @@ class Configuration {
   }
   
   void _addRange(xml.XmlElement element) {
-    final begin = element.getAttribute('begin');
-    final end = element.getAttribute('end');
+    var begin = element.getAttribute('begin');
+    var end = element.getAttribute('end');
     if (begin==null || end == null) {
       throw Error('Every <range> needs a begin and end attribute!');
+    }
+    if (begin=='\\n') {
+      begin='\n';
+    }
+    if (end=='\\n') {
+      end='\n';
+    }
+    if (begin=='\\t') {
+      begin='\t';
+    }
+    if (end=='\\t') {
+      end='\t';
     }
     exclusions.add(Range(begin, end));
   }

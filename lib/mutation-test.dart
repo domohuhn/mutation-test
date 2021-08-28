@@ -28,12 +28,13 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
 
   for (final current in configuration.files) {
     final source = File(current).readAsStringSync();
-    var count = countMutations(configuration,source);
-    print('$current : performing up to $count mutations (ignoring exclusions)');
+    var data = MutationData(configuration,tests,current,source);
+    var count = countMutations(data);
+    print('$current : performing $count mutations');
     if (dry || count==0) {
       continue;
     }
-    var failed = doMutationTests(configuration,tests,current,source);
+    var failed = doMutationTests(data);
     if (failed > 0) {
       print('FAILED: $failed (${asPercentString(failed, count)}) mutations passed all tests!');
     }
@@ -43,6 +44,17 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
   }
   createReport(tests,outputPath,inputFile,format);
   return tests.foundAll;
+}
+
+
+/// Data structure holding all data for a mutation run.
+class MutationData {
+  final Configuration configuration;
+  final TestRunner test;
+  final String filename;
+  final String contents;
+  
+  MutationData(this.configuration,this.test,this.filename,this.contents);
 }
 
 /// Checks if the tests in [cfg] can be run by the test runner [test] on the unmodified sources.
@@ -59,31 +71,27 @@ void checkTests(Configuration cfg, TestRunner test) {
   }
 }
 
-/// Counts the mutations in [text] that are specified in [config].
-int countMutations(Configuration config, String text) {
-  var rv = 0;
-  for (final mutation in config.mutations) {
-    var count = mutation.replacements.length;
-    final matches = mutation.pattern.allMatches(text);
-    rv += count * matches.length;
-  }
-  return rv;
+/// Counts the mutations possible mutations in [data].
+int countMutations(MutationData data) {
+  return doMutationTests(data, functor: (MutationData data, Match m, List<String> l) {return l.length;}) ;
 }
 
-/// Performs the mutation tests in [config] on [filename].
-/// The unmodified contents of the file in [original] are mutated
-/// and then the [test]s are run.
+/// Performs the mutation tests in [data].
+/// The unmodified contents of the file are mutated
+/// using all mutation rules in [data] and then the tests are run.
 /// Returns the number of undetected mutations.
-int doMutationTests(Configuration config, TestRunner test, String filename, String original) {
+int doMutationTests(MutationData data,
+   {int Function(MutationData data, Match, List<String>) functor = doReplacements,
+   bool supressVerbose=false}) {
   var failed = 0;
-  for (final mutation in config.mutations) {
-    if (config.verbose) {
+  for (final mutation in data.configuration.mutations) {
+    if (data.configuration.verbose&&!supressVerbose) {
       print('Pattern: ${mutation.pattern}');
     }
-    final matches = mutation.pattern.allMatches(original);
+    final matches = mutation.pattern.allMatches(data.contents);
     for ( final m in matches ) {
-      if(!isInExclusionRange(config.exclusions,original,m.start)) {
-        failed += doReplacements(config,test,filename,original,m,mutation.replacements);
+      if(!isInExclusionRange(data.configuration.exclusions,data.contents,m.start)) {
+        failed += functor(data,m,mutation.replacements);
       }
     }
   }
@@ -94,19 +102,16 @@ int doMutationTests(Configuration config, TestRunner test, String filename, Stri
 /// The modified file is written an [filename] and then all [tests] specified in [config] are run. 
 /// Undetected Mutations are added to the TestRunner.
 /// Returns the number of undetected mutations.
-int doReplacements(Configuration config, TestRunner test, String filename, String original, Match match, List<String> replacements) {
+int doReplacements(MutationData data, Match match, List<String> replacements) {
   var failed = 0;
   for (final repl in replacements) {
-    if (config.verbose) {
-      print('Mutation: $repl');
+    if (data.configuration.verbose) {
+      print('Mutation: "$repl" at ${match.start}');
     }
-    final mutated = original.substring(0,match.start) + repl + original.substring(match.end);
-    File(filename).writeAsStringSync(mutated);
-    if (test.run(config)) {
-      if (config.verbose) {
-        print('undetected mutation!');
-      }
-      addMutationtoTestRunner(test,filename,match.start,match.end,original,mutated);
+    final mutated = data.contents.substring(0,match.start) + repl + data.contents.substring(match.end);
+    File(data.filename).writeAsStringSync(mutated);
+    if (data.test.run(data.configuration)) {
+      addMutationtoTestRunner(data.test,data.filename,match.start,match.end,data.contents,mutated);
       failed += 1;
     }
   }
@@ -128,7 +133,7 @@ void addMutationtoTestRunner(TestRunner test,String file, int absoluteStart, int
 /// Checks if a mutation is in an exclusion range
 bool isInExclusionRange(List<Range> exclusions, String text, int position) {
   for(final ex in exclusions) {
-    if(ex.isInExclusionRange(text, position)) {
+    if(ex.isInRange(text, position)) {
       return true;
     }
   }

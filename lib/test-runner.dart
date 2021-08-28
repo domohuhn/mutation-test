@@ -58,7 +58,7 @@ class TestRunner {
       }
     }
     if (config.verbose) {
-      print('All Tests ok: Mutation survived');
+      print('Undetected mutation! All tests passed!');
     }
     return true;
   }
