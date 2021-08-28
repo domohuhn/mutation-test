@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations version="1.0">
+  <files>
+    <file>example/source.dart</file>
+  </files>
+  <rules>
+    <pattern text="&#38;&#38;">
+      <mutation text="||"/>
+      <mutation text="&#38;&#38; !"/>
+    </pattern>
+    <pattern text="||">
+      <mutation text="&#38;&#38;"/>
+    </pattern>
+    <pattern text="+">
+      <mutation text="-"/>
+      <mutation text="*"/>
+    </pattern>
+    <pattern text="-">
+      <mutation text="+"/>
+      <mutation text="*"/>
+    </pattern>
+    <pattern text="*">
+      <mutation text="+"/>
+      <mutation text="-"/>
+    </pattern>
+    <pattern text="/">
+      <mutation text="*"/>
+      <mutation text="+"/>
+    </pattern>
+  </rules>
+  <commands>
+    <command name="Dart test" group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>
+  </commands>
+</mutations>
