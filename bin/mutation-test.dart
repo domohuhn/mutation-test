@@ -3,9 +3,9 @@ import 'package:args/args.dart';
 import 'dart:io';
 
 void main(List<String> arguments) {
-
   final help = 'help';
-  final example = 'example';
+  final generate_rules = 'generate-rules';
+  final rules = 'rules';
   final verbose = 'verbose';
   final dry = 'dry';
   final output = 'output';
@@ -13,30 +13,52 @@ void main(List<String> arguments) {
 
   final parser = ArgParser()
     ..addFlag(help, abbr: 'h', help: 'Displays this text', negatable: false)
-    ..addFlag(example, abbr: 'e', help: 'Shows a simple XML configuration file tha can be used as input', negatable: false)
-    ..addFlag(verbose, abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
-    ..addFlag(dry, abbr: 'd', help: 'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
-    ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
-    ..addOption(format, abbr: 'f', help: 'Sets the report format', valueHelp: 'One of html/md/xml/none', defaultsTo: 'html');
+    ..addFlag(generate_rules,
+        abbr: 'g',
+        help: 'Prints the builtin ruleset as XML string',
+        negatable: false)
+    ..addFlag(verbose,
+        abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
+    ..addFlag(dry,
+        abbr: 'd',
+        help:
+            'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests',
+        negatable: false,
+        defaultsTo: false)
+    ..addOption(output,
+        abbr: 'o',
+        help: 'Sets the output directory',
+        valueHelp: 'directory',
+        defaultsTo: '.')
+    ..addOption(format,
+        abbr: 'f',
+        help: 'Sets the report file format',
+        allowed: ['html', 'md', 'xml', 'all', 'none'],
+        defaultsTo: 'html')
+    ..addOption(rules,
+        abbr: 'r',
+        help:
+            'Overrides the builtint ruleset with the rules in the given XML Document',
+        valueHelp: 'path to XML file');
 
   late ArgResults argResults;
   try {
     argResults = parser.parse(arguments);
   } catch (e) {
-    handleCommandLineError(parser,e.toString());
+    handleCommandLineError(parser, e.toString());
   }
 
   if (argResults[help] as bool) {
     printUsage(parser);
   }
-  if (argResults[example] as bool) {
+  if (argResults[generate_rules] as bool) {
     printExample();
   }
 
   try {
     argResults = parser.parse(arguments);
   } catch (e) {
-    handleCommandLineError(parser,e.toString());
+    handleCommandLineError(parser, e.toString());
   }
 
   if (argResults.rest.isEmpty) {
@@ -56,7 +78,7 @@ void main(List<String> arguments) {
     fmt = ReportFormat.NONE;
   } else if (reportFormatStr == 'all') {
     fmt = ReportFormat.ALL;
-  }  else {
+  } else {
     print('Unsupported output format: $reportFormatStr');
     printUsage(parser);
   }
@@ -64,13 +86,15 @@ void main(List<String> arguments) {
   var foundAll = true;
   try {
     for (final file in argResults.rest) {
-      var result = runMutationTest(file, argResults[output], argResults[verbose], argResults[dry], fmt);
+      var result = runMutationTest(
+          file, argResults[output], argResults[verbose], argResults[dry], fmt,
+          ruleFile: argResults[rules]);
       foundAll = result && foundAll;
     }
   } catch (e) {
     handleProcessingError(e.toString());
   }
-  if(!foundAll) {
+  if (!foundAll) {
     exit(-1);
   }
   exit(0);
@@ -78,18 +102,16 @@ void main(List<String> arguments) {
 
 void handleCommandLineError(var parser, [String errorMessage = '']) {
   if (errorMessage != '') {
-    print('Error while parsing command line arguments:\n  '+errorMessage);
+    print('Error while parsing command line arguments:\n  ' + errorMessage);
   }
-  printUsage(parser,2);
+  printUsage(parser, 2);
 }
-
 
 void handleProcessingError([String errorMessage = '']) {
   print('Error while processing:\n  $errorMessage');
   exit(1);
 }
 
-  
 void printUsage(var parser, [int exitCode = 0]) {
   print('\nUsage : mutation-test <options> <input xml file>\n');
   print('A program that runs mutation tests on your source code and checks the results.');

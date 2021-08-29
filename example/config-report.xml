@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <undetected-mutations>
+<rules>
+<ruleset name="example/config.xml"/><ruleset name="Built in Ruleset"/></rules>
 <file name="example/source.dart">
 <mutation line="6">
 <original>  } else if (b&amp;lt;= 0 &amp;&amp; c &amp;gt; 0) {</original>

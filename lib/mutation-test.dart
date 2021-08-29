@@ -10,19 +10,37 @@ import 'configuration.dart';
 import 'string-helpers.dart';
 import 'report-format.dart';
 import 'range.dart';
+import 'builtin-rules.dart';
+
 export 'report-format.dart';
+export 'builtin-rules.dart';
 
 /// Runs the mutation tests using the xml configuration file [inputFile].
 /// Undetected modifications are written to a file in [outputPath] using the 
 /// specified [format].
 /// 
+/// The testrunner will use builtin mutation rules unless a path to a XML file
+/// is given as [ruleFile].
+/// 
 /// The amount of output to the command line is controlled via [verbose].
 /// You can perform a [dry] run that wil not run any tests or perform any modifications,
 /// but will list all found mutations per file.
 /// Returns true if all modifications were detected by the test commands. 
-bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format) {
+bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
+    {String? ruleFile}) {
   final configuration = Configuration.fromFile(inputFile, verbose, dry);
-  final tests = TestRunner();
+  final tests = TestRunner(inputFile);
+  if (ruleFile!=null) {
+    configuration.addRulesFromFile(ruleFile);
+    tests.xmlFiles.add(ruleFile);
+  } else {
+    if(verbose) {
+      print('No ruleset given - adding builtin ruleset!');
+    }
+    tests.xmlFiles.add('Built in Ruleset');
+    configuration.parseXMLString(builtinMutationRules());
+  }
+  configuration.validate();
 
   checkTests(configuration,tests);
 

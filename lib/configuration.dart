@@ -18,17 +18,38 @@ class Configuration {
 
   /// Constructs the configuration from an xml file in [path]
   Configuration.fromFile(String path, this.verbose, this.dry) {
+    addRulesFromFile(path);
+  }
+
+  /// Add all rules from [path]
+  void addRulesFromFile(String path) {
     if (verbose) {
       print('Processing $path');
     }
     var file = File(path);
     final contents = file.readAsStringSync();
-    final document = xml.XmlDocument.parse(contents);
+    parseXMLString(contents);
+  }
+
+  /// Parses an XML string with the given [contents]
+  void parseXMLString(String contents) {
+     final document = xml.XmlDocument.parse(contents);
     for (var element in document.findAllElements('mutations')) {
       _processTopLevel(element);
     }
     if (!toplevelFound) {
       throw Error('Could not find xml element <mutations>');
+    }
+  }
+
+  
+  /// Checks if the configuration is valid.
+  /// That means at least one input file, one test command and 
+  /// one mutation rule.
+  void validate() {
+    if (files.isEmpty || mutations.isEmpty || commands.isEmpty) {
+      throw Error('At least one entry in the configuration for each of the following elements is needed:\n'
+      'files: ${files.length} mutation rules: ${mutations.length} verification commands: ${commands.length}');
     }
   }
 

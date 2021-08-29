@@ -4,44 +4,7 @@
     <file>example/source.dart</file>
     <file>example/source2.dart</file>
   </files>
-  <rules>
-    <pattern text="&#38;&#38;">
-      <mutation text="||"/>
-      <mutation text="&#38;&#38; !"/>
-    </pattern>
-    <pattern text="||">
-      <mutation text="&#38;&#38;"/>
-    </pattern>
-    <pattern text="+">
-      <mutation text="-"/>
-      <mutation text="*"/>
-    </pattern>
-    <pattern text="-">
-      <mutation text="+"/>
-      <mutation text="*"/>
-    </pattern>
-    <pattern text="*">
-      <mutation text="+"/>
-      <mutation text="-"/>
-    </pattern>
-    <pattern text="/">
-      <mutation text="*"/>
-      <mutation text="+"/>
-    </pattern>
-    <pattern text="==">
-      <mutation text="!="/>
-    </pattern>
-    <pattern text="!=">
-      <mutation text="=="/>
-    </pattern>
-  </rules>
   <exclude>
-    <!-- excludes anything between two tokens  -->
-    <token begin="//" end="\n"/>
-    <!-- excludes anything that matches a pattern  -->
-    <!-- if the optional value dotAll is set to true, then the . will also match newlines  -->
-    <!-- default is false  -->
-    <regex pattern="/[*].*?[*]/" dotAll="true"/>
     <!-- lines can also be excluded  -->
     <!-- line index starts at 1  -->
     <lines begin="1" end="2"/>
