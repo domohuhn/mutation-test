@@ -1,32 +1,39 @@
 
 import 'string-helpers.dart';
 
-/// A range in the source file delimited by tokens.
-class Range {
-  final String startToken;
-  final String endToken;
 
-  Range(this.startToken,this.endToken);
+/// A range in the source files.
+abstract class Range {
 
   /// Checks if [position] in [text] is inside an exclusion range 
   /// defined by the start and end token in this instance.
+  bool isInRange(String text, int position);
+
+}
+
+/// A range in the source file delimited by tokens.
+class TokenRange extends Range {
+  final String startToken;
+  final String endToken;
+
+  TokenRange(this.startToken,this.endToken);
+
+  /// Checks if [position] in [text] is inside an exclusion range 
+  /// defined by the start and end token in this instance.
+  @override
   bool isInRange(String text, int position) {
-    // TODO check exclusion ranges from start of file
-    // search begin / end pairs
-    //var shiftStart = startToken.length-1;
-    //var startSearch = position-shiftStart>0? position-shiftStart : position;
     var start = findFirstTokenBeforePosition(text, position, startToken); 
-    //print('CHECKING $position in [$start,xxxx] Start "$startToken" End "$endToken" ');
     if (start<0) {
       return false;
     }
-    if(start==position && position>0 && isInRange(text,position-1)) {
-      return true;
-    }
     var shiftEnd = endToken.length-1;
     var end = findFirstTokenAfterPosition(text, start, endToken);
-    //print('CHECKING $position in [$start,${end+shiftEnd}] Start "$startToken" End "$endToken" ');
     if (end<0 || start>=end) {
+      // check if the start of the new position might be the end token of previous range
+      // it may be better to search exclusion zones from start of file ...
+      if(start==position && position>0 && endToken.length>1  && isInRange(text,position-1)) {
+        return true;
+      }
       return false;
     }
     return start <= position && position <= end+shiftEnd;
@@ -34,4 +41,40 @@ class Range {
 
 }
 
+
+/// A range in the source file delimited by line numbers.
+class LineRange extends Range {
+  final int start;
+  final int end;
+
+  LineRange(this.start,this.end);
+
+  /// Checks if [position] in [text] is inside an exclusion range 
+  /// defined by the start and end token in this instance.
+  @override
+  bool isInRange(String text, int position) {
+    var line = findLineFromPosition(text, position); 
+    return start <= line && line <= end;
+  }
+}
+
+/// A range in the source file defined by a regex (anyhting matching the regex is excluded).
+class RegexRange extends Range {
+  final RegExp pattern;
+
+  RegexRange(this.pattern);
+
+  /// Checks if [position] in [text] is inside an exclusion range 
+  /// defined by the start and end token in this instance.
+  @override
+  bool isInRange(String text, int position) {
+    for (final m in pattern.allMatches(text)) {
+      if (m.start<= position && position < m.end) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+}
 

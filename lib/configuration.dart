@@ -60,7 +60,9 @@ class Configuration {
     }
 
     _processXMLNode(root,'exclude',(xml.XmlElement el) {
-      _processXMLNode(el,'range',_addRange);
+      _processXMLNode(el,'token',_addTokenRange);
+      _processXMLNode(el,'lines',_addLineRange);
+      _processXMLNode(el,'regex',(el) { exclusions.add(RegexRange(_parseRegEx(el))); });
     });
     if (verbose) {
       print(' ${exclusions.length} exclusion rules');
@@ -88,11 +90,11 @@ class Configuration {
     files.add(element.text);
   }
   
-  void _addRange(xml.XmlElement element) {
+  void _addTokenRange(xml.XmlElement element) {
     var begin = element.getAttribute('begin');
     var end = element.getAttribute('end');
     if (begin==null || end == null) {
-      throw Error('Every <range> needs a begin and end attribute!');
+      throw Error('Every <token> needs a begin and end attribute!');
     }
     if (begin=='\\n') {
       begin='\n';
@@ -106,7 +108,26 @@ class Configuration {
     if (end=='\\t') {
       end='\t';
     }
-    exclusions.add(Range(begin, end));
+    exclusions.add(TokenRange(begin, end));
+  }
+
+  void _addLineRange(xml.XmlElement element) {
+    var begin = element.getAttribute('begin');
+    var end = element.getAttribute('end');
+    if (begin==null || end == null) {
+      throw Error('Every <lines> needs a begin and end attribute!');
+    }
+    exclusions.add(LineRange(int.parse(begin), int.parse(end)));
+  }
+
+  RegExp _parseRegEx(xml.XmlElement element) {
+    var pattern = element.getAttribute('pattern');
+    if (pattern==null) {
+      throw Error('Every <regex> needs a pattern!');
+    }
+    var tmp = element.getAttribute('dotAll');
+    var dotMatchesNewlines =  tmp!=null&&tmp=='true';
+    return RegExp(pattern, multiLine: true, dotAll: dotMatchesNewlines);
   }
   
   void _addCommand(xml.XmlElement element) {
