@@ -108,7 +108,8 @@ int doMutationTests(MutationData data,
     }
     final matches = mutation.pattern.allMatches(data.contents);
     for ( final m in matches ) {
-      if(!isInExclusionRange(data.configuration.exclusions,data.contents,m.start)) {
+      if(!isInExclusionRange(data.configuration.exclusions,data.contents,m.start)
+         && !isInExclusionRange(data.configuration.exclusions,data.contents,m.end) ) {
         failed += functor(data,m,mutation.replacements);
       }
     }

@@ -6,34 +6,35 @@ String builtinMutationRules() {
   return r'''<?xml version="1.0" encoding="UTF-8"?>
 <mutations version="1.0">
    <rules>
-    <pattern text="&#38;&#38;">
+    <!-- Matches the literal text and replaces it with the list of mutations  -->
+    <literal text="&#38;&#38;">
       <mutation text="||"/>
-    </pattern>
-    <pattern text="||">
+    </literal>
+    <literal text="||">
       <mutation text="&#38;&#38;"/>
-    </pattern>
-    <pattern text="+">
+    </literal>
+    <literal text="+">
       <mutation text="-"/>
       <mutation text="*"/>
-    </pattern>
-    <pattern text="-">
+    </literal>
+    <literal text="-">
       <mutation text="+"/>
       <mutation text="*"/>
-    </pattern>
-    <pattern text="*">
+    </literal>
+    <literal text="*">
       <mutation text="+"/>
       <mutation text="-"/>
-    </pattern>
-    <pattern text="/">
+    </literal>
+    <literal text="/">
       <mutation text="*"/>
       <mutation text="+"/>
-    </pattern>
-    <pattern text="==">
+    </literal>
+    <literal text="==">
       <mutation text="!="/>
-    </pattern>
-    <pattern text="!=">
+    </literal>
+    <literal text="!=">
       <mutation text="=="/>
-    </pattern>
+    </literal>
   </rules>
   <!-- The rules here will exclude anything that matches from the mutations -->
   <exclude>

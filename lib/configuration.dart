@@ -74,7 +74,7 @@ class Configuration {
     }
 
     _processXMLNode(root,'rules',(xml.XmlElement el) {
-      _processXMLNode(el,'pattern',_addMutationRule);
+      _processXMLNode(el,'literal',_addLiteralRule);
     });
     if (verbose) {
       print(' ${mutations.length} mutation rules');
@@ -177,10 +177,11 @@ class Configuration {
     commands.add(cmd);
   }
 
-  void _addMutationRule(xml.XmlElement element) {
+  /// Adds a literal text replacement rule from [element]
+  void _addLiteralRule(xml.XmlElement element) {
     var str = element.getAttribute('text');
     if (str == null) {
-      throw Error('Each <pattern> must have a text attribute!');
+      throw Error('Each <literal> must have a text attribute!');
     }
     var mutation = Mutation(str);
     for (var child in element.findAllElements('mutation')) {
@@ -191,7 +192,7 @@ class Configuration {
       mutation.replacements.add(replacement);
     }
     if (mutation.replacements.isEmpty) {
-      throw Error('Each <pattern> must have at least a single <mutation> child!');
+      throw Error('Each <literal> must have at least one <mutation> child!');
     }
     mutations.add(mutation);
   }
