@@ -122,41 +122,6 @@ void printUsage(var parser, [int exitCode = 0]) {
 }
 
 void printExample() {
-  print('''<?xml version="1.0" encoding="UTF-8"?>
-<mutations version="1.0">
-  <files>
-    <file>example/source.dart</file>
-  </files>
-  <rules>
-    <pattern text="&#38;&#38;">
-      <mutation text="||"/>
-      <mutation text="&#38;&#38; !"/>
-    </pattern>
-    <pattern text="||">
-      <mutation text="&#38;&#38;"/>
-    </pattern>
-    <pattern text="+">
-      <mutation text="-"/>
-      <mutation text="*"/>
-    </pattern>
-    <pattern text="-">
-      <mutation text="+"/>
-      <mutation text="*"/>
-    </pattern>
-    <pattern text="*">
-      <mutation text="+"/>
-      <mutation text="-"/>
-    </pattern>
-    <pattern text="/">
-      <mutation text="*"/>
-      <mutation text="+"/>
-    </pattern>
-  </rules>
-  <commands>
-    <command name="make" group="compile" expected-return="0" working-directory=".">make -j4</command>
-    <command name="ctest" group="test" expected-return="0" working-directory=".">ctest -j4</command>
-  </commands>
-</mutations>
-''');
+  print(builtinMutationRules());
   exit(0);
 }

@@ -3,7 +3,7 @@
 
 /// Return the builtin mutation rules as String
 String builtinMutationRules() {
-  return '''<?xml version="1.0" encoding="UTF-8"?>
+  return r'''<?xml version="1.0" encoding="UTF-8"?>
 <mutations version="1.0">
    <rules>
     <pattern text="&#38;&#38;">
@@ -35,6 +35,7 @@ String builtinMutationRules() {
       <mutation text="=="/>
     </pattern>
   </rules>
+  <!-- The rules here will exclude anything that matches from the mutations -->
   <exclude>
     <!-- excludes anything between two tokens  -->
     <token begin="//" end="\n"/>
@@ -44,8 +45,8 @@ String builtinMutationRules() {
     <!-- default is false  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>
     <!-- exclude loops to prevent infinte tests  -->
-    <regex pattern="[\s]for[\s]*\([\s\S].*?\)[\s]*{" dotAll="true"/>
-    <regex pattern="[\s]while[\s]*\([\s\S].*?\)[\s]*{" dotAll="true"/>
+    <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
+    <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>
     <!-- lines can also be excluded  -->
     <!-- line index starts at 1  -->
     <!-- lines begin="1" end="2"/-->
