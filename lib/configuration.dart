@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
 import 'mutations.dart';
+import 'replacements.dart';
 import 'commands.dart';
 import 'errors.dart';
 import 'range.dart';
@@ -189,7 +190,7 @@ class Configuration {
       if (replacement == null) {
         throw Error('Each <mutation> must have a text attribute!');
       }
-      mutation.replacements.add(replacement);
+      mutation.replacements.add(LiteralReplacement(replacement));
     }
     if (mutation.replacements.isEmpty) {
       throw Error('Each <literal> must have at least one <mutation> child!');

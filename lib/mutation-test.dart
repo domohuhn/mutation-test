@@ -67,9 +67,13 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
 
 /// Data structure holding all data for a mutation run.
 class MutationData {
+  /// The current configuration
   final Configuration configuration;
+  /// The testrunner
   final TestRunner test;
+  /// Name of the file to mutate
   final String filename;
+  /// Contents of the file to mutate
   final String contents;
   
   MutationData(this.configuration,this.test,this.filename,this.contents);
@@ -91,7 +95,7 @@ void checkTests(Configuration cfg, TestRunner test) {
 
 /// Counts the mutations possible mutations in [data].
 int countMutations(MutationData data) {
-  return doMutationTests(data, functor: (MutationData data, Match m, List<String> l) {return l.length;}) ;
+  return doMutationTests(data, functor: (MutationData data, MutatedCode mutated) {return true;}) ;
 }
 
 /// Performs the mutation tests in [data].
@@ -99,63 +103,34 @@ int countMutations(MutationData data) {
 /// using all mutation rules in [data] and then the tests are run.
 /// Returns the number of undetected mutations.
 int doMutationTests(MutationData data,
-   {int Function(MutationData data, Match, List<String>) functor = doReplacements,
+   {bool Function(MutationData data, MutatedCode mutated) functor = runTest,
    bool supressVerbose=false}) {
   var failed = 0;
   for (final mutation in data.configuration.mutations) {
     if (data.configuration.verbose&&!supressVerbose) {
       print('Pattern: ${mutation.pattern}');
     }
-    final matches = mutation.pattern.allMatches(data.contents);
-    for ( final m in matches ) {
-      if(!isInExclusionRange(data.configuration.exclusions,data.contents,m.start)
-         && !isInExclusionRange(data.configuration.exclusions,data.contents,m.end) ) {
-        failed += functor(data,m,mutation.replacements);
+    for ( final m in mutation.allMutations(data.contents, data.configuration.exclusions) ) {
+      if(functor(data,m)) {
+        failed += 1;
       }
     }
   }
   return failed;
 }
 
-/// Performs all [replacements] for the [match] in the [original] file contents.
-/// The modified file is written an [filename] and then all [tests] specified in [config] are run. 
-/// Undetected Mutations are added to the TestRunner.
-/// Returns the number of undetected mutations.
-int doReplacements(MutationData data, Match match, List<String> replacements) {
-  var failed = 0;
-  for (final repl in replacements) {
-    if (data.configuration.verbose) {
-      print('Mutation: "$repl" at ${match.start}');
-    }
-    final mutated = data.contents.substring(0,match.start) + repl + data.contents.substring(match.end);
-    File(data.filename).writeAsStringSync(mutated);
-    if (data.test.run(data.configuration)) {
-      addMutationtoTestRunner(data.test,data.filename,match.start,match.end,data.contents,mutated);
-      failed += 1;
-    }
-  }
-  return failed;
-}
-
-/// Adds a mutation to the Testrunner.
-void addMutationtoTestRunner(TestRunner test,String file, int absoluteStart, int absoluteEnd, String original, String mutated) {
-  final line = findLineFromPosition(original,absoluteStart);
-  final lineStart = findBeginOfLineFromPosition(original, absoluteStart);
-  final lineEnd = findEndOfLineFromPosition(original, absoluteStart);
-  final mutationStart = absoluteStart-lineStart;
-  final mutationEnd = absoluteEnd-lineStart;
-  final lineEndMutated = findEndOfLineFromPosition(mutated, absoluteStart);
-  final mut = UndetectedMutation(line,mutationStart ,mutationEnd,original.substring(lineStart,lineEnd), mutated.substring(lineStart,lineEndMutated));
-  test.addMutation(file, mut);
-}
-
-/// Checks if a mutation is in an exclusion range
-bool isInExclusionRange(List<Range> exclusions, String text, int position) {
-  for(final ex in exclusions) {
-    if(ex.isInRange(text, position)) {
-      return true;
-    }
+/// Writes the [mutated] code to disk and runs the tests. 
+/// Undetected Mutations are added to the TestRunner in [data].
+/// Returns true if the mutation was not found by the tests.
+bool runTest(MutationData data, MutatedCode mutated) {
+  File(data.filename).writeAsStringSync(mutated.text);
+  if (data.test.run(data.configuration)) {
+    data.test.addMutation(data.filename, mutated.line);
+    return true;
   }
   return false;
 }
+
+
+
 

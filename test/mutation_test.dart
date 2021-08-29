@@ -1,4 +1,6 @@
-import 'package:mutation_test/errors.dart';
+import 'package:mutation_test/mutations.dart';
+import 'package:mutation_test/replacements.dart';
+import 'package:mutation_test/range.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -11,10 +13,20 @@ void main() {
   test('Mutation Iteration with literal replacement', () {
     var index = 0;
     final expected = ['moo bbb xxx aaa','moo ccc xxx aaa','moo ddd xxx aaa', 'moo aaa xxx bbb','moo aaa xxx ccc','moo aaa xxx ddd'];
-    for(final modified in mut.allMutations(text)) {
-      expect(modified,expected[index]);
+    for(final modified in mut.allMutations(text,[])) {
+      expect(modified.text,expected[index]);
       index += 1;
     }
+  });
+  
+  var exclusion = RegexRange(RegExp(r'/[*].*?[*]/',dotAll: true));
+  test('Mutation Iteration with literal replacement in exclusion', () {
+    var index = 0;
+    var text2 = 'moo /* aaa */ xxx /* aaa */';
+    for(final modified in mut.allMutations(text2,[exclusion])) {
+      index += 1;
+    }
+    expect(index,0);
   });
 
   test('Regex string without escape sequences', () {
@@ -32,209 +44,21 @@ void main() {
     var index = 0;
     final expected = ['xxx (ddd ccc bbbb aa) xxx',
     'xxx bbbb masd o\n ccc asdas \\\\\\ddd \$123a \$e aa xxx'];
-    for(final modified in mutation2.allMutations(input)) {
-      expect(modified,expected[index]);
+    for(final modified in mutation2.allMutations(input,[])) {
+      expect(modified.text,expected[index]);
       index += 1;
     }
   });
 
-}
-
-/// Class for all mutations.
-class Mutation {
-  final Pattern pattern;
-  final List<Replacement> replacements = [];
-
-  Mutation(this.pattern);
-
-  /// Iterate through [text] and replaces all matches of the pattern with every replacement.
-  /// Only one match is mutated at a time and replaced with a single replacement. 
-  IterableMutation allMutations(String text) { 
-    return IterableMutation(MutationIterator(this,text)); 
-  }
-
-}
-
-/// Abstract class for all replacements.
-abstract class Replacement {
-  /// Replaces the [match] in [text] and returns a copy.
-  String replace(String text, Match match);
-}
-
-/// Implements a literal text replacement. 
-class LiteralReplacement extends Replacement {
-  final String _text;
-  LiteralReplacement(this._text);
-
-  /// Replaces the [match] in [text] and returns a copy.
-  /// The text of the match is removed and replaced by the contents of this class.
-  @override
-  String replace(String text, Match match) {
-    return text.substring(0,match.start) + _text + text.substring(match.end);
-  }
-}
-
-class RegexGroup {
-  int start;
-  int end;
-  int index;
-  RegexGroup(this.start,this.end,this.index);
-}
-
-/// Implements a text replacement that will also replace the tokens $i with the groups found in match. 
-class RegexReplacement extends Replacement {
-  String _text;
-  final List<RegexGroup> _groups = [];
-  RegexReplacement(this._text) {
-    _findGroups();
-    _removeEscapeSequences();
-    _validate();
-  }
-
-  /// Validates that the replacements were all ok.
-  void _validate() {
-    var lastEnd = 0;
-    for(final grp in _groups) {
-      if(lastEnd>grp.start) {
-        throw Error('Internal error - there should never be overlapping replacement groups! Group: index ${grp.index} in [${grp.start},${grp.end}] overlaps $lastEnd');
+  test('Mutation Iteration with regex but wrong group count', () {
+    var mutation3 = Mutation(RegExp(r'([a]+) ([b]+)'));
+    mutation3.replacements.add(reg2);
+    expect((){
+      final input = 'xxx aa bbbb ccc ddd xxx';
+      for(final modified in mutation3.allMutations(input,[])) {
+        print(modified.text);
       }
-      if(!(grp.start<_text.length && grp.end<=_text.length)) {
-        throw Error('Internal error - group outside string! Group: index ${grp.index} in [${grp.start},${grp.end}] outside of ${_text.length}');
-      }
-      lastEnd = grp.end;
-    }
-  }
+    }, throwsException);
+  });
 
-  /// Getter
-  String get text => _text;
-
-  /// Higher order funtion that searches for matches of [reg] in text and calls [functor] with each match.
-  /// It is expected that functor will reduce the string length by 1 from the start of the match.
-  void _processText(RegExp reg, void Function(Match) functor) {
-    var index = 0;
-    var found = true;
-    while(found&&index<_text.length) {
-      found = false;
-      for(final m in reg.allMatches(_text,index)){
-        functor(m);
-        found = true;
-        _leftShiftGroupsAfter(m.start);
-        index = m.end;
-        break;
-      }
-    }
-  }
-
-  /// Removes all escape sequences from the pattern string and shifts the groups accordingly.
-  void _removeEscapeSequences() {
-    _processText(RegExp(r'([\\]|[\\][\\])[$]([0-9]+)'),(Match m) {
-      if(m.group(1)==r'\\') {
-        _text = _text.substring(0,m.start) + '\\\$${m.group(2)}' + _text.substring(m.end);
-      } else {
-        _text = _text.substring(0,m.start) + '\$${m.group(2)}' + _text.substring(m.end);
-      }
-    });
-
-    _processText(RegExp(r'([\\][tnr])'),(Match m) {
-      if(m.group(1)==r'\n') {
-        _text = _text.substring(0,m.start) + '\n' + _text.substring(m.end);
-      } else if (m.group(1)==r'\t') {
-        _text = _text.substring(0,m.start) + '\t' + _text.substring(m.end);
-      } else if (m.group(1)==r'\r') {
-        _text = _text.substring(0,m.start) + '\r' + _text.substring(m.end);
-      } else {
-        throw Error('Internal error - no matching whitespace!');
-      }
-    });
-  }
-
-  /// Finds the positions and indices of the groups in the given replacement pattern.
-  void _findGroups() {
-    var pattern = RegExp(r'(^|[^\\]|[\\][\\])[$]([0-9]+)');
-    for(final m in pattern.allMatches(_text)){
-      var prefix = m.group(1);
-      var grp = m.group(2);
-      if(prefix==null||grp==null) {
-        throw Error('Internal error - matched group without number. This should not happen!');
-      }
-      _groups.add(RegexGroup(m.start+prefix.length,m.end,int.parse(grp)));
-    }
-  }
-
-  /// Shifts all groups after [position] one index to the left.
-  void _leftShiftGroupsAfter(int position) {
-    for(final grp in _groups) {
-      if(grp.start<=position&&position<=grp.end) {
-        throw Error('Internal error - groups should not be modified!');
-      }
-      if(grp.start>position) {
-        grp.start -= 1;
-        grp.end -= 1;
-      }
-    }
-  }
-
-  /// Replaces the [match] in [text] and returns a copy.
-  /// The text of the match is removed and replaced by the contents of this class.
-  /// All tokens of type $[0-9]+ will be replaced with the matching groups unless 
-  /// the dollar sign was escaped.
-  @override
-  String replace(String text, Match match) {
-    var tmp = _text;
-    var shift = 0;
-    try {
-      for(final grp in _groups) {
-        var repl = match.group(grp.index);
-        if(repl==null) {
-          throw Error('RegEx mutation "$_text" requires groups! ${grp.index} not present!');
-        }
-        tmp = tmp.substring(0,grp.start+shift) + repl + tmp.substring(grp.end+shift);
-        shift += repl.length - (grp.end-grp.start);
-      }
-    }
-    catch (e) {
-      throw Error('RegEx mutation "$_text" requires groups! ${e.toString()}');
-    }
-    return text.substring(0,match.start) + tmp + text.substring(match.end);
-  }
-}
-
-/// Wrapper to allow iteration
-class IterableMutation extends Iterable<String> {
-  IterableMutation(this._itr);
-  final Iterator<String> _itr;
-
-  @override
-  Iterator<String> get iterator => _itr;
-}
-
-/// Iterator for all mutations in a given text.
-class MutationIterator implements Iterator<String> {
-  MutationIterator(this.mutation, this.text) : _matches = mutation.pattern.allMatches(text).iterator;
-
-  final Mutation mutation;
-  final String text;
-  int _index = 0;
-  bool _initialized = false;
-
-  String _currentMutation='';
-  final Iterator<Match> _matches;
-
-  @override
-  String get current => _currentMutation;
-
-  @override
-  bool moveNext() {
-    if (_index>=mutation.replacements.length || !_initialized) {
-      if (_matches.moveNext()) {
-        _index = 0;
-        _initialized = true;
-      } else {
-        return false;
-      }
-    }
-    _currentMutation = mutation.replacements[_index].replace(text,_matches.current );
-    _index += 1;
-    return true;
-  }
 }

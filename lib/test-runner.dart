@@ -12,7 +12,7 @@ class TestRunner {
   final Map<String,int> _commandStatistics = {};
   
   /// stores the undetected mutations
-  final Map<String,List<UndetectedMutation>> _undetectedMutations = {};
+  final Map<String,List<MutatedLine>> _undetectedMutations = {};
 
   /// all files that were added as rules
   List<String> xmlFiles = [];
@@ -86,7 +86,7 @@ class TestRunner {
   bool get foundAll => _totalRuns-1-_totalFound == 0;
 
   /// Adds the undetected [mutation] from [file] to the list.
-  void addMutation(String file, UndetectedMutation mutation) {
+  void addMutation(String file, MutatedLine mutation) {
     if (_undetectedMutations.containsKey(file)) {
       var list = _undetectedMutations[file];
       if(list == null) {

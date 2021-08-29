@@ -88,12 +88,5 @@ void main() {
       }
     });
   });
-  
-  var textIf = 'asdasdsf;\nif ( adsd && yxc\n&& sdf \n&& (x || y) )\n{\nsadfs; sdf;';
-  test('match', () {
-    final checker = RegExp(r'[\s]+if[\s]*\(([\D\d]*?)\)[\s]{', multiLine: true);
-    for( final m in checker.allMatches(textIf)){
-      print('if (!(${m.group(1)})) {');
-    }
-  });
+
 }
