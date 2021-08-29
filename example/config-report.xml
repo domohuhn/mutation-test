@@ -27,6 +27,14 @@
 <original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
 <modified>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b!=c)) {</modified>
 </mutation>
+<mutation line="4">
+<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&amp;lt;c ||!( b&amp;gt;c )|| b==c)) {</modified>
+</mutation>
+<mutation line="4">
+<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&amp;lt;c ||!( b&amp;gt;c || b==c))) {</modified>
+</mutation>
 </file>
 <file name="example/source2.dart">
 <mutation line="17">
@@ -34,8 +42,8 @@
 <modified>    if (y&amp;lt;=0.0 || text != &amp;apos;&amp;apos;) {</modified>
 </mutation>
 <mutation line="20">
-<original>        &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>        || text != &amp;apos;&amp;apos;) {</modified>
+<original>      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>      || text != &amp;apos;&amp;apos;) {</modified>
 </mutation>
 <mutation line="12">
 <original>    return number1*x/number2;</original>
@@ -50,8 +58,38 @@
 <modified>    if (y&amp;lt;=0.0 &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
 </mutation>
 <mutation line="20">
-<original>        &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>        &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
+<original>      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>      &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
+</mutation>
+<mutation line="17">
+<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    if (!(y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;)) {</modified>
+</mutation>
+<mutation line="19">
+<original>    } else if ( y==0.0
+      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    } else if (!( y==0.0
+      &amp;&amp; text != &amp;apos;&amp;apos;)) {</modified>
+</mutation>
+<mutation line="17">
+<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    if (!(y&amp;lt;=0.0 )&amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+</mutation>
+<mutation line="17">
+<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    if (y&amp;lt;=0.0 &amp;&amp;!( text != &amp;apos;&amp;apos;)) {</modified>
+</mutation>
+<mutation line="19">
+<original>    } else if ( y==0.0
+      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    } else if (!( y==0.0
+      )&amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+</mutation>
+<mutation line="19">
+<original>    } else if ( y==0.0
+      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+<modified>    } else if ( y==0.0
+      &amp;&amp;!( text != &amp;apos;&amp;apos;)) {</modified>
 </mutation>
 </file>
 </undetected-mutations>

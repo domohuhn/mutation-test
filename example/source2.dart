@@ -17,7 +17,7 @@ class TestData {
     if (y<=0.0 && text != '') {
       return '$text $y';
     } else if ( y==0.0
-        && text != '') {
+      && text != '') {
       return '$text $y';
     }
     return 'default $y';

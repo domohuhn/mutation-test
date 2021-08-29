@@ -76,6 +76,7 @@ class Configuration {
 
     _processXMLNode(root,'rules',(xml.XmlElement el) {
       _processXMLNode(el,'literal',_addLiteralRule);
+      _processXMLNode(el,'regex',_addRegexRule);
     });
     if (verbose) {
       print(' ${mutations.length} mutation rules');
@@ -193,7 +194,23 @@ class Configuration {
       mutation.replacements.add(LiteralReplacement(replacement));
     }
     if (mutation.replacements.isEmpty) {
-      throw Error('Each <literal> must have at least one <mutation> child!');
+      throw Error('Each <literal> rule must have at least one <mutation> child!');
+    }
+    mutations.add(mutation);
+  }
+
+  /// Adds a regular expression text replacement rule from [element]
+  void _addRegexRule(xml.XmlElement element) {
+    var mutation = Mutation(_parseRegEx(element));
+    for (var child in element.findAllElements('mutation')) {
+      var replacement = child.getAttribute('text');
+      if (replacement == null) {
+        throw Error('Each <mutation> must have a text attribute!');
+      }
+      mutation.replacements.add(RegexReplacement(replacement));
+    }
+    if (mutation.replacements.isEmpty) {
+      throw Error('Each <regex> rule must have at least one <mutation> child!');
     }
     mutations.add(mutation);
   }

@@ -35,6 +35,33 @@ String builtinMutationRules() {
     <literal text="!=">
       <mutation text="=="/>
     </literal>
+    <!-- It is also possible to match a regular expression with capture groups. -->
+    <!-- If the optional attribute dotAll is set to true, then the . will also match newlines.  -->
+    <!-- If not present, the default value for dotAll is false.  -->
+    <!-- Here, we capture everything inside of the braces of "if ()" -->
+    <regex pattern="[\s]if[\s]*\((.*?)\)[\s]*{" dotAll="true">
+      <!-- You can access groups via $1. -->
+      <!-- If your string contains a $ followed by a number that should not be replaced, escape the dollar \$ -->
+      <!-- If your string contains a \$ followed by a number that should not be replaced, escape the slash \\$ -->
+      <!-- Tabs and newlines should also be escaped. -->
+      <mutation text=" if (!($1)) {"/>
+    </regex>
+    <!-- Matches long chains of && -->
+    <regex pattern="&([^&()]+?)&" dotAll="true">
+      <mutation text="&!($1)&"/>
+    </regex>
+    <!-- Matches long chains of || -->
+    <regex pattern="\|([^|()]+?)\|" dotAll="true">
+      <mutation text="|!($1)|"/>
+    </regex>
+    <regex pattern="\(([^$(]*?)&&([^$()]*?)\)">
+      <mutation text="(!($1)&&$2)"/>
+      <mutation text="($1&&!($2))"/>
+    </regex>
+    <regex pattern="\(([^|(]*?)\|\|([^()|]*?)\)">
+      <mutation text="(!($1)||$2)"/>
+      <mutation text="($1||!($2))"/>
+    </regex>
   </rules>
   <!-- The rules here will exclude anything that matches from the mutations -->
   <exclude>
@@ -42,8 +69,6 @@ String builtinMutationRules() {
     <token begin="//" end="\n"/>
     <token begin="#" end="\n"/>
     <!-- excludes anything that matches a pattern  -->
-    <!-- if the optional value dotAll is set to true, then the . will also match newlines  -->
-    <!-- default is false  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>
     <!-- exclude loops to prevent infinte tests  -->
     <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>

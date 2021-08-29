@@ -60,7 +60,9 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
     // restore orignal
     File(current).writeAsStringSync(source);
   }
-  createReport(tests,outputPath,inputFile,format);
+  if(!dry) {
+    createReport(tests,outputPath,inputFile,format);
+  }
   return tests.foundAll;
 }
 
