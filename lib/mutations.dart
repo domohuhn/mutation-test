@@ -63,8 +63,8 @@ class MutationIterator implements Iterator<MutatedCode> {
       _index = 0;
       while(advance) {
         if (_matches.moveNext()) {
-          if(!(isInExclusionRange(exclusions,text,_matches.current.start)
-              && isInExclusionRange(exclusions,text,_matches.current.end))) {
+          if(!isInExclusionRange(exclusions,text,_matches.current.start)
+              && !isInExclusionRange(exclusions,text,_matches.current.end)) {
             advance = false;
             _initialized = true;
           }
@@ -134,7 +134,7 @@ class MutatedLine {
     rv += '<span style="background-color: rgb(255, 50, 50);">';
     rv += _escapeChars(original.substring(start,end),escape);
     rv += '</span>';
-    rv += _escapeChars(original.substring(end,original.length-1),escape);
+    rv += _escapeChars(original.substring(end),escape);
     rv += '</span><br>\n';
     return rv;
   }
@@ -146,7 +146,7 @@ class MutatedLine {
     var mutationEnd = end + mutated.length - original.length;
     rv += _escapeChars(mutated.substring(start,mutationEnd),escape);
     rv += '</span>';
-    rv += _escapeChars(mutated.substring(mutationEnd,mutated.length-1),escape);
+    rv += _escapeChars(mutated.substring(mutationEnd),escape);
     rv += '</span><br>\n';
     return rv;
   }

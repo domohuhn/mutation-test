@@ -9,7 +9,7 @@ void main() {
   var exclusion1 = TokenRange('/*', '*/');
   var exclusion2 = TokenRange('//', '\n');
   var exclusion3 = LineRange(2, 3);
-  var exclusion4 = RegexRange(RegExp(r'/[*].*?[*]/',dotAll: true));
+  var exclusion4 = RegexRange(RegExp(r'\/[*].*?[*]\/',dotAll: true));
   var exclusion5 = RegexRange(RegExp(r'//.*\n',));
   var exclusion6 = RegexRange(RegExp(r'[\s]for[\s]*\([\s\S].*?\)[\s]*{'));
 
@@ -37,12 +37,19 @@ void main() {
     }
   });
 
+  final source2 = File('example/source2.dart').readAsStringSync();
   test('exclusion singleline 3', () {
-    final source = File('example/source2.dart').readAsStringSync();
-    expect(exclusion2.isInRange(source, 201), false);
-    expect(exclusion2.isInRange(source, 202), true);
-    expect(exclusion2.isInRange(source, 203), true);
-    expect(exclusion2.isInRange(source, 204), true);
+    expect(exclusion2.isInRange(source2, 201), false);
+    expect(exclusion2.isInRange(source2, 202), true);
+    expect(exclusion2.isInRange(source2, 203), true);
+    expect(exclusion2.isInRange(source2, 204), true);
+  });
+
+  test('exclusion multiline source2', () {
+    for(var i=0;i<38;i++) {
+      expect(exclusion1.isInRange(source2, i),4<=i&&i<=33);
+      expect(exclusion4.isInRange(source2, i),4<=i&&i<=33);
+    }
   });
 
   test('exclusion lines 1', () {
