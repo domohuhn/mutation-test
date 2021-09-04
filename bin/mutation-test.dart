@@ -77,6 +77,11 @@ void main(List<String> arguments) async {
     printUsage(parser);
   }
 
+  ProcessSignal.sigint.watch().listen((signal) {
+    print('Received system interrupt!');
+    abortMutationTest();
+  });
+
   var foundAll = true;
   try {
     for (final file in argResults.rest) {

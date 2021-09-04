@@ -60,6 +60,9 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
 
     // restore orignal
     File(current.path).writeAsStringSync(source);
+    if (!_continue) {
+      break;
+    }
   }
   if(!dry) {
     createReport(tests,outputPath,inputFile,format);
@@ -99,7 +102,7 @@ Future<void> checkTests(Configuration cfg, TestRunner test) async {
 
 /// Counts the mutations possible mutations in [data].
 Future<int> countMutations(MutationData data) async {
-  return doMutationTests(data, functor: (MutationData data, MutatedCode mutated) async {return true;}) ;
+  return doMutationTests(data, supressVerbose: true, functor: (MutationData data, MutatedCode mutated) async {return true;}) ;
 }
 
 /// Performs the mutation tests in [data].
@@ -114,10 +117,16 @@ Future<int> doMutationTests(MutationData data,
     if (data.configuration.verbose&&!supressVerbose) {
       print('Pattern: ${mutation.pattern}');
     }
-    for ( final m in mutation.allMutations(data.contents,data.filename.whitelist , data.configuration.exclusions) ) {
+    for (final m in mutation.allMutations(data.contents,data.filename.whitelist , data.configuration.exclusions) ) {
+      if (data.configuration.verbose&&!supressVerbose) {
+        print('${m.line}');
+      }
       var result = await functor(data,m);
       if(result) {
         failed += 1;
+      }
+      if(!_continue) {
+        return failed;
       }
     }
   }
@@ -137,6 +146,11 @@ Future<bool> runTest(MutationData data, MutatedCode mutated) async {
   return false;
 }
 
+/// No new tests are started if this is set to false
+bool _continue = true;
 
-
-
+/// Aborts the tests and restores the original state of the source code.
+void abortMutationTest() {
+  _continue = false;
+  print('Abort requested! Waiting for unfinished tasks...');
+}

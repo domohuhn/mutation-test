@@ -19,7 +19,7 @@ class Command {
 
   @override
   String toString() {
-    return 'Command "$name" (group: "$group"): "$original"';
+    return 'Command: "$original"';
   }
 }
 

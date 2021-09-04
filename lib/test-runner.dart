@@ -63,7 +63,7 @@ class TestRunner {
           return false;
         case TestResult.Detected:
           if (config.verbose) {
-            print('Found mutation with command "${cmd.name}" (group: "${cmd.group}")');
+            print('Found mutation with $cmd');
           }
           if (cmd.group.isNotEmpty) {
             _groupStatistics.update(cmd.group, (v) => v+1, ifAbsent: () => 1);

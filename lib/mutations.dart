@@ -168,5 +168,10 @@ class MutatedLine {
     }
     return text;
   }
+
+  @override
+  String toString() {
+    return '$line: "${mutated.trim()}"';
+  }
 }
 
