@@ -10,10 +10,16 @@ class Command {
   String group = '';
   String? directory;
   int expectedReturnValue = 0;
+  Duration? timeout;
   final String original;
   final String command;
   final List<String> arguments;
 
   Command(this.original, this.command, this.arguments);
+
+  @override
+  String toString() {
+    return 'Command "$name" (group: "$group"): "$original"';
+  }
 }
 

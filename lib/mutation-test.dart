@@ -25,8 +25,8 @@ export 'builtin-rules.dart';
 /// You can perform a [dry] run that wil not run any tests or perform any modifications,
 /// but will list all found mutations per file.
 /// Returns true if all modifications were detected by the test commands. 
-bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
-    {String? ruleFile}) {
+Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
+    {String? ruleFile}) async {
   final configuration = Configuration.fromFile(inputFile, verbose, dry);
   final tests = TestRunner(inputFile);
   if (ruleFile!=null) {
@@ -41,17 +41,17 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
   }
   configuration.validate();
 
-  checkTests(configuration,tests);
+  await checkTests(configuration,tests);
 
   for (final current in configuration.files) {
     final source = File(current.path).readAsStringSync();
     var data = MutationData(configuration,tests,current,source);
-    var count = countMutations(data);
+    var count = await countMutations(data);
     print('${current.path} : performing $count mutations');
     if (dry || count==0) {
       continue;
     }
-    var failed = doMutationTests(data);
+    var failed = await doMutationTests(data);
     if (failed > 0) {
       print('FAILED: $failed (${asPercentString(failed, count)}) mutations passed all tests!');
     }
@@ -81,7 +81,7 @@ class MutationData {
 }
 
 /// Checks if the tests in [cfg] can be run by the test runner [test] on the unmodified sources.
-void checkTests(Configuration cfg, TestRunner test) {
+Future<void> checkTests(Configuration cfg, TestRunner test) async {
   if (cfg.verbose) {
     print('Checking if the test commands work with unmodified sources ...');
   }
@@ -89,30 +89,32 @@ void checkTests(Configuration cfg, TestRunner test) {
   if (cfg.dry) {
     return;
   }
-  if (!test.run(cfg, outputOnFailure: true)) {
+  var results = await test.run(cfg, outputOnFailure: true);
+  if (!results) {
     throw Error('Running the test commands failed with unmodified code! Aborting.');
   }
 }
 
 /// Counts the mutations possible mutations in [data].
-int countMutations(MutationData data) {
-  return doMutationTests(data, functor: (MutationData data, MutatedCode mutated) {return true;}) ;
+Future<int> countMutations(MutationData data) async {
+  return doMutationTests(data, functor: (MutationData data, MutatedCode mutated) async {return true;}) ;
 }
 
 /// Performs the mutation tests in [data].
 /// The unmodified contents of the file are mutated
 /// using all mutation rules in [data] and then the tests are run.
 /// Returns the number of undetected mutations.
-int doMutationTests(MutationData data,
-   {bool Function(MutationData data, MutatedCode mutated) functor = runTest,
-   bool supressVerbose=false}) {
+Future<int> doMutationTests(MutationData data,
+   {Future<bool> Function(MutationData data, MutatedCode mutated) functor = runTest,
+   bool supressVerbose=false}) async {
   var failed = 0;
   for (final mutation in data.configuration.mutations) {
     if (data.configuration.verbose&&!supressVerbose) {
       print('Pattern: ${mutation.pattern}');
     }
     for ( final m in mutation.allMutations(data.contents,data.filename.whitelist , data.configuration.exclusions) ) {
-      if(functor(data,m)) {
+      var result = await functor(data,m);
+      if(result) {
         failed += 1;
       }
     }
@@ -123,9 +125,10 @@ int doMutationTests(MutationData data,
 /// Writes the [mutated] code to disk and runs the tests. 
 /// Undetected Mutations are added to the TestRunner in [data].
 /// Returns true if the mutation was not found by the tests.
-bool runTest(MutationData data, MutatedCode mutated) {
+Future<bool> runTest(MutationData data, MutatedCode mutated) async {
   File(data.filename.path).writeAsStringSync(mutated.text);
-  if (data.test.run(data.configuration)) {
+  var result = await data.test.run(data.configuration);
+  if (result) {
     data.test.addMutation(data.filename.path, mutated.line);
     return true;
   }

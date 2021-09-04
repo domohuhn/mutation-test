@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations version="1.0">
+  <!-- Test input that should timeout  -->
+  <files>
+    <file>example/source.dart</file>
+  </files>
+  <commands>
+    <command name="Ping" group="test" expected-return="0" working-directory="." timeout="10">ping 127.0.0.1 -n 20</command>
+  </commands>
+</mutations>

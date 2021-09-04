@@ -41,147 +41,147 @@
 </mutation>
 </file>
 <file name="example/source2.dart">
-<mutation line="13">
+<mutation line="15">
 <original>    return number1*x/number2;</original>
 <modified>    return number1*x*number2;</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y&lt;=0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y&lt;0.0 &amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y==0.0 &amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y&lt;=0.0 || text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y&lt;=0.0 &amp;&amp; text == &apos;&apos;) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (!(y&lt;=0.0 &amp;&amp; text != &apos;&apos;)) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (!(y&lt;=0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="18">
+<mutation line="20">
 <original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y&lt;=0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
-<mutation line="20">
+<mutation line="22">
 <original>    } else if ( y==0.0</original>
 <modified>    } else if ( y!=0.0</modified>
 </mutation>
-<mutation line="20">
+<mutation line="22">
 <original>    } else if ( y==0.0
       &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!( y==0.0
       )&amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="20">
+<mutation line="22">
 <original>    } else if ( y==0.0
       &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if ( y==0.0
       &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
-<mutation line="20">
+<mutation line="22">
 <original>    } else if ( y==0.0
       &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!( y==0.0
       &amp;&amp; text != &apos;&apos;)) {</modified>
 </mutation>
-<mutation line="20">
+<mutation line="22">
 <original>    } else if ( y==0.0
       &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!( y==0.0
       )&amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="21">
+<mutation line="23">
 <original>      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>      || text != &apos;&apos;) {</modified>
 </mutation>
-<mutation line="21">
+<mutation line="23">
 <original>      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>      &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
-<mutation line="21">
+<mutation line="23">
 <original>      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>      &amp;&amp; text == &apos;&apos;) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp;!( event.b )&amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c ||!( event.d )|| (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d &amp;&amp; (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c &amp;&amp; event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d ||!(event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f||event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (!(event.f)&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;!(event.g))) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b || (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (!(event.c )|| event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (!(event.f)&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) || event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a || event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;!(event.g))) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp;!( event.e)) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (event.a &amp;&amp; event.b &amp;&amp;!(event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
-<mutation line="28">
+<mutation line="30">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>
 <modified>    if (!(event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e)) {</modified>
 </mutation>

@@ -166,12 +166,13 @@ class Configuration {
     return RegExp(pattern, multiLine: true, dotAll: dotMatchesNewlines);
   }
   
+  /// Parses a <command> token from [element] and adds it to the interal structure.
   void _addCommand(xml.XmlElement element) {
     var text = element.text.split(' ');
     if (text.isEmpty) {
       throw Error('Received empty text for a <command>');
     }
-    final process = text[0];
+    final process = text[0].trim();
     final args = <String>[];
     args.addAll(text);
     args.removeAt(0);
@@ -187,6 +188,10 @@ class Configuration {
     final expected = element.getAttribute('expected');
     if (expected != null) {
       cmd.expectedReturnValue = int.parse(expected);
+    }
+    final timeout = element.getAttribute('timeout');
+    if (timeout != null) {
+      cmd.timeout = Duration(seconds: int.parse(timeout));
     }
     cmd.directory = element.getAttribute('working-directory');
     commands.add(cmd);

@@ -1,8 +1,16 @@
-import 'package:mutation_test/mutations.dart';
-
+import 'mutations.dart';
+import 'commands.dart';
 import 'configuration.dart';
 import 'string-helpers.dart';
 import 'dart:io';
+import 'dart:convert';
+
+/// Result of running a test command
+enum TestResult {
+  Timeout,
+  Detected,
+  Undetected
+}
 
 /// Runs the tests for mutations and stores the results.
 class TestRunner {
@@ -24,6 +32,7 @@ class TestRunner {
 
   int _totalFound = 0;
   int _totalRuns = 0;
+  int _totalTimeouts = 0;
   
   /// Prepares the testrunner to run the tests specified in [config]
   void prepare(Configuration config) {
@@ -41,34 +50,76 @@ class TestRunner {
   /// 
   /// The method will return true in case all tests pass (the mutation was not detected).
   /// If [outputOnFailure] is true, the complete command output will be printed.
-  bool run(Configuration config, {bool outputOnFailure=false}) {
+  Future<bool> run(Configuration config, {bool outputOnFailure=false}) async {
     _totalRuns += 1;
     for (final cmd in config.commands) {
-      var result = Process.runSync(cmd.command, cmd.arguments, workingDirectory: cmd.directory);
-      if (result.exitCode != cmd.expectedReturnValue) {
-        if (config.verbose) {
-          print('Found mutation: Test command failed ${cmd.command} with return code ${result.exitCode}');
-        }
-        if (outputOnFailure) {
-          print('FAILED TEST COMMAND: "${cmd.original}"');
-          print('-- stdout: \n ${result.stdout}');
-          print('-- stderr: \n ${result.stderr}');
-          print('-- return code: \n ${result.exitCode} (expected: ${cmd.expectedReturnValue})');
-        }
-        if (cmd.group.isNotEmpty) {
-          _groupStatistics.update(cmd.group, (v) => v+1, ifAbsent: () => 1);
-        }
-        if (cmd.name.isNotEmpty) {
-          _commandStatistics.update(cmd.name, (v) => v+1, ifAbsent: () => 1);
-        }
-        _totalFound += 1;
-        return false;
+      var result = await _start(cmd, outputOnFailure: outputOnFailure);
+      switch(result) {
+        case TestResult.Timeout:
+          _totalTimeouts += 1;
+          return false;
+        case TestResult.Detected:
+          if (config.verbose) {
+            print('Found mutation with command "${cmd.name}" (group: "${cmd.group}")');
+          }
+          if (cmd.group.isNotEmpty) {
+            _groupStatistics.update(cmd.group, (v) => v+1, ifAbsent: () => 1);
+          }
+          if (cmd.name.isNotEmpty) {
+            _commandStatistics.update(cmd.name, (v) => v+1, ifAbsent: () => 1);
+          }
+          _totalFound += 1;
+          return false;
+        case TestResult.Undetected:
+          break;
       }
     }
     if (config.verbose) {
       print('Undetected mutation! All tests passed!');
     }
     return true;
+  }
+
+  /// Starts the process and checks its results.
+  Future<TestResult> _start(Command cmd, {bool outputOnFailure=false}) async {
+    var timedout = false;
+    var stopwatch = Stopwatch();
+    stopwatch.start();
+    var future = await Process.start(cmd.command, cmd.arguments, workingDirectory: cmd.directory);
+    
+    var stdout = '';
+    var moo1 = future.stdout.transform(Utf8Decoder(allowMalformed: true)).forEach((e) { stdout += e; });
+    var stderr = '';
+    var moo2 = future.stderr.transform(Utf8Decoder(allowMalformed: true)).forEach((e) { stderr += e; });
+
+    var exitfuture = future.exitCode;
+    if (cmd.timeout != null) {
+      exitfuture = exitfuture.timeout(cmd.timeout!,onTimeout: () {
+        print('Command time out after: ${stopwatch.elapsed}! Killing process with pid: ${future.pid}.');
+        future.kill(ProcessSignal.sigterm);
+        timedout = true;
+        return -1;
+      });
+    }
+    
+    var exitCode = await exitfuture;
+    await moo1;
+    await moo2;
+    final matchesExpectation = exitCode == cmd.expectedReturnValue;
+    if (outputOnFailure && (!matchesExpectation || timedout)) {
+      print('FAILED: $cmd');
+      print('Timeout: $timedout (elapsed time: ${stopwatch.elapsed} - exit code may be wrong on timeout)');
+      print('Exit code: $exitCode (expected ${cmd.expectedReturnValue})');
+      print('stdout: "$stdout"');
+      print('stderr: "$stderr"');
+    }
+    if (timedout) {
+      return TestResult.Timeout;
+    }
+    if (!matchesExpectation) {
+      return TestResult.Detected;
+    }
+    return TestResult.Undetected;
   }
 
   /// Prints the statistics at the end of the execution.
@@ -80,6 +131,7 @@ class TestRunner {
     print('Test group statistics:');
     _groupStatistics.forEach((k, v) => print('  Group : $k, Found mutations: $v'));
     print('\nTotal tests: $fixedTotal\nUndetected Mutations: ${fixedTotal-_totalFound} (${asPercentString(fixedTotal-_totalFound,fixedTotal)})');
+    print('Timeouts: $_totalTimeouts');
   }
 
   /// Sorts mutations by lines.
@@ -173,6 +225,7 @@ ${DateTime.now()}
   xmlFiles.forEach((element) { rv += '| Rules         | $element           |'; });
   rv += '''
 | Mutations     | $fixedTotal                        |
+| Timeouts      | $_totalTimeouts                        |
 | Undetected    | ${fixedTotal-_totalFound}                        |
 | Undetected%   | ${asPercentString(fixedTotal-_totalFound, fixedTotal)}                        |
 
@@ -211,6 +264,7 @@ table tbody tr td { min-width:100px; padding: 7px; }
 <tbody>\n''';
   xmlFiles.forEach((element) { rv += '<tr><td>Rules</td><td>$element</td></tr>\n'; });
   rv += '''<tr><td>Mutations</td><td>$fixedTotal</td></tr>
+<tr><td>Timeouts</td><td>$_totalTimeouts</td></tr>
 <tr><td>Undetected</td><td>${fixedTotal-_totalFound}</td></tr>
 <tr><td>Undetected%</td><td>${asPercentString(fixedTotal-_totalFound, fixedTotal)}</td></tr>
 </tbody>
