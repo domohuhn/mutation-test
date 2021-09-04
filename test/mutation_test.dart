@@ -1,3 +1,6 @@
+/// Copyright 2021, domohuhn. 
+/// License: BSD-3-Clause
+/// See LICENSE for the full text of the license
 import 'package:mutation_test/mutations.dart';
 import 'package:mutation_test/replacements.dart';
 import 'package:mutation_test/range.dart';

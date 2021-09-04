@@ -1,3 +1,6 @@
+/// Copyright 2021, domohuhn. 
+/// License: BSD-3-Clause
+/// See LICENSE for the full text of the license
 import '../example/source2.dart';
 import 'package:test/test.dart';
 

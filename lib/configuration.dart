@@ -1,4 +1,6 @@
-
+/// Copyright 2021, domohuhn. 
+/// License: BSD-3-Clause
+/// See LICENSE for the full text of the license
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
 import 'mutations.dart';

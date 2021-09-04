@@ -1,6 +1,6 @@
-
-
-
+/// Copyright 2021, domohuhn. 
+/// License: BSD-3-Clause
+/// See LICENSE for the full text of the license
 
 /// A command to check if a mutation survies your tests.
 /// 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mutations version="1.0">
+  <!-- License: BSD-3-Clause  -->
   <!-- Test input that should timeout  -->
   <files>
     <file>example/source.dart</file>
