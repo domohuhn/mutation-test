@@ -95,7 +95,8 @@ void main(List<String> arguments) async {
     for (final file in argResults.rest) {
       var result = await runMutationTest(
           file, argResults[output], argResults[verbose], argResults[dry], fmt,
-          ruleFile: argResults[rules]);
+          ruleFile: argResults[rules],
+          addBuiltin: !argResults[builtin]);
       foundAll = result && foundAll;
     }
   } catch (e) {

@@ -26,13 +26,13 @@ export 'builtin-rules.dart';
 /// but will list all found mutations per file.
 /// Returns true if all modifications were detected by the test commands. 
 Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
-    {String? ruleFile}) async {
+    {String? ruleFile, bool addBuiltin=true}) async {
   final configuration = Configuration.fromFile(inputFile, verbose, dry);
   final tests = TestRunner(inputFile);
   if (ruleFile!=null) {
     configuration.addRulesFromFile(ruleFile);
     tests.xmlFiles.add(ruleFile);
-  } else {
+  } else if (addBuiltin) {
     if(verbose) {
       print('No ruleset given - adding builtin ruleset!');
     }
