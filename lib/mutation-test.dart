@@ -31,6 +31,7 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
     {String? ruleFile, bool addBuiltin=true}) async {
   final configuration = Configuration.fromFile(inputFile, verbose, dry);
   final tests = TestRunner(inputFile);
+  _testRunner = tests;
   if (ruleFile!=null) {
     configuration.addRulesFromFile(ruleFile);
     tests.xmlFiles.add(ruleFile);
@@ -48,11 +49,13 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
   for (final current in configuration.files) {
     final source = File(current.path).readAsStringSync();
     var data = MutationData(configuration,tests,current,source);
+
     var count = await countMutations(data);
     print('${current.path} : performing $count mutations');
     if (dry || count==0) {
       continue;
     }
+
     var failed = await doMutationTests(data);
     if (failed > 0) {
       print('FAILED: $failed (${asPercentString(failed, count)}) mutations passed all tests!');
@@ -121,12 +124,12 @@ Future<int> doMutationTests(MutationData data,
       if (data.configuration.verbose&&!supressVerbose) {
         print('${m.line}');
       }
+      if(!_continue) {
+        return failed;
+      }
       var result = await functor(data,m);
       if(result) {
         failed += 1;
-      }
-      if(!_continue) {
-        return failed;
       }
     }
   }
@@ -148,9 +151,14 @@ Future<bool> runTest(MutationData data, MutatedCode mutated) async {
 
 /// No new tests are started if this is set to false
 bool _continue = true;
+/// We need to sent a sigkill to the child process, otherwise the program might hang
+TestRunner? _testRunner;
 
 /// Aborts the tests and restores the original state of the source code.
 void abortMutationTest() {
   _continue = false;
   print('Abort requested! Waiting for unfinished tasks...');
+  if (_testRunner!=null) {
+    _testRunner!.kill();
+  }
 }

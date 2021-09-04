@@ -89,7 +89,7 @@ class TestRunner {
     var stopwatch = Stopwatch();
     stopwatch.start();
     var future = await Process.start(cmd.command, cmd.arguments, workingDirectory: cmd.directory);
-    
+    _pid = future.pid;
     var stdout = '';
     var moo1 = future.stdout.transform(Utf8Decoder(allowMalformed: true)).forEach((e) { stdout += e; });
     var stderr = '';
@@ -104,10 +104,11 @@ class TestRunner {
         return -1;
       });
     }
-    
+
     var exitCode = await exitfuture;
     await moo1;
     await moo2;
+
     final matchesExpectation = exitCode == cmd.expectedReturnValue;
     if (outputOnFailure && (!matchesExpectation || timedout)) {
       print('FAILED: $cmd');
@@ -123,6 +124,13 @@ class TestRunner {
       return TestResult.Detected;
     }
     return TestResult.Undetected;
+  }
+
+  int _pid = 0;
+
+  /// Kills the current child process
+  void kill() {
+    Process.killPid(_pid,ProcessSignal.sigterm);
   }
 
   /// Prints the statistics at the end of the execution.
