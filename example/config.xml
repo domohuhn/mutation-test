@@ -5,7 +5,7 @@
     <file>example/source2.dart</file>
   </files>
   <exclude>
-    <!-- lines can also be excluded  -->
+    <!-- lines can also be globally excluded  -->
     <!-- line index starts at 1  -->
     <lines begin="1" end="2"/>
   </exclude>

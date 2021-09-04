@@ -82,6 +82,13 @@ class TestRunner {
     print('\nTotal tests: $fixedTotal\nUndetected Mutations: ${fixedTotal-_totalFound} (${asPercentString(fixedTotal-_totalFound,fixedTotal)})');
   }
 
+  /// Sorts mutations by lines.
+  void sort() {
+    _undetectedMutations.forEach((key, value) {
+      value.sort((lhs,rhs) => lhs.line.compareTo(rhs.line));
+    });
+  }
+
   /// Checks if all mutations were found.
   bool get foundAll => _totalRuns-1-_totalFound == 0;
 

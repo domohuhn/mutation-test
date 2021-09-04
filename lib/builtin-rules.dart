@@ -7,11 +7,11 @@ String builtinMutationRules() {
 <mutations version="1.0">
    <rules>
     <!-- Matches the literal text and replaces it with the list of mutations  -->
-    <literal text="&#38;&#38;">
+    <literal text="&amp;&amp;">
       <mutation text="||"/>
     </literal>
     <literal text="||">
-      <mutation text="&#38;&#38;"/>
+      <mutation text="&amp;&amp;"/>
     </literal>
     <literal text="+">
       <mutation text="-"/>
@@ -32,6 +32,14 @@ String builtinMutationRules() {
     <literal text="==">
       <mutation text="!="/>
     </literal>
+    <literal text="&lt;=">
+      <mutation text="=="/>
+      <mutation text="&lt;"/>
+    </literal>
+    <literal text="&gt;=">
+      <mutation text="=="/>
+      <mutation text="&gt;"/>
+    </literal>
     <literal text="!=">
       <mutation text="=="/>
     </literal>
@@ -47,20 +55,31 @@ String builtinMutationRules() {
       <mutation text=" if (!($1)) {"/>
     </regex>
     <!-- Matches long chains of && -->
-    <regex pattern="&([^&()]+?)&" dotAll="true">
-      <mutation text="&!($1)&"/>
+    <regex pattern="&amp;([^&amp;()]+?)&amp;" dotAll="true">
+      <mutation text="&amp;!($1)&amp;"/>
     </regex>
     <!-- Matches long chains of || -->
     <regex pattern="\|([^|()]+?)\|" dotAll="true">
       <mutation text="|!($1)|"/>
     </regex>
-    <regex pattern="\(([^$(]*?)&&([^$()]*?)\)">
-      <mutation text="(!($1)&&$2)"/>
-      <mutation text="($1&&!($2))"/>
+    <regex pattern="\(([^$(]*?)&amp;&amp;([^$()]*?)\)">
+      <mutation text="(!($1)&amp;&amp;$2)"/>
+      <mutation text="($1&amp;&amp;!($2))"/>
     </regex>
     <regex pattern="\(([^|(]*?)\|\|([^()|]*?)\)">
       <mutation text="(!($1)||$2)"/>
       <mutation text="($1||!($2))"/>
+    </regex>
+    <!-- Replace start of conditional block -->
+    <regex pattern="\(([^|&amp;]*?)([|&amp;][|&amp;])">
+      <mutation text="(!($1)$2"/>
+    </regex>
+    <!-- Replace end of conditional block -->
+    <regex pattern="([|&amp;][|&amp;])([^|&amp;]*?)\)">
+      <mutation text="$1!($2))"/>
+    </regex>
+    <regex pattern="([|&amp;][|&amp;])[\s]*?\(" dotAll="true">
+      <mutation text="$1!("/>
     </regex>
   </rules>
   <!-- The rules here will exclude anything that matches from the mutations -->
@@ -73,7 +92,7 @@ String builtinMutationRules() {
     <!-- exclude loops to prevent infinte tests  -->
     <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
     <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>
-    <!-- lines can also be excluded  -->
+    <!-- lines can also be globally excluded  -->
     <!-- line index starts at 1  -->
     <!-- lines begin="1" end="2"/-->
   </exclude>

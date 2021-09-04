@@ -16,6 +16,7 @@ enum ReportFormat {
 /// int the specified [format].
 void createReport(TestRunner test, String outputPath, String inputFile, ReportFormat format) {
   test.printResults();
+  test.sort();
   switch(format) {
     case ReportFormat.XML:
       test.writeXMLReport(outputPath, inputFile);
