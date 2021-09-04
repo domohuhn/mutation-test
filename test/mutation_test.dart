@@ -13,7 +13,7 @@ void main() {
   test('Mutation Iteration with literal replacement', () {
     var index = 0;
     final expected = ['moo bbb xxx aaa','moo ccc xxx aaa','moo ddd xxx aaa', 'moo aaa xxx bbb','moo aaa xxx ccc','moo aaa xxx ddd'];
-    for(final modified in mut.allMutations(text,[])) {
+    for(final modified in mut.allMutations(text,[],[])) {
       expect(modified.text,expected[index]);
       index += 1;
     }
@@ -23,7 +23,7 @@ void main() {
   test('Mutation Iteration with literal replacement in exclusion', () {
     var index = 0;
     var text2 = 'moo /* aaa */ xxx /* aaa */';
-    for(final modified in mut.allMutations(text2,[exclusion])) {
+    for(final modified in mut.allMutations(text2,[],[exclusion])) {
       index += 1;
     }
     expect(index,0);
@@ -44,7 +44,7 @@ void main() {
     var index = 0;
     final expected = ['xxx (ddd ccc bbbb aa) xxx',
     'xxx bbbb masd o\n ccc asdas \\\\\\ddd \$123a \$e aa xxx'];
-    for(final modified in mutation2.allMutations(input,[])) {
+    for(final modified in mutation2.allMutations(input,[],[])) {
       expect(modified.text,expected[index]);
       index += 1;
     }
@@ -55,7 +55,7 @@ void main() {
     mutation3.replacements.add(reg2);
     expect((){
       final input = 'xxx aa bbbb ccc ddd xxx';
-      for(final modified in mutation3.allMutations(input,[])) {
+      for(final modified in mutation3.allMutations(input,[],[])) {
         print(modified.text);
       }
     }, throwsException);

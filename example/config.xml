@@ -2,11 +2,16 @@
 <mutations version="1.0">
   <files>
     <file>example/source.dart</file>
-    <file>example/source2.dart</file>
+    <file>example/source2.dart
+      <!-- lines can be whitelisted  -->
+      <!-- if there is no whitelist, the whole file is used  -->
+      <!-- line index starts at 1  -->
+      <lines begin="13" end="18"/>
+      <lines begin="20" end="29"/>
+    </file>
   </files>
   <exclude>
     <!-- lines can also be globally excluded  -->
-    <!-- line index starts at 1  -->
     <lines begin="1" end="2"/>
   </exclude>
   <commands>

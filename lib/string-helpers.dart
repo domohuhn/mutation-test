@@ -59,7 +59,7 @@ String createReportFileName(String input, String outpath, String extension) {
 
 /// Escapes characters for xml
 String convertToXML(String input) {
-  return input.replaceAll('"', '&quot;').replaceAll("'", '&apos;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('&', '&amp;');
+  return input.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll("'", '&apos;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
 
 /// Escapes characters for markdown

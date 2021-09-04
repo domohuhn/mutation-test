@@ -7,9 +7,16 @@ import 'commands.dart';
 import 'errors.dart';
 import 'range.dart';
 
+/// A structure holding the information about the mutation input.
+class TargetFile {
+  String path;
+  List<Range> whitelist;
+  TargetFile(this.path,this.whitelist);
+}
+
 /// Reads the xml configuration file
 class Configuration {
-  List<String> files = [];
+  List<TargetFile> files = [];
   List<Mutation> mutations = [];
   List<Command> commands = [];
   List<Range> exclusions = [];
@@ -106,11 +113,13 @@ class Configuration {
   }
 
   void _addFile(xml.XmlElement element) {
-    final path = element.text;
+    final path = element.text.trim();
     if (!File(path).existsSync()) {
       throw Error('Input file "$path" not found!');
     }
-    files.add(element.text);
+    var whitelist = <Range>[];
+    _processXMLNode(element, 'lines', (el) { whitelist.add(_parseLineRange(el));  });
+    files.add(TargetFile(path, whitelist));
   }
   
   void _addTokenRange(xml.XmlElement element) {
@@ -134,13 +143,17 @@ class Configuration {
     exclusions.add(TokenRange(begin, end));
   }
 
-  void _addLineRange(xml.XmlElement element) {
+  LineRange _parseLineRange(xml.XmlElement element) {
     var begin = element.getAttribute('begin');
     var end = element.getAttribute('end');
     if (begin==null || end == null) {
       throw Error('Every <lines> needs a begin and end attribute!');
     }
-    exclusions.add(LineRange(int.parse(begin), int.parse(end)));
+    return LineRange(int.parse(begin), int.parse(end));
+  }
+
+  void _addLineRange(xml.XmlElement element) {
+    exclusions.add(_parseLineRange(element));
   }
 
   RegExp _parseRegEx(xml.XmlElement element) {

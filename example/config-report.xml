@@ -4,28 +4,28 @@
 <ruleset name="example/config.xml"/><ruleset name="Built in Ruleset"/></rules>
 <file name="example/source.dart">
 <mutation line="4">
-<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
-<modified>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c &amp;&amp; b==c)) {</modified>
+<original>  if (a==b &amp;&amp; (a&lt;c || b&gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&lt;c || b&gt;c &amp;&amp; b==c)) {</modified>
 </mutation>
 <mutation line="4">
-<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
-<modified>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b!=c)) {</modified>
+<original>  if (a==b &amp;&amp; (a&lt;c || b&gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&lt;c || b&gt;c || b!=c)) {</modified>
 </mutation>
 <mutation line="4">
-<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
-<modified>  if (a==b &amp;&amp; (a&amp;lt;c ||!( b&amp;gt;c )|| b==c)) {</modified>
+<original>  if (a==b &amp;&amp; (a&lt;c || b&gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&lt;c ||!( b&gt;c )|| b==c)) {</modified>
 </mutation>
 <mutation line="4">
-<original>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c || b==c)) {</original>
-<modified>  if (a==b &amp;&amp; (a&amp;lt;c || b&amp;gt;c ||!( b==c))) {</modified>
+<original>  if (a==b &amp;&amp; (a&lt;c || b&gt;c || b==c)) {</original>
+<modified>  if (a==b &amp;&amp; (a&lt;c || b&gt;c ||!( b==c))) {</modified>
 </mutation>
 <mutation line="6">
-<original>  } else if (b&amp;lt;= 0 &amp;&amp; c &amp;gt; 0) {</original>
-<modified>  } else if (b&amp;lt;= 0 || c &amp;gt; 0) {</modified>
+<original>  } else if (b&lt;= 0 &amp;&amp; c &gt; 0) {</original>
+<modified>  } else if (b&lt;= 0 || c &gt; 0) {</modified>
 </mutation>
 <mutation line="6">
-<original>  } else if (b&amp;lt;= 0 &amp;&amp; c &amp;gt; 0) {</original>
-<modified>  } else if (b&amp;lt; 0 &amp;&amp; c &amp;gt; 0) {</modified>
+<original>  } else if (b&lt;= 0 &amp;&amp; c &gt; 0) {</original>
+<modified>  } else if (b&lt; 0 &amp;&amp; c &gt; 0) {</modified>
 </mutation>
 <mutation line="15">
 <original>  return a * b + c;</original>
@@ -46,36 +46,36 @@
 <modified>    return number1*x*number2;</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (y&amp;lt;=0.0 &amp;&amp;!( text != &amp;apos;&amp;apos;)) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (y&lt;=0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (y&amp;lt;0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (y&lt;0.0 &amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (y==0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (y==0.0 &amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (y&amp;lt;=0.0 || text != &amp;apos;&amp;apos;) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (y&lt;=0.0 || text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (y&amp;lt;=0.0 &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (y&lt;=0.0 &amp;&amp; text == &apos;&apos;) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (!(y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;)) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (!(y&lt;=0.0 &amp;&amp; text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (!(y&amp;lt;=0.0 )&amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (!(y&lt;=0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="18">
-<original>    if (y&amp;lt;=0.0 &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>    if (y&amp;lt;=0.0 &amp;&amp;!( text != &amp;apos;&amp;apos;)) {</modified>
+<original>    if (y&lt;=0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (y&lt;=0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="20">
 <original>    } else if ( y==0.0</original>
@@ -83,39 +83,39 @@
 </mutation>
 <mutation line="20">
 <original>    } else if ( y==0.0
-      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!( y==0.0
-      )&amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+      )&amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="20">
 <original>    } else if ( y==0.0
-      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if ( y==0.0
-      &amp;&amp;!( text != &amp;apos;&amp;apos;)) {</modified>
+      &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="20">
 <original>    } else if ( y==0.0
-      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!( y==0.0
-      &amp;&amp; text != &amp;apos;&amp;apos;)) {</modified>
+      &amp;&amp; text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="20">
 <original>    } else if ( y==0.0
-      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
+      &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!( y==0.0
-      )&amp;&amp; text != &amp;apos;&amp;apos;) {</modified>
+      )&amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="21">
-<original>      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>      || text != &amp;apos;&amp;apos;) {</modified>
+<original>      &amp;&amp; text != &apos;&apos;) {</original>
+<modified>      || text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="21">
-<original>      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>      &amp;&amp;!( text != &amp;apos;&amp;apos;)) {</modified>
+<original>      &amp;&amp; text != &apos;&apos;) {</original>
+<modified>      &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="21">
-<original>      &amp;&amp; text != &amp;apos;&amp;apos;) {</original>
-<modified>      &amp;&amp; text == &amp;apos;&amp;apos;) {</modified>
+<original>      &amp;&amp; text != &apos;&apos;) {</original>
+<modified>      &amp;&amp; text == &apos;&apos;) {</modified>
 </mutation>
 <mutation line="28">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f&amp;&amp;event.g)) &amp;&amp; event.e) {</original>

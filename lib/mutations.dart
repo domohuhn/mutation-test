@@ -16,8 +16,8 @@ class Mutation {
 
   /// Iterate through [text] and replaces all matches of the pattern with every replacement.
   /// Only one match is mutated at a time and replaced with a single replacement. 
-  IterableMutation allMutations(String text, List<Range> exclusions) { 
-    return IterableMutation(MutationIterator(this,text,exclusions)); 
+  IterableMutation allMutations(String text, List<Range> whitelist, List<Range> exclusions) { 
+    return IterableMutation(MutationIterator(this,text,whitelist,exclusions)); 
   }
 
 }
@@ -42,10 +42,11 @@ class MutatedCode {
 
 /// Iterator for all mutations in a given text.
 class MutationIterator implements Iterator<MutatedCode> {
-  MutationIterator(this.mutation, this.text, this.exclusions) : _matches = mutation.pattern.allMatches(text).iterator;
+  MutationIterator(this.mutation, this.text, this.whitelist, this.exclusions) : _matches = mutation.pattern.allMatches(text).iterator;
 
   final Mutation mutation;
   final String text;
+  final List<Range> whitelist;
   final List<Range> exclusions;
   int _index = 0;
   bool _initialized = false;
@@ -63,8 +64,7 @@ class MutationIterator implements Iterator<MutatedCode> {
       _index = 0;
       while(advance) {
         if (_matches.moveNext()) {
-          if(!isInExclusionRange(exclusions,text,_matches.current.start)
-              && !isInExclusionRange(exclusions,text,_matches.current.end)) {
+          if(isPositionOk(whitelist,exclusions,text,_matches.current)) {
             advance = false;
             _initialized = true;
           }
@@ -80,9 +80,18 @@ class MutationIterator implements Iterator<MutatedCode> {
   }
 }
 
-/// Checks if a [position] in [text] is inside one of the exclusion ranges defined by [exclusions].
-bool isInExclusionRange(List<Range> exclusions, String text, int position) {
-  for(final ex in exclusions) {
+/// Checks if a [position] in [text] is inside the whitelists or if it is excluded.
+bool isPositionOk(List<Range> whitelist, List<Range> exclusions, String text, Match position) {
+  var whitelisted = whitelist.isEmpty 
+    || (isInRange(whitelist,text,position.start)
+        &&isInRange(whitelist,text,position.end));
+  var blacklisted = isInRange(exclusions,text,position.start) || isInRange(exclusions,text,position.end);
+  return whitelisted && !blacklisted;
+}
+
+/// Checks if a [position] in [text] is inside one of the ranges defined by [ranges].
+bool isInRange(List<Range> ranges, String text, int position) {
+  for(final ex in ranges) {
     if(ex.isInRange(text, position)) {
       return true;
     }

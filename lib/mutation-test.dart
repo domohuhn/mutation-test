@@ -9,7 +9,6 @@ import 'errors.dart';
 import 'configuration.dart';
 import 'string-helpers.dart';
 import 'report-format.dart';
-import 'range.dart';
 import 'builtin-rules.dart';
 
 export 'report-format.dart';
@@ -45,10 +44,10 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
   checkTests(configuration,tests);
 
   for (final current in configuration.files) {
-    final source = File(current).readAsStringSync();
+    final source = File(current.path).readAsStringSync();
     var data = MutationData(configuration,tests,current,source);
     var count = countMutations(data);
-    print('$current : performing $count mutations');
+    print('${current.path} : performing $count mutations');
     if (dry || count==0) {
       continue;
     }
@@ -58,7 +57,7 @@ bool runMutationTest(String inputFile, String outputPath, bool verbose, bool dry
     }
 
     // restore orignal
-    File(current).writeAsStringSync(source);
+    File(current.path).writeAsStringSync(source);
   }
   if(!dry) {
     createReport(tests,outputPath,inputFile,format);
@@ -74,7 +73,7 @@ class MutationData {
   /// The testrunner
   final TestRunner test;
   /// Name of the file to mutate
-  final String filename;
+  final TargetFile filename;
   /// Contents of the file to mutate
   final String contents;
   
@@ -112,7 +111,7 @@ int doMutationTests(MutationData data,
     if (data.configuration.verbose&&!supressVerbose) {
       print('Pattern: ${mutation.pattern}');
     }
-    for ( final m in mutation.allMutations(data.contents, data.configuration.exclusions) ) {
+    for ( final m in mutation.allMutations(data.contents,data.filename.whitelist , data.configuration.exclusions) ) {
       if(functor(data,m)) {
         failed += 1;
       }
@@ -125,9 +124,9 @@ int doMutationTests(MutationData data,
 /// Undetected Mutations are added to the TestRunner in [data].
 /// Returns true if the mutation was not found by the tests.
 bool runTest(MutationData data, MutatedCode mutated) {
-  File(data.filename).writeAsStringSync(mutated.text);
+  File(data.filename.path).writeAsStringSync(mutated.text);
   if (data.test.run(data.configuration)) {
-    data.test.addMutation(data.filename, mutated.line);
+    data.test.addMutation(data.filename.path, mutated.line);
     return true;
   }
   return false;

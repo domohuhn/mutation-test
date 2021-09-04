@@ -39,10 +39,10 @@ void main() {
 
   final source2 = File('example/source2.dart').readAsStringSync();
   test('exclusion singleline 3', () {
-    expect(exclusion2.isInRange(source2, 201), false);
-    expect(exclusion2.isInRange(source2, 202), true);
-    expect(exclusion2.isInRange(source2, 203), true);
-    expect(exclusion2.isInRange(source2, 204), true);
+    expect(exclusion2.isInRange(source2, 210), false);
+    expect(exclusion2.isInRange(source2, 211), true);
+    expect(exclusion2.isInRange(source2, 212), true);
+    expect(exclusion2.isInRange(source2, 213), true);
   });
 
   test('exclusion multiline source2', () {
