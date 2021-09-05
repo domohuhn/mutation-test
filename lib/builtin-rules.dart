@@ -130,6 +130,9 @@ String _xmlRules() {
     <regex pattern="([|&amp;][|&amp;])[\s]*?\(" dotAll="true">
       <mutation text="$1!("/>
     </regex>
+    <regex pattern="([\s=])([0-9.]+)">
+      <mutation text="$1-$2"/>
+    </regex>
   </rules>
   <!-- This element creates a blacklist, allowing you to exclude parts from the mutations -->
   <exclude>

@@ -26,6 +26,8 @@ class Configuration {
   bool verbose;
   bool dry;
 
+  Configuration(this.verbose, this.dry);
+
   /// Constructs the configuration from an xml file in [path]
   Configuration.fromFile(String path, this.verbose, this.dry) {
     addRulesFromFile(path);

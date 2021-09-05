@@ -1,6 +1,7 @@
 /// Copyright 2021, domohuhn. 
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
+
 import 'package:mutation_test/range.dart';
 import 'package:test/test.dart';
 import 'dart:io';
@@ -42,16 +43,16 @@ void main() {
 
   final source2 = File('example/source2.dart').readAsStringSync();
   test('exclusion singleline 3', () {
-    expect(exclusion2.isInRange(source2, 210), false);
-    expect(exclusion2.isInRange(source2, 211), true);
-    expect(exclusion2.isInRange(source2, 212), true);
-    expect(exclusion2.isInRange(source2, 213), true);
+    expect(exclusion2.isInRange(source2, 315), false);
+    expect(exclusion2.isInRange(source2, 316), true);
+    expect(exclusion2.isInRange(source2, 317), true);
+    expect(exclusion2.isInRange(source2, 318), true);
   });
 
   test('exclusion multiline source2', () {
-    for(var i=0;i<38;i++) {
-      expect(exclusion1.isInRange(source2, i),4<=i&&i<=33);
-      expect(exclusion4.isInRange(source2, i),4<=i&&i<=33);
+    for(var i=0;i<150;i++) {
+      expect(exclusion1.isInRange(source2, i),109<=i&&i<=138);
+      expect(exclusion4.isInRange(source2, i),109<=i&&i<=138);
     }
   });
 

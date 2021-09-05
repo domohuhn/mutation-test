@@ -1,6 +1,7 @@
 /// Copyright 2021, domohuhn. 
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
+
 import 'package:mutation_test/mutations.dart';
 import 'package:mutation_test/replacements.dart';
 import 'package:mutation_test/range.dart';
@@ -30,6 +31,19 @@ void main() {
       index += 1;
     }
     expect(index,0);
+  });
+
+  test('Mutation with whitelist', () {
+    var whitelist = LineRange(3, 10);
+    var index = 0;
+    var text2 = 'aaa \n aaa \n aaa \n aaa \n';
+    final expected = ['aaa \n aaa \n bbb \n aaa \n','aaa \n aaa \n ccc \n aaa \n','aaa \n aaa \n ddd \n aaa \n',
+                    'aaa \n aaa \n aaa \n bbb \n','aaa \n aaa \n aaa \n ccc \n','aaa \n aaa \n aaa \n ddd \n'];
+    for(final modified in mut.allMutations(text2,[whitelist],[])) {
+      expect(modified.text,expected[index]);
+      index += 1;
+    }
+    expect(index,6);
   });
 
   test('Regex string without escape sequences', () {
