@@ -13,6 +13,11 @@ mutation-test example/config.xml
 # or fully configured
 mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml inputset2.xml
 ```
+## Features
+  - Fully configurable mutation rules via XML documents and regular expressions
+  - Sections of files can be whitelisted on a per file basis
+  - You can add global exclusion rules for e.g. comments, loop conditions via regular expressions
+  - Different report formats are supported: html, markdown and XML
 
 ## A brief description of the program
 mutation-test is a program that mutates your source code and verifies that the test commands
@@ -74,9 +79,17 @@ This chapter explains the structure of the input XML documents. They must use th
     </rules>
 </mutations>
 ```
-    
+You can see an example for an input document in the example folder, or the application can generate one by running one of these commands:
+```bash
+# Shows a XML document with the complete syntax:
+mutation-test -s
+# Shows the builtin mutation rules and exclusions:
+mutation-test -g
+```
+The generated documents also contain some helpful comments on how to create your own rules. You should usually provide two different documents: one with the mutation rules given as argument to "-r" and another one with the input files. The reason why mutation-test always loads two files (unless you disable the builtin ruleset via "--no-builtin" and don't provide your own rules file) is that you can reuse the same set of rules for many different input files.
+
 ### Files
-The children of "files" elements are indivual files:
+The children of "files" elements are individual files:
 ```Xml
 <files>
     <file>example/source.dart</file>
@@ -89,7 +102,9 @@ The children of "files" elements are indivual files:
     </file>
 </files>
 ```
+The application will perform the mutation tests in sequence on the listed files. All mutations that are not in an exclusion or inside a whitelisted area will be applied.
 ### Commands
+The commands block lets you specify the command line programs to verify that a mutation is detected. The commands are run in document sequence and must be each a single command line call.
 ```Xml
 <!-- Specify the test commands here with the command element -->
 <!-- The text of the command element will be executed as shell process -->
@@ -169,6 +184,29 @@ Here is a table of all XML elements that are parsed by this program:
 | literal   | mutation                        | text        | Matches the string in attribute text and replaces it with its children. |
 | regex     | mutation                        | pattern, dotAll | A pattern for a regular expression. The expression is always multiline and processes the complete file. You can use "." to match newlines if the optional attribute dotAll is set to true. |
 | mutation  |                                 | text        | A replacement for a match. If this element is a child of a regex node, then capture groups can be used in the text via $i. |
+
+## Command line arguments
+
+```bash
+mutation-test <options> <input xml files...>
+```
+The program accepts the following command line arguments:
+
+| Short          | Long                      | Description                                                                                               |
+| -------------- | ------------------------- | --------------------------------------------------------------------------------------------------------- |
+| -h             | --help                    | Displays the help message                                                                                 |
+|                | --version                 | Prints the version                                                                                        |
+|                | --about                   | Prints information about the application                                                                  |
+| -n             | --no-builtin              | Removes the builtin ruleset - has no effect in combination with -r                                        |
+| -s             | --show-example            | Prints a XML file to the console with every possible option                                               |
+| -g             | --generate-rules          | Prints the builtin ruleset as XML string                                                                  |
+| -v             | --verbose                 | Verbose output                                                                                            |
+| -d             | --dry                     | Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests       |
+| -o             | --output=<directory>      | Sets the output directory (defaults to ".")                                                               |
+| -f             | --format                  | Sets the report file format [html (default), md, xml, all, none]                                          |
+| -r             | --rules=<path to XML file>| Overrides the builtin ruleset with the rules in the given XML Document                                    |
+
+The rest are excepted to be paths to input XML configuration files.
 
 ## License
 mutation-test is free software, as in "free beer" and "free speech". 
