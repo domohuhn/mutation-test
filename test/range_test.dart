@@ -41,7 +41,8 @@ void main() {
     }
   });
 
-  final source2 = File('example/source2.dart').readAsStringSync();
+  var source2 = File('example/source2.dart').readAsStringSync();
+  source2 = source2.replaceAll('\r', '');
   test('exclusion singleline 3', () {
     expect(exclusion2.isInRange(source2, 315), false);
     expect(exclusion2.isInRange(source2, 316), true);
