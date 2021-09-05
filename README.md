@@ -1,5 +1,7 @@
 # Mutation testing
 
+[![Dart](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml/badge.svg)](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml)
+
 When writing test cases for software, you often rely on metrics like
 code coverage to verify that your test cases actually test your program.
 However, this cannot be determined with a simple metric. It is possible to reach high code coverage, while you are only asserting a fraction of the observable behaviour of your units. You can evaluate your tests by modifying your program in a small way and the verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing).
