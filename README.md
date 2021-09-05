@@ -6,15 +6,20 @@ When writing test cases for software, you often rely on metrics like
 code coverage to verify that your test cases actually test your program.
 However, this cannot be determined with a simple metric. It is possible to reach high code coverage, while you are only asserting a fraction of the observable behaviour of your units. You can evaluate your tests by modifying your program in a small way and the verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing).
 
-This repository contains a simple command line program that automate these tests on any code. It can be customized to 
-your needs, because all rules on how to modify the source code and
+This repository contains a simple command line program that automates these tests for code in any programming language. It can be customized to 
+your needs, because all rules on how to modify the source code and how to
 run the tests are defined in XML documents. The program is fully self contained, so just grab the binary and start testing!
 ```bash
 # Run the tests in directory "example":
 mutation-test example/config.xml
-# or fully configured
-mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml inputset2.xml
+# or fully customized:
+# the rules contained in mutation-rules.xml are always used
+# inputset1.xml may define special rules for some files that are also listed in the same xml
+# source1.cpp and source2.cpp are just tested with the rules from mutation-rules.xml
+mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml source1.cpp source2.cpp
 ```
+The first command in the section above would produce the reports in [example folder](example/config-report.md).
+
 ## Features
   - Fully configurable mutation rules via XML documents and regular expressions
   - Sections of files can be whitelisted on a per file basis

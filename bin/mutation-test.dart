@@ -114,7 +114,7 @@ void handleProcessingError([String errorMessage = '']) {
 
 void printUsage(var parser, [int exitCode = 0]) {
   print('''
-Usage : mutation-test <options> <input xml files...>  
+Usage : mutation-test <options> <input xml or source files...>  
 A program that mutates your source code and verifies that the test commands
 specified in the input xml files are sensitive to those changes. Mutations
 are done as simple text replacements with regular expressions, so any text
@@ -136,15 +136,20 @@ can be customized. It is defined in XML documents, and you can change:
 You can view a complete example with every possible XML element parsed by 
 this program by running "mutation-test -s". The printed document also 
 contains comments explaining the syntax of the XML file. You can provide multiple
-input documents for a single program start. The inputs are split into two categories:
-  - a rules file
+input documents for a single program start. The inputs are split into three 
+categories:
+  - a rules xml document
+  - xml documents
   - all other input files
 If a rules file is provided via the option "--rules", then the builtin mutation
 rules are disabled. Instead, the provided rules document will be used. The rest
-of the input files is processed individually, so at most the rules from 2 files
-are loaded. 
-The rules file and the input files use the same syntax, so both files may define
-mutation rules, inputs, exclusions or test commands.
+of the input files is processed individually. If the file extension is ".xml", 
+then the file will be parsed as additional rules file. The rules from both files
+are applied to all files listed in the <files> elements. At most the rules from 
+2 files are used for a single mutation test run. Any other file is interpreted 
+as mutation target and processed with the rules from the document provided with
+ "--rules". The rules file and the input xml files use the same syntax, so both 
+files may define mutation rules, inputs, exclusions or test commands.
 
 mutation-test is free software, as in "free beer" and "free speech".
 
@@ -164,7 +169,7 @@ void printExampleRules() {
 }
 
 void printVersion() {
-  print('mutation-test version: 1.0.0');
+  print('mutation-test version: 1.1.0');
 }
 
 

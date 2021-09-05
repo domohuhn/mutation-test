@@ -29,7 +29,7 @@ export 'builtin-rules.dart';
 /// Returns true if all modifications were detected by the test commands. 
 Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
     {String? ruleFile, bool addBuiltin=true}) async {
-  final configuration = Configuration.fromFile(inputFile, verbose, dry);
+  final configuration = Configuration(verbose, dry);
   final tests = TestRunner(inputFile);
   _testRunner = tests;
   if (ruleFile!=null) {
@@ -41,6 +41,15 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
     }
     tests.xmlFiles.add('Built in Ruleset');
     configuration.parseXMLString(builtinMutationRules());
+  }
+  if (inputFile.endsWith('.xml')) {
+    if(verbose) {
+      print('Loading additional XML configuration : "$inputFile"');
+    }
+    configuration.addRulesFromFile(inputFile);
+  }
+  else {
+    configuration.files.add(TargetFile(inputFile, []));
   }
   configuration.validate();
 

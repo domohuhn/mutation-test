@@ -49,15 +49,15 @@ String asPercentString(int fraction, int total) {
 /// Creates a report file name from the [input] file in directory [outpath]
 /// with the given file [extension].
 String createReportFileName(String input, String outpath, String extension) {
-      var start = 0;
-    if (input.contains('/')) {
-      start = input.lastIndexOf('/');
-    } else {
-      start = input.lastIndexOf('\\');
-    }
-    var end = input.lastIndexOf('.');
-    var name = '$outpath/${input.substring(start,end)}-report.$extension';
-    return name;
+  var start = 0;
+  if (input.contains('/')) {
+    start = input.lastIndexOf('/');
+  } else {
+    start = input.lastIndexOf('\\');
+  }
+  var end = input.lastIndexOf('.');
+  var name = '$outpath/${input.substring(start,end)}-report.$extension';
+  return name;
 }
 
 /// Escapes characters for xml
