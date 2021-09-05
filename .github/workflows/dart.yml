@@ -44,3 +44,11 @@ jobs:
         run: dart test
       - name: Compile binary
         run: dart compile exe bin/mutation-test.dart
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: mutation-test-${{ matrix.os }}
+          path: |
+            bin
+            !bin/**/*.dart
