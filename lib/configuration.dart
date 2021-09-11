@@ -8,6 +8,7 @@ import 'replacements.dart';
 import 'commands.dart';
 import 'errors.dart';
 import 'range.dart';
+import 'ratings.dart';
 
 /// A structure holding the information about the mutation input.
 class TargetFile {
@@ -22,6 +23,7 @@ class Configuration {
   List<Mutation> mutations = [];
   List<Command> commands = [];
   List<Range> exclusions = [];
+  Ratings ratings = Ratings();
   bool toplevelFound = false;
   bool verbose;
   bool dry;
@@ -63,6 +65,7 @@ class Configuration {
       throw Error('At least one entry in the configuration for each of the following elements is needed:\n'
       'files: ${files.length} mutation rules: ${mutations.length} verification commands: ${commands.length}');
     }
+    ratings.sanitize();
   }
 
   void _processTopLevel(xml.XmlElement root) {
@@ -106,8 +109,10 @@ class Configuration {
       _processXMLNode(el,'command',_addCommand);
     });
     if (verbose) {
-      print(' ${commands.length} commands will be executed to detected mutations');
+      print(' ${commands.length} commands will be executed to detect mutations');
     }
+
+    _processXMLNode(root,'threshold',_parseThreshold);
   }
 
   void _processXMLNode(xml.XmlElement root, String type, void Function(xml.XmlElement) functor) {
@@ -124,6 +129,30 @@ class Configuration {
     var whitelist = <Range>[];
     _processXMLNode(element, 'lines', (el) { whitelist.add(_parseLineRange(el));  });
     files.add(TargetFile(path, whitelist));
+  }
+
+  void _parseThreshold(xml.XmlElement element) {
+    if (ratings.initialized) {
+      throw Error('There must be only one <threshold> element in the inputs!');
+    }
+    var failure = element.getAttribute('failure');
+    if (failure==null) {
+      throw Error('<threshold> needs attribute "failure"');
+    }
+    ratings.failure = double.parse(failure);
+    
+    _processXMLNode(element, 'rating', (el) {
+      var lowerbound = el.getAttribute('over');
+      var name = el.getAttribute('name');
+      if (lowerbound==null || name==null) {
+        throw Error('<rating> needs attributes "over" and "name" - got $lowerbound, $name');
+      }
+      ratings.addRating(double.parse(lowerbound), name);
+    });
+    
+    if (verbose) {
+      print(' $ratings');
+    }
   }
   
   void _addTokenRange(xml.XmlElement element) {

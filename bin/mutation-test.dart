@@ -148,8 +148,8 @@ of the input files is processed individually. If the file extension is ".xml",
 then the file will be parsed as additional rules file. The rules from both files
 are applied to all files listed in the <files> elements. At most the rules from 
 2 files are used for a single mutation test run. Any other file is interpreted 
-as mutation target and processed with the rules from the document provided with
- "--rules". The rules file and the input xml files use the same syntax, so both 
+as mutation target and processed with the rules from the documents provided via
+ "--rules". The rules files and the input xml files use the same syntax, so both 
 files may define mutation rules, inputs, exclusions or test commands.
 
 mutation-test is free software, as in "free beer" and "free speech".

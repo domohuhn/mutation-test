@@ -84,6 +84,9 @@ This chapter explains the structure of the input XML documents. They must use th
     <rules>
     ...
     </rules>
+    <threshold failure="80">
+    ...
+    </threshold>
 </mutations>
 ```
 You can see an example for an input document in the example folder, or the application can generate one by running one of these commands:
@@ -172,6 +175,27 @@ This element is the most important part of the document. It defines what is muta
   </regex>
 </rules>
 ```
+
+### Threshold
+The threshold element allows you to configure the limit for a successful analysis and the quality ratings.
+Below is the built-in configuration:
+```Xml
+  <!-- Configures the reporting thresholds as percentage of detected mutations -->
+  <!-- Attribute failure is required and must be a floating point number. -->
+  <!-- Note: There can only be one threshold element in all input files! -->
+  <!-- If no threshold element is found, these values will be used. -->
+  <threshold failure="80">
+    <!-- Provides reliability rating levels. Attributes are required. -->
+    <rating over="100" name="A"/>
+    <rating over="80" name="B"/>
+    <rating over="60" name="C"/>
+    <rating over="40" name="D"/>
+    <rating over="20" name="E"/>
+    <rating over="0" name="F"/>
+  </threshold>
+```
+When setting a failure limit, remember that some mutations may be impossible to detect (e.g. converting "0" to "-0"). 
+
 ### Table of XML elements
 
 Here is a table of all XML elements that are parsed by this program:
@@ -190,6 +214,8 @@ Here is a table of all XML elements that are parsed by this program:
 | literal   | mutation                        | text        | Matches the string in attribute text and replaces it with its children. |
 | regex     | mutation                        | pattern, dotAll | A pattern for a regular expression. The expression is always multiline and processes the complete file. You can use "." to match newlines if the optional attribute dotAll is set to true. |
 | mutation  |                                 | text        | A replacement for a match. If this element is a child of a regex node, then capture groups can be used in the text via $i. |
+| threshold | rating                          | failure     | Configures the limit for a failed analysis and the quality ratings |
+| rating    |                                 | over, name  | A quality rating. Attribute over is the lowest percentage for this rating.  |
 
 ## Command line arguments
 

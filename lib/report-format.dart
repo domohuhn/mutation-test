@@ -5,6 +5,7 @@
 import 'test-runner.dart';
 import 'mutations.dart';
 import 'mutation-test.dart';
+import 'ratings.dart';
 import 'dart:io';
 import 'string-helpers.dart';
 
@@ -52,6 +53,7 @@ class ResultsReporter {
 
   /// all files that were added as rules
   List<String> xmlFiles = [];
+  Ratings quality = Ratings();
 
   final Stopwatch _timer = Stopwatch();
 
@@ -99,6 +101,11 @@ class ResultsReporter {
   int get undetectedMutations => _totalRuns-_totalFound;
 
   double get undetectedFraction => (100.0*undetectedMutations)/_totalRuns;
+  double get detectedFraction => 100.0-(100.0*undetectedMutations)/_totalRuns;
+  /// Checks if the test run was successful.
+  bool get success => quality.isSuccessful(detectedFraction);
+  /// Gets the quality rating for this run.
+  String get rating => quality.rating(detectedFraction);
 
   /// Prints the statistics at the end of the execution.
   void write() {
@@ -108,8 +115,8 @@ class ResultsReporter {
     print('\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations,_totalRuns)})');
     print('Timeouts: $_totalTimeouts');
     print('Elapsed: $elapsed');
+    print('Success: $success, Quality rating: $rating');
   }
-
   
   /// Sorts mutations by lines.
   void sort() {
@@ -143,6 +150,7 @@ class ResultsReporter {
     var text = '<?xml version="1.0" encoding="UTF-8"?>\n<undetected-mutations>\n';
     text += '<program-version>${mutationTestVersion()}</program-version>\n';
     text += '<elapsed>$elapsed</elapsed>\n';
+    text += '<result rating="$rating" success="$success"/>\n';
     text += '<rules>\n';
     xmlFiles.forEach((element) { text += '<ruleset document="$element"/>'; });
     text += '</rules>\n';
@@ -209,6 +217,8 @@ ${DateTime.now()}
 | Undetected%   | ${asPercentString(undetectedMutations, _totalRuns)}                        |
 ''';
     _groupStatistics.forEach((k, v){rv += '| Detected by: $k            | $v         |\n';});
+    rv += '| Quality Rating | $rating |\n';
+    rv += '| Success | $success |\n';
     return rv+'\n\n';
   }
 
@@ -233,6 +243,8 @@ table tbody tr td { min-width:100px; padding: 7px; }
 <tr><td>Undetected%</td><td>${asPercentString(undetectedMutations, _totalRuns)}</td></tr>
 ''';
     _groupStatistics.forEach((k, v){rv += '<tr><td>Detected by: $k</td><td>$v</td></tr>\n';});
+    rv += '<tr><td>Quality Rating</td><td>$rating</td></tr>\n';
+    rv += '<tr><td>Success</td><td>$success</td></tr>\n';
     rv += '\n</tbody>\n</table>';
     return rv;
   }

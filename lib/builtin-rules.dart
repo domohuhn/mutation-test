@@ -147,6 +147,19 @@ String _xmlRules() {
     <!-- line index starts at 1  -->
     <!-- lines begin="1" end="2"/-->
   </exclude>
+  <!-- Configures the reporting thresholds as percentage of detected mutations -->
+  <!-- Attribute failure is required and must be a floating point number. -->
+  <!-- Note: There can only be one threshold element in all input files! -->
+  <!-- If no threshold element is found, these values will be used. -->
+  <threshold failure="80">
+    <!-- Provides reliability rating levels. Attributes are required. -->
+    <rating over="100" name="A"/>
+    <rating over="80" name="B"/>
+    <rating over="60" name="C"/>
+    <rating over="40" name="D"/>
+    <rating over="20" name="E"/>
+    <rating over="0" name="F"/>
+  </threshold>
 ''';
 }
 

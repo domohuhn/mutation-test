@@ -53,6 +53,7 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
     configuration.files.add(TargetFile(inputFile, []));
   }
   configuration.validate();
+  reporter.quality = configuration.ratings;
 
   await checkTests(configuration,tests);
 
@@ -80,7 +81,7 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
   if(!dry) {
     createReport(reporter,outputPath,inputFile,format);
   }
-  return reporter.foundAll;
+  return reporter.success;
 }
 
 
