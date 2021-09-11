@@ -24,5 +24,10 @@ void main() {
   test('Find end of line', () {
     expect(findEndOfLineFromPosition(text, 45), 48);
   });
+
+  test('report file name', (){
+    var moo = createReportFileName('input.cpp','output','html');
+    expect(moo, 'output/input-report.html');
+  });
 }
 

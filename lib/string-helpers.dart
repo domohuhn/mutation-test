@@ -52,7 +52,7 @@ String createReportFileName(String input, String outpath, String extension) {
   var start = 0;
   if (input.contains('/')) {
     start = input.lastIndexOf('/');
-  } else {
+  } else if (input.contains('\\')) {
     start = input.lastIndexOf('\\');
   }
   var end = input.lastIndexOf('.');
