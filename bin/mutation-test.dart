@@ -29,7 +29,7 @@ void main(List<String> arguments) async {
     ..addFlag(dry,abbr: 'd',help:'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
     ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
     ..addOption(format, abbr: 'f', help: 'Sets the report file format', allowed: ['html', 'md', 'xml', 'all', 'none'], defaultsTo: 'html')
-    ..addOption(rules, abbr: 'r', help: 'Overrides the builtin ruleset with the rules in the given XML Document', valueHelp: 'path to XML file');
+    ..addMultiOption(rules, abbr: 'r', help: 'Overrides the builtin ruleset with the rules in the given XML Document', valueHelp: 'path to XML file');
 
   late ArgResults argResults;
   try {
@@ -88,7 +88,7 @@ void main(List<String> arguments) async {
     for (final file in argResults.rest) {
       var result = await runMutationTest(
           file, argResults[output], argResults[verbose], argResults[dry], fmt,
-          ruleFile: argResults[rules],
+          ruleFiles: argResults[rules],
           addBuiltin: !argResults[builtin]);
       foundAll = result && foundAll;
     }
