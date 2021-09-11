@@ -36,31 +36,39 @@ commands is used to verify that the mutation was detected. If all tests
 return the expected return value, then the mutation was undetected and is
 added to the results. After all mutations were done, the results will be 
 written to the terminal and a report file is generated.
+mutation-test is free software, as in "free beer" and "free speech".
 
 mutation-test contains a set of builtin rules, that allow you to start 
 testing right away. However, all rules defining the behaviour of this program
-can be customized. It is defined in XML documents, and you can change:
-
+can be customized. They are defined in XML documents, and you can change:
   - input files and whitelist lines for mutations
   - compile/test commands, expected return codes and timeouts
   - provide exclusion zones via regular expressions
   - mutation rules as simple text replacement or via regular
     expressions including capture groups
-
+  - the quality gate and quality ratings
 You can view a complete example with every possible XML element parsed by 
-this program by running "mutation-test -s". The printed document also 
-contains comments explaining the syntax of the XML file. You can provide multiple
-input documents for a single program start. The inputs are split into two categories:
-
-  - a rules file
+this program by invoking "mutation-test -s". This will print a XML document to
+the standard output. The displayed document also contains comments explaining 
+the syntax of the XML file. You can provide multiple input documents for a 
+single program start. The inputs are split into three categories:
+  - xml rules documents: The mutation rules for all other files are parsed
+    from these documents and added globally. Rules are specified via "--rules".
+  - xml documents: These files will be parsed like the rules documents, but
+    anything defined in them applies only inside this document. 
   - all other input files
+If a rules file is provided via the command line flag "--rules", then the
+builtin rules are disabled, unless you specifically add them by passing "-b".
+You can provide as many rule sets as you like, and all of them will be added
+globally. The rest of the input files is processed individually. If the file 
+extension is ".xml", then the file will be parsed like an additional rules file.
+However, this document must have a <files> element that lists all mutation
+targets. Any other file is interpreted as mutation target and processed with 
+the rules from the documents provided via "--rules". 
 
-If a rules file is provided via the option "--rules", then the builtin mutation
-rules are disabled. Instead, the provided rules document will be used. The rest
-of the input files is processed individually, so at most the rules from 2 files
-are loaded. 
-The rules file and the input files use the same syntax, so both files may define
-mutation rules, inputs, exclusions or test commands.
+The rules documents and the input xml files use the same syntax, so both 
+files may define mutation rules, inputs, exclusions or test commands.
+However, a quality threshold may only be defined once. 
 
 ## Reports
 After a input file is processed, a report is generated. You can choose multiple output formats for the reports. As default, a html file is generated, but you can also choose markdown or XML. You can see examples

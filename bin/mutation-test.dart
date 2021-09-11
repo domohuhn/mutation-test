@@ -10,7 +10,7 @@ void main(List<String> arguments) async {
   final generate_rules = 'generate-rules';
   final show = 'show-example';
   final rules = 'rules';
-  final builtin = 'no-builtin';
+  final builtin = 'builtin';
   final verbose = 'verbose';
   final version = 'version';
   final about = 'about';
@@ -22,7 +22,7 @@ void main(List<String> arguments) async {
     ..addFlag(help, abbr: 'h', help: 'Displays a description of the program', negatable: false)
     ..addFlag(version, help: 'Prints the version', negatable: false, defaultsTo: false)
     ..addFlag(about, help: 'Prints information about the application', negatable: false, defaultsTo: false)
-    ..addFlag(builtin, abbr: 'n', help: 'Removes the builtin ruleset - has no effect in combination with -r', negatable: false)
+    ..addFlag(builtin, abbr: 'b', help: 'Add the builtin ruleset', negatable: true, defaultsTo: true)
     ..addFlag(show, abbr: 's', help: 'Prints a XML file to the console with every possible option', negatable: false)
     ..addFlag(generate_rules,abbr: 'g',help: 'Prints the builtin ruleset as XML string',negatable: false)
     ..addFlag(verbose,abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
@@ -85,11 +85,13 @@ void main(List<String> arguments) async {
 
   var foundAll = true;
   try {
+    var ruleDocuments = argResults[rules];
+    var _builtin = (ruleDocuments.isNotEmpty && argResults.wasParsed(builtin) && argResults[builtin]) || (ruleDocuments.isEmpty && argResults[builtin]);
     for (final file in argResults.rest) {
       var result = await runMutationTest(
           file, argResults[output], argResults[verbose], argResults[dry], fmt,
-          ruleFiles: argResults[rules],
-          addBuiltin: !argResults[builtin]);
+          ruleFiles: ruleDocuments,
+          addBuiltin: _builtin);
       foundAll = result && foundAll;
     }
   } catch (e) {
@@ -125,34 +127,40 @@ commands is used to verify that the mutation was detected. If all tests
 return the expected return value, then the mutation was undetected and is
 added to the results. After all mutations were done, the results will be 
 written to the terminal and a report file is generated.
+mutation-test is free software, as in "free beer" and "free speech".
 
 mutation-test contains a set of builtin rules, that allow you to start 
 testing right away. However, all rules defining the behaviour of this program
-can be customized. It is defined in XML documents, and you can change:
+can be customized. They are defined in XML documents, and you can change:
   - input files and whitelist lines for mutations
   - compile/test commands, expected return codes and timeouts
   - provide exclusion zones via regular expressions
   - mutation rules as simple text replacement or via regular
     expressions including capture groups
+  - the quality gate and quality ratings
 You can view a complete example with every possible XML element parsed by 
-this program by running "mutation-test -s". The printed document also 
-contains comments explaining the syntax of the XML file. You can provide multiple
-input documents for a single program start. The inputs are split into three 
-categories:
-  - a rules xml document
-  - xml documents
+this program by invoking "mutation-test -s". This will print a XML document to
+the standard output. The displayed document also contains comments explaining 
+the syntax of the XML file. You can provide multiple input documents for a 
+single program start. The inputs are split into three categories:
+  - xml rules documents: The mutation rules for all other files are parsed
+    from these documents and added globally. Rules are specified via "--rules".
+  - xml documents: These files will be parsed like the rules documents, but
+    anything defined in them applies only inside this document. 
   - all other input files
-If a rules file is provided via the option "--rules", then the builtin mutation
-rules are disabled. Instead, the provided rules document will be used. The rest
-of the input files is processed individually. If the file extension is ".xml", 
-then the file will be parsed as additional rules file. The rules from both files
-are applied to all files listed in the <files> elements. At most the rules from 
-2 files are used for a single mutation test run. Any other file is interpreted 
-as mutation target and processed with the rules from the documents provided via
- "--rules". The rules files and the input xml files use the same syntax, so both 
-files may define mutation rules, inputs, exclusions or test commands.
+If a rules file is provided via the command line flag "--rules", then the
+builtin rules are disabled, unless you specifically add them by passing "-b".
+You can provide as many rule sets as you like, and all of them will be added
+globally. The rest of the input files is processed individually. If the file 
+extension is ".xml", then the file will be parsed like an additional rules file.
+However, this document must have a <files> element that lists all mutation
+targets. Any other file is interpreted as mutation target and processed with 
+the rules from the documents provided via "--rules". 
 
-mutation-test is free software, as in "free beer" and "free speech".
+The rules documents and the input xml files use the same syntax, so both 
+files may define mutation rules, inputs, exclusions or test commands.
+However, a quality threshold may only be defined once. 
+
 
 Options:''');
   print(parser.usage);

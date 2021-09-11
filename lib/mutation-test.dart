@@ -38,11 +38,12 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
       configuration.addRulesFromFile(rf);
       reporter.xmlFiles.add(rf);
     }
-  } else if (addBuiltin) {
+  }
+  if (addBuiltin) {
     if(verbose) {
-      print('No ruleset given - adding builtin ruleset!');
+      print('Adding the builtin default mutation rules!');
     }
-    reporter.xmlFiles.add('Built in Ruleset');
+    reporter.xmlFiles.add('Builtin Rules');
     configuration.parseXMLString(builtinMutationRules());
   }
   if (inputFile.endsWith('.xml')) {
