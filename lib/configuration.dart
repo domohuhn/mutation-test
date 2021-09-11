@@ -181,10 +181,6 @@ class Configuration {
     args.addAll(text);
     args.removeAt(0);
     final cmd = Command(element.text,process,args);
-    final name = element.getAttribute('name');
-    if (name != null) {
-      cmd.name = name;
-    }
     final group = element.getAttribute('group');
     if (group != null) {
       cmd.group = group;

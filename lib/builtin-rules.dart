@@ -35,13 +35,12 @@ String _xmlInputs() {
   <!-- If all commands execute successfully, a mutation counts as undetected -->
   <commands>
     <!-- All attributes here are optional -->
-    <!-- name: is used to show statistics for the commands -->
     <!-- group: is used to show statistics for the commands -->
     <!-- expected-return: this value is compared to the return value of the command. Must be an integer -->
     <!-- working-directory: Where the program is executed. Defaults to . -->
     <!-- tiemout: Timeout in seconds. Must be an integer. If not present, the commands will run until they are finished. -->
-    <command name="make" group="compile" expected-return="0" working-directory=".">make -j8</command>
-    <command name="ctest" group="test" expected-return="0" working-directory="." timeout="10">ctest -j8</command>
+    <command group="compile" expected-return="0" working-directory=".">make -j8</command>
+    <command group="test" expected-return="0" working-directory="." timeout="10">ctest -j8</command>
   </commands>
 ''';
 }

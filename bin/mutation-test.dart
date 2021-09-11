@@ -19,7 +19,7 @@ void main(List<String> arguments) async {
   final format = 'format';
 
   final parser = ArgParser()
-    ..addFlag(help, abbr: 'h', help: 'Displays this text', negatable: false)
+    ..addFlag(help, abbr: 'h', help: 'Displays a description of the program', negatable: false)
     ..addFlag(version, help: 'Prints the version', negatable: false, defaultsTo: false)
     ..addFlag(about, help: 'Prints information about the application', negatable: false, defaultsTo: false)
     ..addFlag(builtin, abbr: 'n', help: 'Removes the builtin ruleset - has no effect in combination with -r', negatable: false)
@@ -46,7 +46,8 @@ void main(List<String> arguments) async {
     printAbout();
   }
   if (argResults[help] as bool) {
-    printUsage(parser);
+    printVersion();
+    printHelp(parser);
   }
   if (argResults[show] as bool) {
     printExample();
@@ -112,8 +113,8 @@ void handleProcessingError([String errorMessage = '']) {
   exit(1);
 }
 
-void printUsage(var parser, [int exitCode = 0]) {
-  print('''
+void printHelp(var parser) {
+    print('''
 Usage : mutation-test <options> <input xml or source files...>  
 A program that mutates your source code and verifies that the test commands
 specified in the input xml files are sensitive to those changes. Mutations
@@ -153,6 +154,13 @@ files may define mutation rules, inputs, exclusions or test commands.
 
 mutation-test is free software, as in "free beer" and "free speech".
 
+Options:''');
+  print(parser.usage);
+}
+
+void printUsage(var parser, [int exitCode = 0]) {
+  print('''
+Usage : mutation-test <options> <input xml or source files...>  
 Options:''');
   print(parser.usage);
   exit(exitCode);

@@ -16,7 +16,7 @@
     <lines begin="1" end="2"/>
   </exclude>
   <commands>
-    <command name="Test source" group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>
-    <command name="Test source2" group="test" expected-return="0" working-directory=".">dart test test/example2_test.dart</command>
+    <command group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>
+    <command group="test" expected-return="0" working-directory=".">dart test test/example2_test.dart</command>
   </commands>
 </mutations>

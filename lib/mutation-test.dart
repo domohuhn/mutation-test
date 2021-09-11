@@ -30,16 +30,17 @@ export 'builtin-rules.dart';
 Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
     {String? ruleFile, bool addBuiltin=true}) async {
   final configuration = Configuration(verbose, dry);
-  final tests = TestRunner(inputFile);
+  final tests = TestRunner();
+  final reporter = ResultsReporter(inputFile);
   _testRunner = tests;
   if (ruleFile!=null) {
     configuration.addRulesFromFile(ruleFile);
-    tests.xmlFiles.add(ruleFile);
+    reporter.xmlFiles.add(ruleFile);
   } else if (addBuiltin) {
     if(verbose) {
       print('No ruleset given - adding builtin ruleset!');
     }
-    tests.xmlFiles.add('Built in Ruleset');
+    reporter.xmlFiles.add('Built in Ruleset');
     configuration.parseXMLString(builtinMutationRules());
   }
   if (inputFile.endsWith('.xml')) {
@@ -57,7 +58,7 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
 
   for (final current in configuration.files) {
     final source = File(current.path).readAsStringSync();
-    var data = MutationData(configuration,tests,current,source);
+    var data = MutationData(configuration,tests,current,source,reporter);
 
     var count = await countMutations(data);
     print('${current.path} : performing $count mutations');
@@ -77,9 +78,9 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
     }
   }
   if(!dry) {
-    createReport(tests,outputPath,inputFile,format);
+    createReport(reporter,outputPath,inputFile,format);
   }
-  return tests.foundAll;
+  return reporter.foundAll;
 }
 
 
@@ -93,21 +94,22 @@ class MutationData {
   final TargetFile filename;
   /// Contents of the file to mutate
   final String contents;
+  /// Clas to store the results in
+  final ResultsReporter results;
   
-  MutationData(this.configuration,this.test,this.filename,this.contents);
+  MutationData(this.configuration,this.test,this.filename,this.contents,this.results);
 }
 
-/// Checks if the tests in [cfg] can be run by the test runner [test] on the unmodified sources.
-Future<void> checkTests(Configuration cfg, TestRunner test) async {
+/// Checks if the tests in [cfg] can be run by the test runner [executor] on the unmodified sources.
+Future<void> checkTests(Configuration cfg, TestRunner executor) async {
   if (cfg.verbose) {
     print('Checking if the test commands work with unmodified sources ...');
   }
-  test.prepare(cfg);
   if (cfg.dry) {
     return;
   }
-  var results = await test.run(cfg, outputOnFailure: true);
-  if (!results) {
+  var test = await executor.run(cfg, outputOnFailure: true);
+  if (test.result != TestResult.Undetected) {
     throw Error('Running the test commands failed with unmodified code! Aborting.');
   }
 }
@@ -150,12 +152,9 @@ Future<int> doMutationTests(MutationData data,
 /// Returns true if the mutation was not found by the tests.
 Future<bool> runTest(MutationData data, MutatedCode mutated) async {
   File(data.filename.path).writeAsStringSync(mutated.text);
-  var result = await data.test.run(data.configuration);
-  if (result) {
-    data.test.addMutation(data.filename.path, mutated.line);
-    return true;
-  }
-  return false;
+  var test = await data.test.run(data.configuration);
+  data.results.addTestReport(data.filename.path, mutated.line, test, data.configuration.verbose);
+  return test.result == TestResult.Undetected;
 }
 
 /// No new tests are started if this is set to false
