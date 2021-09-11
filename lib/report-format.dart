@@ -53,9 +53,14 @@ class ResultsReporter {
   /// all files that were added as rules
   List<String> xmlFiles = [];
 
+  final Stopwatch _timer = Stopwatch();
+
+  Duration get elapsed => _timer.elapsed;
+
   /// Creates a test runner and adds [inputFile] to the xml input file list.
   ResultsReporter(String inputFile) {
     xmlFiles.add(inputFile);
+    _timer.start();
   }
 
   int _totalFound = 0;
@@ -102,6 +107,7 @@ class ResultsReporter {
     _groupStatistics.forEach((k, v) => print('  Group : $k, Found mutations: $v'));
     print('\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations,_totalRuns)})');
     print('Timeouts: $_totalTimeouts');
+    print('Elapsed: $elapsed');
   }
 
   
@@ -136,6 +142,7 @@ class ResultsReporter {
   void writeXMLReport(String outpath, String input) {
     var text = '<?xml version="1.0" encoding="UTF-8"?>\n<undetected-mutations>\n';
     text += '<program-version>${mutationTestVersion()}</program-version>\n';
+    text += '<elapsed>$elapsed</elapsed>\n';
     text += '<rules>\n';
     xmlFiles.forEach((element) { text += '<ruleset document="$element"/>'; });
     text += '</rules>\n';
@@ -193,20 +200,15 @@ ${DateTime.now()}
 | Key           | Value                     |
 | ------------- | ------------------------- |
 '''; 
-  xmlFiles.forEach((element) { rv += '| Rules         | $element           |'; });
+  xmlFiles.forEach((element) { rv += '| Rules         | $element           |\n'; });
   rv += '''
 | Mutations     | $_totalRuns                        |
+| Elapsed     | $elapsed                        |
 | Timeouts      | $_totalTimeouts                        |
 | Undetected    | $undetectedMutations                        |
 | Undetected%   | ${asPercentString(undetectedMutations, _totalRuns)}                        |
-
-
-## Detections ordered by test groups
-
-| Group         | Count      |
-| ------------- | ---------- |
 ''';
-    _groupStatistics.forEach((k, v){rv += '| $k            | $v         |\n';});
+    _groupStatistics.forEach((k, v){rv += '| Detected by: $k            | $v         |\n';});
     return rv+'\n\n';
   }
 
@@ -225,18 +227,12 @@ table tbody tr td { min-width:100px; padding: 7px; }
 <tbody>\n''';
   xmlFiles.forEach((element) { rv += '<tr><td>Rules</td><td>$element</td></tr>\n'; });
   rv += '''<tr><td>Mutations</td><td>$_totalRuns</td></tr>
+<tr><td>Elapsed</td><td>$elapsed</td></tr>
 <tr><td>Timeouts</td><td>$_totalTimeouts</td></tr>
 <tr><td>Undetected</td><td>$undetectedMutations</td></tr>
 <tr><td>Undetected%</td><td>${asPercentString(undetectedMutations, _totalRuns)}</td></tr>
-</tbody>
-</table>
-<h2>Detections ordered by test groups</h2>
-<table>
-<thead>
-<tr><th>Group</th><th>Count</th></tr>
-</thead>
-<tbody>''';
-    _groupStatistics.forEach((k, v){rv += '<tr><td>$k</td><td>$v</td></tr>\n';});
+''';
+    _groupStatistics.forEach((k, v){rv += '<tr><td>Detected by: $k</td><td>$v</td></tr>\n';});
     rv += '\n</tbody>\n</table>';
     return rv;
   }
