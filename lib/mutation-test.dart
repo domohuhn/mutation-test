@@ -170,3 +170,8 @@ void abortMutationTest() {
     _testRunner!.kill();
   }
 }
+
+
+String mutationTestVersion() {
+  return 'mutation-test version: 1.1.0';
+}

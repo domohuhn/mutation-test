@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <undetected-mutations>
+<program-version>mutation-test version: 1.1.0</program-version>
 <rules>
-<ruleset name="example/config.xml"/><ruleset name="Built in Ruleset"/></rules>
+<ruleset document="example/config.xml"/><ruleset document="Built in Ruleset"/></rules>
 <file name="example/source.dart">
 <mutation line="6">
 <original>  if (a==b &amp;&amp; (a&lt;c || b&gt;c || b==c)) {</original>

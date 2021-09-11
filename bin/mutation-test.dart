@@ -177,7 +177,7 @@ void printExampleRules() {
 }
 
 void printVersion() {
-  print('mutation-test version: 1.1.0');
+  print(mutationTestVersion());
 }
 
 
