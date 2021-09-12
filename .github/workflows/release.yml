@@ -6,7 +6,21 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        name: [linux, windows, macos]
+
+        include:
+          - name: linux
+            os: ubuntu-latest
+            package_arch: linux-x64
+          - name: windows
+            os: windows-latest
+            package_arch: windows-x64
+          - name: macos
+            os: macos-latest
+            package_arch: macos-x64
 
     steps:
       - uses: actions/checkout@v2
@@ -16,19 +30,32 @@ jobs:
       - name: Compile binary
         run: dart compile exe bin/mutation-test.dart
       - name: Get Tag
+        if: ${{ matrix.name != 'windows' }}
         run: echo "RELEASE_VERSION=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
       - name: Create Package
+        if: ${{ matrix.name != 'windows' }}
         run: |
-          mkdir -p release/bin
-          mv bin/mutation-test.exe release/bin/mutation-test
-          chmod a+x release/bin/mutation-test
+          mkdir -p bundle/bin
+          mkdir -p release
+          mv bin/mutation-test.exe bundle/bin/mutation-test
+          chmod a+x bundle/bin/mutation-test
           cd release
-          tar -czvf mutation-test-linux-${RELEASE_VERSION}.tar.gz ./*
+          tar -czvf mutation-test-${{ matrix.package_arch }}-${RELEASE_VERSION}.tar.gz ../bundle/*
+      - name: Package windows
+        if: ${{ matrix.name == 'windows' }}
+        run: |
+          mkdir bundle\\bin
+          mkdir release
+          git describe --tags --abbrev=0 > tmpFile 
+          set /p RELEASE_VERSION= < tmpFile
+          xcopy bin\\mutation-test.exe bundle\\bin\\
+          cd release
+          powershell Compress-Archive ..\\bundle\\* mutation-test-${{ matrix.package_arch }}-%RELEASE_VERSION%.zip
       - name: Upload artifacts to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: release/mutation-test-linux-*.tar.gz
+          file: release/mutation-test-*
           tag: ${{ github.ref }}
           file_glob: true
           
