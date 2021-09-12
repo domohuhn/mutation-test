@@ -15,11 +15,20 @@ jobs:
         run: dart pub get
       - name: Compile binary
         run: dart compile exe bin/mutation-test.dart
+      - name: Get Tag
+        run: echo "RELEASE_VERSION=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
       - name: Create Package
         run: |
           mkdir -p release/bin
           mv bin/mutation-test.exe release/bin/mutation-test
           chmod a+x release/bin/mutation-test
           cd release
-          tar -czvf mutation-test-linux-${{ github.ref }}.tar.gz ./*
+          tar -czvf mutation-test-linux-${RELEASE_VERSION}.tar.gz ./*
+      - name: Upload artifacts to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: release/mutation-test-linux-*.tar.gz
+          tag: ${{ github.ref }}
+          file_glob: true
           
