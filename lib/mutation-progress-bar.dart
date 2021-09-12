@@ -13,9 +13,12 @@ class MutationProgressBar {
   bool verbose;
   double threshold;
   int _width = 0;
+  bool quiet = false;
   final Stopwatch _timer = Stopwatch();
 
-  MutationProgressBar(int count, this.verbose, this.threshold) : 
+  set mutationCount(int v) => total.maximum = v;
+
+  MutationProgressBar(int count, this.verbose, this.threshold, this.quiet) : 
     file = ProgressBar(count, width: 30, showTotal: false, left: 'File ['), 
     total= ProgressBar(count, width: 24, left: 'Total [', widthIncludesText: false);
 
@@ -23,14 +26,16 @@ class MutationProgressBar {
     if (!_timer.isRunning) {
       _timer.start();
     }
-    print('$path : performing $count mutations'.padRight(_width));
+    if(!quiet) {
+      print('$path : performing $count mutations'.padRight(_width));
+    }
     file.current = 0;
     file.maximum = count;
   }
 
   void endFile(int failed) {
     var pct = 1.0 - failed.toDouble()/file.maximum.toDouble();
-    final prefix = pct <= threshold ? 'FAILED' : 'OK';
+    final prefix = 100*pct <= threshold ? 'FAILED' : 'OK';
     var text = '$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations passed all tests!'.padRight(_width);
     _writeText(text,true);
   }
@@ -52,6 +57,9 @@ class MutationProgressBar {
   }
 
   void _writeText(String text,bool newline) {
+    if(quiet) {
+      return;
+    }
     if(verbose) {
       print(text);
     }

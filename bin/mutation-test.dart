@@ -27,7 +27,7 @@ void main(List<String> arguments) async {
     ..addFlag(show, abbr: 's', help: 'Prints a XML file to the console with every possible option', negatable: false)
     ..addFlag(generate_rules,abbr: 'g',help: 'Prints the builtin ruleset as XML string',negatable: false)
     ..addFlag(verbose,abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
-    ..addFlag(quiet, help: 'Suppress output to console', negatable: false, defaultsTo: false)
+    ..addFlag(quiet, abbr: 'q', help: 'Suppress output to console. Overrides verbose.', negatable: false, defaultsTo: false)
     ..addFlag(dry,abbr: 'd',help:'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
     ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
     ..addOption(format, abbr: 'f', help: 'Sets the report file format', allowed: ['html', 'md', 'xml', 'all', 'none'], defaultsTo: 'html')
@@ -79,23 +79,30 @@ void main(List<String> arguments) async {
     print('Unsupported output format: $reportFormatStr');
     printUsage(parser);
   }
+  
+  var ruleDocuments = argResults[rules];
+  var _verbose = argResults[verbose];
+  var _quiet = argResults[quiet];
+
+  if (_quiet) {
+    _verbose = false;
+  }
+
+  var _builtin = (ruleDocuments.isNotEmpty && argResults.wasParsed(builtin) && argResults[builtin]) || (ruleDocuments.isEmpty && argResults[builtin]);
+  var mutations = MutationTest(
+          argResults.rest, argResults[output], _verbose, argResults[dry], fmt,
+          ruleFiles: ruleDocuments,
+          builtinRules: _builtin,
+          quiet: _quiet);
 
   ProcessSignal.sigint.watch().listen((signal) {
     print('\nReceived system interrupt!');
-    abortMutationTest();
+    mutations.abortMutationTest();
   });
 
   var foundAll = true;
   try {
-    var ruleDocuments = argResults[rules];
-    var _builtin = (ruleDocuments.isNotEmpty && argResults.wasParsed(builtin) && argResults[builtin]) || (ruleDocuments.isEmpty && argResults[builtin]);
-    for (final file in argResults.rest) {
-      var result = await runMutationTest(
-          file, argResults[output], argResults[verbose], argResults[dry], fmt,
-          ruleFiles: ruleDocuments,
-          addBuiltin: _builtin);
-      foundAll = result && foundAll;
-    }
+    foundAll = await mutations.runMutationTest();
   } catch (e) {
     handleProcessingError(e.toString());
   }

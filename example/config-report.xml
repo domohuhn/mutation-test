@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <undetected-mutations>
 <program-version>mutation-test version: 1.1.0</program-version>
-<elapsed>0:04:29.850398</elapsed>
+<elapsed>0:04:17.562734</elapsed>
 <result rating="D" success="false"/>
 <rules>
 <ruleset document="example/config.xml"/><ruleset document="Builtin Rules"/></rules>
