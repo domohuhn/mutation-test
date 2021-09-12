@@ -46,6 +46,8 @@ jobs:
         run: |
           mkdir bundle\\bin
           mkdir release
+          dir
+          dir bin
           xcopy bin\\mutation-test.exe bundle\\bin\\
           cd release
           powershell Compress-Archive ..\\bundle\\* mutation-test-${{ matrix.package_arch }}.zip
