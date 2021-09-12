@@ -1,0 +1,30 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Dart
+
+on:
+  release:
+   types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
+      - name: Install dependencies
+        run: dart pub get
+      - name: Compile binary
+        run: dart compile exe bin/mutation-test.dart
+      - name: Create Package
+        run: |
+          mkdir -p release/bin
+          mv bin/mutation-test.exe release/bin/mutation-test
+          chmod a+x release/bin/mutation-test
+          cd release
+          tar -czvf mutation-test-linux-${{ github.ref }}.tar.gz ./*
+          
