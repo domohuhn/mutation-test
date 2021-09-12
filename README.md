@@ -237,10 +237,11 @@ The program accepts the following command line arguments:
 | -h             | --help                    | Displays the help message                                                                                 |
 |                | --version                 | Prints the version                                                                                        |
 |                | --about                   | Prints information about the application                                                                  |
-| -n             | --no-builtin              | Removes the builtin ruleset - has no effect in combination with -r                                        |
+| -b             | --(no-)builtin            | Adds or removes the builtin ruleset                                                                       |
 | -s             | --show-example            | Prints a XML file to the console with every possible option                                               |
 | -g             | --generate-rules          | Prints the builtin ruleset as XML string                                                                  |
 | -v             | --verbose                 | Verbose output                                                                                            |
+| -q             | --quiet                   | Disable output                                                                                            |
 | -d             | --dry                     | Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests       |
 | -o             | --output=<directory>      | Sets the output directory (defaults to ".")                                                               |
 | -f             | --format                  | Sets the report file format [html (default), md, xml, all, none]                                          |

@@ -17,6 +17,7 @@ void main(List<String> arguments) async {
   final dry = 'dry';
   final output = 'output';
   final format = 'format';
+  final quiet = 'quiet';
 
   final parser = ArgParser()
     ..addFlag(help, abbr: 'h', help: 'Displays a description of the program', negatable: false)
@@ -26,10 +27,11 @@ void main(List<String> arguments) async {
     ..addFlag(show, abbr: 's', help: 'Prints a XML file to the console with every possible option', negatable: false)
     ..addFlag(generate_rules,abbr: 'g',help: 'Prints the builtin ruleset as XML string',negatable: false)
     ..addFlag(verbose,abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
+    ..addFlag(quiet, help: 'Suppress output to console', negatable: false, defaultsTo: false)
     ..addFlag(dry,abbr: 'd',help:'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
     ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
     ..addOption(format, abbr: 'f', help: 'Sets the report file format', allowed: ['html', 'md', 'xml', 'all', 'none'], defaultsTo: 'html')
-    ..addMultiOption(rules, abbr: 'r', help: 'Overrides the builtin ruleset with the rules in the given XML Document', valueHelp: 'path to XML file');
+    ..addMultiOption(rules, abbr: 'r', help: 'Load the rules from the given XML Document', valueHelp: 'path to XML file');
 
   late ArgResults argResults;
   try {
@@ -79,7 +81,7 @@ void main(List<String> arguments) async {
   }
 
   ProcessSignal.sigint.watch().listen((signal) {
-    print('Received system interrupt!');
+    print('\nReceived system interrupt!');
     abortMutationTest();
   });
 

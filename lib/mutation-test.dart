@@ -4,14 +4,14 @@
 
 
 import 'dart:io';
-import 'package:mutation_test/mutations.dart';
 
+import 'mutations.dart';
 import 'test-runner.dart';
 import 'errors.dart';
 import 'configuration.dart';
-import 'string-helpers.dart';
 import 'report-format.dart';
 import 'builtin-rules.dart';
+import 'mutation-progress-bar.dart';
 
 export 'report-format.dart';
 export 'builtin-rules.dart';
@@ -59,21 +59,20 @@ Future<bool> runMutationTest(String inputFile, String outputPath, bool verbose, 
   reporter.quality = configuration.ratings;
 
   await checkTests(configuration,tests);
+  var bar = MutationProgressBar(81,verbose,configuration.ratings.failure);
 
   for (final current in configuration.files) {
     final source = File(current.path).readAsStringSync();
-    var data = MutationData(configuration,tests,current,source,reporter);
+    var data = MutationData(configuration,tests,current,source,reporter,bar);
 
     var count = await countMutations(data);
-    print('${current.path} : performing $count mutations');
+    bar.startFile(current.path,count);
     if (dry || count==0) {
       continue;
     }
 
     var failed = await doMutationTests(data);
-    if (failed > 0) {
-      print('FAILED: $failed (${asPercentString(failed, count)}) mutations passed all tests!');
-    }
+    bar.endFile(failed);
 
     // restore orignal
     File(current.path).writeAsStringSync(source);
@@ -98,10 +97,14 @@ class MutationData {
   final TargetFile filename;
   /// Contents of the file to mutate
   final String contents;
-  /// Clas to store the results in
+  /// Class to store the results in
   final ResultsReporter results;
+
+  final MutationProgressBar bar;
+
+  bool get verbose => configuration.verbose;
   
-  MutationData(this.configuration,this.test,this.filename,this.contents,this.results);
+  MutationData(this.configuration,this.test,this.filename,this.contents,this.results,this.bar);
 }
 
 /// Checks if the tests in [cfg] can be run by the test runner [executor] on the unmodified sources.
@@ -158,6 +161,8 @@ Future<bool> runTest(MutationData data, MutatedCode mutated) async {
   File(data.filename.path).writeAsStringSync(mutated.text);
   var test = await data.test.run(data.configuration);
   data.results.addTestReport(data.filename.path, mutated.line, test, data.configuration.verbose);
+  data.bar.increment();
+  data.bar.render();
   return test.result == TestResult.Undetected;
 }
 

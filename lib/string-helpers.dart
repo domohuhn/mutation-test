@@ -70,3 +70,19 @@ String convertToMarkdown(String input) {
   return input.replaceAll('\*', '\\\*');
 }
 
+String formatDuration(Duration dur) {
+  var hrs = dur.inHours;
+  var mins = dur.inMinutes.remainder(60);
+  var secs = dur.inSeconds.remainder(60);
+  var rv = '';
+  if (hrs>100) {
+    return '100+h';
+  } else if (hrs>0) {
+    rv += '${hrs}h ';
+  }
+  if(mins>0||hrs>0) {
+    rv += '${mins}m ';
+  }
+  rv += '${secs}s';
+  return rv;
+}

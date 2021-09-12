@@ -13,6 +13,8 @@ class Ratings {
     _failure = v;
   }
 
+  double get failure => _failure;
+
   bool get initialized => _initialized;
 
   /// Adds a rating with the [lower] boundary called [name].
