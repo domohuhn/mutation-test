@@ -46,11 +46,9 @@ jobs:
         run: |
           mkdir bundle\\bin
           mkdir release
-          git describe --tags --abbrev=0 > tmpFile 
-          set /p RELEASE_VERSION= < tmpFile
           xcopy bin\\mutation-test.exe bundle\\bin\\
           cd release
-          powershell Compress-Archive ..\\bundle\\* mutation-test-${{ matrix.package_arch }}-%RELEASE_VERSION%.zip
+          powershell Compress-Archive ..\\bundle\\* mutation-test-${{ matrix.package_arch }}.zip
       - name: Upload artifacts to release
         uses: svenstaro/upload-release-action@v2
         with:
