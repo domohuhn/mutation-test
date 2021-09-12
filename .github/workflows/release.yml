@@ -50,7 +50,7 @@ jobs:
           dir bin
           powershell Copy-Item "bin/mutation-test.exe" -Destination "bundle/bin"
           cd release
-          powershell Compress-Archive ..\\bundle\\* mutation-test-${{ matrix.package_arch }}.zip
+          powershell Compress-Archive ../bundle/* mutation-test-${{ matrix.package_arch }}.zip
       - name: Upload artifacts to release
         uses: svenstaro/upload-release-action@v2
         with:
