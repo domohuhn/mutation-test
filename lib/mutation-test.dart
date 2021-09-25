@@ -15,6 +15,7 @@ import 'mutation-progress-bar.dart';
 
 export 'report-format.dart';
 export 'builtin-rules.dart';
+export 'create-license-text.dart';
 
 
 class MutationTest {

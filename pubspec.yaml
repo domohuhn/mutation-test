@@ -11,3 +11,8 @@ dependencies:
 
 dev_dependencies:
   test: ^1.16.0
+  icapps_license: ^2.0.0
+
+icapps_license:
+  failFast: true    #Errors are not ignored and the generator will fail with an error
+  nullsafety: true  #Generate nullsafe code
