@@ -39,8 +39,8 @@ jobs:
           mkdir -p release
           mv bin/mutation-test.exe bundle/bin/mutation-test
           chmod a+x bundle/bin/mutation-test
-          cd release
-          tar -czvf mutation-test-${{ matrix.package_arch }}-${RELEASE_VERSION}.tar.gz ../bundle/*
+          cd bundle
+          tar -czvf ../release/mutation-test-${{ matrix.package_arch }}-${RELEASE_VERSION}.tar.gz .
       - name: Package windows
         if: ${{ matrix.name == 'windows' }}
         run: |
