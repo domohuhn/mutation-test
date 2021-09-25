@@ -20,7 +20,7 @@ class MutationProgressBar {
 
   MutationProgressBar(int count, this.verbose, this.threshold, this.quiet) : 
     file = ProgressBar(count, width: 30, showTotal: false, left: 'File ['), 
-    total= ProgressBar(count, width: 24, left: 'Total [', widthIncludesText: false);
+    total= ProgressBar(count, width: 27, left: 'Total [', widthIncludesText: false);
 
   void startFile(String path, int count) {
     if (!_timer.isRunning) {

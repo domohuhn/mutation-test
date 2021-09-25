@@ -65,7 +65,6 @@ class ProgressBar {
     if(rest>0) {
       rv += blank*rest;
     }
-
     return rv+suffix;
   }
 }
