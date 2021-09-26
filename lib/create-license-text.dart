@@ -3,19 +3,24 @@
 /// See LICENSE for the full text of the license
 
 
-import 'util/license.dart';
+import 'oss_licenses.dart';
 
 
 String createLicenseText() {
   var rv = _selfLicense();
-  var ext = LicenseUtil.getLicenses();
+  var ext = ossLicenses;
   if(ext.isEmpty) {
     return rv;
   }
   rv += '\n\n-------------------------------------------------------------------------------\nAdditional licenses:\n\n';
-  for (final l in ext) {
-    rv += 'package "${l.name}" version: ${l.version}\n${l.url}\n\n${l.license}\n\n';
-  }
+  ext.forEach((key, value) {
+    final name = value['name'];
+    final version = value['version'];
+    final url = value['homepage'];
+    final license = value['license'];
+    rv += 'package "$name" version: $version\n$url\n\n$license\n\n'; 
+  });
+
   return rv;
 }
 

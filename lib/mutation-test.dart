@@ -250,5 +250,5 @@ class MutationData {
 }
 
 String mutationTestVersion() {
-  return 'mutation-test version: 1.1.1';
+  return 'mutation-test version: 1.1.2';
 }
