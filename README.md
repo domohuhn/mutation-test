@@ -1,6 +1,7 @@
 # Mutation testing
 
 [![Dart](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml/badge.svg)](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml)
+![Coverage](coverage_badge.svg)
 
 When writing test cases for software, you often rely on metrics like
 code coverage to verify that your test cases actually test your program.
