@@ -29,5 +29,35 @@ void main() {
     var moo = createReportFileName('input.cpp','output','html');
     expect(moo, 'output/input-report.html');
   });
+
+  test('report file name forwardslash', (){
+    var moo = createReportFileName('before/input.cpp','output','html');
+    expect(moo, 'output/input-report.html');
+  });
+
+  test('report file name backslash', (){
+    var moo = createReportFileName('before\\input.cpp','output','html');
+    expect(moo, 'output/input-report.html');
+  });
+
+  test('percent string', (){
+    var moo = asPercentString(25,100);
+    expect(moo, '25.00%');
+  });
+
+  test('convert to xml', (){
+    var moo = convertToXML('<&"\'>');
+    expect(moo, '&lt;&amp;&quot;&apos;&gt;');
+  });
+
+  test('formatDuration', (){
+    var moo = formatDuration(Duration(hours: 1));
+    expect(moo, '1h 0m 0s');
+  });
+
+  test('convertToMarkdown', (){
+    var moo = convertToMarkdown('\*');
+    expect(moo, '\\\*');
+  });
 }
 

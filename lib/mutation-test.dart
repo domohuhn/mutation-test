@@ -164,7 +164,7 @@ class MutationTest {
     }
     var test = await executor.run(cfg, outputOnFailure: true);
     if (test.result != TestResult.Undetected) {
-      throw Error('Running the test commands failed with unmodified code! Aborting.');
+      throw MutationError('Running the test commands failed with unmodified code! Aborting.');
     }
   }
 

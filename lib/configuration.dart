@@ -52,7 +52,7 @@ class Configuration {
       _processTopLevel(element);
     }
     if (!toplevelFound) {
-      throw Error('Could not find xml element <mutations>');
+      throw MutationError('Could not find xml element <mutations>');
     }
   }
 
@@ -62,7 +62,7 @@ class Configuration {
   /// one mutation rule.
   void validate() {
     if (files.isEmpty || mutations.isEmpty || commands.isEmpty) {
-      throw Error('At least one entry in the configuration for each of the following elements is needed:\n'
+      throw MutationError('At least one entry in the configuration for each of the following elements is needed:\n'
       'files: ${files.length} mutation rules: ${mutations.length} verification commands: ${commands.length}');
     }
     ratings.sanitize();
@@ -72,10 +72,10 @@ class Configuration {
     var str = root.getAttribute('version');
     toplevelFound = true;
     if (str == null) {
-      throw Error('No version attribute found in xml element <mutations>!');
+      throw MutationError('No version attribute found in xml element <mutations>!');
     }
     if (double.parse(str) != 1.0) {
-      throw Error('Configuration file version not supported!');
+      throw MutationError('Configuration file version not supported!');
     }
     if (verbose) {
       print('- configuration file version $str');
@@ -124,7 +124,7 @@ class Configuration {
   void _addFile(xml.XmlElement element) {
     final path = element.text.trim();
     if (!File(path).existsSync()) {
-      throw Error('Input file "$path" not found!');
+      throw MutationError('Input file "$path" not found!');
     }
     var whitelist = <Range>[];
     _processXMLNode(element, 'lines', (el) { whitelist.add(_parseLineRange(el));  });
@@ -133,11 +133,11 @@ class Configuration {
 
   void _parseThreshold(xml.XmlElement element) {
     if (ratings.initialized) {
-      throw Error('There must be only one <threshold> element in the inputs!');
+      throw MutationError('There must be only one <threshold> element in the inputs!');
     }
     var failure = element.getAttribute('failure');
     if (failure==null) {
-      throw Error('<threshold> needs attribute "failure"');
+      throw MutationError('<threshold> needs attribute "failure"');
     }
     ratings.failure = double.parse(failure);
     
@@ -145,7 +145,7 @@ class Configuration {
       var lowerbound = el.getAttribute('over');
       var name = el.getAttribute('name');
       if (lowerbound==null || name==null) {
-        throw Error('<rating> needs attributes "over" and "name" - got $lowerbound, $name');
+        throw MutationError('<rating> needs attributes "over" and "name" - got $lowerbound, $name');
       }
       ratings.addRating(double.parse(lowerbound), name);
     });
@@ -159,7 +159,7 @@ class Configuration {
     var begin = element.getAttribute('begin');
     var end = element.getAttribute('end');
     if (begin==null || end == null) {
-      throw Error('Every <token> needs a begin and end attribute!');
+      throw MutationError('Every <token> needs a begin and end attribute!');
     }
     if (begin=='\\n') {
       begin='\n';
@@ -180,7 +180,7 @@ class Configuration {
     var begin = element.getAttribute('begin');
     var end = element.getAttribute('end');
     if (begin==null || end == null) {
-      throw Error('Every <lines> needs a begin and end attribute!');
+      throw MutationError('Every <lines> needs a begin and end attribute!');
     }
     return LineRange(int.parse(begin), int.parse(end));
   }
@@ -192,7 +192,7 @@ class Configuration {
   RegExp _parseRegEx(xml.XmlElement element) {
     var pattern = element.getAttribute('pattern');
     if (pattern==null) {
-      throw Error('Every <regex> needs a pattern!');
+      throw MutationError('Every <regex> needs a pattern!');
     }
     var tmp = element.getAttribute('dotAll');
     var dotMatchesNewlines =  tmp!=null&&tmp=='true';
@@ -203,7 +203,7 @@ class Configuration {
   void _addCommand(xml.XmlElement element) {
     var text = element.text.split(' ');
     if (text.isEmpty) {
-      throw Error('Received empty text for a <command>');
+      throw MutationError('Received empty text for a <command>');
     }
     final process = text[0].trim();
     final args = <String>[];
@@ -230,18 +230,18 @@ class Configuration {
   void _addLiteralRule(xml.XmlElement element) {
     var str = element.getAttribute('text');
     if (str == null) {
-      throw Error('Each <literal> must have a text attribute!');
+      throw MutationError('Each <literal> must have a text attribute!');
     }
     var mutation = Mutation(str);
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {
-        throw Error('Each <mutation> must have a text attribute!');
+        throw MutationError('Each <mutation> must have a text attribute!');
       }
       mutation.replacements.add(LiteralReplacement(replacement));
     }
     if (mutation.replacements.isEmpty) {
-      throw Error('Each <literal> rule must have at least one <mutation> child!');
+      throw MutationError('Each <literal> rule must have at least one <mutation> child!');
     }
     mutations.add(mutation);
   }
@@ -252,12 +252,12 @@ class Configuration {
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {
-        throw Error('Each <mutation> must have a text attribute!');
+        throw MutationError('Each <mutation> must have a text attribute!');
       }
       mutation.replacements.add(RegexReplacement(replacement));
     }
     if (mutation.replacements.isEmpty) {
-      throw Error('Each <regex> rule must have at least one <mutation> child!');
+      throw MutationError('Each <regex> rule must have at least one <mutation> child!');
     }
     mutations.add(mutation);
   }

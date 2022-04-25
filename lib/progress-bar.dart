@@ -45,7 +45,7 @@ class ProgressBar {
       suffix += tmp;
     }
     if (widthIncludesText && textLength>=width) {
-      throw Error('Progress bar is too small! width: $width text width: $textLength');
+      throw MutationError('Progress bar is too small! width: $width text width: $textLength');
     }
     final space = widthIncludesText ? width-textLength : width-left.length-right.length;
     var lower = (space*progress).truncate();

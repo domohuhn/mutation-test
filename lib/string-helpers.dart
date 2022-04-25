@@ -51,9 +51,9 @@ String asPercentString(int fraction, int total) {
 String createReportFileName(String input, String outpath, String extension) {
   var start = 0;
   if (input.contains('/')) {
-    start = input.lastIndexOf('/');
+    start = input.lastIndexOf('/')+1;
   } else if (input.contains('\\')) {
-    start = input.lastIndexOf('\\');
+    start = input.lastIndexOf('\\')+1;
   }
   var end = input.lastIndexOf('.');
   var name = '$outpath/${input.substring(start,end)}-report.$extension';

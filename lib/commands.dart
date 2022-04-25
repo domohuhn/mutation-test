@@ -2,7 +2,7 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-/// A command to check if a mutation survies your tests.
+/// A command to check if a mutation survives your tests.
 /// 
 /// The return value of the command is checked against the expectedReturnValue to determine success.
 class Command {

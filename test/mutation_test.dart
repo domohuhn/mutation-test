@@ -42,6 +42,17 @@ void main() {
     for(final modified in mut.allMutations(text2,[whitelist],[])) {
       expect(modified.text,expected[index]);
       index += 1;
+      if(index==1) {
+        expect(modified.line.toMarkdown(), '''Line 3:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 200, 200);">-  <span style="background-color: rgb(255, 50, 50);">aaa</span> </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">+  <span style="background-color: rgb(50, 255, 50);">bbb</span> </span><br>
+''');
+        expect(modified.line.toHTML(), '''Line 3:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 200, 200);">-  <span style="background-color: rgb(255, 50, 50);">aaa</span> </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">+  <span style="background-color: rgb(50, 255, 50);">bbb</span> </span><br>
+''');
+        expect(modified.line.toString(), '3: "bbb"');
+      }
     }
     expect(index,6);
   });
