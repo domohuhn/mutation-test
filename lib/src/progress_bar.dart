@@ -2,7 +2,7 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'package:mutation_test/errors.dart';
+import 'package:mutation_test/src/errors.dart';
 
 /// Renders a progress bar as string.
 class ProgressBar {

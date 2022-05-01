@@ -1,7 +1,7 @@
 /// Copyright 2021, domohuhn. 
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
-import 'errors.dart';
+import 'package:mutation_test/src/errors.dart';
 
 /// Abstract class for all replacements.
 abstract class Replacement {

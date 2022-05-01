@@ -2,7 +2,7 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'package:mutation_test/ratings.dart';
+import 'package:mutation_test/src/ratings.dart';
 import 'package:test/test.dart';
 
 void main() {

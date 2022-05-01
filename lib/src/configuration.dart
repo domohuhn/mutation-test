@@ -3,12 +3,12 @@
 /// See LICENSE for the full text of the license
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
-import 'mutations.dart';
-import 'replacements.dart';
-import 'commands.dart';
-import 'errors.dart';
-import 'range.dart';
-import 'ratings.dart';
+import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/replacements.dart';
+import 'package:mutation_test/src/commands.dart';
+import 'package:mutation_test/src/errors.dart';
+import 'package:mutation_test/src/range.dart';
+import 'package:mutation_test/src/ratings.dart';
 
 /// A structure holding the information about the mutation input.
 class TargetFile {

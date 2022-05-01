@@ -1,18 +1,16 @@
 name: mutation_test
-description: A sample command-line application.
-version: 1.0.0
+description: A command line application to measure the quality of your test cases by mutating your code and checking if your tests detect the changes.
+version: 1.2.0
 # homepage: https://www.example.com
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.16.0 <3.0.0'
 
 dependencies:
   xml: ^5.1.2
 
 dev_dependencies:
+  lints: ^1.0.1
   flutter_oss_licenses: ^1.0.1
   test: ^1.16.0
 
-icapps_license:
-  failFast: true    #Errors are not ignored and the generator will fail with an error
-  nullsafety: true  #Generate nullsafe code

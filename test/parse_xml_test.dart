@@ -2,8 +2,8 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'package:mutation_test/builtin-rules.dart';
-import 'package:mutation_test/configuration.dart';
+import 'package:mutation_test/src/builtin_rules.dart';
+import 'package:mutation_test/src/configuration.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,7 +1,7 @@
 /// Copyright 2021, domohuhn. 
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
-import 'string-helpers.dart';
+import 'package:mutation_test/src/string_helpers.dart';
 
 
 /// A range in the source files.

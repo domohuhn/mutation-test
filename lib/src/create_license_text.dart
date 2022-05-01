@@ -3,9 +3,11 @@
 /// See LICENSE for the full text of the license
 
 
-import 'oss_licenses.dart';
+import 'package:mutation_test/src/oss_licenses.dart';
 
-
+/// Creates the OSS license text of all packages used by this library.
+/// Uses the flutter_oss_licenses package to generate the license information
+/// for the used packages. 
 String createLicenseText() {
   var rv = _selfLicense();
   var ext = ossLicenses;

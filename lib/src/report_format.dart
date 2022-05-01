@@ -2,25 +2,30 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'test-runner.dart';
-import 'mutations.dart';
-import 'mutation-test.dart';
-import 'ratings.dart';
+import 'package:mutation_test/src/test_runner.dart';
+import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/mutation_test.dart';
+import 'package:mutation_test/src/ratings.dart';
 import 'dart:io';
-import 'string-helpers.dart';
+import 'package:mutation_test/src/string_helpers.dart';
 
 /// Format for the report file
 enum ReportFormat {
+  /// Creates the report as XML document.
   XML,
+  /// Creates the report as markdown document.
   MARKDOWN,
+  /// Creates the report as html documents.
   HTML,
+  /// Creates all reports at once.
   ALL,
+  /// Creates no report.
   NONE
 }
 
 
-/// Creates the [test] report in directory [outputPath] from [inputFile]
-/// int the specified [format].
+/// Creates the test report in directory [outputPath] from [inputFile]
+/// in the specified [format] using the [results].
 void createReport(ResultsReporter results, String outputPath, String inputFile, ReportFormat format) {
   results.write();
   results.sort();
@@ -44,8 +49,13 @@ void createReport(ResultsReporter results, String outputPath, String inputFile, 
   }
 }
 
+/// This class logs the mutations and can create report documents in different
+/// formats. See [ReportFormat] for the supported reports.
+///
+/// It may create multiple folders in the output path depending on the selected report
+/// format.
 class ResultsReporter {
-    /// statistics which command group caught how many mutations
+  /// statistics which command group caught how many mutations
   final Map<String,int> _groupStatistics = {};
   
   /// stores the undetected mutations
@@ -98,9 +108,12 @@ class ResultsReporter {
     }
   }
 
+  /// Reports the count of undetected mutations.
   int get undetectedMutations => _totalRuns-_totalFound;
 
+  /// Reports the percentage of undetected mutations of the total mutations.
   double get undetectedFraction => (100.0*undetectedMutations)/_totalRuns;
+  /// Reports the percentage of detected mutations of the total mutations.
   double get detectedFraction => 100.0-(100.0*undetectedMutations)/_totalRuns;
   /// Checks if the test run was successful.
   bool get success => quality.isSuccessful(detectedFraction);

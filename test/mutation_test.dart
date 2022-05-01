@@ -2,9 +2,9 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'package:mutation_test/mutations.dart';
-import 'package:mutation_test/replacements.dart';
-import 'package:mutation_test/range.dart';
+import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/replacements.dart';
+import 'package:mutation_test/src/range.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -29,6 +29,7 @@ void main() {
     var text2 = 'moo /* aaa */ xxx /* aaa */';
     for(final modified in mut.allMutations(text2,[],[exclusion])) {
       index += 1;
+      print(modified);
     }
     expect(index,0);
   });

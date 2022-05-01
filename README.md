@@ -1,7 +1,6 @@
 # Mutation testing
 
 [![Dart](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml/badge.svg)](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml)
-![Coverage](coverage_badge.svg)
 
 When writing test cases for software, you often rely on metrics like
 code coverage to verify that your test cases actually test your program.
@@ -15,9 +14,11 @@ run the tests are defined in XML documents. The program is fully self contained,
 mutation-test example/config.xml
 # or fully customized:
 # the rules contained in mutation-rules.xml are always used
-# inputset1.xml may define special rules for some files that are also listed in the same xml
-# source1.cpp and source2.cpp are just tested with the rules from mutation-rules.xml
-mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml source1.cpp source2.cpp
+# inputset1.xml may define special rules for some files that
+# are also listed in the same xml source1.cpp and source2.cpp
+# are just tested with the rules from mutation-rules.xml
+mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml \
+    source1.cpp source2.cpp
 ```
 The first command in the section above would produce the reports in [example folder](example/config-report.md).
 
@@ -132,11 +133,15 @@ The commands block lets you specify the command line programs to verify that a m
 <commands>
   <!-- All attributes here are optional -->
   <!-- group: is used to show statistics for the commands -->
-  <!-- expected-return: this value is compared to the return value of the command. Must be an integer -->
+  <!-- expected-return: this value is compared to the return value of the
+       command. Must be an integer -->
   <!-- working-directory: Where the program is executed. Defaults to . -->
-  <!-- tiemout: Timeout in seconds. Must be an integer. If not present, the commands will run until they are finished. -->
-  <command group="compile" expected-return="0" working-directory=".">make -j8</command>
-  <command group="test" expected-return="0" working-directory="." timeout="10">ctest -j8</command>
+  <!-- timeout: Timeout in seconds. Must be an integer. If not present, 
+       the commands will run until they are finished. -->
+  <command group="compile" expected-return="0" 
+    working-directory=".">make -j8</command>
+  <command group="test" expected-return="0" working-directory="."
+    timeout="10">ctest -j8</command>
 </commands>
 ```
 ### Exclude
@@ -165,20 +170,23 @@ This element is the most important part of the document. It defines what is muta
 <!-- A regex element mutates source code if the regular expression matches -->
 <!-- Each of them must have at least one mutation child -->
 <rules>
-  <!-- A literal element matches the literal text and replaces it with the list of mutations  -->
-  <!-- This will replace any "+" with "-" or "*". -->
+  <!-- A literal element matches the literal text and replaces it with the 
+       list of mutations. This will replace any "+" with "-" or "*". -->
   <literal text="+">
     <mutation text="-"/>
     <mutation text="*"/>
   </literal>
   <!-- It is also possible to match a regular expression with capture groups. -->
-  <!-- If the optional attribute dotAll is set to true, then the . will also match newlines.  -->
+  <!-- If the optional attribute dotAll is set to true, 
+       then the . will also match newlines.  -->
   <!-- If not present, the default value for dotAll is false.  -->
   <!-- Here, we capture everything inside of the braces of "if ()" -->
   <regex pattern="[\s]if[\s]*\((.*?)\)[\s]*{" dotAll="true">
     <!-- You can access groups via $1. -->
-    <!-- If your string contains a $ followed by a number that should not be replaced, escape the dollar \$ -->
-    <!-- If your string contains a \$ followed by a number that should not be replaced, escape the slash \\$ -->
+    <!-- If your string contains a $ followed by a number that should not be
+         replaced, escape the dollar \$ -->
+    <!-- If your string contains a \$ followed by a number that should not be
+         replaced, escape the slash \\$ -->
     <!-- Tabs and newlines should also be escaped. -->
     <mutation text=" if (!($1)) {"/>
   </regex>

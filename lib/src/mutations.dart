@@ -2,9 +2,9 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'string-helpers.dart';
-import 'replacements.dart';
-import 'range.dart';
+import 'package:mutation_test/src/string_helpers.dart';
+import 'package:mutation_test/src/replacements.dart';
+import 'package:mutation_test/src/range.dart';
 
 /// A possible mutation of the source file.
 /// 

@@ -2,9 +2,9 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-import 'package:mutation_test/progress-bar.dart';
+import 'package:mutation_test/src/progress_bar.dart';
 import 'dart:io';
-import 'string-helpers.dart';
+import 'package:mutation_test/src/string_helpers.dart';
 
 /// Tracks the current progress and estimates the remaining time.
 class MutationProgressBar {

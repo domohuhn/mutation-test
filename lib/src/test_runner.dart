@@ -1,8 +1,8 @@
 /// Copyright 2021, domohuhn. 
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
-import 'commands.dart';
-import 'configuration.dart';
+import 'package:mutation_test/src/commands.dart';
+import 'package:mutation_test/src/configuration.dart';
 import 'dart:io';
 import 'dart:convert';
 

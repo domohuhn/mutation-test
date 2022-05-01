@@ -5,29 +5,37 @@
 
 import 'dart:io';
 
-import 'mutations.dart';
-import 'test-runner.dart';
-import 'errors.dart';
-import 'configuration.dart';
-import 'report-format.dart';
-import 'builtin-rules.dart';
-import 'mutation-progress-bar.dart';
-
-export 'report-format.dart';
-export 'builtin-rules.dart';
-export 'create-license-text.dart';
+import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/test_runner.dart';
+import 'package:mutation_test/src/errors.dart';
+import 'package:mutation_test/src/configuration.dart';
+import 'package:mutation_test/src/report_format.dart';
+import 'package:mutation_test/src/builtin_rules.dart';
+import 'package:mutation_test/src/mutation_progress_bar.dart';
 
 
+/// This is the primary interface for the mutation testing.
+/// 
+/// To do a test run, create an instance of this class, then
+/// call the method [runMutationTest()].
 class MutationTest {
-
+  /// The list of input files.
   List<String> inputs;
+  /// The list of rule files to load.
   List<String>? ruleFiles;
+  /// The path where the reports are generated if the report format is not none.
   String outputPath;
+  /// The format in which reports are generated.
   ReportFormat format;
+  /// If the test runner should print many messages to the command line.
   bool verbose;
+  /// Performs a dry run - no actual mutations are applied and no test commands are run.
   bool dry;
+  /// If the builtin rules should be loaded.
   bool builtinRules;
+  /// The progress bar printed to the command line.
   MutationProgressBar bar;
+  /// If any messages should be printed to the command line.
   bool quiet;
 
   /// Runs the mutation tests using the inputs from [inputs].
@@ -46,6 +54,10 @@ class MutationTest {
   MutationTest(this.inputs, this.outputPath, this.verbose, this.dry, this.format,
       {this.ruleFiles, this.builtinRules=true, this.quiet=false}) : bar = MutationProgressBar(0,verbose,0.8,quiet);
 
+  /// Performs the mutation tests asynchronously.
+  /// The test run uses the options given during construction.
+  /// 
+  /// During testing, a new process will be spawned for each given command.
   Future<bool> runMutationTest() async {
     await _countAll();
     var foundAll = true;
@@ -241,14 +253,17 @@ class MutationData {
   String contents;
   /// Class to store the results in
   final ResultsReporter results;
-
+  /// A reference to the progress bar.
   final MutationProgressBar bar;
 
+  /// Checks if the reporting should be verbose.
   bool get verbose => configuration.verbose;
-  
+  /// Constructor for the mutation data. 
+  /// The object is given to the test runner to run tests on the given [filename].
   MutationData(this.configuration,this.test,this.filename,this.contents,this.results,this.bar);
 }
 
+/// Returns the version of this library.
 String mutationTestVersion() {
-  return 'mutation-test version: 1.1.2';
+  return 'mutation-test version: 1.2.0';
 }
