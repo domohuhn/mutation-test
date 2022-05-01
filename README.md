@@ -254,7 +254,7 @@ The program accepts the following command line arguments:
 | -q             | --quiet                   | Disable output                                                                                            |
 | -d             | --dry                     | Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests       |
 | -o             | --output=<directory>      | Sets the output directory (defaults to ".")                                                               |
-| -f             | --format                  | Sets the report file format [html (default), md, xml, all, none]                                          |
+| -f             | --format                  | Sets the report file format \[html (default), md, xml, all, none\]                                          |
 | -r             | --rules=<path to XML file>| Overrides the builtin ruleset with the rules in the given XML Document                                    |
 
 The rest are excepted to be paths to input XML configuration files.
