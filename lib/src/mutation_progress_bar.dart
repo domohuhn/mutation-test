@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -18,15 +18,15 @@ class MutationProgressBar {
 
   set mutationCount(int v) => total.maximum = v;
 
-  MutationProgressBar(int count, this.verbose, this.threshold, this.quiet) : 
-    file = ProgressBar(count, width: 30, showTotal: false, left: 'File ['), 
-    total= ProgressBar(count, width: 27, left: 'Total [', widthIncludesText: false);
+  MutationProgressBar(int count, this.verbose, this.threshold, this.quiet)
+      : file = ProgressBar(count, width: 30, showTotal: false, left: 'File ['),
+        total = ProgressBar(count, width: 27, left: 'Total [', widthIncludesText: false);
 
   void startFile(String path, int count) {
     if (!_timer.isRunning) {
       _timer.start();
     }
-    if(!quiet) {
+    if (!quiet) {
       print('$path : performing $count mutations'.padRight(_width));
     }
     file.current = 0;
@@ -34,10 +34,10 @@ class MutationProgressBar {
   }
 
   void endFile(int failed) {
-    var pct = 1.0 - failed.toDouble()/file.maximum.toDouble();
-    final prefix = 100*pct <= threshold ? 'FAILED' : 'OK';
+    var pct = 1.0 - failed.toDouble() / file.maximum.toDouble();
+    final prefix = 100 * pct <= threshold ? 'FAILED' : 'OK';
     var text = '$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations passed all tests!'.padRight(_width);
-    _writeText(text,true);
+    _writeText(text, true);
   }
 
   void increment() {
@@ -48,26 +48,25 @@ class MutationProgressBar {
   void render() {
     var text = '$file $total';
     var duration = _timer.elapsed;
-    var max = duration*(1.0/total.progress);
-    var remaining = max-duration;
+    var max = duration * (1.0 / total.progress);
+    var remaining = max - duration;
     text += ' ~${formatDuration(remaining)}';
-    var next =  text.length;
-    _writeText(text.padRight(_width),false);
+    var next = text.length;
+    _writeText(text.padRight(_width), false);
     _width = next;
   }
 
-  void _writeText(String text,bool newline) {
-    if(quiet) {
+  void _writeText(String text, bool newline) {
+    if (quiet) {
       return;
     }
-    if(verbose) {
+    if (verbose) {
       print(text);
-    }
-    else {
+    } else {
       if (newline) {
         text += '\n';
       }
-      stdout.write('\r'+text);
+      stdout.write('\r' + text);
     }
   }
 }

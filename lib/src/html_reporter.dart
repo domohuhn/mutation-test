@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -6,7 +6,7 @@ import 'package:mutation_test/mutation_test.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 
 String createToplevelHtmlFile(ResultsReporter reporter) {
-  var rv = createHtmlFileHeader(reporter,'top level',reporter.totalMutations, reporter.foundMutations, reporter.totalTimeouts, true);
+  var rv = createHtmlFileHeader(reporter, 'top level', reporter.totalMutations, reporter.foundMutations, reporter.totalTimeouts, true);
   rv += '''
 <center>
 <table width ="80%" cellspacing="1" border="0">
@@ -15,7 +15,7 @@ String createToplevelHtmlFile(ResultsReporter reporter) {
      <tr><td class="ItemHead" width="55%">Path</td><td class="ItemHead" width="45%" colspan="3">Detection rate</td></tr>
 ''';
   reporter.testedFiles.forEach((key, value) {
-    rv += createFileReportLine(key,value.mutationCount, value.detectedCount);
+    rv += createFileReportLine(key, value.mutationCount, value.detectedCount);
   });
 
   rv += '''
@@ -29,12 +29,11 @@ String createToplevelHtmlFile(ResultsReporter reporter) {
   return rv;
 }
 
-String removeNewline(String s){
-  if(s.endsWith('\n') || s.endsWith('\r')) {
-    return s.substring(0,s.length-1);
-  }
-  else if(s.endsWith('\r\n')) {
-    return s.substring(0,s.length-2);
+String removeNewline(String s) {
+  if (s.endsWith('\n') || s.endsWith('\r')) {
+    return s.substring(0, s.length - 1);
+  } else if (s.endsWith('\r\n')) {
+    return s.substring(0, s.length - 2);
   }
   return s;
 }
@@ -42,9 +41,9 @@ String removeNewline(String s){
 String createMutationList(int line, FileMutationResults file) {
   var rv = '<b>Undected mutations:</b>\n<table class="mutationTable">\n';
   int i = 1;
-  for(final mut in file.undetectedMutations) {
-    if (line==mut.line) {
-      if(i>1) {
+  for (final mut in file.undetectedMutations) {
+    if (line == mut.line) {
+      if (i > 1) {
         rv += '<tr><td colspan="2"><hr class="ruler"/></td></tr>';
       }
       rv += '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHtml()}</td></tr>';
@@ -55,14 +54,15 @@ String createMutationList(int line, FileMutationResults file) {
 }
 
 String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file) {
-  var rv = createHtmlFileHeader(reporter,file.path,file.mutationCount, file.detectedCount, file.timeoutCount, false);
+  var rv = createHtmlFileHeader(reporter, file.path, file.mutationCount, file.detectedCount, file.timeoutCount, false);
   rv += '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
-  var i=1;
-  for(final src in file.contents.split('\n')) {
+  var i = 1;
+  for (final src in file.contents.split('\n')) {
     final fmtln = removeNewline(src);
-    if(file.lineHasUndetectedMutation(i)) {
-      rv += '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button><div class="content">
-${createMutationList(i,file)}
+    if (file.lineHasUndetectedMutation(i)) {
+      rv +=
+          '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button><div class="content">
+${createMutationList(i, file)}
 </div></a>''';
     } else {
       rv += '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n';
@@ -99,10 +99,10 @@ for (i = 0; i < coll.length; i++) {
   return rv;
 }
 
-String selectColor(double pct){
-  if(pct>=80.0) {
+String selectColor(double pct) {
+  if (pct >= 80.0) {
     return 'ItemReportHigh';
-  } else if(pct>=50.0) {
+  } else if (pct >= 50.0) {
     return 'ItemReportMedium';
   } else {
     return 'ItemReportLow';
@@ -110,10 +110,10 @@ String selectColor(double pct){
 }
 
 String createHtmlFileHeader(ResultsReporter reporter, String current, int total, int detected, int timeouts, bool isToplevel) {
-  var detectedFraction = 100.0 * detected/total;
-  var timeoutFraction = 100.0 * timeouts/total;
+  var detectedFraction = 100.0 * detected / total;
+  var timeoutFraction = 100.0 * timeouts / total;
   var locationText = current;
-  if(!isToplevel) {
+  if (!isToplevel) {
     locationText += ' - <a href="${createParentLinkPrefix(current)}index.html">back to top</a>';
   }
   var rv = '''
@@ -160,7 +160,7 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
      <td class="${selectColor(100.0 - timeoutFraction)}" width="15%">${timeoutFraction.toStringAsFixed(1)} %</td>
      </tr>
 ''';
-  if(isToplevel) {
+  if (isToplevel) {
     rv += '''
      <tr>
      <td class="ItemLabel" width="10%">Quality rating:</td>
@@ -190,13 +190,13 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
 }
 
 String createFileReportLine(String path, int mutations, int detected) {
-  var percentage = 100.0* detected/mutations;
+  var percentage = 100.0 * detected / mutations;
   return '''
 <tr><td class="FileLink" width="55%"><a href="$path.html">$path</a></td>
   <td class="ItemReport" width="15%">
   <table width="100%" cellpadding="0" border="1">
     <td class="barHi" width="$percentage%" height="10"></td>
-    <td class="barLo" width="${100.0-percentage}%" height="10"></td>
+    <td class="barLo" width="${100.0 - percentage}%" height="10"></td>
   </table>
   </td>
   <td class="${selectColor(percentage)}" width="15%">${percentage.toStringAsFixed(1)} %</td>

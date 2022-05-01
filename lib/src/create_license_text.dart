@@ -1,33 +1,31 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
-
 
 import 'package:mutation_test/src/oss_licenses.dart';
 
 /// Creates the OSS license text of all packages used by this library.
 /// Uses the flutter_oss_licenses package to generate the license information
-/// for the used packages. 
+/// for the used packages.
 String createLicenseText() {
   var rv = _selfLicense();
   var ext = ossLicenses;
-  if(ext.isEmpty) {
+  if (ext.isEmpty) {
     return rv;
   }
   rv += '\n\n-------------------------------------------------------------------------------\nAdditional licenses:\n\n';
-  for(final value in ext) {
+  for (final value in ext) {
     final name = value.name;
     final version = value.version;
     final url = value.homepage;
     final license = value.license;
-    rv += 'package "$name" version: $version\n$url\n\n$license\n\n'; 
+    rv += 'package "$name" version: $version\n$url\n\n$license\n\n';
   }
 
   return rv;
 }
 
 String _selfLicense() {
-
   return '''Copyright 2022, domohuhn. 
 
 Redistribution and use in source and binary forms, with or without
@@ -56,5 +54,3 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''';
 }
-
-

@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -28,10 +28,14 @@ void main(List<String> arguments) async {
     ..addFlag(about, help: 'Prints information about the application', negatable: false, defaultsTo: false)
     ..addFlag(builtin, abbr: 'b', help: 'Add the builtin ruleset', negatable: true, defaultsTo: true)
     ..addFlag(show, abbr: 's', help: 'Prints a XML file to the console with every possible option', negatable: false)
-    ..addFlag(generateRules,abbr: 'g',help: 'Prints the builtin ruleset as XML string',negatable: false)
-    ..addFlag(verbose,abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
+    ..addFlag(generateRules, abbr: 'g', help: 'Prints the builtin ruleset as XML string', negatable: false)
+    ..addFlag(verbose, abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
     ..addFlag(quiet, abbr: 'q', help: 'Suppress output to console. Overrides verbose.', negatable: false, defaultsTo: false)
-    ..addFlag(dry,abbr: 'd',help:'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
+    ..addFlag(dry,
+        abbr: 'd',
+        help: 'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests',
+        negatable: false,
+        defaultsTo: false)
     ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
     ..addOption(format, abbr: 'f', help: 'Sets the report file format', allowed: ['html', 'md', 'xml', 'all', 'none'], defaultsTo: 'html')
     ..addMultiOption(rules, abbr: 'r', help: 'Load the rules from the given XML Document', valueHelp: 'path to XML file');
@@ -82,7 +86,7 @@ void main(List<String> arguments) async {
     print('Unsupported output format: $reportFormatStr');
     printUsage(parser);
   }
-  
+
   var ruleDocuments = argResults[rules];
   var _verbose = argResults[verbose];
   var _quiet = argResults[quiet];
@@ -92,11 +96,8 @@ void main(List<String> arguments) async {
   }
 
   var _builtin = (ruleDocuments.isNotEmpty && argResults.wasParsed(builtin) && argResults[builtin]) || (ruleDocuments.isEmpty && argResults[builtin]);
-  var mutations = MutationTest(
-          argResults.rest, argResults[output], _verbose, argResults[dry], fmt,
-          ruleFiles: ruleDocuments,
-          builtinRules: _builtin,
-          quiet: _quiet);
+  var mutations =
+      MutationTest(argResults.rest, argResults[output], _verbose, argResults[dry], fmt, ruleFiles: ruleDocuments, builtinRules: _builtin, quiet: _quiet);
 
   ProcessSignal.sigint.watch().listen((signal) {
     print('\nReceived system interrupt!');
@@ -128,7 +129,7 @@ void handleProcessingError([String errorMessage = '']) {
 }
 
 void printHelp(var parser) {
-    print('''
+  print('''
 Usage : mutation-test <options> <input xml or source files...>  
 A program that mutates your source code and verifies that the test commands
 specified in the input xml files are sensitive to those changes. Mutations

@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -9,7 +9,7 @@ class MutationError implements Exception {
   MutationError(this.cause);
 
   @override
-  String toString(){
-    return 'Error: '+cause;
+  String toString() {
+    return 'Error: ' + cause;
   }
 }

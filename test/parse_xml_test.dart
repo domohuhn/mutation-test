@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -27,41 +27,53 @@ void main() {
 
   test('Input error - wrong version', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_wrongVersion);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_wrongVersion);
+    }, throwsException);
   });
 
   test('Input error - lines', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_noLineAttributes);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_noLineAttributes);
+    }, throwsException);
   });
 
   test('Input error - token', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_noTokenAttributes);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_noTokenAttributes);
+    }, throwsException);
   });
 
   test('Input error - regex', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_noRegexAttributes);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_noRegexAttributes);
+    }, throwsException);
   });
 
   test('Input error - literal', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_noLiteralAttributes);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_noLiteralAttributes);
+    }, throwsException);
   });
 
   test('Input error - mutation', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_noMutationAttributes);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_noMutationAttributes);
+    }, throwsException);
   });
 
   test('Input error - no replacement rule', () {
     final configuration = Configuration(false, true);
-    expect(() {configuration.parseXMLString(_noMutationChild);}, throwsException);
+    expect(() {
+      configuration.parseXMLString(_noMutationChild);
+    }, throwsException);
   });
-     
 }
-
 
 String _wrongVersion = '''
 <?xml version="1.0" encoding="UTF-8"?>

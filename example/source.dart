@@ -1,23 +1,21 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
 int conditions(int a, int b, int c) {
-  if (a==b && (a<c || b>c || b==c)) {
-    return a+c;
-  } else if (b<= 0 && c > 0) {
-    return a-b;
+  if (a == b && (a < c || b > c || b == c)) {
+    return a + c;
+  } else if (b <= 0 && c > 0) {
+    return a - b;
   }
-  for(var i=0;i<10;++i) {
-  }
-  var i=0;
-  while(i<10) {
+  for (var i = 0; i < 10; ++i) {}
+  var i = 0;
+  while (i < 10) {
     ++i;
   }
   return a * b + c;
 }
 
 double poly(double x, double a, double b, double c) {
-  return a*x*x + b * x + c;
+  return a * x * x + b * x + c;
 }
-

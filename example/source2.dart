@@ -1,8 +1,6 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
-
-
 
 /* a multi line
  * comment
@@ -14,25 +12,22 @@ class TestData {
   bool on = false;
 
   double calc(double x) {
-    return number1*x/number2;
+    return number1 * x / number2;
   }
 
- // just a weird example ...
+  // just a weird example ...
   String format(double y) {
-    if (y<=0.0 && text != '') {
+    if (y <= 0.0 && text != '') {
       return '$text $y';
-    } else if ( y==0.0
-      && text != '') {
+    } else if (y == 0.0 && text != '') {
       return '$text $y';
     }
     return 'default $y';
   }
 
   void changeState(dynamic event) {
-    if (event.a && event.b && (event.c || event.d || (event.f&&event.g)) && event.e) {
+    if (event.a && event.b && (event.c || event.d || (event.f && event.g)) && event.e) {
       on = true;
     }
   }
-
 }
-

@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 import 'dart:math';
@@ -7,65 +7,66 @@ import 'dart:math';
 /// Indexing starts at 1.
 int findLineFromPosition(String text, int position) {
   var rv = 0;
-  for(var i=0; i<min(text.length,position); i++) {
-    if(text[i]=='\n') {
+  for (var i = 0; i < min(text.length, position); i++) {
+    if (text[i] == '\n') {
       rv += 1;
     }
   }
-  return rv+1;
+  return rv + 1;
 }
 
 /// Finds the start position of the line at [position] in a multiline [text].
 int findBeginOfLineFromPosition(String text, int position) {
-  var rv = findFirstTokenBeforePosition(text,position,'\n');
-  return rv>=0 ? rv+1 : 0;
+  var rv = findFirstTokenBeforePosition(text, position, '\n');
+  return rv >= 0 ? rv + 1 : 0;
 }
 
 /// Finds the start position of the first [token] before [position] in [text].
 int findFirstTokenBeforePosition(String text, int position, String token) {
-  return text.lastIndexOf(token,position);
+  return text.lastIndexOf(token, position);
 }
 
 /// Finds the start position of the first [token] after [position] in [text].
 int findFirstTokenAfterPosition(String text, int position, String token) {
-  return text.indexOf(token,position);
+  return text.indexOf(token, position);
 }
 
 /// Finds the end position of the line at [position] in a multiline [text].
 int findEndOfLineFromPosition(String text, int position) {
-  var rv = findFirstTokenAfterPosition(text,position,'\n');
-  return rv>=0 ? rv : text.length;
+  var rv = findFirstTokenAfterPosition(text, position, '\n');
+  return rv >= 0 ? rv : text.length;
 }
 
 /// Converts the inputs to a percentage string "[fraction]/[total]%"
 String asPercentString(int fraction, int total) {
   var percent = 0.0;
-  if (total>0) {
-    percent = 100.0*fraction/total;
+  if (total > 0) {
+    percent = 100.0 * fraction / total;
   }
   return '${percent.toStringAsFixed(2)}%';
 }
 
 /// Creates a report file name from the [input] file in directory [outpath]
 /// with the given file [ext].
-String createReportFileName(String input, String outpath, String ext, {bool appendReport = true, bool removePathsFromInput = true, bool removeInputExt = true}) {
+String createReportFileName(String input, String outpath, String ext,
+    {bool appendReport = true, bool removePathsFromInput = true, bool removeInputExt = true}) {
   var start = 0;
-  if(removePathsFromInput) {
+  if (removePathsFromInput) {
     if (input.contains('/')) {
-      start = input.lastIndexOf('/')+1;
+      start = input.lastIndexOf('/') + 1;
     } else if (input.contains('\\')) {
-      start = input.lastIndexOf('\\')+1;
+      start = input.lastIndexOf('\\') + 1;
     }
   }
   var end = -1;
-  if(removeInputExt) {
+  if (removeInputExt) {
     end = input.lastIndexOf('.');
   }
   if (end == -1) {
     end = input.length;
   }
-  var name = '$outpath/${input.substring(start,end)}';
-  if(appendReport) {
+  var name = '$outpath/${input.substring(start, end)}';
+  if (appendReport) {
     name += '-report';
   }
   name += '.$ext';
@@ -76,14 +77,14 @@ String createReportFileName(String input, String outpath, String ext, {bool appe
 String getDirectory(String path) {
   var end = 0;
   if (path.contains('/')) {
-    end = path.lastIndexOf('/')+1;
+    end = path.lastIndexOf('/') + 1;
   } else if (path.contains('\\')) {
-    end = path.lastIndexOf('\\')+1;
+    end = path.lastIndexOf('\\') + 1;
   }
   if (end == -1) {
     return '';
   }
-  return path.substring(0,end);
+  return path.substring(0, end);
 }
 
 /// Escapes characters for xml
@@ -104,12 +105,12 @@ String formatDuration(Duration dur) {
   var mins = dur.inMinutes.remainder(60);
   var secs = dur.inSeconds.remainder(60);
   var rv = '';
-  if (hrs>100) {
+  if (hrs > 100) {
     return '100+h';
-  } else if (hrs>0) {
+  } else if (hrs > 0) {
     rv += '${hrs}h ';
   }
-  if(mins>0||hrs>0) {
+  if (mins > 0 || hrs > 0) {
     rv += '${mins}m ';
   }
   rv += '${secs}s';
@@ -117,13 +118,13 @@ String formatDuration(Duration dur) {
 }
 
 /// Creates the prefix for a link back to the top.
-String createParentLinkPrefix(String path){
-  if(path.contains('/') || path.contains('\\')) {
+String createParentLinkPrefix(String path) {
+  if (path.contains('/') || path.contains('\\')) {
     var rv = '';
     var previous = false;
-    for(int i=0; i<path.length;++i) {
-      if(path[i] == '/' || path[i] == '\\') {
-        if(!previous) {
+    for (int i = 0; i < path.length; ++i) {
+      if (path[i] == '/' || path[i] == '\\') {
+        if (!previous) {
           rv += '../';
         }
         previous = true;

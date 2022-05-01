@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -15,23 +15,26 @@ import 'package:mutation_test/src/html_reporter.dart';
 enum ReportFormat {
   /// Creates the report as XML document.
   XML,
+
   /// Creates the report as markdown document.
   MARKDOWN,
+
   /// Creates the report as html documents.
   HTML,
+
   /// Creates all reports at once.
   ALL,
+
   /// Creates no report.
   NONE
 }
-
 
 /// Creates the test report in directory [outputPath] from [inputFile]
 /// in the specified [format] using the [results].
 void createReport(ResultsReporter results, String outputPath, String inputFile, ReportFormat format) {
   results.write();
   results.sort();
-  switch(format) {
+  switch (format) {
     case ReportFormat.XML:
       results.writeXMLReport(outputPath, inputFile);
       break;
@@ -55,22 +58,27 @@ void createReport(ResultsReporter results, String outputPath, String inputFile, 
 class FileMutationResults {
   /// path to the file
   String path;
+
   /// contents of the file
   String contents;
+
   /// total mutation count per file
   int mutationCount = 0;
+
   /// detected count per file
   int detectedCount = 0;
+
   /// timeout count per file
   int timeoutCount = 0;
+
   /// undected mutations in this file
   List<MutatedLine> undetectedMutations;
 
-  FileMutationResults(this.path, this.mutationCount, this.contents) : undetectedMutations=[];
+  FileMutationResults(this.path, this.mutationCount, this.contents) : undetectedMutations = [];
 
   bool lineHasUndetectedMutation(int i) {
-    for(final m in undetectedMutations) {
-      if(m.line == i) {
+    for (final m in undetectedMutations) {
+      if (m.line == i) {
         return true;
       }
     }
@@ -85,13 +93,13 @@ class FileMutationResults {
 /// format.
 class ResultsReporter {
   /// statistics which command group caught how many mutations
-  final Map<String,int> _groupStatistics = {};
-  
+  final Map<String, int> _groupStatistics = {};
+
   /// stores the undetected mutations
-  final Map<String,FileMutationResults> testedFiles = {};
-  
+  final Map<String, FileMutationResults> testedFiles = {};
+
   /// stores the undetected mutations
-  final Map<String,List<MutatedLine>> _undetectedMutations = {};
+  final Map<String, List<MutatedLine>> _undetectedMutations = {};
 
   /// all files that were added as rules
   List<String> xmlFiles = [];
@@ -119,13 +127,13 @@ class ResultsReporter {
   /// This method will print to the command line if [verbose] is true.
   void addTestReport(String file, MutatedLine mutation, TestReport test, bool verbose) {
     _totalRuns += 1;
-    switch(test.result) {
+    switch (test.result) {
       case TestResult.Timeout:
         if (verbose) {
           print('Timeout for ${test.command}');
         }
         _totalTimeouts += 1;
-        if(testedFiles.containsKey(file)) {
+        if (testedFiles.containsKey(file)) {
           testedFiles[file]!.timeoutCount += 1;
         } else {
           throw MutationError('"$file" was not registered in the reporter!');
@@ -136,10 +144,10 @@ class ResultsReporter {
           print('Found mutation with ${test.command}');
         }
         if (test.command != null && test.command!.group.isNotEmpty) {
-          _groupStatistics.update(test.command!.group, (v) => v+1, ifAbsent: () => 1);
+          _groupStatistics.update(test.command!.group, (v) => v + 1, ifAbsent: () => 1);
         }
-        _totalFound += 1;        
-        if(testedFiles.containsKey(file)) {
+        _totalFound += 1;
+        if (testedFiles.containsKey(file)) {
           testedFiles[file]!.detectedCount += 1;
         } else {
           throw MutationError('"$file" was not registered in the reporter!');
@@ -149,7 +157,7 @@ class ResultsReporter {
         if (verbose) {
           print('Undetected mutation! All tests passed!');
         }
-        addMutation(file,mutation);
+        addMutation(file, mutation);
         break;
     }
   }
@@ -159,9 +167,8 @@ class ResultsReporter {
   void startFileTest(String path, int count, String contents) {
     if (testedFiles.containsKey(path)) {
       testedFiles[path]!.mutationCount += count;
-    }
-    else {
-      testedFiles[path] = FileMutationResults(path,count,contents);
+    } else {
+      testedFiles[path] = FileMutationResults(path, count, contents);
     }
   }
 
@@ -170,21 +177,25 @@ class ResultsReporter {
 
   /// Reports the count of test commands that timed out.
   int get totalTimeouts => _totalTimeouts;
-  
+
   /// Reports the count of detected mutations.
   int get foundMutations => _totalFound;
 
   /// Reports the count of undetected mutations.
-  int get undetectedMutations => _totalRuns-_totalFound;
+  int get undetectedMutations => _totalRuns - _totalFound;
 
   /// Reports the percentage of undetected mutations of the total mutations.
-  double get undetectedFraction => (100.0*undetectedMutations)/_totalRuns;
+  double get undetectedFraction => (100.0 * undetectedMutations) / _totalRuns;
+
   /// Reports the percentage of detected mutations of the total mutations.
-  double get detectedFraction => 100.0-(100.0*undetectedMutations)/_totalRuns;
+  double get detectedFraction => 100.0 - (100.0 * undetectedMutations) / _totalRuns;
+
   /// Reports the percentage of mutations that ran into the timeout.
-  double get timeoutFraction => (100.0*totalTimeouts)/_totalRuns;
+  double get timeoutFraction => (100.0 * totalTimeouts) / _totalRuns;
+
   /// Checks if the test run was successful.
   bool get success => quality.isSuccessful(detectedFraction);
+
   /// Gets the quality rating for this run.
   String get rating => quality.rating(detectedFraction);
 
@@ -193,16 +204,16 @@ class ResultsReporter {
     print('  --- Results ---');
     print('Test group statistics:');
     _groupStatistics.forEach((k, v) => print('  Group : $k, Found mutations: $v'));
-    print('\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations,_totalRuns)})');
+    print('\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations, _totalRuns)})');
     print('Timeouts: $_totalTimeouts');
     print('Elapsed: $elapsed');
     print('Success: $success, Quality rating: $rating');
   }
-  
+
   /// Sorts mutations by lines.
   void sort() {
     _undetectedMutations.forEach((key, value) {
-      value.sort((lhs,rhs) => lhs.line.compareTo(rhs.line));
+      value.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
     });
   }
 
@@ -213,17 +224,15 @@ class ResultsReporter {
   void addMutation(String file, MutatedLine mutation) {
     if (_undetectedMutations.containsKey(file)) {
       var list = _undetectedMutations[file];
-      if(list == null) {
+      if (list == null) {
         _undetectedMutations[file] = [mutation];
-      }
-      else {
+      } else {
         list.add(mutation);
       }
-    }
-    else {
+    } else {
       _undetectedMutations[file] = [mutation];
     }
-    if(testedFiles.containsKey(file)) {
+    if (testedFiles.containsKey(file)) {
       testedFiles[file]!.undetectedMutations.add(mutation);
     } else {
       throw MutationError('"$file" was not registered in the reporter!');
@@ -238,7 +247,7 @@ class ResultsReporter {
     text += '<elapsed>$elapsed</elapsed>\n';
     text += '<result rating="$rating" success="$success"/>\n';
     text += '<rules>\n';
-    for(final element in xmlFiles) {
+    for (final element in xmlFiles) {
       text += '<ruleset document="$element"/>';
     }
     text += '</rules>\n';
@@ -253,8 +262,8 @@ class ResultsReporter {
       text += '</file>\n';
     });
     text += '</undetected-mutations>\n';
-    final name = createReportFileName(input,outpath,'xml');
-    _createPathsAndWriteFile(name,text);
+    final name = createReportFileName(input, outpath, 'xml');
+    _createPathsAndWriteFile(name, text);
   }
 
   /// Writes the results of the tests to a markdown file in directory [outpath].
@@ -269,33 +278,32 @@ class ResultsReporter {
       }
       text += '\n\n';
     });
-    final name = createReportFileName(input,outpath,'md');
-    _createPathsAndWriteFile(name,text);
+    final name = createReportFileName(input, outpath, 'md');
+    _createPathsAndWriteFile(name, text);
   }
 
   /// Writes the results of the tests to a html file in directory [outpath].
   /// The report will be named like the [input], but ending with "-report.html".
   void writeHTMLReport(String outpath, String input) {
     var index = createToplevelHtmlFile(this);
-    var fname = createReportFileName('index',outpath,'html', appendReport: false);
-    _createPathsAndWriteFile(fname,index);
+    var fname = createReportFileName('index', outpath, 'html', appendReport: false);
+    _createPathsAndWriteFile(fname, index);
     testedFiles.forEach((key, value) {
-      var contents = createSourceHtmlFile(this,value);
-      var sname = createReportFileName(key,outpath,'html', appendReport: false, removeInputExt: false, removePathsFromInput: false);
-      _createPathsAndWriteFile(sname,contents);
+      var contents = createSourceHtmlFile(this, value);
+      var sname = createReportFileName(key, outpath, 'html', appendReport: false, removeInputExt: false, removePathsFromInput: false);
+      _createPathsAndWriteFile(sname, contents);
     });
   }
 
   void _createPathsAndWriteFile(String path, String text) {
     final dir = getDirectory(path);
-    if(dir.isNotEmpty) {
-      if(!Directory(dir).existsSync()){
+    if (dir.isNotEmpty) {
+      if (!Directory(dir).existsSync()) {
         Directory(dir).createSync(recursive: true);
       }
     }
     File(path).writeAsStringSync(text);
   }
-
 
   String _createMarkdownHeader() {
     var rv = '''# Mutation report
@@ -306,7 +314,7 @@ ${DateTime.now()}
 | Key           | Value                     |
 | ------------- | ------------------------- |
 ''';
-    for(final element in xmlFiles) {
+    for (final element in xmlFiles) {
       rv += '| Rules         | $element           |\n';
     }
     rv += '''
@@ -316,11 +324,11 @@ ${DateTime.now()}
 | Undetected    | $undetectedMutations                        |
 | Undetected%   | ${asPercentString(undetectedMutations, _totalRuns)}                        |
 ''';
-    _groupStatistics.forEach((k, v){rv += '| Detected by: $k            | $v         |\n';});
+    _groupStatistics.forEach((k, v) {
+      rv += '| Detected by: $k            | $v         |\n';
+    });
     rv += '| Quality Rating | $rating |\n';
     rv += '| Success | $success |\n';
-    return rv+'\n\n';
+    return rv + '\n\n';
   }
-
-
 }

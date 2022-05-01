@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -57,5 +57,4 @@ void main() {
     expect(ratings.rating(100.0), 'N/A');
     expect(ratings.isSuccessful(79.999), true);
   });
-
 }

@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 import 'package:mutation_test/src/string_helpers.dart';
@@ -25,41 +25,40 @@ void main() {
     expect(findEndOfLineFromPosition(text, 45), 48);
   });
 
-  test('report file name', (){
-    var moo = createReportFileName('input.cpp','output','html');
+  test('report file name', () {
+    var moo = createReportFileName('input.cpp', 'output', 'html');
     expect(moo, 'output/input-report.html');
   });
 
-  test('report file name forwardslash', (){
-    var moo = createReportFileName('before/input.cpp','output','html');
+  test('report file name forwardslash', () {
+    var moo = createReportFileName('before/input.cpp', 'output', 'html');
     expect(moo, 'output/input-report.html');
   });
 
-  test('report file name backslash', (){
-    var moo = createReportFileName('before\\input.cpp','output','html');
+  test('report file name backslash', () {
+    var moo = createReportFileName('before\\input.cpp', 'output', 'html');
     expect(moo, 'output/input-report.html');
   });
 
-  test('percent string', (){
-    var moo = asPercentString(25,100);
+  test('percent string', () {
+    var moo = asPercentString(25, 100);
     expect(moo, '25.00%');
   });
 
-  test('convert to xml', (){
+  test('convert to xml', () {
     var moo = convertToXML('<&"\'>');
     expect(moo, '&lt;&amp;&quot;&apos;&gt;');
   });
 
-  test('formatDuration', (){
+  test('formatDuration', () {
     var moo = formatDuration(Duration(hours: 1));
     expect(moo, '1h 0m 0s');
   });
 
-  test('convertToMarkdown', (){
+  test('convertToMarkdown', () {
     // ignore: unnecessary_string_escapes
     var moo = convertToMarkdown('\*');
     // ignore: unnecessary_string_escapes
     expect(moo, '\\\*');
   });
 }
-

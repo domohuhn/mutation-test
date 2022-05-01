@@ -1,4 +1,4 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
@@ -165,16 +165,10 @@ String _xmlRules() {
 
 /// Returns the builtin mutation rules as String
 String builtinMutationRules() {
-  return _xmlStart()+_xmlRules()+_xmlEnd();
+  return _xmlStart() + _xmlRules() + _xmlEnd();
 }
 
 /// Returns a complete example file
 String fullXMLFile() {
-  return _xmlStart()+_xmlInputs()+_xmlRules()+_xmlEnd();
+  return _xmlStart() + _xmlInputs() + _xmlRules() + _xmlEnd();
 }
-
-
-
-
-
-

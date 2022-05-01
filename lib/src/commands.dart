@@ -1,9 +1,9 @@
-/// Copyright 2021, domohuhn. 
+/// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
 /// A command to check if a mutation survives your tests.
-/// 
+///
 /// The return value of the command is checked against the expectedReturnValue to determine success.
 class Command {
   String group = '';
@@ -21,4 +21,3 @@ class Command {
     return 'Command: "$original"';
   }
 }
-
