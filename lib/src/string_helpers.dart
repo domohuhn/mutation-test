@@ -67,6 +67,7 @@ String convertToXML(String input) {
 
 /// Escapes characters for markdown
 String convertToMarkdown(String input) {
+  // ignore: unnecessary_string_escapes
   return input.replaceAll('\*', '\\\*');
 }
 

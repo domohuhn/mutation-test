@@ -165,7 +165,9 @@ class ResultsReporter {
     text += '<elapsed>$elapsed</elapsed>\n';
     text += '<result rating="$rating" success="$success"/>\n';
     text += '<rules>\n';
-    xmlFiles.forEach((element) { text += '<ruleset document="$element"/>'; });
+    for(final element in xmlFiles) {
+      text += '<ruleset document="$element"/>';
+    }
     text += '</rules>\n';
     _undetectedMutations.forEach((key, value) {
       text += '<file name="$key">\n';
@@ -189,6 +191,7 @@ class ResultsReporter {
     _undetectedMutations.forEach((key, value) {
       text += '## Undetected mutations in file : $key\n';
       for (final mut in value) {
+        // ignore: unnecessary_string_escapes
         text += mut.toMarkdown().replaceAll('*', '\*');
       }
       text += '\n\n';
@@ -204,6 +207,7 @@ class ResultsReporter {
     _undetectedMutations.forEach((key, value) {
       text += '<h2>Undetected mutations in file : $key</h2>\n';
       for (final mut in value) {
+        // ignore: unnecessary_string_escapes
         text += mut.toHTML().replaceAll('*', '\*');
       }
       text += '\n\n';
@@ -220,9 +224,11 @@ ${DateTime.now()}
 
 | Key           | Value                     |
 | ------------- | ------------------------- |
-'''; 
-  xmlFiles.forEach((element) { rv += '| Rules         | $element           |\n'; });
-  rv += '''
+''';
+    for(final element in xmlFiles) {
+      rv += '| Rules         | $element           |\n';
+    }
+    rv += '''
 | Mutations     | $_totalRuns                        |
 | Elapsed     | $elapsed                        |
 | Timeouts      | $_totalTimeouts                        |
@@ -248,7 +254,9 @@ table tbody tr td { min-width:100px; padding: 7px; }
 <table>
 <thead><tr><th>Key</th><th>Value</th></tr></thead>
 <tbody>\n''';
-  xmlFiles.forEach((element) { rv += '<tr><td>Rules</td><td>$element</td></tr>\n'; });
+    for(final element in xmlFiles) {
+      rv += '<tr><td>Rules</td><td>$element</td></tr>\n';
+    }
   rv += '''<tr><td>Mutations</td><td>$_totalRuns</td></tr>
 <tr><td>Elapsed</td><td>$elapsed</td></tr>
 <tr><td>Timeouts</td><td>$_totalTimeouts</td></tr>

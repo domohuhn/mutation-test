@@ -7,7 +7,7 @@ import 'dart:io';
 
 void main(List<String> arguments) async {
   final help = 'help';
-  final generate_rules = 'generate-rules';
+  final generateRules = 'generate-rules';
   final show = 'show-example';
   final rules = 'rules';
   final builtin = 'builtin';
@@ -25,7 +25,7 @@ void main(List<String> arguments) async {
     ..addFlag(about, help: 'Prints information about the application', negatable: false, defaultsTo: false)
     ..addFlag(builtin, abbr: 'b', help: 'Add the builtin ruleset', negatable: true, defaultsTo: true)
     ..addFlag(show, abbr: 's', help: 'Prints a XML file to the console with every possible option', negatable: false)
-    ..addFlag(generate_rules,abbr: 'g',help: 'Prints the builtin ruleset as XML string',negatable: false)
+    ..addFlag(generateRules,abbr: 'g',help: 'Prints the builtin ruleset as XML string',negatable: false)
     ..addFlag(verbose,abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
     ..addFlag(quiet, abbr: 'q', help: 'Suppress output to console. Overrides verbose.', negatable: false, defaultsTo: false)
     ..addFlag(dry,abbr: 'd',help:'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests', negatable: false, defaultsTo: false)
@@ -54,7 +54,7 @@ void main(List<String> arguments) async {
   if (argResults[show] as bool) {
     printExample();
   }
-  if (argResults[generate_rules] as bool) {
+  if (argResults[generateRules] as bool) {
     printExampleRules();
   }
 
