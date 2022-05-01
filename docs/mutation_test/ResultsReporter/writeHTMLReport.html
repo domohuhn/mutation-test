@@ -79,18 +79,6 @@ The report will be named like the <code>input</code>, but ending with "-report.h
     var sname = createReportFileName(key,outpath,&#39;html&#39;, appendReport: false, removeInputExt: false, removePathsFromInput: false);
     _createPathsAndWriteFile(sname,contents);
   });
-
-  &#47;*var text = _createHTMLHeader();
-  _undetectedMutations.forEach((key, value) {
-    text += &#39;&lt;h2&gt;Undetected mutations in file : $key&lt;&#47;h2&gt;\n&#39;;
-    for (final mut in value) {
-      &#47;&#47; ignore: unnecessary_string_escapes
-      text += mut.toHTML().replaceAll(&#39;*&#39;, &#39;\*&#39;);
-    }
-    text += &#39;\n\n&#39;;
-  });
-  final name = createReportFileName(input,outpath,&#39;html&#39;);
-  File(name).writeAsStringSync(text);*&#47;
 }</code></pre>
 </section>
 

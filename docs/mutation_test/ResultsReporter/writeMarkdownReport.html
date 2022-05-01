@@ -81,7 +81,7 @@ The report will be named like the <code>input</code>, but ending with "-report.m
     text += &#39;\n\n&#39;;
   });
   final name = createReportFileName(input,outpath,&#39;md&#39;);
-  File(name).writeAsStringSync(text);
+  _createPathsAndWriteFile(name,text);
 }</code></pre>
 </section>
 

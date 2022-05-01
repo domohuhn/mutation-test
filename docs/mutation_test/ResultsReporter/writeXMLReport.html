@@ -92,7 +92,7 @@ The report will be named like the <code>input</code>, but ending with "-report.x
   });
   text += &#39;&lt;&#47;undetected-mutations&gt;\n&#39;;
   final name = createReportFileName(input,outpath,&#39;xml&#39;);
-  File(name).writeAsStringSync(text);
+  _createPathsAndWriteFile(name,text);
 }</code></pre>
 </section>
 
