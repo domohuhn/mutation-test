@@ -52,3 +52,15 @@ jobs:
           path: |
             bin
             !bin/**/*.dart
+      - name: Coverage information
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          dart pub global activate test_coverage
+          test_coverage
+
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest'
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
