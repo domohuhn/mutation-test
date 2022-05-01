@@ -94,6 +94,7 @@ class MutationTest {
       data.contents = source;
 
       var count = await countMutations(data);
+      data.results.startFileTest(current.path,count);
       data.bar.startFile(current.path,count);
       if (dry || count==0) {
         continue;
@@ -136,7 +137,7 @@ class MutationTest {
       {List<String>? ruleFiles, bool addBuiltin=true}) {
     final configuration = Configuration(verbose, dry);
     final tests = TestRunner();
-    final reporter = ResultsReporter(inputFile);
+    final reporter = ResultsReporter(inputFile, addBuiltin);
     _testRunner = tests;
     if (ruleFiles!=null && ruleFiles.isNotEmpty) {
       for(final rf in ruleFiles) {

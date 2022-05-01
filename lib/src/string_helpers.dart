@@ -48,7 +48,7 @@ String asPercentString(int fraction, int total) {
 
 /// Creates a report file name from the [input] file in directory [outpath]
 /// with the given file [extension].
-String createReportFileName(String input, String outpath, String extension) {
+String createReportFileName(String input, String outpath, String extension, {bool appendReport = true}) {
   var start = 0;
   if (input.contains('/')) {
     start = input.lastIndexOf('/')+1;
@@ -56,8 +56,29 @@ String createReportFileName(String input, String outpath, String extension) {
     start = input.lastIndexOf('\\')+1;
   }
   var end = input.lastIndexOf('.');
-  var name = '$outpath/${input.substring(start,end)}-report.$extension';
+  if (end == -1) {
+    end = input.length;
+  }
+  var name = '$outpath/${input.substring(start,end)}';
+  if(appendReport) {
+    name += '-report';
+  }
+  name += '.$extension';
   return name;
+}
+
+/// Gets the directory from the given path [path].
+String getDirectory(String path) {
+  var end = 0;
+  if (path.contains('/')) {
+    end = path.lastIndexOf('/')+1;
+  } else if (path.contains('\\')) {
+    end = path.lastIndexOf('\\')+1;
+  }
+  if (end == -1) {
+    return '';
+  }
+  return path.substring(0,end);
 }
 
 /// Escapes characters for xml

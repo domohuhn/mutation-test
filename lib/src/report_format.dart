@@ -2,12 +2,14 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/errors.dart';
 import 'package:mutation_test/src/test_runner.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/mutation_test.dart';
 import 'package:mutation_test/src/ratings.dart';
 import 'dart:io';
 import 'package:mutation_test/src/string_helpers.dart';
+import 'package:mutation_test/src/html_reporter.dart';
 
 /// Format for the report file
 enum ReportFormat {
@@ -49,6 +51,22 @@ void createReport(ResultsReporter results, String outputPath, String inputFile, 
   }
 }
 
+/// Holds the report data for a file.
+class FileMutationResults {
+  /// path to the file
+  String path;
+  /// total mutation count per file
+  int mutationCount = 0;
+  /// detected count per file
+  int detectedCount = 0;
+  /// timeout count per file
+  int timeoutCount = 0;
+  /// undected mutations in this file
+  List<MutatedLine> undetectedMutations;
+
+  FileMutationResults(this.path, this.mutationCount) : undetectedMutations=[];
+}
+
 /// This class logs the mutations and can create report documents in different
 /// formats. See [ReportFormat] for the supported reports.
 ///
@@ -57,6 +75,9 @@ void createReport(ResultsReporter results, String outputPath, String inputFile, 
 class ResultsReporter {
   /// statistics which command group caught how many mutations
   final Map<String,int> _groupStatistics = {};
+  
+  /// stores the undetected mutations
+  final Map<String,FileMutationResults> testedFiles = {};
   
   /// stores the undetected mutations
   final Map<String,List<MutatedLine>> _undetectedMutations = {};
@@ -70,10 +91,14 @@ class ResultsReporter {
   Duration get elapsed => _timer.elapsed;
 
   /// Creates a test runner and adds [inputFile] to the xml input file list.
-  ResultsReporter(String inputFile) {
+  /// [builtinRulesAdded] sets the flag in the report file when the builtin rules were added.
+  ResultsReporter(String inputFile, this.builtinRulesAdded) {
     xmlFiles.add(inputFile);
     _timer.start();
   }
+
+  /// whether the builtin rules were added.
+  final bool builtinRulesAdded;
 
   int _totalFound = 0;
   int _totalRuns = 0;
@@ -89,6 +114,11 @@ class ResultsReporter {
           print('Timeout for ${test.command}');
         }
         _totalTimeouts += 1;
+        if(testedFiles.containsKey(file)) {
+          testedFiles[file]!.timeoutCount += 1;
+        } else {
+          throw MutationError('"$file" was not registered in the reporter!');
+        }
         break;
       case TestResult.Detected:
         if (verbose) {
@@ -97,7 +127,12 @@ class ResultsReporter {
         if (test.command != null && test.command!.group.isNotEmpty) {
           _groupStatistics.update(test.command!.group, (v) => v+1, ifAbsent: () => 1);
         }
-        _totalFound += 1;
+        _totalFound += 1;        
+        if(testedFiles.containsKey(file)) {
+          testedFiles[file]!.detectedCount += 1;
+        } else {
+          throw MutationError('"$file" was not registered in the reporter!');
+        }
         break;
       case TestResult.Undetected:
         if (verbose) {
@@ -108,6 +143,25 @@ class ResultsReporter {
     }
   }
 
+  /// Starts a test run on the file [path] with [count] mutations.
+  void startFileTest(String path, int count) {
+    if (testedFiles.containsKey(path)) {
+      testedFiles[path]!.mutationCount += count;
+    }
+    else {
+      testedFiles[path] = FileMutationResults(path,count);
+    }
+  }
+
+  /// Reports the count of performed mutations.
+  int get totalMutations => _totalRuns;
+
+  /// Reports the count of test commands that timed out.
+  int get totalTimeouts => _totalTimeouts;
+  
+  /// Reports the count of detected mutations.
+  int get foundMutations => _totalFound;
+
   /// Reports the count of undetected mutations.
   int get undetectedMutations => _totalRuns-_totalFound;
 
@@ -115,6 +169,8 @@ class ResultsReporter {
   double get undetectedFraction => (100.0*undetectedMutations)/_totalRuns;
   /// Reports the percentage of detected mutations of the total mutations.
   double get detectedFraction => 100.0-(100.0*undetectedMutations)/_totalRuns;
+  /// Reports the percentage of mutations that ran into the timeout.
+  double get timeoutFraction => (100.0*totalTimeouts)/_totalRuns;
   /// Checks if the test run was successful.
   bool get success => quality.isSuccessful(detectedFraction);
   /// Gets the quality rating for this run.
@@ -154,6 +210,11 @@ class ResultsReporter {
     }
     else {
       _undetectedMutations[file] = [mutation];
+    }
+    if(testedFiles.containsKey(file)) {
+      testedFiles[file]!.undetectedMutations.add(mutation);
+    } else {
+      throw MutationError('"$file" was not registered in the reporter!');
     }
   }
 
@@ -203,7 +264,10 @@ class ResultsReporter {
   /// Writes the results of the tests to a html file in directory [outpath].
   /// The report will be named like the [input], but ending with "-report.html".
   void writeHTMLReport(String outpath, String input) {
-    var text = _createHTMLHeader();
+    var index = createToplevelHtmlFile(this);
+    var fname = createReportFileName('index',outpath,'html', appendReport: false);
+    _createPathsAndWriteFile(fname,index);
+    /*var text = _createHTMLHeader();
     _undetectedMutations.forEach((key, value) {
       text += '<h2>Undetected mutations in file : $key</h2>\n';
       for (final mut in value) {
@@ -213,8 +277,19 @@ class ResultsReporter {
       text += '\n\n';
     });
     final name = createReportFileName(input,outpath,'html');
-    File(name).writeAsStringSync(text);
+    File(name).writeAsStringSync(text);*/
   }
+
+  void _createPathsAndWriteFile(String path, String text) {
+    final dir = getDirectory(path);
+    if(dir.isNotEmpty) {
+      if(!Directory(dir).existsSync()){
+        Directory(dir).createSync(recursive: true);
+      }
+    }
+    File(path).writeAsStringSync(text);
+  }
+
 
   String _createMarkdownHeader() {
     var rv = '''# Mutation report
