@@ -15,13 +15,13 @@ String createLicenseText() {
     return rv;
   }
   rv += '\n\n-------------------------------------------------------------------------------\nAdditional licenses:\n\n';
-  ext.forEach((key, value) {
-    final name = value['name'];
-    final version = value['version'];
-    final url = value['homepage'];
-    final license = value['license'];
+  for(final value in ext) {
+    final name = value.name;
+    final version = value.version;
+    final url = value.homepage;
+    final license = value.license;
     rv += 'package "$name" version: $version\n$url\n\n$license\n\n'; 
-  });
+  }
 
   return rv;
 }
