@@ -94,7 +94,7 @@ class MutationTest {
       data.contents = source;
 
       var count = await countMutations(data);
-      data.results.startFileTest(current.path,count);
+      data.results.startFileTest(current.path,count,data.contents);
       data.bar.startFile(current.path,count);
       if (dry || count==0) {
         continue;

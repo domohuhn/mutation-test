@@ -162,6 +162,19 @@ class MutatedLine {
     return rv;
   }
 
+  /// Formats the modified code for the Html reporting.
+  String formatMutatedCodeToHtml() {
+    var rv = '<span class="addedLine">';
+    rv += '+ ${mutated.substring(0,start)}';
+    rv += '<span class="changedTokens">';
+    var mutationEnd = end + mutated.length - original.length;
+    rv += mutated.substring(start,mutationEnd);
+    rv += '</span>';
+    rv += mutated.substring(mutationEnd);
+    rv += '</span>';
+    return rv;
+  }
+
   String _escapeChars(String text, bool doIt) {
     if (doIt) {
       return convertToMarkdown(text);

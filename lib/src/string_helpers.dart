@@ -47,15 +47,20 @@ String asPercentString(int fraction, int total) {
 }
 
 /// Creates a report file name from the [input] file in directory [outpath]
-/// with the given file [extension].
-String createReportFileName(String input, String outpath, String extension, {bool appendReport = true}) {
+/// with the given file [ext].
+String createReportFileName(String input, String outpath, String ext, {bool appendReport = true, bool removePathsFromInput = true, bool removeInputExt = true}) {
   var start = 0;
-  if (input.contains('/')) {
-    start = input.lastIndexOf('/')+1;
-  } else if (input.contains('\\')) {
-    start = input.lastIndexOf('\\')+1;
+  if(removePathsFromInput) {
+    if (input.contains('/')) {
+      start = input.lastIndexOf('/')+1;
+    } else if (input.contains('\\')) {
+      start = input.lastIndexOf('\\')+1;
+    }
   }
-  var end = input.lastIndexOf('.');
+  var end = -1;
+  if(removeInputExt) {
+    end = input.lastIndexOf('.');
+  }
   if (end == -1) {
     end = input.length;
   }
@@ -63,7 +68,7 @@ String createReportFileName(String input, String outpath, String extension, {boo
   if(appendReport) {
     name += '-report';
   }
-  name += '.$extension';
+  name += '.$ext';
   return name;
 }
 
@@ -92,6 +97,8 @@ String convertToMarkdown(String input) {
   return input.replaceAll('\*', '\\\*');
 }
 
+/// Formats duration [dur] in the range 0 - 100h.
+/// If the value is outside of the range, 100+h is displayed.
 String formatDuration(Duration dur) {
   var hrs = dur.inHours;
   var mins = dur.inMinutes.remainder(60);
@@ -107,4 +114,24 @@ String formatDuration(Duration dur) {
   }
   rv += '${secs}s';
   return rv;
+}
+
+/// Creates the prefix for a link back to the top.
+String createParentLinkPrefix(String path){
+  if(path.contains('/') || path.contains('\\')) {
+    var rv = '';
+    var previous = false;
+    for(int i=0; i<path.length;++i) {
+      if(path[i] == '/' || path[i] == '\\') {
+        if(!previous) {
+          rv += '../';
+        }
+        previous = true;
+      } else {
+        previous = false;
+      }
+    }
+    return rv;
+  }
+  return './';
 }

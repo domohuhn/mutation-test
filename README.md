@@ -20,7 +20,8 @@ mutation-test example/config.xml
 mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml \
     source1.cpp source2.cpp
 ```
-The first command in the section above would produce the reports in [example folder](example/config-report.md).
+The first command in the section above would produce the following [report](example/config-report.md).
+Check also the [examples folder](https://github.com/domohuhn/mutation-test/tree/main/example) for the inputs.
 
 ## Features
   - Fully configurable mutation rules via XML documents and regular expressions

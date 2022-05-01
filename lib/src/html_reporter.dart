@@ -3,10 +3,98 @@
 /// See LICENSE for the full text of the license
 
 import 'package:mutation_test/mutation_test.dart';
+import 'package:mutation_test/src/string_helpers.dart';
 
 String createToplevelHtmlFile(ResultsReporter reporter) {
-  var rv = createHtmlFileHeader(reporter);
+  var rv = createHtmlFileHeader(reporter,'top level',reporter.totalMutations, reporter.foundMutations, reporter.totalTimeouts, true);
+  rv += '''
+<center>
+<table width ="80%" cellspacing="1" border="0">
+     <tbody>
+     <tr><td width="55%"></td><td width="15%"></td><td width="15%"></td><td width="15%"></td></tr>
+     <tr><td class="ItemHead" width="55%">Path</td><td class="ItemHead" width="45%" colspan="3">Detection rate</td></tr>
+''';
+  reporter.testedFiles.forEach((key, value) {
+    rv += createFileReportLine(key,value.mutationCount, value.detectedCount);
+  });
 
+  rv += '''
+    </tbody>
+</table>
+</center>
+
+
+''';
+  rv += createHtmlFooter();
+  return rv;
+}
+
+String removeNewline(String s){
+  if(s.endsWith('\n') || s.endsWith('\r')) {
+    return s.substring(0,s.length-1);
+  }
+  else if(s.endsWith('\r\n')) {
+    return s.substring(0,s.length-2);
+  }
+  return s;
+}
+
+String createMutationList(int line, FileMutationResults file) {
+  var rv = '<b>Undected mutations:</b>\n<table class="mutationTable">\n';
+  int i = 1;
+  for(final mut in file.undetectedMutations) {
+    if (line==mut.line) {
+      if(i>1) {
+        rv += '<tr><td colspan="2"><hr class="ruler"/></td></tr>';
+      }
+      rv += '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHtml()}</td></tr>';
+      ++i;
+    }
+  }
+  return rv + '</table>';
+}
+
+String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file) {
+  var rv = createHtmlFileHeader(reporter,file.path,file.mutationCount, file.detectedCount, file.timeoutCount, false);
+  rv += '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
+  var i=1;
+  for(final src in file.contents.split('\n')) {
+    final fmtln = removeNewline(src);
+    if(file.lineHasUndetectedMutation(i)) {
+      rv += '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button><div class="content">
+${createMutationList(i,file)}
+</div></a>''';
+    } else {
+      rv += '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n';
+    }
+    ++i;
+  }
+  rv += '</pre>\n';
+  rv += '''
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+	for (k = 0; k < coll.length; k++) {
+      var content2 = coll[k].nextElementSibling;
+      if (content2.style.maxHeight && content.parentElement == content2){
+      content2.style.maxHeight = content2.scrollHeight + content.scrollHeight + "px";
+    }
+      
+    }
+    
+  });
+}
+</script>''';
   rv += createHtmlFooter();
   return rv;
 }
@@ -21,8 +109,13 @@ String selectColor(double pct){
   }
 }
 
-String createHtmlFileHeader(ResultsReporter reporter) {
-
+String createHtmlFileHeader(ResultsReporter reporter, String current, int total, int detected, int timeouts, bool isToplevel) {
+  var detectedFraction = 100.0 * detected/total;
+  var timeoutFraction = 100.0 * timeouts/total;
+  var locationText = current;
+  if(!isToplevel) {
+    locationText += ' - <a href="${createParentLinkPrefix(current)}index.html">back to top</a>';
+  }
   var rv = '''
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +135,7 @@ String createHtmlFileHeader(ResultsReporter reporter) {
      <table width="100%" cellpadding="1" border="0">
      <tbody><tr>
      <td class="ItemLabel" width="10%">Current display:</td>
-     <td class="ItemText" width="35%">top level</td>
+     <td class="ItemText" width="35%">$locationText</td>
      <td width="10%"></td>
      <td class="MiddleHeader" width="15%">Detected</td>
      <td class="MiddleHeader" width="15%">Total</td>
@@ -53,20 +146,22 @@ String createHtmlFileHeader(ResultsReporter reporter) {
      <td class="ItemLabel" width="10%">Date:</td>
      <td class="ItemText" width="35%">${DateTime.now()}</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
-     <td class="ItemReport" width="15%">${reporter.foundMutations}</td>
-     <td class="ItemReport" width="15%">${reporter.totalMutations}</td>
-     <td class="${selectColor(reporter.detectedFraction)}" width="15%">${reporter.detectedFraction.toStringAsFixed(1)} %</td>
+     <td class="ItemReport" width="15%">$detected</td>
+     <td class="ItemReport" width="15%">$total</td>
+     <td class="${selectColor(detectedFraction)}" width="15%">${detectedFraction.toStringAsFixed(1)} %</td>
      </tr>
      
      <tr>
      <td class="ItemLabel" width="10%">Builtin rules:</td>
      <td class="ItemText" width="35%">${reporter.builtinRulesAdded}</td>
      <td class="ItemLabel" width="10%">Timeouts:</td>
-     <td class="ItemReport" width="15%">${reporter.totalTimeouts}</td>
-     <td class="ItemReport" width="15%">${reporter.totalMutations}</td>
-     <td class="${selectColor(100.0 - reporter.timeoutFraction)}" width="15%">${reporter.timeoutFraction.toStringAsFixed(1)} %</td>
+     <td class="ItemReport" width="15%">$timeouts</td>
+     <td class="ItemReport" width="15%">$total</td>
+     <td class="${selectColor(100.0 - timeoutFraction)}" width="15%">${timeoutFraction.toStringAsFixed(1)} %</td>
      </tr>
-
+''';
+  if(isToplevel) {
+    rv += '''
      <tr>
      <td class="ItemLabel" width="10%">Quality rating:</td>
      <td class="ItemText" width="35%">${reporter.rating}</td>
@@ -75,7 +170,10 @@ String createHtmlFileHeader(ResultsReporter reporter) {
      <td class="ItemText" width="15%"></td>
      <td class="ItemText" width="15%"></td>
      </tr>
+  ''';
+  }
 
+  rv += '''
      </tbody>
      </table>
      </td>
@@ -85,22 +183,6 @@ String createHtmlFileHeader(ResultsReporter reporter) {
      
      <tr><td><hr class="ruler"/></td></tr>
 </table>
-
-<center>
-<table width ="80%" cellspacing="1" border="0">
-     <tbody>
-     <tr><td width="55%"></td><td width="15%"></td><td width="15%"></td><td width="15%"></td></tr>
-     <tr><td class="ItemHead" width="55%">Path</td><td class="ItemHead" width="45%" colspan="3">Detection rate</td></tr>
-''';
-  reporter.testedFiles.forEach((key, value) {
-    rv += createFileReportLine(key,value.mutationCount, value.detectedCount);
-  });
-
-  rv += '''
-    </tbody>
-</table>
-</center>
-
 
 ''';
 
@@ -117,26 +199,12 @@ String createFileReportLine(String path, int mutations, int detected) {
     <td class="barLo" width="${100.0-percentage}%" height="10"></td>
   </table>
   </td>
-  <td class="${selectColor(percentage)}" width="15%">$percentage %</td>
+  <td class="${selectColor(percentage)}" width="15%">${percentage.toStringAsFixed(1)} %</td>
   <td class="${selectColor(percentage)}" width="15%">$detected / $mutations</td>
 </tr>
 ''';
 }
-/*
-     <tr>
-     <td class="ItemLabel" width="10%">Left</td>
-     <td class="ItemText" width="35%">some text</td>
-     <td width="10%"></td>
-     <td width="15%">
-       <table width="100%" cellpadding="0" border="1">
-         <td class="barHi" width="75%" height="10"></td>
-         <td class="barLo" width="25%" height="10"></td>
-       </table>
-     </td>
-     <td width="15%">75%</td>
-     <td width="15%">c</td>
-     </tr>
-     */
+
 String createHtmlFooter() {
   return '''
 <table width ="100%" cellspacing="0" border="0">
@@ -152,19 +220,42 @@ String createHtmlFooter() {
 String getCSSFileContents() {
   return '''
 .collapsible {
-  background-color: #777;
-  color: white;
+  background-color: #FF6230;
+  color: black;
   cursor: pointer;
-  padding: 18px;
+  padding: 0px;
   width: 100%;
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
 }
 
 .active, .collapsible:hover {
-  background-color: #555;
+  background-color: #FF0000;
+}
+
+span.lineNumber
+{
+  display: inline-block;
+  background-color: #EFE383;
+}
+
+.addedLine {
+background-color: rgb(200, 255, 200)
+}
+.changedTokens {
+background-color: rgb(50, 255, 50)
+}
+
+pre
+{
+  font-family: monospace;
+  white-space: pre;
+}
+
+pre.fileContents
+{
+  margin: 0px;
 }
 
 .content {
@@ -210,6 +301,22 @@ td.ItemLabel
   vertical-align: top;
   white-space: nowrap;
 }
+
+td.mutationLabel
+{
+  text-align: right;
+  padding-right: 6px;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+td.mutationText
+{
+  text-align: left;
+  vertical-align: top;
+}
+
+
 
 td.ItemText
 {
@@ -265,7 +372,7 @@ td.ItemReportHigh
   padding-right: 6px;
   background-color: #A7FC9D;
   border-collapse: unset;
-  border: 3px;
+  border: 2px;
   border-color: white;
   border-style: solid;
 }
@@ -281,7 +388,7 @@ td.ItemReportMedium
   padding-right: 6px;
   background-color: #FFEA20;
   border-collapse: unset;
-  border: 3px;
+  border: 2px;
   border-color: white;
   border-style: solid;
 }
@@ -297,7 +404,7 @@ td.ItemReportLow
   padding-right: 6px;
   background-color: #FF0000;
   border-collapse: unset;
-  border: 3px;
+  border: 2px;
   border-color: white;
   border-style: solid;
 }
