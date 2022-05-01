@@ -7,5 +7,3 @@ build/
 .vscode
 .project
 .*project
-test/.test_coverage.dart
-coverage/
