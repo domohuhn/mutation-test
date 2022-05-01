@@ -7,6 +7,9 @@ repository: https://github.com/domohuhn/mutation-test
 environment:
   sdk: '>=2.16.0 <3.0.0'
 
+executables:
+  mutation-test:
+
 dependencies:
   xml: ^6.0.0
 
