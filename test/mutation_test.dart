@@ -58,6 +58,7 @@ void main() {
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">+  <span style="background-color: rgb(50, 255, 50);">bbb</span> </span><br>
 ''');
         expect(modified.line.toString(), '3: "bbb"');
+        expect(modified.line.formatMutatedCodeToHTML(), '<span class="addedLine">+  <span class="changedTokens">bbb</span> </span>');
       }
     }
     expect(index, 6);

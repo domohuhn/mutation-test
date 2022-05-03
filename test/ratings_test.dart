@@ -56,5 +56,6 @@ void main() {
     ratings.sanitize();
     expect(ratings.rating(100.0), 'N/A');
     expect(ratings.isSuccessful(79.999), true);
+    expect(ratings.failure, 50.0);
   });
 }

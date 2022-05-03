@@ -160,7 +160,7 @@ class MutatedLine {
   }
 
   /// Formats the modified code for the Html reporting.
-  String formatMutatedCodeToHtml() {
+  String formatMutatedCodeToHTML() {
     var rv = '<span class="addedLine">';
     rv += '+ ${mutated.substring(0, start)}';
     rv += '<span class="changedTokens">';

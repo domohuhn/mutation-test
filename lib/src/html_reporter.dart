@@ -46,7 +46,7 @@ String createMutationList(int line, FileMutationResults file) {
       if (i > 1) {
         rv += '<tr><td colspan="2"><hr class="ruler"/></td></tr>';
       }
-      rv += '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHtml()}</td></tr>';
+      rv += '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHTML()}</td></tr>';
       ++i;
     }
   }

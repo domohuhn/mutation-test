@@ -23,6 +23,7 @@ void main() {
     expect(configuration.mutations.length, 19);
     expect(configuration.files.length, 2);
     expect(configuration.commands.length, 2);
+    configuration.validate();
   });
 
   test('Input error - wrong version', () {
@@ -71,6 +72,17 @@ void main() {
     final configuration = Configuration(false, true);
     expect(() {
       configuration.parseXMLString(_noMutationChild);
+    }, throwsException);
+  });
+
+  test('Read from file', () {
+    final configuration = Configuration.fromFile('./example/should_timeout.xml',false, true);
+    expect(configuration.exclusions.length, 0);
+    expect(configuration.mutations.length, 0);
+    expect(configuration.files.length, 1);
+    expect(configuration.commands.length, 1);
+    expect(() {
+      configuration.validate();
     }, throwsException);
   });
 }
