@@ -30,7 +30,7 @@ class RegexGroup {
   RegexGroup(this.start, this.end, this.index);
 }
 
-/// Implements a text replacement that will also replace the tokens $i with the groups found in match.
+/// Implements a text replacement that will also replace the tokens $1, $2, $3, ... with the groups found in the regular expression match.
 class RegexReplacement extends Replacement {
   String _text;
   final List<RegexGroup> _groups = [];
@@ -69,7 +69,7 @@ class RegexReplacement extends Replacement {
         functor(m);
         found = true;
         _leftShiftGroupsAfter(m.start);
-        index = m.end;
+        index = m.end-1;
         break;
       }
     }
@@ -114,8 +114,8 @@ class RegexReplacement extends Replacement {
   /// Shifts all groups after [position] one index to the left.
   void _leftShiftGroupsAfter(int position) {
     for (final grp in _groups) {
-      if (grp.start <= position && position <= grp.end) {
-        throw MutationError('Internal error - groups should not be modified!');
+      if (grp.start <= position && position < grp.end) {
+        throw MutationError('Internal error - groups should not be modified! $position is in [${grp.start}, ${grp.end}]');
       }
       if (grp.start > position) {
         grp.start -= 1;

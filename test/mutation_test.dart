@@ -12,7 +12,6 @@ void main() {
   mut.replacements.addAll([LiteralReplacement('bbb'), LiteralReplacement('ccc'), LiteralReplacement('ddd')]);
   var text = 'moo aaa xxx aaa';
 
-  var reg = RegexReplacement(r'$2 masd o\n $3 asdas \\\\$4 \$123a $e $1');
 
   test('Mutation Iteration with literal replacement', () {
     var index = 0;
@@ -63,35 +62,37 @@ void main() {
     }
     expect(index, 6);
   });
+  group('regex', () {
+    var reg = RegexReplacement(r'$2 masd o\r\n $3 asdas \\\\$4\t\$123a $e $1');
+    test('Regex string without escape sequences', () {
+      final expected = '\$2 masd o\r\n \$3 asdas \\\\\\\$4\t\$123a \$e \$1';
+      expect(reg.text, expected);
+    });
+    var mutation2 = Mutation(RegExp(r'([a]+) ([b]+) ([c]+) ([d]+)'));
 
-  test('Regex string without escape sequences', () {
-    final expected = '\$2 masd o\n \$3 asdas \\\\\\\$4 \$123a \$e \$1';
-    expect(reg.text, expected);
-  });
-
-  var mutation2 = Mutation(RegExp(r'([a]+) ([b]+) ([c]+) ([d]+)'));
-
-  var reg2 = RegexReplacement(r'($4 $3 $2 $1)');
-  mutation2.replacements.add(reg2);
-  mutation2.replacements.add(reg);
-  test('Mutation Iteration with regex replacement', () {
-    final input = 'xxx aa bbbb ccc ddd xxx';
-    var index = 0;
-    final expected = ['xxx (ddd ccc bbbb aa) xxx', 'xxx bbbb masd o\n ccc asdas \\\\\\ddd \$123a \$e aa xxx'];
-    for (final modified in mutation2.allMutations(input, [], [])) {
-      expect(modified.text, expected[index]);
-      index += 1;
-    }
-  });
-
-  test('Mutation Iteration with regex but wrong group count', () {
-    var mutation3 = Mutation(RegExp(r'([a]+) ([b]+)'));
-    mutation3.replacements.add(reg2);
-    expect(() {
+    var reg2 = RegexReplacement(r'($4 $3 $2 $1)');
+    mutation2.replacements.add(reg2);
+    mutation2.replacements.add(reg);
+    test('Mutation Iteration with regex replacement', () {
       final input = 'xxx aa bbbb ccc ddd xxx';
-      for (final modified in mutation3.allMutations(input, [], [])) {
-        print(modified.text);
+      var index = 0;
+      final expected = ['xxx (ddd ccc bbbb aa) xxx', 'xxx bbbb masd o\r\n ccc asdas \\\\\\ddd\t\$123a \$e aa xxx'];
+      for (final modified in mutation2.allMutations(input, [], [])) {
+        expect(modified.text, expected[index]);
+        index += 1;
       }
-    }, throwsException);
+    });
+
+    test('Mutation Iteration with regex but wrong group count', () {
+      var mutation3 = Mutation(RegExp(r'([a]+) ([b]+)'));
+      mutation3.replacements.add(reg2);
+      expect(() {
+        final input = 'xxx aa bbbb ccc ddd xxx';
+        for (final modified in mutation3.allMutations(input, [], [])) {
+          print(modified.text);
+        }
+      }, throwsException);
+    });
   });
+
 }
