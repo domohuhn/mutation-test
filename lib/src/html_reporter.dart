@@ -11,11 +11,11 @@ String createToplevelHtmlFile(ResultsReporter reporter) {
 <center>
 <table width ="80%" cellspacing="1" border="0">
      <tbody>
-     <tr><td width="55%"></td><td width="15%"></td><td width="15%"></td><td width="15%"></td></tr>
-     <tr><td class="ItemHead" width="55%">Path</td><td class="ItemHead" width="45%" colspan="3">Detection rate</td></tr>
+     <tr><td width="60%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td></tr>
+     <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Timeouts</td></tr>
 ''';
   reporter.testedFiles.forEach((key, value) {
-    rv += createFileReportLine(key, value.mutationCount, value.detectedCount);
+    rv += createFileReportLine(key, value.mutationCount, value.detectedCount, value.timeoutCount);
   });
 
   rv += '''
@@ -61,7 +61,8 @@ String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file) 
     final fmtln = removeNewline(src);
     if (file.lineHasUndetectedMutation(i)) {
       rv +=
-          '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button><div class="content">
+          '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button>
+<div class="content">
 ${createMutationList(i, file)}
 </div></a>''';
     } else {
@@ -106,6 +107,16 @@ String selectColor(double pct) {
     return 'ItemReportMedium';
   } else {
     return 'ItemReportLow';
+  }
+}
+
+String selectBarColor(double pct) {
+  if (pct >= 80.0) {
+    return 'barHi';
+  } else if (pct >= 50.0) {
+    return 'barMed';
+  } else {
+    return 'barLo';
   }
 }
 
@@ -189,18 +200,20 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
   return rv;
 }
 
-String createFileReportLine(String path, int mutations, int detected) {
+String createFileReportLine(String path, int mutations, int detected, int timeouts) {
   var percentage = 100.0 * detected / mutations;
+  var timeoutpct = 100.0 * timeouts / mutations;
   return '''
-<tr><td class="FileLink" width="55%"><a href="$path.html">$path</a></td>
-  <td class="ItemReport" width="15%">
+<tr><td class="FileLink" width="60%"><a href="$path.html">$path</a></td>
+  <td class="ItemReport" width="10%">
   <table width="100%" cellpadding="0" border="1">
-    <td class="barHi" width="$percentage%" height="10"></td>
-    <td class="barLo" width="${100.0 - percentage}%" height="10"></td>
+    <td class="${selectBarColor(percentage)}" width="$percentage%" height="10"></td>
+    <td class="barBg" width="${100.0 - percentage}%" height="10"></td>
   </table>
   </td>
-  <td class="${selectColor(percentage)}" width="15%">${percentage.toStringAsFixed(1)} %</td>
-  <td class="${selectColor(percentage)}" width="15%">$detected / $mutations</td>
+  <td class="${selectColor(percentage)}" width="10%">${percentage.toStringAsFixed(1)} %</td>
+  <td class="${selectColor(percentage)}" width="10%">$detected / $mutations</td>
+  <td class="${selectColor(100.0 - timeoutpct)}" width="10%">$timeouts / $mutations</td>
 </tr>
 ''';
 }
@@ -440,7 +453,17 @@ td.barHi
   background-color: #00eb00;
 }
 
+td.barMed
+{
+  background-color: #FFEA20;
+}
+
 td.barLo
+{
+  background-color: #ff0000;
+}
+
+td.barBg
 {
   background-color: #FFFFFF;
 }

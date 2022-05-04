@@ -224,7 +224,17 @@ td.barHi
   background-color: #00eb00;
 }
 
+td.barMed
+{
+  background-color: #FFEA20;
+}
+
 td.barLo
+{
+  background-color: #ff0000;
+}
+
+td.barBg
 {
   background-color: #FFFFFF;
 }
@@ -250,7 +260,7 @@ td.barLo
 
      <tr>
      <td class="ItemLabel" width="10%">Date:</td>
-     <td class="ItemText" width="35%">2022-05-01 19:30:29.115002</td>
+     <td class="ItemText" width="35%">2022-05-04 21:32:03.621809</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
      <td class="ItemReport" width="15%">33</td>
      <td class="ItemReport" width="15%">81</td>
@@ -286,27 +296,29 @@ td.barLo
 <center>
 <table width ="80%" cellspacing="1" border="0">
      <tbody>
-     <tr><td width="55%"></td><td width="15%"></td><td width="15%"></td><td width="15%"></td></tr>
-     <tr><td class="ItemHead" width="55%">Path</td><td class="ItemHead" width="45%" colspan="3">Detection rate</td></tr>
-<tr><td class="FileLink" width="55%"><a href="example/source.dart.html">example/source.dart</a></td>
-  <td class="ItemReport" width="15%">
+     <tr><td width="60%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td></tr>
+     <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Timeouts</td></tr>
+<tr><td class="FileLink" width="60%"><a href="example/source.dart.html">example/source.dart</a></td>
+  <td class="ItemReport" width="10%">
   <table width="100%" cellpadding="0" border="1">
-    <td class="barHi" width="70.0%" height="10"></td>
-    <td class="barLo" width="30.0%" height="10"></td>
+    <td class="barMed" width="70.0%" height="10"></td>
+    <td class="barBg" width="30.0%" height="10"></td>
   </table>
   </td>
-  <td class="ItemReportMedium" width="15%">70.0 %</td>
-  <td class="ItemReportMedium" width="15%">28 / 40</td>
+  <td class="ItemReportMedium" width="10%">70.0 %</td>
+  <td class="ItemReportMedium" width="10%">28 / 40</td>
+  <td class="ItemReportHigh" width="10%">0 / 40</td>
 </tr>
-<tr><td class="FileLink" width="55%"><a href="example/source2.dart.html">example/source2.dart</a></td>
-  <td class="ItemReport" width="15%">
+<tr><td class="FileLink" width="60%"><a href="example/source2.dart.html">example/source2.dart</a></td>
+  <td class="ItemReport" width="10%">
   <table width="100%" cellpadding="0" border="1">
-    <td class="barHi" width="12.195121951219512%" height="10"></td>
-    <td class="barLo" width="87.8048780487805%" height="10"></td>
+    <td class="barLo" width="12.195121951219512%" height="10"></td>
+    <td class="barBg" width="87.8048780487805%" height="10"></td>
   </table>
   </td>
-  <td class="ItemReportLow" width="15%">12.2 %</td>
-  <td class="ItemReportLow" width="15%">5 / 41</td>
+  <td class="ItemReportLow" width="10%">12.2 %</td>
+  <td class="ItemReportLow" width="10%">5 / 41</td>
+  <td class="ItemReportHigh" width="10%">0 / 41</td>
 </tr>
     </tbody>
 </table>

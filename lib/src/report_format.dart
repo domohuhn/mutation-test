@@ -98,9 +98,6 @@ class ResultsReporter {
   /// stores the undetected mutations
   final Map<String, FileMutationResults> testedFiles = {};
 
-  /// stores the undetected mutations
-  final Map<String, List<MutatedLine>> _undetectedMutations = {};
-
   /// all files that were added as rules
   List<String> xmlFiles = [];
   Ratings quality = Ratings();
@@ -212,8 +209,8 @@ class ResultsReporter {
 
   /// Sorts mutations by lines.
   void sort() {
-    _undetectedMutations.forEach((key, value) {
-      value.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+    testedFiles.forEach((key, value) {
+      value.undetectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
     });
   }
 
@@ -222,16 +219,6 @@ class ResultsReporter {
 
   /// Adds the undetected [mutation] from [file] to the list.
   void addMutation(String file, MutatedLine mutation) {
-    if (_undetectedMutations.containsKey(file)) {
-      var list = _undetectedMutations[file];
-      if (list == null) {
-        _undetectedMutations[file] = [mutation];
-      } else {
-        list.add(mutation);
-      }
-    } else {
-      _undetectedMutations[file] = [mutation];
-    }
     if (testedFiles.containsKey(file)) {
       testedFiles[file]!.undetectedMutations.add(mutation);
     } else {
@@ -251,9 +238,9 @@ class ResultsReporter {
       text += '<ruleset document="$element"/>';
     }
     text += '</rules>\n';
-    _undetectedMutations.forEach((key, value) {
+    testedFiles.forEach((key, value) {
       text += '<file name="$key">\n';
-      for (final mut in value) {
+      for (final mut in value.undetectedMutations) {
         text += '<mutation line="${mut.line}">\n';
         text += '<original>${convertToXML(mut.original)}</original>\n';
         text += '<modified>${convertToXML(mut.mutated)}</modified>\n';
@@ -270,9 +257,9 @@ class ResultsReporter {
   /// The report will be named like the [input], but ending with "-report.md".
   void writeMarkdownReport(String outpath, String input) {
     var text = _createMarkdownHeader();
-    _undetectedMutations.forEach((key, value) {
+    testedFiles.forEach((key, value) {
       text += '## Undetected mutations in file : $key\n';
-      for (final mut in value) {
+      for (final mut in value.undetectedMutations) {
         // ignore: unnecessary_string_escapes
         text += mut.toMarkdown().replaceAll('*', '\*');
       }
