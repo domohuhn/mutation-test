@@ -72,7 +72,8 @@ This method will print to the command line if <code>verbose</code> is true.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void addTestReport(String file, MutatedLine mutation, TestReport test, bool verbose) {
+  <pre class="language-dart"><code class="language-dart">void addTestReport(
+    String file, MutatedLine mutation, TestReport test, bool verbose) {
   _totalRuns += 1;
   switch (test.result) {
     case TestResult.Timeout:
@@ -91,7 +92,8 @@ This method will print to the command line if <code>verbose</code> is true.</p>
         print(&#39;Found mutation with ${test.command}&#39;);
       }
       if (test.command != null &amp;&amp; test.command!.group.isNotEmpty) {
-        _groupStatistics.update(test.command!.group, (v) =&gt; v + 1, ifAbsent: () =&gt; 1);
+        _groupStatistics.update(test.command!.group, (v) =&gt; v + 1,
+            ifAbsent: () =&gt; 1);
       }
       _totalFound += 1;
       if (testedFiles.containsKey(file)) {
@@ -186,7 +188,7 @@ This method will print to the command line if <code>verbose</code> is true.</p>
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   

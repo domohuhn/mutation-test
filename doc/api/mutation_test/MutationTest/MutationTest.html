@@ -79,7 +79,9 @@ Returns true if all modifications were detected by the test commands.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">MutationTest(this.inputs, this.outputPath, this.verbose, this.dry, this.format, {this.ruleFiles, this.builtinRules = true, this.quiet = false})
+  <pre class="language-dart"><code class="language-dart">MutationTest(
+    this.inputs, this.outputPath, this.verbose, this.dry, this.format,
+    {this.ruleFiles, this.builtinRules = true, this.quiet = false})
     : bar = MutationProgressBar(0, verbose, 0.8, quiet);</code></pre>
 </section>
 
@@ -150,7 +152,7 @@ Returns true if all modifications were detected by the test commands.</p>
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   

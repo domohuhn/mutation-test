@@ -72,11 +72,15 @@ The report will be named like the <code>input</code>, but ending with "-report.h
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void writeHTMLReport(String outpath, String input) {
   var index = createToplevelHtmlFile(this);
-  var fname = createReportFileName(_sanitizeInputFile(input), outpath, &#39;html&#39;);
+  var fname =
+      createReportFileName(_sanitizeInputFile(input), outpath, &#39;html&#39;);
   _createPathsAndWriteFile(fname, index);
   testedFiles.forEach((key, value) {
     var contents = createSourceHtmlFile(this, value, basename(fname));
-    var sname = createReportFileName(key, outpath, &#39;html&#39;, appendReport: false, removeInputExt: false, removePathsFromInput: false);
+    var sname = createReportFileName(key, outpath, &#39;html&#39;,
+        appendReport: false,
+        removeInputExt: false,
+        removePathsFromInput: false);
     _createPathsAndWriteFile(sname, contents);
   });
 }</code></pre>
@@ -158,7 +162,7 @@ The report will be named like the <code>input</code>, but ending with "-report.h
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   

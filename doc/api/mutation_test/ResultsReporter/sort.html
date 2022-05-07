@@ -69,7 +69,8 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void sort() {
   testedFiles.forEach((key, value) {
-    value.undetectedMutations.sort((lhs, rhs) =&gt; lhs.line.compareTo(rhs.line));
+    value.undetectedMutations
+        .sort((lhs, rhs) =&gt; lhs.line.compareTo(rhs.line));
   });
 }</code></pre>
 </section>
@@ -150,7 +151,7 @@
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   

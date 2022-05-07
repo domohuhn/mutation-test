@@ -70,8 +70,10 @@
   <pre class="language-dart"><code class="language-dart">void write() {
   print(&#39;  --- Results ---&#39;);
   print(&#39;Test group statistics:&#39;);
-  _groupStatistics.forEach((k, v) =&gt; print(&#39;  Group : $k, Found mutations: $v&#39;));
-  print(&#39;\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations, _totalRuns)})&#39;);
+  _groupStatistics
+      .forEach((k, v) =&gt; print(&#39;  Group : $k, Found mutations: $v&#39;));
+  print(
+      &#39;\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations, _totalRuns)})&#39;);
   print(&#39;Timeouts: $_totalTimeouts&#39;);
   print(&#39;Elapsed: $elapsed&#39;);
   print(&#39;Success: $success, Quality rating: $rating&#39;);
@@ -154,7 +156,7 @@
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   

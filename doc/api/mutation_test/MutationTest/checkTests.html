@@ -78,7 +78,8 @@
   }
   var test = await executor.run(cfg, outputOnFailure: true);
   if (test.result != TestResult.Undetected) {
-    throw MutationError(&#39;Running the test commands failed with unmodified code! Aborting.&#39;);
+    throw MutationError(
+        &#39;Running the test commands failed with unmodified code! Aborting.&#39;);
   }
 }</code></pre>
 </section>
@@ -150,7 +151,7 @@
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   

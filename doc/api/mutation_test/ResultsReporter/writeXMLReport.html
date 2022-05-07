@@ -71,7 +71,8 @@ The report will be named like the <code>input</code>, but ending with "-report.x
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void writeXMLReport(String outpath, String input) {
-  var text = &#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n&lt;undetected-mutations&gt;\n&#39;;
+  var text =
+      &#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;\n&lt;undetected-mutations&gt;\n&#39;;
   text += &#39;&lt;program-version&gt;${mutationTestVersion()}&lt;&#47;program-version&gt;\n&#39;;
   text += &#39;&lt;elapsed&gt;$elapsed&lt;&#47;elapsed&gt;\n&#39;;
   text += &#39;&lt;result rating=&quot;$rating&quot; success=&quot;$success&quot;&#47;&gt;\n&#39;;
@@ -91,7 +92,8 @@ The report will be named like the <code>input</code>, but ending with "-report.x
     text += &#39;&lt;&#47;file&gt;\n&#39;;
   });
   text += &#39;&lt;&#47;undetected-mutations&gt;\n&#39;;
-  final name = createReportFileName(_sanitizeInputFile(input), outpath, &#39;xml&#39;);
+  final name =
+      createReportFileName(_sanitizeInputFile(input), outpath, &#39;xml&#39;);
   _createPathsAndWriteFile(name, text);
 }</code></pre>
 </section>
@@ -172,7 +174,7 @@ The report will be named like the <code>input</code>, but ending with "-report.x
 <footer>
   <span class="no-break">
     mutation_test
-      1.2.0
+      1.2.1
   </span>
 
   
