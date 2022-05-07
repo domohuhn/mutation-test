@@ -149,10 +149,10 @@ String _xmlRules() {
     <!-- single line comments  -->
     <token begin="//" end="\n"/>
     <!-- exclude dart exports and imports  -->
-    <token begin="export &apos;" end="&apos;;\n"/>
-    <token begin="import &apos;" end="&apos;;\n"/>
-    <token begin="export &quot;" end="&quot;;\n"/>
-    <token begin="import &quot;" end="&quot;;\n"/>
+    <token begin="export &apos;" end="&apos;;"/>
+    <token begin="import &apos;" end="&apos;;"/>
+    <token begin="export &quot;" end="&quot;;"/>
+    <token begin="import &quot;" end="&quot;;"/>
     <!-- excludes anything that matches a pattern  -->
     <!-- multi line comments  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>
