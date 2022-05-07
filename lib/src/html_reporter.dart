@@ -64,7 +64,7 @@ String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file,
       '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
   var i = 1;
   for (final src in file.contents.split('\n')) {
-    final fmtln = removeNewline(src);
+    final fmtln = escapeCharsForHtml(removeNewline(src));
     if (file.lineHasUndetectedMutation(i)) {
       rv +=
           '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button>
@@ -216,10 +216,10 @@ String createFileReportLine(
   return '''
 <tr><td class="FileLink" width="60%"><a href="$path.html">$path</a></td>
   <td class="ItemReport" width="10%">
-  <table width="100%" cellpadding="0" border="1">
+  <table width="100%" cellpadding="0" border="1"><tr>
     <td class="${selectBarColor(percentage)}" width="$percentage%" height="10"></td>
     <td class="barBg" width="${100.0 - percentage}%" height="10"></td>
-  </table>
+  </tr></table>
   </td>
   <td class="${selectColor(percentage)}" width="10%">${percentage.toStringAsFixed(1)} %</td>
   <td class="${selectColor(percentage)}" width="10%">$detected / $mutations</td>

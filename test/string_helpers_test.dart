@@ -88,4 +88,8 @@ void main() {
         removeInputExt: false);
     expect(moo, 'output/input.cpp-report.html');
   });
+
+  test('Escape html chars',() {
+    expect(escapeCharsForHtml('aa < bb && cc > dd'),'aa &lt; bb &amp;&amp; cc &gt; dd');
+  });
 }

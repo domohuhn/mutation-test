@@ -1,3 +1,6 @@
+## 1.2.2
+ - Fixed minor problems with the generated html files. Source code strings are escaped and a table was fixed.
+
 ## 1.2.1
  - Renamed executable to "mutation_test" follow dart file conventions.
  - Added exclusion rules for dart import and export statements in the default ruleset.

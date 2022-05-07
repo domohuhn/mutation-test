@@ -181,12 +181,12 @@ class MutatedLine {
   /// Formats the modified code for the Html reporting.
   String formatMutatedCodeToHTML() {
     var rv = '<span class="addedLine">';
-    rv += '+ ${mutated.substring(0, start)}';
+    rv += '+ ${escapeCharsForHtml(mutated.substring(0, start))}';
     rv += '<span class="changedTokens">';
     var mutationEnd = end + mutated.length - original.length;
-    rv += mutated.substring(start, mutationEnd);
+    rv += escapeCharsForHtml(mutated.substring(start, mutationEnd));
     rv += '</span>';
-    rv += mutated.substring(mutationEnd);
+    rv += escapeCharsForHtml(mutated.substring(mutationEnd));
     rv += '</span>';
     return rv;
   }
