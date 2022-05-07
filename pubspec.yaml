@@ -12,6 +12,7 @@ executables:
   mutation-test:
 
 dependencies:
+  args: ^2.3.0
   xml: ^6.0.0
 
 dev_dependencies:
