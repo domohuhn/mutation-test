@@ -19,19 +19,30 @@ class TargetFile {
 
 /// Reads the xml configuration file
 class Configuration {
-  List<TargetFile> files = [];
-  List<Mutation> mutations = [];
-  List<Command> commands = [];
-  List<Range> exclusions = [];
-  Ratings ratings = Ratings();
+  List<TargetFile> files;
+  List<Mutation> mutations;
+  List<Command> commands;
+  List<Range> exclusions;
+  Ratings ratings;
   bool toplevelFound = false;
   bool verbose;
   bool dry;
 
-  Configuration(this.verbose, this.dry);
+  Configuration(this.verbose, this.dry) : 
+    files = [],
+    mutations = [],
+    commands = [],
+    exclusions = [],
+    ratings = Ratings()
+  ;
 
   /// Constructs the configuration from an xml file in [path]
-  Configuration.fromFile(String path, this.verbose, this.dry) {
+  Configuration.fromFile(String path, this.verbose, this.dry): 
+    files = [],
+    mutations = [],
+    commands = [],
+    exclusions = [],
+    ratings = Ratings() {
     addRulesFromFile(path);
   }
 
@@ -60,7 +71,7 @@ class Configuration {
   /// That means at least one input file, one test command and
   /// one mutation rule.
   void validate() {
-    if (files.isEmpty || mutations.isEmpty || commands.isEmpty) {
+    if ((files.isEmpty)|| mutations.isEmpty || commands.isEmpty) {
       throw MutationError('At least one entry in the configuration for each of the following elements is needed:\n'
           'files: ${files.length} mutation rules: ${mutations.length} verification commands: ${commands.length}');
     }
@@ -83,6 +94,11 @@ class Configuration {
     _processXMLNode(root, 'files', (xml.XmlElement el) {
       _processXMLNode(el, 'file', _addFile);
     });
+    
+    _processXMLNode(root, 'directories', (xml.XmlElement el) {
+      _processXMLNode(el, 'directory', _addDirectory);
+    });
+    
     if (verbose) {
       print(' ${files.length} input files');
     }
@@ -132,6 +148,35 @@ class Configuration {
       whitelist.add(_parseLineRange(el));
     });
     files.add(TargetFile(path, whitelist));
+  }
+
+  void _addDirectory(xml.XmlElement element) {
+    final path = element.text.trim();
+    if (!Directory(path).existsSync()) {
+      throw MutationError('Input directory "$path" not found!');
+    }
+    var recurseStr = element.getAttribute('recursive');
+    var recurse = recurseStr!=null && recurseStr=='true';
+    List<RegExp> patterns = [];
+    _processXMLNode(element, 'matching', (el) {
+      var pat = el.getAttribute('pattern');
+      if(pat==null) {
+        throw MutationError('<matching> tokens must have a pattern as attribute!');
+      }
+      patterns.add(RegExp(pat));
+    });
+    var tree = Directory(path).listSync(recursive: recurse);
+    for(var f in tree) {
+      if(patterns.isNotEmpty) {
+        for(var pat in patterns) {
+          if(pat.hasMatch(f.path) && f is! Link) {
+            files.add(TargetFile(f.path, []));
+          }
+        }
+      } else {
+        files.add(TargetFile(f.path, []));
+      }
+    }
   }
 
   void _parseThreshold(xml.XmlElement element) {

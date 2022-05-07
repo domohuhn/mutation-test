@@ -36,7 +36,7 @@ void main(List<String> arguments) async {
         help: 'Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests',
         negatable: false,
         defaultsTo: false)
-    ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: '.')
+    ..addOption(output, abbr: 'o', help: 'Sets the output directory', valueHelp: 'directory', defaultsTo: 'mutation-test-report')
     ..addOption(format, abbr: 'f', help: 'Sets the report file format', allowed: ['html', 'md', 'xml', 'all', 'none'], defaultsTo: 'html')
     ..addMultiOption(rules, abbr: 'r', help: 'Load the rules from the given XML Document', valueHelp: 'path to XML file');
 
@@ -53,21 +53,20 @@ void main(List<String> arguments) async {
   }
   if (argResults[about] as bool) {
     printAbout();
+    exit(0);
   }
   if (argResults[help] as bool) {
     printVersion();
     printHelp(parser);
+    exit(0);
   }
   if (argResults[show] as bool) {
     printExample();
+    exit(0);
   }
   if (argResults[generateRules] as bool) {
     printExampleRules();
-  }
-
-  if (argResults.rest.isEmpty) {
-    print('No input files present!');
-    printUsage(parser);
+    exit(0);
   }
 
   var reportFormatStr = argResults[format];

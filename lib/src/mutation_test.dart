@@ -67,9 +67,13 @@ class MutationTest {
   Future<bool> runMutationTest() async {
     await _countAll();
     var foundAll = true;
-    for (final file in inputs) {
-      var result = await _runMutationTest(file, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules);
-      foundAll = result && foundAll;
+    if(inputs.isNotEmpty) {
+      for (final file in inputs) {
+        var result = await _runMutationTest(file, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules);
+        foundAll = result && foundAll;
+      }
+    } else {
+      await _runMutationTest('', outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules, useDefaultConfig: true);
     }
     return foundAll;
   }
@@ -86,8 +90,8 @@ class MutationTest {
   /// but will list all found mutations per file.
   /// Returns true if all modifications were detected by the test commands.
   Future<bool> _runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
-      {List<String>? ruleFiles, bool addBuiltin = true}) async {
-    var data = _createMutationData(inputFile, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: addBuiltin);
+      {List<String>? ruleFiles, bool addBuiltin = true, bool useDefaultConfig = false}) async {
+    var data = _createMutationData(inputFile, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: addBuiltin, useDefaultConfig: useDefaultConfig);
 
     await checkTests(data.configuration, data.test);
 
@@ -132,11 +136,25 @@ class MutationTest {
         totalCount += count;
       }
     }
+    if(inputs.isEmpty) {
+      var data = _createMutationData('', outputPath, false, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules, useDefaultConfig: true);
+      for (final current in data.configuration.files) {
+        final source = File(current.path).readAsStringSync();
+        data.filename = current;
+        data.contents = source;
+
+        var count = await countMutations(data);
+        totalCount += count;
+      }
+    }
+    if(verbose) {
+      print('Performing $totalCount mutations!');
+    }
     bar.mutationCount = totalCount;
   }
 
   MutationData _createMutationData(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
-      {List<String>? ruleFiles, bool addBuiltin = true}) {
+      {List<String>? ruleFiles, bool addBuiltin = true, bool useDefaultConfig = false}) {
     final configuration = Configuration(verbose, dry);
     final tests = TestRunner();
     final reporter = ResultsReporter(inputFile, addBuiltin);
@@ -154,13 +172,20 @@ class MutationTest {
       reporter.xmlFiles.add('Builtin Rules');
       configuration.parseXMLString(builtinMutationRules());
     }
-    if (inputFile.endsWith('.xml')) {
-      if (verbose) {
-        print('Loading additional XML configuration : "$inputFile"');
+    if(!useDefaultConfig) {
+      if (inputFile.endsWith('.xml')) {
+        if (verbose) {
+          print('Loading additional XML configuration : "$inputFile"');
+        }
+        configuration.addRulesFromFile(inputFile);
+      } else {
+        configuration.files.add(TargetFile(inputFile, []));
       }
-      configuration.addRulesFromFile(inputFile);
     } else {
-      configuration.files.add(TargetFile(inputFile, []));
+      if (verbose) {
+        print('No input files found - assuming default dart configuration!');
+      }
+      configuration.parseXMLString(dartDefaultConfiguration());
     }
     configuration.validate();
     reporter.quality = configuration.ratings;

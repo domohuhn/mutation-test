@@ -87,6 +87,9 @@ This chapter explains the structure of the input XML documents. They must use th
     <files>
     ...
     </files>
+    <directories>
+    ...
+    </directories>
     <commands>
     ...
     </commands>
@@ -116,15 +119,34 @@ The children of "files" elements are individual files:
 <files>
     <file>example/source.dart</file>
     <file>example/source2.dart
-    <!-- lines can be whitelisted  -->
-    <!-- if there is no whitelist, the whole file is used  -->
-    <!-- line index starts at 1  -->
-    <lines begin="13" end="24"/>
-    <lines begin="29" end="35"/>
+      <!-- lines can be whitelisted  -->
+      <!-- if there is no whitelist, the whole file is used  -->
+      <!-- line index starts at 1  -->
+      <lines begin="13" end="24"/>
+      <lines begin="29" end="35"/>
     </file>
 </files>
 ```
 The application will perform the mutation tests in sequence on the listed files. All mutations that are not in an exclusion or inside a whitelisted area will be applied.
+
+### Directories
+The children of "directories" elements are directories where files are searched:
+```Xml
+<directories>
+    <!-- adds all files in the directory  -->
+    <directory>src</directory>
+    <!-- adds files matching one of the patterns.  -->
+    <directory>lib
+      <!-- matching tokens need the attribute pattern, which holds a regular expression  -->
+      <matching pattern="\.cpp$"/>
+      <matching pattern="\.cxx$"/>
+      <matching pattern="\.c$"/>
+    </directories>
+</directories>
+```
+The application will perform the mutation tests on all files found in the directories.
+
+
 ### Commands
 The commands block lets you specify the command line programs to verify that a mutation is detected. The commands are run in document sequence and must be each a single command line call.
 ```Xml
@@ -219,22 +241,24 @@ When setting a failure limit, remember that some mutations may be impossible to 
 
 Here is a table of all XML elements that are parsed by this program:
 
-| Element   | Children                        | Attributes  | Description |
-| --------- | ------------------------------- | ----------- | ----------- |
-| mutations | files, rules, exclude, commands | version     | Top level element |
-| files     | file                            |             | Holds the list of files to mutate |
-| exclude   | token, regex, lines             |             | Holds the list of exclusions from mutations. |
-| commands  | command                         |             | Holds the list of commands to run |
-| rules     | literal, regex                  |             | Holds the list of mutation rules |
-| file      | lines                           |             | Contains the path the to file as text. If there are lines children present, only the given lines are mutated. |
-| lines     |                                 | begin, end  | Specifies an interval of lines \[begin,end\] in the source file. |
-| command   |                                 | name, group, expected-return, timeout      | Contains the command to execute as text. All attributes are optional. |
-| token     |                                 | begin, end  | A range in the source file delimited by the begin and end tokens. |
-| literal   | mutation                        | text        | Matches the string in attribute text and replaces it with its children. |
-| regex     | mutation                        | pattern, dotAll | A pattern for a regular expression. The expression is always multiline and processes the complete file. You can use "." to match newlines if the optional attribute dotAll is set to true. |
-| mutation  |                                 | text        | A replacement for a match. If this element is a child of a regex node, then capture groups can be used in the text via $i. |
-| threshold | rating                          | failure     | Configures the limit for a failed analysis and the quality ratings |
-| rating    |                                 | over, name  | A quality rating. Attribute over is the lowest percentage for this rating.  |
+| Element     | Children                        | Attributes  | Description |
+| ---------   | ------------------------------- | ----------- | ----------- |
+| mutations   | files, rules, exclude, commands | version     | Top level element |
+| files       | file                            |             | Holds the list of files to mutate |
+| directories | directory                       | recusive    | Holds the list of directories to search for files |
+| exclude     | token, regex, lines             |             | Holds the list of exclusions from mutations. |
+| commands    | command                         |             | Holds the list of commands to run |
+| rules       | literal, regex                  |             | Holds the list of mutation rules |
+| file        | lines                           |             | Contains the path the to file as text. If there are lines children present, only the given lines are mutated. |
+| lines       |                                 | begin, end  | Specifies an interval of lines \[begin,end\] in the source file. |
+| matching    |                                 | pattern     | Specifies the pattern for the file names in the directory.
+| command     |                                 | name, group, expected-return, timeout      | Contains the command to execute as text. All attributes are optional. |
+| token       |                                 | begin, end  | A range in the source file delimited by the begin and end tokens. |
+| literal     | mutation                        | text        | Matches the string in attribute text and replaces it with its children. |
+| regex       | mutation                        | pattern, dotAll | A pattern for a regular expression. The expression is always multiline and processes the complete file. You can use "." to match newlines if the optional attribute dotAll is set to true. |
+| mutation    |                                 | text        | A replacement for a match. If this element is a child of a regex node, then capture groups can be used in the text via $i. |
+| threshold   | rating                          | failure     | Configures the limit for a failed analysis and the quality ratings |
+| rating      |                                 | over, name  | A quality rating. Attribute over is the lowest percentage for this rating.  |
 
 ## Command line arguments
 

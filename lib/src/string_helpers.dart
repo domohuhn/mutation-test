@@ -75,11 +75,15 @@ String createReportFileName(String input, String outpath, String ext,
 
 /// Gets the directory from the given path [path].
 String getDirectory(String path) {
-  var end = 0;
+  var end = -1;
   if (path.contains('/')) {
     end = path.lastIndexOf('/') + 1;
-  } else if (path.contains('\\')) {
-    end = path.lastIndexOf('\\') + 1;
+  }
+  if (path.contains('\\')) {
+    var end2 = path.lastIndexOf('\\') + 1;
+    if(end2>end) {
+      end=end2;
+    }
   }
   if (end == -1) {
     return '';

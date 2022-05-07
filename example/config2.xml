@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations version="1.0">
+  <!-- License: BSD-3-Clause  -->
+  <directories>
+    <directory recursive="true">lib
+      <matching pattern="\.dart$"/>
+    </directory>
+    <directory>example
+      <matching pattern="\.dart$"/>
+    </directory>
+  </directories>
+
+  <commands>
+    <command group="test" expected-return="0" working-directory=".">dart test</command>
+  </commands>
+</mutations>

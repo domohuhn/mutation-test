@@ -29,6 +29,16 @@ String _xmlInputs() {
       <lines begin="29" end="35"/>
     </file>
   </files>
+  <!-- You can list all input directories here -->
+  <directories>
+    <directory recursive="true">lib
+      <!-- Without matching elements, all files will be added. -->
+      <!-- Select all files ending in .cpp, .cxx and .c. -->
+      <matching pattern="\.cpp$"/>
+      <matching pattern="\.cxx$"/>
+      <matching pattern="\.c$"/>
+    </directory>
+  </directories>
   <!-- Specify the test commands here with the command element -->
   <!-- The text of the command element will be executed as shell process -->
   <!-- The return value of the command will used to check for success -->
@@ -136,10 +146,19 @@ String _xmlRules() {
   <!-- This element creates a blacklist, allowing you to exclude parts from the mutations -->
   <exclude>
     <!-- excludes anything between two tokens  -->
+    <!-- single line comments  -->
     <token begin="//" end="\n"/>
-    <token begin="#" end="\n"/>
     <!-- excludes anything that matches a pattern  -->
+    <!-- multi line comments  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>
+    <!-- multi line strings with single quotes  -->
+    <regex pattern="&apos;&apos;&apos;.*?&apos;&apos;&apos;" dotAll="true"/>
+    <!-- multi line strings with double quotes  -->
+    <regex pattern="&quot;&quot;&quot;.*?&quot;&quot;&quot;" dotAll="true"/>
+    <!-- strings with double quotes  -->
+    <regex pattern="&quot;[^&quot;]+?&quot;"/>
+    <!-- strings with single quotes  -->
+    <regex pattern="&apos;[^&apos;]+?&apos;"/>
     <!-- exclude loops to prevent infinte tests -->
     <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
     <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>
@@ -171,4 +190,23 @@ String builtinMutationRules() {
 /// Returns a complete example file
 String fullXMLFile() {
   return _xmlStart() + _xmlInputs() + _xmlRules() + _xmlEnd();
+}
+
+/// Returns the file and test command for default dart libs.
+String _xmlDartInputs() {
+  return r'''
+  <directories>
+    <directory recursive="true">lib
+      <matching pattern="\.dart$"/>
+    </directory>
+  </directories>
+  <commands>
+    <command group="test" expected-return="0" working-directory="." timeout="60">dart test</command>
+  </commands>
+''';
+}
+
+/// Returns the default dart configuration
+String dartDefaultConfiguration() {
+  return _xmlStart() + _xmlDartInputs() + _xmlEnd();
 }
