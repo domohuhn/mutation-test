@@ -20,7 +20,8 @@ class MutationProgressBar {
 
   MutationProgressBar(int count, this.verbose, this.threshold, this.quiet)
       : file = ProgressBar(count, width: 30, showTotal: false, left: 'File ['),
-        total = ProgressBar(count, width: 27, left: 'Total [', widthIncludesText: false);
+        total = ProgressBar(count,
+            width: 27, left: 'Total [', widthIncludesText: false);
 
   void startFile(String path, int count) {
     if (!_timer.isRunning) {
@@ -36,7 +37,9 @@ class MutationProgressBar {
   void endFile(int failed) {
     var pct = 1.0 - failed.toDouble() / file.maximum.toDouble();
     final prefix = 100 * pct <= threshold ? 'FAILED' : 'OK';
-    var text = '$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations passed all tests!'.padRight(_width);
+    var text =
+        '$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations passed all tests!'
+            .padRight(_width);
     _writeText(text, true);
   }
 

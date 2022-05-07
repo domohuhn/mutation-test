@@ -30,7 +30,10 @@ class TokenRange extends Range {
     if (end < 0 || start >= end) {
       // check if the start of the new position might be the end token of previous range
       // it may be better to search exclusion zones from start of file ...
-      if (start == position && position > 0 && endToken.length > 1 && isInRange(text, position - 1)) {
+      if (start == position &&
+          position > 0 &&
+          endToken.length > 1 &&
+          isInRange(text, position - 1)) {
         return true;
       }
       return false;

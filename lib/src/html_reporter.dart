@@ -6,7 +6,8 @@ import 'package:mutation_test/mutation_test.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 
 String createToplevelHtmlFile(ResultsReporter reporter) {
-  var rv = createHtmlFileHeader(reporter, 'top level', reporter.totalMutations, reporter.foundMutations, reporter.totalTimeouts, true, '');
+  var rv = createHtmlFileHeader(reporter, 'top level', reporter.totalMutations,
+      reporter.foundMutations, reporter.totalTimeouts, true, '');
   rv += '''
 <center>
 <table width ="80%" cellspacing="1" border="0">
@@ -15,7 +16,8 @@ String createToplevelHtmlFile(ResultsReporter reporter) {
      <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Timeouts</td></tr>
 ''';
   reporter.testedFiles.forEach((key, value) {
-    rv += createFileReportLine(key, value.mutationCount, value.detectedCount, value.timeoutCount);
+    rv += createFileReportLine(
+        key, value.mutationCount, value.detectedCount, value.timeoutCount);
   });
 
   rv += '''
@@ -46,16 +48,20 @@ String createMutationList(int line, FileMutationResults file) {
       if (i > 1) {
         rv += '<tr><td colspan="2"><hr class="ruler"/></td></tr>';
       }
-      rv += '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHTML()}</td></tr>';
+      rv +=
+          '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHTML()}</td></tr>';
       ++i;
     }
   }
   return rv + '</table>';
 }
 
-String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file, String toplevelFileName) {
-  var rv = createHtmlFileHeader(reporter, file.path, file.mutationCount, file.detectedCount, file.timeoutCount, false, toplevelFileName);
-  rv += '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
+String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file,
+    String toplevelFileName) {
+  var rv = createHtmlFileHeader(reporter, file.path, file.mutationCount,
+      file.detectedCount, file.timeoutCount, false, toplevelFileName);
+  rv +=
+      '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
   var i = 1;
   for (final src in file.contents.split('\n')) {
     final fmtln = removeNewline(src);
@@ -66,7 +72,8 @@ String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file, 
 ${createMutationList(i, file)}
 </div></a>''';
     } else {
-      rv += '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n';
+      rv +=
+          '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n';
     }
     ++i;
   }
@@ -120,12 +127,14 @@ String selectBarColor(double pct) {
   }
 }
 
-String createHtmlFileHeader(ResultsReporter reporter, String current, int total, int detected, int timeouts, bool isToplevel, String toplevelFileName) {
+String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
+    int detected, int timeouts, bool isToplevel, String toplevelFileName) {
   var detectedFraction = 100.0 * detected / total;
   var timeoutFraction = 100.0 * timeouts / total;
   var locationText = current;
   if (!isToplevel) {
-    locationText += ' - <a href="${createParentLinkPrefix(current)}$toplevelFileName">back to top</a>';
+    locationText +=
+        ' - <a href="${createParentLinkPrefix(current)}$toplevelFileName">back to top</a>';
   }
   var rv = '''
 <!DOCTYPE html>
@@ -200,7 +209,8 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
   return rv;
 }
 
-String createFileReportLine(String path, int mutations, int detected, int timeouts) {
+String createFileReportLine(
+    String path, int mutations, int detected, int timeouts) {
   var percentage = 100.0 * detected / mutations;
   var timeoutpct = 100.0 * timeouts / mutations;
   return '''

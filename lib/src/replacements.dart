@@ -49,7 +49,8 @@ class RegexReplacement extends Replacement {
             'Internal error - there should never be overlapping replacement groups! Group: index ${grp.index} in [${grp.start},${grp.end}] overlaps $lastEnd');
       }
       if (!(grp.start < _text.length && grp.end <= _text.length)) {
-        throw MutationError('Internal error - group outside string! Group: index ${grp.index} in [${grp.start},${grp.end}] outside of ${_text.length}');
+        throw MutationError(
+            'Internal error - group outside string! Group: index ${grp.index} in [${grp.start},${grp.end}] outside of ${_text.length}');
       }
       lastEnd = grp.end;
     }
@@ -79,9 +80,13 @@ class RegexReplacement extends Replacement {
   void _removeEscapeSequences() {
     _processText(RegExp(r'([\\]|[\\][\\])[$]([0-9]+)'), (Match m) {
       if (m.group(1) == r'\\') {
-        _text = _text.substring(0, m.start) + '\\\$${m.group(2)}' + _text.substring(m.end);
+        _text = _text.substring(0, m.start) +
+            '\\\$${m.group(2)}' +
+            _text.substring(m.end);
       } else {
-        _text = _text.substring(0, m.start) + '\$${m.group(2)}' + _text.substring(m.end);
+        _text = _text.substring(0, m.start) +
+            '\$${m.group(2)}' +
+            _text.substring(m.end);
       }
     });
 
@@ -105,7 +110,8 @@ class RegexReplacement extends Replacement {
       var prefix = m.group(1);
       var grp = m.group(2);
       if (prefix == null || grp == null) {
-        throw MutationError('Internal error - matched group without number. This should not happen!');
+        throw MutationError(
+            'Internal error - matched group without number. This should not happen!');
       }
       _groups.add(RegexGroup(m.start + prefix.length, m.end, int.parse(grp)));
     }
@@ -115,7 +121,8 @@ class RegexReplacement extends Replacement {
   void _leftShiftGroupsAfter(int position) {
     for (final grp in _groups) {
       if (grp.start <= position && position < grp.end) {
-        throw MutationError('Internal error - groups should not be modified! $position is in [${grp.start}, ${grp.end}]');
+        throw MutationError(
+            'Internal error - groups should not be modified! $position is in [${grp.start}, ${grp.end}]');
       }
       if (grp.start > position) {
         grp.start -= 1;
@@ -137,13 +144,17 @@ class RegexReplacement extends Replacement {
         var repl = match.group(grp.index);
 
         if (repl == null) {
-          throw MutationError('RegEx mutation "$_text" requires groups! ${grp.index} not present!');
+          throw MutationError(
+              'RegEx mutation "$_text" requires groups! ${grp.index} not present!');
         }
-        tmp = tmp.substring(0, grp.start + shift) + repl + tmp.substring(grp.end + shift);
+        tmp = tmp.substring(0, grp.start + shift) +
+            repl +
+            tmp.substring(grp.end + shift);
         shift += repl.length - (grp.end - grp.start);
       }
     } catch (e) {
-      throw MutationError('RegEx mutation "$_text" requires groups! Pattern only has ${match.groupCount} groups!  ${e.toString()}');
+      throw MutationError(
+          'RegEx mutation "$_text" requires groups! Pattern only has ${match.groupCount} groups!  ${e.toString()}');
     }
     return text.substring(0, match.start) + tmp + text.substring(match.end);
   }

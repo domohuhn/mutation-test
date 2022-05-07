@@ -7,8 +7,10 @@
 const ossLicenses = <Package>[
   Package(
     name: '_fe_analyzer_shared',
-    description: 'Logic that is shared between the front_end and analyzer packages.',
-    homepage: 'https://github.com/dart-lang/sdk/tree/master/pkg/_fe_analyzer_shared',
+    description:
+        'Logic that is shared between the front_end and analyzer packages.',
+    homepage:
+        'https://github.com/dart-lang/sdk/tree/master/pkg/_fe_analyzer_shared',
     authors: [],
     version: '39.0.0',
     license: '''Copyright 2019, the Dart project authors.
@@ -44,7 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'analyzer',
-    description: 'This package provides a library that performs static analysis of Dart code.',
+    description:
+        'This package provides a library that performs static analysis of Dart code.',
     homepage: 'https://github.com/dart-lang/sdk/tree/main/pkg/analyzer',
     authors: [],
     version: '4.0.0',
@@ -81,7 +84,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'args',
-    description: 'Library for defining parsers for parsing raw command-line arguments into a set of options and values using GNU and POSIX style options.',
+    description:
+        'Library for defining parsers for parsing raw command-line arguments into a set of options and values using GNU and POSIX style options.',
     homepage: 'https://github.com/dart-lang/args',
     authors: [],
     version: '2.3.0',
@@ -118,7 +122,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'async',
-    description: 'Utility functions and classes related to the \'dart:async\' library.',
+    description:
+        'Utility functions and classes related to the \'dart:async\' library.',
     repository: 'https://github.com/dart-lang/async',
     authors: [],
     version: '2.9.0',
@@ -155,7 +160,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'boolean_selector',
-    description: 'A flexible syntax for boolean expressions, based on a simplified version of Dart\'s expression syntax.',
+    description:
+        'A flexible syntax for boolean expressions, based on a simplified version of Dart\'s expression syntax.',
     homepage: 'https://github.com/dart-lang/boolean_selector',
     authors: [],
     version: '2.1.0',
@@ -191,7 +197,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'charcode',
-    description: 'Constants for ASCII and common non-ASCII character codes. Integer constants corresponding to the code points of individual characters.',
+    description:
+        'Constants for ASCII and common non-ASCII character codes. Integer constants corresponding to the code points of individual characters.',
     repository: 'https://github.com/lrhn/charcode',
     authors: [],
     version: '1.3.1',
@@ -227,7 +234,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'collection',
-    description: 'Collections and utilities functions and classes related to collections.',
+    description:
+        'Collections and utilities functions and classes related to collections.',
     repository: 'https://github.com/dart-lang/collection',
     authors: [],
     version: '1.16.0',
@@ -264,7 +272,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'convert',
-    description: 'Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types.',
+    description:
+        'Utilities for converting between data representations. Provides a number of Sink, Codec, Decoder, and Encoder types.',
     repository: 'https://github.com/dart-lang/convert',
     authors: [],
     version: '3.0.1',
@@ -512,7 +521,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'crypto',
-    description: 'Implementations of SHA, MD5, and HMAC cryptographic functions',
+    description:
+        'Implementations of SHA, MD5, and HMAC cryptographic functions',
     repository: 'https://github.com/dart-lang/crypto',
     authors: [],
     version: '3.0.2',
@@ -549,8 +559,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'dart_pubspec_licenses',
-    description: 'A library to make it easy to extract OSS license information from Dart packages using pubspec.yaml',
-    homepage: 'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/dart_pubspec_licenses',
+    description:
+        'A library to make it easy to extract OSS license information from Dart packages using pubspec.yaml',
+    homepage:
+        'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/dart_pubspec_licenses',
     repository: 'https://github.com/espresso3389/flutter_oss_licenses',
     authors: [],
     version: '2.0.1',
@@ -618,8 +630,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'flutter_oss_licenses',
-    description: 'A tool to generate detail and better OSS license list using pubspec.yaml/lock files.',
-    homepage: 'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/flutter_oss_licenses',
+    description:
+        'A tool to generate detail and better OSS license list using pubspec.yaml/lock files.',
+    homepage:
+        'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/flutter_oss_licenses',
     repository: 'https://github.com/espresso3389/flutter_oss_licenses',
     authors: [],
     version: '2.0.0+1',
@@ -650,8 +664,10 @@ SOFTWARE.''',
   ),
   Package(
     name: 'frontend_server_client',
-    description: 'Client code to start and interact with the frontend_server compiler from the Dart SDK.',
-    homepage: 'https://github.com/dart-lang/webdev/tree/master/frontend_server_client',
+    description:
+        'Client code to start and interact with the frontend_server compiler from the Dart SDK.',
+    homepage:
+        'https://github.com/dart-lang/webdev/tree/master/frontend_server_client',
     repository: 'https://github.com/dart-lang/webdev',
     authors: [],
     version: '2.1.2',
@@ -725,7 +741,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'http_multi_server',
-    description: 'A dart:io HttpServer wrapper that handles requests from multiple servers.',
+    description:
+        'A dart:io HttpServer wrapper that handles requests from multiple servers.',
     homepage: 'https://github.com/dart-lang/http_multi_server',
     authors: [],
     version: '3.2.0',
@@ -762,7 +779,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'http_parser',
-    description: 'A platform-independent package for parsing and serializing HTTP formats.',
+    description:
+        'A platform-independent package for parsing and serializing HTTP formats.',
     homepage: 'https://github.com/dart-lang/http_parser',
     authors: [],
     version: '4.0.0',
@@ -798,7 +816,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'io',
-    description: 'Utilities for the Dart VM Runtime including support for ANSI colors, file copying, and standard exit code values.',
+    description:
+        'Utilities for the Dart VM Runtime including support for ANSI colors, file copying, and standard exit code values.',
     repository: 'https://github.com/dart-lang/io',
     authors: [],
     version: '1.0.3',
@@ -835,7 +854,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'js',
-    description: 'Annotations to create static Dart interfaces for JavaScript APIs.',
+    description:
+        'Annotations to create static Dart interfaces for JavaScript APIs.',
     homepage: 'https://github.com/dart-lang/sdk/tree/master/pkg/js',
     authors: [],
     version: '0.6.4',
@@ -872,7 +892,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'lints',
-    description: 'Official Dart lint rules. Defines the \'core\' and \'recommended\' set of lints suggested by the Dart team.',
+    description:
+        'Official Dart lint rules. Defines the \'core\' and \'recommended\' set of lints suggested by the Dart team.',
     homepage: 'https://github.com/dart-lang/lints',
     repository: 'https://github.com/dart-lang/lints',
     authors: [],
@@ -1024,7 +1045,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'mime',
-    description: 'Utilities for handling media (MIME) types, including determining a type from a file extension and file contents.',
+    description:
+        'Utilities for handling media (MIME) types, including determining a type from a file extension and file contents.',
     homepage: 'https://github.com/dart-lang/mime',
     authors: [],
     version: '1.0.1',
@@ -1061,7 +1083,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'node_preamble',
-    description: 'Better node.js preamble for dart2js, use it in your build system.',
+    description:
+        'Better node.js preamble for dart2js, use it in your build system.',
     homepage: 'https://github.com/mbullington/node_preamble.dart',
     authors: ['Michael Bullington <mikebullingtn@gmail.com>'],
     version: '2.0.1',
@@ -1119,7 +1142,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'package_config',
-    description: 'Support for reading and writing Dart Package Configuration files.',
+    description:
+        'Support for reading and writing Dart Package Configuration files.',
     homepage: 'https://github.com/dart-lang/package_config',
     authors: [],
     version: '2.0.2',
@@ -1194,7 +1218,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'petitparser',
-    description: 'A dynamic parser framework to build efficient grammars and parsers quickly.',
+    description:
+        'A dynamic parser framework to build efficient grammars and parsers quickly.',
     homepage: 'https://petitparser.github.io',
     repository: 'https://github.com/petitparser/dart-petitparser',
     authors: [],
@@ -1227,7 +1252,8 @@ THE SOFTWARE.''',
   ),
   Package(
     name: 'pool',
-    description: 'Manage a finite pool of resources. Useful for controlling concurrent file system or network requests.',
+    description:
+        'Manage a finite pool of resources. Useful for controlling concurrent file system or network requests.',
     homepage: 'https://github.com/dart-lang/pool',
     authors: [],
     version: '1.5.0',
@@ -1263,7 +1289,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'pub_semver',
-    description: 'Versions and version constraints implementing pub\'s versioning policy. This is very similar to vanilla semver, with a few corner cases.',
+    description:
+        'Versions and version constraints implementing pub\'s versioning policy. This is very similar to vanilla semver, with a few corner cases.',
     repository: 'https://github.com/dart-lang/pub_semver',
     authors: [],
     version: '2.1.1',
@@ -1300,7 +1327,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'shelf',
-    description: 'A model for web server middleware that encourages composition and easy reuse',
+    description:
+        'A model for web server middleware that encourages composition and easy reuse',
     repository: 'https://github.com/dart-lang/shelf',
     authors: [],
     version: '1.3.0',
@@ -1373,7 +1401,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'shelf_static',
-    description: 'Static file server support for the shelf package and ecosystem',
+    description:
+        'Static file server support for the shelf package and ecosystem',
     repository: 'https://github.com/dart-lang/shelf_static',
     authors: [],
     version: '1.1.0',
@@ -1410,7 +1439,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'shelf_web_socket',
-    description: 'A shelf handler that wires up a listener for every connection.',
+    description:
+        'A shelf handler that wires up a listener for every connection.',
     repository: 'https://github.com/dart-lang/shelf_web_socket',
     authors: [],
     version: '1.0.1',
@@ -1555,7 +1585,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'stack_trace',
-    description: 'A package for manipulating stack traces and printing them readably.',
+    description:
+        'A package for manipulating stack traces and printing them readably.',
     homepage: 'https://github.com/dart-lang/stack_trace',
     authors: [],
     version: '1.10.0',
@@ -1591,7 +1622,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'stream_channel',
-    description: 'An abstraction for two-way communication channels based on the Dart Stream class.',
+    description:
+        'An abstraction for two-way communication channels based on the Dart Stream class.',
     homepage: 'https://github.com/dart-lang/stream_channel',
     authors: [],
     version: '2.1.0',
@@ -1699,7 +1731,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'test',
-    description: 'A full featured library for writing and running Dart tests across platforms.',
+    description:
+        'A full featured library for writing and running Dart tests across platforms.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test',
     authors: [],
     version: '1.21.1',
@@ -1773,7 +1806,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'test_core',
-    description: 'A basic library for writing tests and running them on the VM.',
+    description:
+        'A basic library for writing tests and running them on the VM.',
     homepage: 'https://github.com/dart-lang/test/blob/master/pkgs/test_core',
     authors: [],
     version: '0.4.13',
@@ -1810,7 +1844,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'typed_data',
-    description: 'Utility functions and classes related to the dart:typed_data library.',
+    description:
+        'Utility functions and classes related to the dart:typed_data library.',
     homepage: 'https://github.com/dart-lang/typed_data',
     authors: [],
     version: '1.3.0',
@@ -1846,7 +1881,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'vm_service',
-    description: 'A library to communicate with a service implementing the Dart VM service protocol.',
+    description:
+        'A library to communicate with a service implementing the Dart VM service protocol.',
     homepage: 'https://github.com/dart-lang/sdk/tree/master/pkg/vm_service',
     authors: [],
     version: '8.2.2',
@@ -1959,7 +1995,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'webkit_inspection_protocol',
-    description: 'A client for the Chrome DevTools Protocol (previously called the Webkit Inspection Protocol).',
+    description:
+        'A client for the Chrome DevTools Protocol (previously called the Webkit Inspection Protocol).',
     homepage: 'https://github.com/google/webkit_inspection_protocol.dart',
     authors: [],
     version: '1.0.0',
@@ -1997,7 +2034,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'xml',
-    description: 'A lightweight library for parsing, traversing, querying, transforming and building XML documents.',
+    description:
+        'A lightweight library for parsing, traversing, querying, transforming and building XML documents.',
     homepage: 'https://github.com/renggli/dart-xml',
     authors: [],
     version: '6.0.1',
@@ -2029,7 +2067,8 @@ THE SOFTWARE.''',
   ),
   Package(
     name: 'yaml',
-    description: 'A parser for YAML, a human-friendly data serialization standard',
+    description:
+        'A parser for YAML, a human-friendly data serialization standard',
     homepage: 'https://github.com/dart-lang/yaml',
     authors: [],
     version: '3.1.0',

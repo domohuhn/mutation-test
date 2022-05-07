@@ -71,7 +71,8 @@ class Configuration {
   /// one mutation rule.
   void validate() {
     if ((files.isEmpty) || mutations.isEmpty || commands.isEmpty) {
-      throw MutationError('At least one entry in the configuration for each of the following elements is needed:\n'
+      throw MutationError(
+          'At least one entry in the configuration for each of the following elements is needed:\n'
           'files: ${files.length} mutation rules: ${mutations.length} verification commands: ${commands.length}');
     }
     ratings.sanitize();
@@ -81,7 +82,8 @@ class Configuration {
     var str = root.getAttribute('version');
     toplevelFound = true;
     if (str == null) {
-      throw MutationError('No version attribute found in xml element <mutations>!');
+      throw MutationError(
+          'No version attribute found in xml element <mutations>!');
     }
     if (double.parse(str) != 1.0) {
       throw MutationError('Configuration file version not supported!');
@@ -125,13 +127,15 @@ class Configuration {
       _processXMLNode(el, 'command', _addCommand);
     });
     if (verbose) {
-      print(' ${commands.length} commands will be executed to detect mutations');
+      print(
+          ' ${commands.length} commands will be executed to detect mutations');
     }
 
     _processXMLNode(root, 'threshold', _parseThreshold);
   }
 
-  void _processXMLNode(xml.XmlElement root, String type, void Function(xml.XmlElement) functor) {
+  void _processXMLNode(
+      xml.XmlElement root, String type, void Function(xml.XmlElement) functor) {
     for (var element in root.findAllElements(type)) {
       functor(element);
     }
@@ -160,7 +164,8 @@ class Configuration {
     _processXMLNode(element, 'matching', (el) {
       var pat = el.getAttribute('pattern');
       if (pat == null) {
-        throw MutationError('<matching> tokens must have a pattern as attribute!');
+        throw MutationError(
+            '<matching> tokens must have a pattern as attribute!');
       }
       patterns.add(RegExp(pat));
     });
@@ -180,7 +185,8 @@ class Configuration {
 
   void _parseThreshold(xml.XmlElement element) {
     if (ratings.initialized) {
-      throw MutationError('There must be only one <threshold> element in the inputs!');
+      throw MutationError(
+          'There must be only one <threshold> element in the inputs!');
     }
     var failure = element.getAttribute('failure');
     if (failure == null) {
@@ -192,7 +198,8 @@ class Configuration {
       var lowerbound = el.getAttribute('over');
       var name = el.getAttribute('name');
       if (lowerbound == null || name == null) {
-        throw MutationError('<rating> needs attributes "over" and "name" - got $lowerbound, $name');
+        throw MutationError(
+            '<rating> needs attributes "over" and "name" - got $lowerbound, $name');
       }
       ratings.addRating(double.parse(lowerbound), name);
     });
@@ -288,7 +295,8 @@ class Configuration {
       mutation.replacements.add(LiteralReplacement(replacement));
     }
     if (mutation.replacements.isEmpty) {
-      throw MutationError('Each <literal> rule must have at least one <mutation> child!');
+      throw MutationError(
+          'Each <literal> rule must have at least one <mutation> child!');
     }
     mutations.add(mutation);
   }
@@ -304,7 +312,8 @@ class Configuration {
       mutation.replacements.add(RegexReplacement(replacement));
     }
     if (mutation.replacements.isEmpty) {
-      throw MutationError('Each <regex> rule must have at least one <mutation> child!');
+      throw MutationError(
+          'Each <regex> rule must have at least one <mutation> child!');
     }
     mutations.add(mutation);
   }

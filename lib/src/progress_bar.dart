@@ -34,7 +34,8 @@ class ProgressBar {
     current += count;
   }
 
-  double get progress => (current.toDouble() / maximum.toDouble()).clamp(0.0, 1.0);
+  double get progress =>
+      (current.toDouble() / maximum.toDouble()).clamp(0.0, 1.0);
 
   @override
   String toString() {
@@ -48,14 +49,19 @@ class ProgressBar {
       textLength += 4;
     }
     if (showTotal) {
-      var tmp = current != maximum ? ' ($current/$maximum$totalSuffix)' : ' ($maximum$totalSuffix)';
+      var tmp = current != maximum
+          ? ' ($current/$maximum$totalSuffix)'
+          : ' ($maximum$totalSuffix)';
       textLength += tmp.length;
       suffix += tmp;
     }
     if (widthIncludesText && textLength >= width) {
-      throw MutationError('Progress bar is too small! width: $width text width: $textLength');
+      throw MutationError(
+          'Progress bar is too small! width: $width text width: $textLength');
     }
-    final space = widthIncludesText ? width - textLength : width - left.length - right.length;
+    final space = widthIncludesText
+        ? width - textLength
+        : width - left.length - right.length;
     var lower = (space * progress).truncate();
     final real = space.toDouble() * progress;
     if (current != maximum) {

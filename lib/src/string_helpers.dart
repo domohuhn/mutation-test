@@ -49,7 +49,9 @@ String asPercentString(int fraction, int total) {
 /// Creates a report file name from the [input] file in directory [outpath]
 /// with the given file [ext].
 String createReportFileName(String input, String outpath, String ext,
-    {bool appendReport = true, bool removePathsFromInput = true, bool removeInputExt = true}) {
+    {bool appendReport = true,
+    bool removePathsFromInput = true,
+    bool removeInputExt = true}) {
   var fixed = removePathsFromInput ? basename(input) : input;
   var end = -1;
   if (removeInputExt) {
@@ -101,7 +103,12 @@ String getDirectory(String path) {
 
 /// Escapes characters for xml
 String convertToXML(String input) {
-  return input.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll("'", '&apos;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  return input
+      .replaceAll('&', '&amp;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&apos;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;');
 }
 
 /// Escapes characters for markdown
