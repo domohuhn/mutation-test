@@ -73,7 +73,6 @@ void main() {
     expect(getDirectory('more\\dirs\\path\\somefile.cpp'), 'more\\dirs\\path\\');
   });
 
-  
   test('create link prefix', () {
     expect(createParentLinkPrefix('somefile.cpp'), './');
     expect(createParentLinkPrefix('path/somefile.cpp'), '../');
@@ -82,8 +81,8 @@ void main() {
     expect(createParentLinkPrefix('more\\dirs\\path\\somefile.cpp'), '../../../');
   });
 
-  test('report file name 2',(){
-    var moo = createReportFileName('input.cpp', 'output', 'html', removeInputExt : false);
+  test('report file name 2', () {
+    var moo = createReportFileName('input.cpp', 'output', 'html', removeInputExt: false);
     expect(moo, 'output/input.cpp-report.html');
   });
 }

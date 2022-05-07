@@ -81,8 +81,8 @@ String getDirectory(String path) {
   }
   if (path.contains('\\')) {
     var end2 = path.lastIndexOf('\\') + 1;
-    if(end2>end) {
-      end=end2;
+    if (end2 > end) {
+      end = end2;
     }
   }
   if (end == -1) {

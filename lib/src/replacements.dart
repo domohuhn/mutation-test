@@ -69,7 +69,7 @@ class RegexReplacement extends Replacement {
         functor(m);
         found = true;
         _leftShiftGroupsAfter(m.start);
-        index = m.end-1;
+        index = m.end - 1;
         break;
       }
     }

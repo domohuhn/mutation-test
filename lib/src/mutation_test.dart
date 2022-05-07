@@ -67,7 +67,7 @@ class MutationTest {
   Future<bool> runMutationTest() async {
     await _countAll();
     var foundAll = true;
-    if(inputs.isNotEmpty) {
+    if (inputs.isNotEmpty) {
       for (final file in inputs) {
         var result = await _runMutationTest(file, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules);
         foundAll = result && foundAll;
@@ -91,7 +91,8 @@ class MutationTest {
   /// Returns true if all modifications were detected by the test commands.
   Future<bool> _runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
       {List<String>? ruleFiles, bool addBuiltin = true, bool useDefaultConfig = false}) async {
-    var data = _createMutationData(inputFile, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: addBuiltin, useDefaultConfig: useDefaultConfig);
+    var data =
+        _createMutationData(inputFile, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: addBuiltin, useDefaultConfig: useDefaultConfig);
 
     await checkTests(data.configuration, data.test);
 
@@ -136,7 +137,7 @@ class MutationTest {
         totalCount += count;
       }
     }
-    if(inputs.isEmpty) {
+    if (inputs.isEmpty) {
       var data = _createMutationData('', outputPath, false, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules, useDefaultConfig: true);
       for (final current in data.configuration.files) {
         final source = File(current.path).readAsStringSync();
@@ -147,7 +148,7 @@ class MutationTest {
         totalCount += count;
       }
     }
-    if(verbose) {
+    if (verbose) {
       print('Performing $totalCount mutations!');
     }
     bar.mutationCount = totalCount;
@@ -172,7 +173,7 @@ class MutationTest {
       reporter.xmlFiles.add('Builtin Rules');
       configuration.parseXMLString(builtinMutationRules());
     }
-    if(!useDefaultConfig) {
+    if (!useDefaultConfig) {
       if (inputFile.endsWith('.xml')) {
         if (verbose) {
           print('Loading additional XML configuration : "$inputFile"');

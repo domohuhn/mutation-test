@@ -76,7 +76,7 @@ void main() {
   });
 
   test('Read from file', () {
-    final configuration = Configuration.fromFile('./example/should_timeout.xml',false, true);
+    final configuration = Configuration.fromFile('./example/should_timeout.xml', false, true);
     expect(configuration.exclusions.length, 0);
     expect(configuration.mutations.length, 0);
     expect(configuration.files.length, 1);
@@ -88,18 +88,20 @@ void main() {
 
   test('Dart default rules', () {
     final xml = dartDefaultConfiguration();
-    expect(xml, '<?xml version="1.0" encoding="UTF-8"?>\n'
-            '<mutations version="1.0">\n'
-            '  <directories>\n'
-            '    <directory recursive="true">lib\n'
-            '      <matching pattern="\\.dart\$"/>\n'
-            '    </directory>\n'
-            '  </directories>\n'
-            '  <commands>\n'
-            '    <command group="test" expected-return="0" working-directory="." timeout="60">dart test</command>\n'
-            '  </commands>\n'
-            '</mutations>\n'
-            '');
+    expect(
+        xml,
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<mutations version="1.0">\n'
+        '  <directories>\n'
+        '    <directory recursive="true">lib\n'
+        '      <matching pattern="\\.dart\$"/>\n'
+        '    </directory>\n'
+        '  </directories>\n'
+        '  <commands>\n'
+        '    <command group="test" expected-return="0" working-directory="." timeout="60">dart test</command>\n'
+        '  </commands>\n'
+        '</mutations>\n'
+        '');
   });
 }
 

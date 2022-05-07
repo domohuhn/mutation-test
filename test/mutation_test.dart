@@ -12,7 +12,6 @@ void main() {
   mut.replacements.addAll([LiteralReplacement('bbb'), LiteralReplacement('ccc'), LiteralReplacement('ddd')]);
   var text = 'moo aaa xxx aaa';
 
-
   test('Mutation Iteration with literal replacement', () {
     var index = 0;
     final expected = ['moo bbb xxx aaa', 'moo ccc xxx aaa', 'moo ddd xxx aaa', 'moo aaa xxx bbb', 'moo aaa xxx ccc', 'moo aaa xxx ddd'];
@@ -95,5 +94,4 @@ void main() {
       }, throwsException);
     });
   });
-
 }

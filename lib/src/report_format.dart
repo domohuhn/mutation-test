@@ -284,7 +284,7 @@ class ResultsReporter {
   }
 
   String _sanitizeInputFile(String input) {
-    if(input.isNotEmpty) {
+    if (input.isNotEmpty) {
       return input;
     }
     return 'mutation-test';
