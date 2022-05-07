@@ -151,14 +151,6 @@ String _xmlRules() {
     <!-- excludes anything that matches a pattern  -->
     <!-- multi line comments  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>
-    <!-- multi line strings with single quotes  -->
-    <regex pattern="&apos;&apos;&apos;.*?&apos;&apos;&apos;" dotAll="true"/>
-    <!-- multi line strings with double quotes  -->
-    <regex pattern="&quot;&quot;&quot;.*?&quot;&quot;&quot;" dotAll="true"/>
-    <!-- strings with double quotes  -->
-    <regex pattern="&quot;[^&quot;]+?&quot;"/>
-    <!-- strings with single quotes  -->
-    <regex pattern="&apos;[^&apos;]+?&apos;"/>
     <!-- exclude loops to prevent infinte tests -->
     <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
     <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>

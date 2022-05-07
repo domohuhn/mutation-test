@@ -12,17 +12,27 @@ your needs, because all rules on how to modify the source code and how to
 run the tests are defined in XML documents. The program is fully self contained, so just grab the binary and start testing!
 ```bash
 # Run the tests in directory "example":
-mutation-test example/config.xml
+./mutation-test example/config.xml
 # or fully customized:
 # the rules contained in mutation-rules.xml are always used
 # inputset1.xml may define special rules for some files that
 # are also listed in the same xml source1.cpp and source2.cpp
 # are just tested with the rules from mutation-rules.xml
-mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml \
+./mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml \
     source1.cpp source2.cpp
 ```
-The first command in the section above would produce the following [report](https://domohuhn.github.io/mutation-test/output/index.html).
+The first command in the section above would produce the following [report](https://domohuhn.github.io/mutation-test/output/config-report.html).
 Check also the [examples folder](https://github.com/domohuhn/mutation-test/tree/main/example) for the inputs.
+
+## Quick start
+
+If you are using a dart project, you can simple run the binary without any arguments at the root of your project. 
+The application will the assume that "dart test" is the test command and that all files ending in .dart in
+the directory lib/ are to be mutated.
+
+```bash
+dart
+```
 
 ## Features
   - Fully configurable mutation rules via XML documents and regular expressions

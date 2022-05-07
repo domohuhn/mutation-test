@@ -50,8 +50,9 @@ void createReport(ResultsReporter results, String outputPath, String inputFile, 
       results.writeHTMLReport(outputPath, inputFile);
       break;
     case ReportFormat.NONE:
-      break;
+      return;
   }
+  print('Output has been written to $outputPath');
 }
 
 /// Holds the report data for a file.
@@ -249,7 +250,7 @@ class ResultsReporter {
       text += '</file>\n';
     });
     text += '</undetected-mutations>\n';
-    final name = createReportFileName(input, outpath, 'xml');
+    final name = createReportFileName(_sanitizeInputFile(input), outpath, 'xml');
     _createPathsAndWriteFile(name, text);
   }
 
@@ -265,7 +266,7 @@ class ResultsReporter {
       }
       text += '\n\n';
     });
-    final name = createReportFileName(input, outpath, 'md');
+    final name = createReportFileName(_sanitizeInputFile(input), outpath, 'md');
     _createPathsAndWriteFile(name, text);
   }
 
@@ -273,13 +274,20 @@ class ResultsReporter {
   /// The report will be named like the [input], but ending with "-report.html".
   void writeHTMLReport(String outpath, String input) {
     var index = createToplevelHtmlFile(this);
-    var fname = createReportFileName('index', outpath, 'html', appendReport: false);
+    var fname = createReportFileName(_sanitizeInputFile(input), outpath, 'html');
     _createPathsAndWriteFile(fname, index);
     testedFiles.forEach((key, value) {
       var contents = createSourceHtmlFile(this, value);
       var sname = createReportFileName(key, outpath, 'html', appendReport: false, removeInputExt: false, removePathsFromInput: false);
       _createPathsAndWriteFile(sname, contents);
     });
+  }
+
+  String _sanitizeInputFile(String input) {
+    if(input.isNotEmpty) {
+      return input;
+    }
+    return 'mutation-test';
   }
 
   void _createPathsAndWriteFile(String path, String text) {

@@ -7,8 +7,7 @@
       <!-- lines can be whitelisted  -->
       <!-- if there is no whitelist, the whole file is used  -->
       <!-- line index starts at 1  -->
-      <lines begin="14" end="26"/>
-      <lines begin="28" end="32"/>
+      <lines begin="12" end="33"/>
     </file>
   </files>
   <exclude>
