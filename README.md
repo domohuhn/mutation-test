@@ -12,13 +12,13 @@ your needs, because all rules on how to modify the source code and how to
 run the tests are defined in XML documents. The program is fully self contained, so just grab the binary and start testing!
 ```bash
 # Run the tests in directory "example":
-./mutation-test example/config.xml
+./mutation_test example/config.xml
 # or fully customized:
 # the rules contained in mutation-rules.xml are always used
 # inputset1.xml may define special rules for some files that
 # are also listed in the same xml source1.cpp and source2.cpp
 # are just tested with the rules from mutation-rules.xml
-./mutation-test -f md -o output --rules mutation-rules.xml inputset1.xml \
+./mutation_test -f md -o output --rules mutation-rules.xml inputset1.xml \
     source1.cpp source2.cpp
 ```
 The first command in the section above would produce the following [report](https://domohuhn.github.io/mutation-test/doc/output/config-report.html).
@@ -32,7 +32,7 @@ The application will the assume that "dart test" is the test command and that al
 the directory lib/ are input files.
 
 ```bash
-dart pub run mutation-test
+dart pub run mutation_test
 ```
 
 Running this command may take a long time (hours depending on library size). The output will be written to the directory ./mutation-test-report.
@@ -53,7 +53,7 @@ on the respective line:
   - Different report formats are supported: html, markdown and XML
 
 ## A brief description of the program
-mutation-test is a program that mutates your source code and verifies that the test commands
+mutation_test is a program that mutates your source code and verifies that the test commands
 specified in the input xml files are sensitive to those changes. Mutations
 are done as simple text replacements with regular expressions, so any text
 file can be mutated. Once one of the files has been mutated, all provided
@@ -62,9 +62,9 @@ commands is used to verify that the mutation was detected. If all tests
 return the expected return value, then the mutation was undetected and is
 added to the results. After all mutations were done, the results will be 
 written to the terminal and a report file is generated.
-mutation-test is free software, as in "free beer" and "free speech".
+mutation_test is free software, as in "free beer" and "free speech".
 
-mutation-test contains a set of builtin rules, that allow you to start 
+mutation_test contains a set of builtin rules, that allow you to start 
 testing right away. However, all rules defining the behaviour of this program
 can be customized. They are defined in XML documents, and you can change:
   - input files and whitelist lines for mutations
@@ -74,7 +74,7 @@ can be customized. They are defined in XML documents, and you can change:
     expressions including capture groups
   - the quality gate and quality ratings
 You can view a complete example with every possible XML element parsed by 
-this program by invoking "mutation-test -s". This will print a XML document to
+this program by invoking "mutation_test -s". This will print a XML document to
 the standard output. The displayed document also contains comments explaining 
 the syntax of the XML file. You can provide multiple input documents for a 
 single program start. The inputs are split into three categories:
@@ -129,11 +129,11 @@ This chapter explains the structure of the input XML documents. They must use th
 You can see an example for an input document in the example folder, or the application can generate one by running one of these commands:
 ```bash
 # Shows a XML document with the complete syntax:
-mutation-test -s
+mutation_test -s
 # Shows the builtin mutation rules and exclusions:
-mutation-test -g
+mutation_test -g
 ```
-The generated documents also contain some helpful comments on how to create your own rules. You should usually provide two different documents: one with the mutation rules given as argument to "-r" and another one with the input files. The reason why mutation-test always loads two files (unless you disable the builtin ruleset via "--no-builtin" and don't provide your own rules file) is that you can reuse the same set of rules for many different input files.
+The generated documents also contain some helpful comments on how to create your own rules. You should usually provide two different documents: one with the mutation rules given as argument to "-r" and another one with the input files. The reason why mutation_test always loads two files (unless you disable the builtin ruleset via "--no-builtin" and don't provide your own rules file) is that you can reuse the same set of rules for many different input files.
 
 ### Files
 The children of "files" elements are individual files:
@@ -285,7 +285,7 @@ Here is a table of all XML elements that are parsed by this program:
 ## Command line arguments
 
 ```bash
-mutation-test <options> <input xml files...>
+mutation_test <options> <input xml files...>
 ```
 The program accepts the following command line arguments:
 
@@ -307,7 +307,7 @@ The program accepts the following command line arguments:
 The rest are excepted to be paths to input XML configuration files.
 
 ## License
-mutation-test is free software, as in "free beer" and "free speech". 
+mutation_test is free software, as in "free beer" and "free speech". 
 All Code is licensed with the BSD-3-Clause license, see file "LICENSE"
 
 ## Issue tracker

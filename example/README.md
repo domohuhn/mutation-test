@@ -1,6 +1,6 @@
 # Example files
 
-This directory contains example files for the mutation-test program.
+This directory contains example files for the mutation_test program.
 
 ## Example configuration 1
 
@@ -9,7 +9,7 @@ This command produces the example [outputs](https://domohuhn.github.io/mutation-
 # Run the tests in directory "example":
 # Write output to docs/output
 # pruduce all report file formats
-./mutation-test example/config.xml -o doc/output -f all
+./mutation_test example/config.xml -o doc/output -f all
 ```
 
 ## Example configuration 2
@@ -19,5 +19,5 @@ This command would performs the mutation tests on itself. Requires about 30min t
 # Run the tests in directory "example":
 # output defaults to directory ./mutation-test-report
 # report format defaults to html
-./mutation-test example/config2.xml
+./mutation_test example/config2.xml
 ```

@@ -2,8 +2,6 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
-// ignore_for_file: file_names
-
 import 'package:mutation_test/mutation_test.dart';
 import 'package:args/args.dart';
 import 'dart:io';

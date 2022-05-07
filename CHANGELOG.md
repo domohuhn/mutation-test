@@ -1,3 +1,6 @@
+## 1.2.1
+ - Renamed executable to "mutation_test" follow dart file conventions.
+
 ## 1.2.0
 
 - Html reports are prettier. The look of the files is inspired by the lcov reports.
