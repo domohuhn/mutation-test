@@ -85,6 +85,22 @@ void main() {
       configuration.validate();
     }, throwsException);
   });
+
+  test('Dart default rules', () {
+    final xml = dartDefaultConfiguration();
+    expect(xml, '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<mutations version="1.0">\n'
+            '  <directories>\n'
+            '    <directory recursive="true">lib\n'
+            '      <matching pattern="\\.dart\$"/>\n'
+            '    </directory>\n'
+            '  </directories>\n'
+            '  <commands>\n'
+            '    <command group="test" expected-return="0" working-directory="." timeout="60">dart test</command>\n'
+            '  </commands>\n'
+            '</mutations>\n'
+            '');
+  });
 }
 
 String _wrongVersion = '''
