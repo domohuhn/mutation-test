@@ -158,6 +158,8 @@ String createParentLinkPrefix(String path) {
 
 /// Escapes &, < and > in [input] with its Html tokens.
 String escapeCharsForHtml(String input) {
-  return input.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  return input
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;');
 }
-
