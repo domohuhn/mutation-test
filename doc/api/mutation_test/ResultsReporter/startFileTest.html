@@ -74,9 +74,8 @@ The <code>contents</code> of the file are used for the html reporting.</p>
   <pre class="language-dart"><code class="language-dart">void startFileTest(String path, int count, String contents) {
   if (testedFiles.containsKey(path)) {
     testedFiles[path]!.mutationCount += count;
-  }
-  else {
-    testedFiles[path] = FileMutationResults(path,count,contents);
+  } else {
+    testedFiles[path] = FileMutationResults(path, count, contents);
   }
 }</code></pre>
 </section>

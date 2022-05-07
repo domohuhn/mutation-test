@@ -72,12 +72,12 @@ The report will be named like the <code>input</code>, but ending with "-report.h
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void writeHTMLReport(String outpath, String input) {
   var index = createToplevelHtmlFile(this);
-  var fname = createReportFileName(&#39;index&#39;,outpath,&#39;html&#39;, appendReport: false);
-  _createPathsAndWriteFile(fname,index);
+  var fname = createReportFileName(_sanitizeInputFile(input), outpath, &#39;html&#39;);
+  _createPathsAndWriteFile(fname, index);
   testedFiles.forEach((key, value) {
-    var contents = createSourceHtmlFile(this,value);
-    var sname = createReportFileName(key,outpath,&#39;html&#39;, appendReport: false, removeInputExt: false, removePathsFromInput: false);
-    _createPathsAndWriteFile(sname,contents);
+    var contents = createSourceHtmlFile(this, value, basename(fname));
+    var sname = createReportFileName(key, outpath, &#39;html&#39;, appendReport: false, removeInputExt: false, removePathsFromInput: false);
+    _createPathsAndWriteFile(sname, contents);
   });
 }</code></pre>
 </section>

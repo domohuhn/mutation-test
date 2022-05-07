@@ -70,19 +70,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void addMutation(String file, MutatedLine mutation) {
-  if (_undetectedMutations.containsKey(file)) {
-    var list = _undetectedMutations[file];
-    if(list == null) {
-      _undetectedMutations[file] = [mutation];
-    }
-    else {
-      list.add(mutation);
-    }
-  }
-  else {
-    _undetectedMutations[file] = [mutation];
-  }
-  if(testedFiles.containsKey(file)) {
+  if (testedFiles.containsKey(file)) {
     testedFiles[file]!.undetectedMutations.add(mutation);
   } else {
     throw MutationError(&#39;&quot;$file&quot; was not registered in the reporter!&#39;);

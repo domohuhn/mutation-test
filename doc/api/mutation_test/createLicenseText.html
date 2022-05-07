@@ -70,11 +70,11 @@ for the used packages.</p>
   <pre class="language-dart"><code class="language-dart">String createLicenseText() {
   var rv = _selfLicense();
   var ext = ossLicenses;
-  if(ext.isEmpty) {
+  if (ext.isEmpty) {
     return rv;
   }
   rv += &#39;\n\n-------------------------------------------------------------------------------\nAdditional licenses:\n\n&#39;;
-  for(final value in ext) {
+  for (final value in ext) {
     final name = value.name;
     final version = value.version;
     final url = value.homepage;
@@ -119,6 +119,7 @@ for the used packages.</p>
   <li><a href="../mutation_test/builtinMutationRules.html">builtinMutationRules</a></li>
   <li><a href="../mutation_test/createLicenseText.html">createLicenseText</a></li>
   <li><a href="../mutation_test/createReport.html">createReport</a></li>
+  <li><a href="../mutation_test/dartDefaultConfiguration.html">dartDefaultConfiguration</a></li>
   <li><a href="../mutation_test/fullXMLFile.html">fullXMLFile</a></li>
   <li><a href="../mutation_test/mutationTestVersion.html">mutationTestVersion</a></li>
 

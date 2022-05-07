@@ -76,13 +76,13 @@ The report will be named like the <code>input</code>, but ending with "-report.x
   text += &#39;&lt;elapsed&gt;$elapsed&lt;&#47;elapsed&gt;\n&#39;;
   text += &#39;&lt;result rating=&quot;$rating&quot; success=&quot;$success&quot;&#47;&gt;\n&#39;;
   text += &#39;&lt;rules&gt;\n&#39;;
-  for(final element in xmlFiles) {
+  for (final element in xmlFiles) {
     text += &#39;&lt;ruleset document=&quot;$element&quot;&#47;&gt;&#39;;
   }
   text += &#39;&lt;&#47;rules&gt;\n&#39;;
-  _undetectedMutations.forEach((key, value) {
+  testedFiles.forEach((key, value) {
     text += &#39;&lt;file name=&quot;$key&quot;&gt;\n&#39;;
-    for (final mut in value) {
+    for (final mut in value.undetectedMutations) {
       text += &#39;&lt;mutation line=&quot;${mut.line}&quot;&gt;\n&#39;;
       text += &#39;&lt;original&gt;${convertToXML(mut.original)}&lt;&#47;original&gt;\n&#39;;
       text += &#39;&lt;modified&gt;${convertToXML(mut.mutated)}&lt;&#47;modified&gt;\n&#39;;
@@ -91,8 +91,8 @@ The report will be named like the <code>input</code>, but ending with "-report.x
     text += &#39;&lt;&#47;file&gt;\n&#39;;
   });
   text += &#39;&lt;&#47;undetected-mutations&gt;\n&#39;;
-  final name = createReportFileName(input,outpath,&#39;xml&#39;);
-  _createPathsAndWriteFile(name,text);
+  final name = createReportFileName(_sanitizeInputFile(input), outpath, &#39;xml&#39;);
+  _createPathsAndWriteFile(name, text);
 }</code></pre>
 </section>
 

@@ -72,12 +72,13 @@ The test run uses the options given during construction.</p>
   <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; runMutationTest() async {
   await _countAll();
   var foundAll = true;
-  for (final file in inputs) {
-    var result = await _runMutationTest(
-        file, outputPath, verbose, dry, format,
-        ruleFiles: ruleFiles,
-        addBuiltin: builtinRules);
-    foundAll = result &amp;&amp; foundAll;
+  if (inputs.isNotEmpty) {
+    for (final file in inputs) {
+      var result = await _runMutationTest(file, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules);
+      foundAll = result &amp;&amp; foundAll;
+    }
+  } else {
+    await _runMutationTest(&#39;&#39;, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules, useDefaultConfig: true);
   }
   return foundAll;
 }</code></pre>

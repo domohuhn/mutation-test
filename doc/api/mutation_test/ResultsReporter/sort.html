@@ -68,8 +68,8 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void sort() {
-  _undetectedMutations.forEach((key, value) {
-    value.sort((lhs,rhs) =&gt; lhs.line.compareTo(rhs.line));
+  testedFiles.forEach((key, value) {
+    value.undetectedMutations.sort((lhs, rhs) =&gt; lhs.line.compareTo(rhs.line));
   });
 }</code></pre>
 </section>

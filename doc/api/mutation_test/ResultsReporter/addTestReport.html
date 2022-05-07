@@ -74,13 +74,13 @@ This method will print to the command line if <code>verbose</code> is true.</p>
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void addTestReport(String file, MutatedLine mutation, TestReport test, bool verbose) {
   _totalRuns += 1;
-  switch(test.result) {
+  switch (test.result) {
     case TestResult.Timeout:
       if (verbose) {
         print(&#39;Timeout for ${test.command}&#39;);
       }
       _totalTimeouts += 1;
-      if(testedFiles.containsKey(file)) {
+      if (testedFiles.containsKey(file)) {
         testedFiles[file]!.timeoutCount += 1;
       } else {
         throw MutationError(&#39;&quot;$file&quot; was not registered in the reporter!&#39;);
@@ -91,10 +91,10 @@ This method will print to the command line if <code>verbose</code> is true.</p>
         print(&#39;Found mutation with ${test.command}&#39;);
       }
       if (test.command != null &amp;&amp; test.command!.group.isNotEmpty) {
-        _groupStatistics.update(test.command!.group, (v) =&gt; v+1, ifAbsent: () =&gt; 1);
+        _groupStatistics.update(test.command!.group, (v) =&gt; v + 1, ifAbsent: () =&gt; 1);
       }
       _totalFound += 1;
-      if(testedFiles.containsKey(file)) {
+      if (testedFiles.containsKey(file)) {
         testedFiles[file]!.detectedCount += 1;
       } else {
         throw MutationError(&#39;&quot;$file&quot; was not registered in the reporter!&#39;);
@@ -104,7 +104,7 @@ This method will print to the command line if <code>verbose</code> is true.</p>
       if (verbose) {
         print(&#39;Undetected mutation! All tests passed!&#39;);
       }
-      addMutation(file,mutation);
+      addMutation(file, mutation);
       break;
   }
 }</code></pre>

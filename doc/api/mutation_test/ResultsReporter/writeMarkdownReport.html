@@ -72,16 +72,16 @@ The report will be named like the <code>input</code>, but ending with "-report.m
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void writeMarkdownReport(String outpath, String input) {
   var text = _createMarkdownHeader();
-  _undetectedMutations.forEach((key, value) {
+  testedFiles.forEach((key, value) {
     text += &#39;## Undetected mutations in file : $key\n&#39;;
-    for (final mut in value) {
+    for (final mut in value.undetectedMutations) {
       &#47;&#47; ignore: unnecessary_string_escapes
       text += mut.toMarkdown().replaceAll(&#39;*&#39;, &#39;\*&#39;);
     }
     text += &#39;\n\n&#39;;
   });
-  final name = createReportFileName(input,outpath,&#39;md&#39;);
-  _createPathsAndWriteFile(name,text);
+  final name = createReportFileName(_sanitizeInputFile(input), outpath, &#39;md&#39;);
+  _createPathsAndWriteFile(name, text);
 }</code></pre>
 </section>
 

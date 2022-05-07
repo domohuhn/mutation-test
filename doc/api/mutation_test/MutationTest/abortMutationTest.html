@@ -70,7 +70,7 @@
   <pre class="language-dart"><code class="language-dart">void abortMutationTest() {
   _continue = false;
   print(&#39;Abort requested! Waiting for unfinished tasks...&#39;);
-  if (_testRunner!=null) {
+  if (_testRunner != null) {
     _testRunner!.kill();
   }
 }</code></pre>

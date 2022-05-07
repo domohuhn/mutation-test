@@ -64,7 +64,7 @@
     
 <section class="desc markdown">
   <p>Runs the mutation tests using the inputs from <a href="../../mutation_test/MutationTest/inputs.html">inputs</a>.
-Undetected modifications are written to a file in <a href="../../mutation_test/MutationTest/outputPath.html">outputPath</a> using the 
+Undetected modifications are written to a file in <a href="../../mutation_test/MutationTest/outputPath.html">outputPath</a> using the
 specified <a href="../../mutation_test/MutationTest/format.html">format</a>.</p>
 <p>The testrunner will use builtin mutation rules if <a href="../../mutation_test/MutationTest/builtinRules.html">builtinRules</a> is set to true.
 Additionally the <a href="../../mutation_test/MutationTest/ruleFiles.html">ruleFiles</a> will be loaded.</p>
@@ -79,8 +79,8 @@ Returns true if all modifications were detected by the test commands.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">MutationTest(this.inputs, this.outputPath, this.verbose, this.dry, this.format,
-    {this.ruleFiles, this.builtinRules=true, this.quiet=false}) : bar = MutationProgressBar(0,verbose,0.8,quiet);</code></pre>
+  <pre class="language-dart"><code class="language-dart">MutationTest(this.inputs, this.outputPath, this.verbose, this.dry, this.format, {this.ruleFiles, this.builtinRules = true, this.quiet = false})
+    : bar = MutationProgressBar(0, verbose, 0.8, quiet);</code></pre>
 </section>
 
 

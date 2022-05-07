@@ -77,22 +77,21 @@ Returns the number of undetected mutations.</p>
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;int&gt; doMutationTests(MutationData data,
-  {Future&lt;bool&gt; Function(MutationData data, MutatedCode mutated) functor = _runTest,
-  bool supressVerbose=false}) async {
+    {Future&lt;bool&gt; Function(MutationData data, MutatedCode mutated) functor = _runTest, bool supressVerbose = false}) async {
   var failed = 0;
   for (final mutation in data.configuration.mutations) {
-    if (data.configuration.verbose&amp;&amp;!supressVerbose) {
+    if (data.configuration.verbose &amp;&amp; !supressVerbose) {
       print(&#39;Pattern: ${mutation.pattern}&#39;);
     }
-    for (final m in mutation.allMutations(data.contents,data.filename.whitelist , data.configuration.exclusions) ) {
-      if (data.configuration.verbose&amp;&amp;!supressVerbose) {
+    for (final m in mutation.allMutations(data.contents, data.filename.whitelist, data.configuration.exclusions)) {
+      if (data.configuration.verbose &amp;&amp; !supressVerbose) {
         print(&#39;${m.line}&#39;);
       }
-      if(!_continue) {
+      if (!_continue) {
         return failed;
       }
-      var result = await functor(data,m);
-      if(result) {
+      var result = await functor(data, m);
+      if (result) {
         failed += 1;
       }
     }
