@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: dart pub get
       - name: Compile binary
-        run: dart compile exe bin/mutation-test.dart
+        run: dart compile exe bin/mutation_test.dart
       - name: Get Tag
         if: ${{ matrix.name != 'windows' }}
         run: echo "RELEASE_VERSION=`echo $(git describe --tags --abbrev=0)`" >> $GITHUB_ENV
@@ -37,8 +37,8 @@ jobs:
         run: |
           mkdir -p bundle/bin
           mkdir -p release
-          mv bin/mutation-test.exe bundle/bin/mutation-test
-          chmod a+x bundle/bin/mutation-test
+          mv bin/mutation_test.exe bundle/bin/mutation_test
+          chmod a+x bundle/bin/mutation_test
           cd bundle
           tar -czvf ../release/mutation-test-${{ matrix.package_arch }}-${RELEASE_VERSION}.tar.gz .
       - name: Package windows
@@ -46,7 +46,7 @@ jobs:
         run: |
           mkdir bundle\\bin
           mkdir release
-          powershell Copy-Item "bin/mutation-test.exe" -Destination "bundle/bin"
+          powershell Copy-Item "bin/mutation_test.exe" -Destination "bundle/bin"
           cd release
           powershell Compress-Archive ../bundle/* mutation-test-${{ matrix.package_arch }}.zip
       - name: Upload artifacts to release
