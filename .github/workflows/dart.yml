@@ -43,7 +43,7 @@ jobs:
       - name: Run tests
         run: dart test
       - name: Compile binary
-        run: dart compile exe bin/mutation-test.dart
+        run: dart compile exe bin/mutation_test.dart
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2.2.4
