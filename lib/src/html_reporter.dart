@@ -6,7 +6,7 @@ import 'package:mutation_test/mutation_test.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 
 String createToplevelHtmlFile(ResultsReporter reporter) {
-  var rv = createHtmlFileHeader(reporter, 'top level', reporter.totalMutations, reporter.foundMutations, reporter.totalTimeouts, true);
+  var rv = createHtmlFileHeader(reporter, 'top level', reporter.totalMutations, reporter.foundMutations, reporter.totalTimeouts, true, '');
   rv += '''
 <center>
 <table width ="80%" cellspacing="1" border="0">
@@ -53,8 +53,8 @@ String createMutationList(int line, FileMutationResults file) {
   return rv + '</table>';
 }
 
-String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file) {
-  var rv = createHtmlFileHeader(reporter, file.path, file.mutationCount, file.detectedCount, file.timeoutCount, false);
+String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file, String toplevelFileName) {
+  var rv = createHtmlFileHeader(reporter, file.path, file.mutationCount, file.detectedCount, file.timeoutCount, false, toplevelFileName);
   rv += '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
   var i = 1;
   for (final src in file.contents.split('\n')) {
@@ -120,12 +120,12 @@ String selectBarColor(double pct) {
   }
 }
 
-String createHtmlFileHeader(ResultsReporter reporter, String current, int total, int detected, int timeouts, bool isToplevel) {
+String createHtmlFileHeader(ResultsReporter reporter, String current, int total, int detected, int timeouts, bool isToplevel, String toplevelFileName) {
   var detectedFraction = 100.0 * detected / total;
   var timeoutFraction = 100.0 * timeouts / total;
   var locationText = current;
   if (!isToplevel) {
-    locationText += ' - <a href="${createParentLinkPrefix(current)}index.html">back to top</a>';
+    locationText += ' - <a href="${createParentLinkPrefix(current)}$toplevelFileName">back to top</a>';
   }
   var rv = '''
 <!DOCTYPE html>

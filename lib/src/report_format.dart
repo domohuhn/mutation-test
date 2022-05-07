@@ -277,7 +277,7 @@ class ResultsReporter {
     var fname = createReportFileName(_sanitizeInputFile(input), outpath, 'html');
     _createPathsAndWriteFile(fname, index);
     testedFiles.forEach((key, value) {
-      var contents = createSourceHtmlFile(this, value);
+      var contents = createSourceHtmlFile(this, value, basename(fname));
       var sname = createReportFileName(key, outpath, 'html', appendReport: false, removeInputExt: false, removePathsFromInput: false);
       _createPathsAndWriteFile(sname, contents);
     });

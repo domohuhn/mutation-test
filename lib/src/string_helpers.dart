@@ -50,27 +50,35 @@ String asPercentString(int fraction, int total) {
 /// with the given file [ext].
 String createReportFileName(String input, String outpath, String ext,
     {bool appendReport = true, bool removePathsFromInput = true, bool removeInputExt = true}) {
-  var start = 0;
-  if (removePathsFromInput) {
-    if (input.contains('/')) {
-      start = input.lastIndexOf('/') + 1;
-    } else if (input.contains('\\')) {
-      start = input.lastIndexOf('\\') + 1;
-    }
-  }
+  var fixed = removePathsFromInput ? basename(input) : input;
   var end = -1;
   if (removeInputExt) {
-    end = input.lastIndexOf('.');
+    end = fixed.lastIndexOf('.');
   }
   if (end == -1) {
-    end = input.length;
+    end = fixed.length;
   }
-  var name = '$outpath/${input.substring(start, end)}';
+  var name = '$outpath/${fixed.substring(0, end)}';
   if (appendReport) {
     name += '-report';
   }
   name += '.$ext';
   return name;
+}
+
+/// Removes the directories from a file name and returns just the basename.
+String basename(String path) {
+  var start = 0;
+  if (path.contains('/')) {
+    start = path.lastIndexOf('/') + 1;
+  }
+  if (path.contains('\\')) {
+    var start2 = path.lastIndexOf('\\') + 1;
+    if (start2 > start) {
+      start = start2;
+    }
+  }
+  return path.substring(start);
 }
 
 /// Gets the directory from the given path [path].

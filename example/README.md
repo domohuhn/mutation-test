@@ -9,7 +9,7 @@ This command produces the example [outputs](https://domohuhn.github.io/mutation-
 # Run the tests in directory "example":
 # Write output to docs/output
 # pruduce all report file formats
-./mutation-test example/config.xml -o docs/output -f all
+./mutation-test example/config.xml -o doc/output -f all
 ```
 
 ## Example configuration 2

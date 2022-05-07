@@ -36,6 +36,15 @@ dart pub run mutation-test
 ```
 
 Running this command may take a long time (hours depending on library size). The output will be written to the directory ./mutation-test-report.
+The default report format is html. A top-level report will generated listing all input files:
+
+![Top level report](https://raw.githubusercontent.com/domohuhn/mutation-test/main/doc/top-level-report.png "Top level report")
+
+From there, you can follow the links to the reports for the individual input files.
+These reports show all lines of the source files, and undetected mutations are marked as red lines. You can view the undetected changes by clicking
+on the respective line:
+
+![Report for a source file](https://raw.githubusercontent.com/domohuhn/mutation-test/main/doc/file-report.png "Report for a source file")
 
 ## Features
   - Fully configurable mutation rules via XML documents and regular expressions
