@@ -31,8 +31,9 @@ The application will the assume that "dart test" is the test command and that al
 the directory lib/ are to be mutated.
 
 ```bash
-dart
+dart pub run mutation-test
 ```
+Running this command may take a long time (hours depending on library size). The output will be written to the directory ./mutation-test-report.
 
 ## Features
   - Fully configurable mutation rules via XML documents and regular expressions
@@ -297,4 +298,8 @@ The rest are excepted to be paths to input XML configuration files.
 ## License
 mutation-test is free software, as in "free beer" and "free speech". 
 All Code is licensed with the BSD-3-Clause license, see file "LICENSE"
+
+## Issue tracker
+
+You can view the issues or request features at the [issue tracker](https://github.com/domohuhn/mutation-test/issues).
 

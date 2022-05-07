@@ -1,3 +1,11 @@
+## 1.2.0
+
+- Html reports are prettier. The look of the files is inspired by the lcov reports.
+- Running the program without any arguments no longer causes an error. Instead, the program
+  will assume that you are using a dart project, so alle files in lib/ will be mutated and
+  tested via dart test.
+
+
 ## 1.1.2
 
 - Licenses of transitive dependencies are now also shown with argument "--about"
