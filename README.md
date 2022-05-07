@@ -32,6 +32,8 @@ The application will the assume that "dart test" is the test command and that al
 the directory lib/ are input files.
 
 ```bash
+# Adds the package 
+dart pub add --dev mutation_test
 dart pub run mutation_test
 ```
 
