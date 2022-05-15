@@ -80,9 +80,11 @@ class RegexReplacement extends Replacement {
   void _removeEscapeSequences() {
     _processText(RegExp(r'([\\]|[\\][\\])[$]([0-9]+)'), (Match m) {
       if (m.group(1) == r'\\') {
-        _text = '${_text.substring(0, m.start)}\\\$${m.group(2)}${_text.substring(m.end)}';
+        _text =
+            '${_text.substring(0, m.start)}\\\$${m.group(2)}${_text.substring(m.end)}';
       } else {
-        _text = '${_text.substring(0, m.start)}\$${m.group(2)}${_text.substring(m.end)}';
+        _text =
+            '${_text.substring(0, m.start)}\$${m.group(2)}${_text.substring(m.end)}';
       }
     });
 
