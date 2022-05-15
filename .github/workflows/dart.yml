@@ -55,8 +55,8 @@ jobs:
       - name: Coverage information
         if: matrix.os == 'ubuntu-latest'
         run: |
-          dart pub global activate test_coverage
-          test_coverage
+          dart pub global activate coverage
+          dart pub global run coverage:test_with_coverage
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest'
