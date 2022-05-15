@@ -53,7 +53,7 @@ String createMutationList(int line, FileMutationResults file) {
       ++i;
     }
   }
-  return rv + '</table>';
+  return '$rv</table>';
 }
 
 String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file,

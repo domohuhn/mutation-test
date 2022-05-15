@@ -10,6 +10,6 @@ class MutationError implements Exception {
 
   @override
   String toString() {
-    return 'Error: ' + cause;
+    return 'Error: $cause';
   }
 }

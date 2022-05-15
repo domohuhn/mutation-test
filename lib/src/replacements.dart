@@ -80,23 +80,19 @@ class RegexReplacement extends Replacement {
   void _removeEscapeSequences() {
     _processText(RegExp(r'([\\]|[\\][\\])[$]([0-9]+)'), (Match m) {
       if (m.group(1) == r'\\') {
-        _text = _text.substring(0, m.start) +
-            '\\\$${m.group(2)}' +
-            _text.substring(m.end);
+        _text = '${_text.substring(0, m.start)}\\\$${m.group(2)}${_text.substring(m.end)}';
       } else {
-        _text = _text.substring(0, m.start) +
-            '\$${m.group(2)}' +
-            _text.substring(m.end);
+        _text = '${_text.substring(0, m.start)}\$${m.group(2)}${_text.substring(m.end)}';
       }
     });
 
     _processText(RegExp(r'([\\][tnr])'), (Match m) {
       if (m.group(1) == r'\n') {
-        _text = _text.substring(0, m.start) + '\n' + _text.substring(m.end);
+        _text = '${_text.substring(0, m.start)}\n${_text.substring(m.end)}';
       } else if (m.group(1) == r'\t') {
-        _text = _text.substring(0, m.start) + '\t' + _text.substring(m.end);
+        _text = '${_text.substring(0, m.start)}\t${_text.substring(m.end)}';
       } else if (m.group(1) == r'\r') {
-        _text = _text.substring(0, m.start) + '\r' + _text.substring(m.end);
+        _text = '${_text.substring(0, m.start)}\r${_text.substring(m.end)}';
       } else {
         throw MutationError('Internal error - no matching whitespace!');
       }

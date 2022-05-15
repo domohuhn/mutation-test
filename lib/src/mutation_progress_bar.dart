@@ -69,7 +69,7 @@ class MutationProgressBar {
       if (newline) {
         text += '\n';
       }
-      stdout.write('\r' + text);
+      stdout.write('\r$text');
     }
   }
 }

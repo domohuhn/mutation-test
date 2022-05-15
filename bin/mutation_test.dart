@@ -119,20 +119,20 @@ void main(List<String> arguments) async {
   }
 
   var ruleDocuments = argResults[rules];
-  var _verbose = argResults[verbose];
-  var _quiet = argResults[quiet];
+  var isVerbose = argResults[verbose];
+  var isQuiet = argResults[quiet];
 
-  if (_quiet) {
-    _verbose = false;
+  if (isQuiet) {
+    isVerbose = false;
   }
 
-  var _builtin = (ruleDocuments.isNotEmpty &&
+  var addBuiltin = (ruleDocuments.isNotEmpty &&
           argResults.wasParsed(builtin) &&
           argResults[builtin]) ||
       (ruleDocuments.isEmpty && argResults[builtin]);
   var mutations = MutationTest(
-      argResults.rest, argResults[output], _verbose, argResults[dry], fmt,
-      ruleFiles: ruleDocuments, builtinRules: _builtin, quiet: _quiet);
+      argResults.rest, argResults[output], isVerbose, argResults[dry], fmt,
+      ruleFiles: ruleDocuments, builtinRules: addBuiltin, quiet: isQuiet);
 
   ProcessSignal.sigint.watch().listen((signal) {
     print('\nReceived system interrupt!');
@@ -153,7 +153,7 @@ void main(List<String> arguments) async {
 
 void handleCommandLineError(var parser, [String errorMessage = '']) {
   if (errorMessage != '') {
-    print('Error while parsing command line arguments:\n  ' + errorMessage);
+    print('Error while parsing command line arguments:\n  $errorMessage');
   }
   printUsage(parser, 2);
 }

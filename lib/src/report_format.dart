@@ -338,6 +338,6 @@ ${DateTime.now()}
     });
     rv += '| Quality Rating | $rating |\n';
     rv += '| Success | $success |\n';
-    return rv + '\n\n';
+    return '$rv\n\n';
   }
 }
