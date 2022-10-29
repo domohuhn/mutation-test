@@ -38,10 +38,10 @@ String removeNewline(String s) {
   return s;
 }
 
-String createMutationList(int line, FileMutationResults file) {
-  var rv = '<b>Undected mutations:</b>\n<table class="mutationTable">\n';
+String _createMutationReportList(int line, dynamic mutations , String title) {
+  var rv = '<b>$title</b>\n<table class="mutationTable">\n';
   int i = 1;
-  for (final mut in file.undetectedMutations) {
+  for (final mut in mutations) {
     if (line == mut.line) {
       if (i > 1) {
         rv += '<tr><td colspan="2"><hr class="ruler"/></td></tr>';
@@ -50,7 +50,21 @@ String createMutationList(int line, FileMutationResults file) {
       ++i;
     }
   }
-  return '$rv</table>';
+  return '$rv</table>\n';
+}
+
+String createMutationList(int line, FileMutationResults file) {
+  var rv = '';
+  if (file.lineHasUndetectedMutation(line)) {
+    rv += _createMutationReportList(line, file.undetectedMutations, 'Undetected mutations:');
+  }
+  if (file.lineHasDetectedMutation(line)) {
+    rv += _createMutationReportList(line, file.detectedMutations, 'Detected mutations:');
+  }
+  if (file.lineHasTimeoutMutation(line)) {
+    rv += _createMutationReportList(line, file.timeoutMutations, 'Mutations that caused a time out:');
+  }
+  return rv;
 }
 
 String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file, String toplevelFileName) {
@@ -59,9 +73,10 @@ String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file, 
   var i = 1;
   for (final src in file.contents.split('\n')) {
     final fmtln = escapeCharsForHtml(removeNewline(src));
-    if (file.lineHasUndetectedMutation(i)) {
+    if (file.lineHasMutation(i)) {
+      final colorClass = file.lineHasProblem(i) ? 'problem' : 'hit';
       rv +=
-          '''<a name="$i"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button>
+          '''<a name="$i"><button class="collapsible $colorClass"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button>
 <div class="content">
 ${createMutationList(i, file)}
 </div></a>''';
@@ -233,7 +248,6 @@ String createHtmlFooter() {
 String getCSSFileContents() {
   return '''
 .collapsible {
-  background-color: #FF6230;
   color: black;
   cursor: pointer;
   padding: 0px;
@@ -243,13 +257,27 @@ String getCSSFileContents() {
   outline: none;
 }
 
-.active, .collapsible:hover {
+.hit {
+  background-color: #DAE7FE;
+}
+
+.hit:hover {
+  color: white;
+  background-color: #6688D4;
+}
+
+.problem {
+  background-color: #FF6230;
+}
+
+.problem:hover {
   background-color: #FF0000;
 }
 
 span.lineNumber
 {
   display: inline-block;
+  color: black;
   background-color: #EFE383;
 }
 

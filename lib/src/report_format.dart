@@ -74,11 +74,40 @@ class FileMutationResults {
 
   /// undected mutations in this file
   List<MutatedLine> undetectedMutations;
+  
+  /// dected mutations in this file
+  List<MutatedLine> detectedMutations;
+  
+  /// dected mutations in this file
+  List<MutatedLine> timeoutMutations;
 
-  FileMutationResults(this.path, this.mutationCount, this.contents) : undetectedMutations = [];
+  FileMutationResults(this.path, this.mutationCount, this.contents) : 
+    undetectedMutations = [],
+    detectedMutations = [],
+    timeoutMutations = [];
 
   bool lineHasUndetectedMutation(int i) {
-    for (final m in undetectedMutations) {
+    return _lineIsInList(undetectedMutations,i);
+  }
+
+  bool lineHasDetectedMutation(int i) {
+    return _lineIsInList(detectedMutations,i);
+  }
+
+  bool lineHasTimeoutMutation(int i) {
+    return _lineIsInList(timeoutMutations,i);
+  }
+
+  bool lineHasMutation(int i) {
+    return _lineIsInList(undetectedMutations,i) || _lineIsInList(detectedMutations,i) || _lineIsInList(timeoutMutations,i);
+  }
+
+  bool lineHasProblem(int i) {
+    return _lineIsInList(undetectedMutations,i) || _lineIsInList(timeoutMutations,i);
+  }
+
+  bool _lineIsInList(List<MutatedLine> list,int i) {
+    for (final m in list) {
       if (m.line == i) {
         return true;
       }
@@ -136,6 +165,7 @@ class ResultsReporter {
         } else {
           throw MutationError('"$file" was not registered in the reporter!');
         }
+        addTimeoutMutation(file, mutation);
         break;
       case TestResult.Detected:
         if (verbose) {
@@ -150,12 +180,13 @@ class ResultsReporter {
         } else {
           throw MutationError('"$file" was not registered in the reporter!');
         }
+        addDetectedMutation(file, mutation);
         break;
       case TestResult.Undetected:
         if (verbose) {
           print('Undetected mutation! All tests passed!');
         }
-        addMutation(file, mutation);
+        addUndetectedMutation(file, mutation);
         break;
     }
   }
@@ -212,6 +243,8 @@ class ResultsReporter {
   void sort() {
     testedFiles.forEach((key, value) {
       value.undetectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+      value.detectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+      value.timeoutMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
     });
   }
 
@@ -219,9 +252,27 @@ class ResultsReporter {
   bool get foundAll => _totalRuns == _totalFound;
 
   /// Adds the undetected [mutation] from [file] to the list.
-  void addMutation(String file, MutatedLine mutation) {
+  void addUndetectedMutation(String file, MutatedLine mutation) {
     if (testedFiles.containsKey(file)) {
       testedFiles[file]!.undetectedMutations.add(mutation);
+    } else {
+      throw MutationError('"$file" was not registered in the reporter!');
+    }
+  }
+
+  /// Adds the detected [mutation] from [file] to the list.
+  void addDetectedMutation(String file, MutatedLine mutation) {
+    if (testedFiles.containsKey(file)) {
+      testedFiles[file]!.detectedMutations.add(mutation);
+    } else {
+      throw MutationError('"$file" was not registered in the reporter!');
+    }
+  }
+
+  /// Adds a [mutation] from [file] to the timeout list.
+  void addTimeoutMutation(String file, MutatedLine mutation) {
+    if (testedFiles.containsKey(file)) {
+      testedFiles[file]!.timeoutMutations.add(mutation);
     } else {
       throw MutationError('"$file" was not registered in the reporter!');
     }

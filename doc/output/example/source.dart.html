@@ -4,7 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 .collapsible {
-  background-color: #FF6230;
   color: black;
   cursor: pointer;
   padding: 0px;
@@ -14,13 +13,27 @@
   outline: none;
 }
 
-.active, .collapsible:hover {
+.hit {
+  background-color: #DAE7FE;
+}
+
+.hit:hover {
+  color: white;
+  background-color: #6688D4;
+}
+
+.problem {
+  background-color: #FF6230;
+}
+
+.problem:hover {
   background-color: #FF0000;
 }
 
 span.lineNumber
 {
   display: inline-block;
+  color: black;
   background-color: #EFE383;
 }
 
@@ -260,7 +273,7 @@ td.barBg
 
      <tr>
      <td class="ItemLabel" width="10%">Date:</td>
-     <td class="ItemText" width="35%">2022-10-29 17:19:36.057564</td>
+     <td class="ItemText" width="35%">2022-10-29 19:13:13.514084</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
      <td class="ItemReport" width="15%">28</td>
      <td class="ItemReport" width="15%">40</td>
@@ -291,42 +304,75 @@ td.barBg
 <a name="2"><span class="lineNumber">       2 </span>/// License: BSD-3-Clause</a>
 <a name="3"><span class="lineNumber">       3 </span>/// See LICENSE for the full text of the license</a>
 <a name="4"><span class="lineNumber">       4 </span></a>
-<a name="5"><span class="lineNumber">       5 </span>int conditions(int a, int b, int c) {</a>
-<a name="6"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">       6 </span>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</pre></button>
+<a name="5"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">       5 </span>int conditions(int a, int b, int c) {</pre></button>
 <div class="content">
-<b>Undected mutations:</b>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+ int conditions<span class="changedTokens">(!(int a, int b, int c) {
+  if (a == b )&amp;&amp;</span> (a &lt; c || b &gt; c || b == c)) {</span></td></tr></table>
+
+</div></a><a name="6"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">       6 </span>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</pre></button>
+<div class="content">
+<b>Undetected mutations:</b>
 <table class="mutationTable">
 <tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c <span class="changedTokens">&amp;&amp;</span> b == c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c || b <span class="changedTokens">!=</span> c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c |<span class="changedTokens">|!( b &gt; c )|</span>| b == c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c <span class="changedTokens">||!( b == c))</span>) {</span></td></tr></table>
-</div></a><a name="7"><span class="lineNumber">       7 </span>    return a + c;</a>
-<a name="8"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">       8 </span>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</pre></button>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b <span class="changedTokens">||</span> (a &lt; c || b &gt; c || b == c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c <span class="changedTokens">&amp;&amp;</span> b &gt; c || b == c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a <span class="changedTokens">!=</span> b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+  <span class="changedTokens"> if (!(a == b &amp;&amp; (a &lt; c || b &gt; c || b == c))) {</span></span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">5 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; <span class="changedTokens">(!(a &lt; c )||</span> b &gt; c || b == c)) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">6 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b <span class="changedTokens">&amp;&amp;!(</span>a &lt; c || b &gt; c || b == c)) {</span></td></tr></table>
+
+</div></a><a name="7"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">       7 </span>    return a + c;</pre></button>
 <div class="content">
-<b>Undected mutations:</b>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     return a <span class="changedTokens">-</span> c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+     return a <span class="changedTokens">*</span> c;</span></td></tr></table>
+
+</div></a><a name="8"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">       8 </span>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</pre></button>
+<div class="content">
+<b>Undetected mutations:</b>
 <table class="mutationTable">
 <tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b &lt;= 0 <span class="changedTokens">||</span> c &gt; 0) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b <span class="changedTokens">&lt;</span> 0 &amp;&amp; c &gt; 0) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b &lt;=<span class="changedTokens"> -0</span> &amp;&amp; c &gt; 0) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b &lt;= 0 &amp;&amp; c &gt;<span class="changedTokens"> -0</span>) {</span></td></tr></table>
-</div></a><a name="9"><span class="lineNumber">       9 </span>    return a - b;</a>
-<a name="10"><span class="lineNumber">      10 </span>  }</a>
-<a name="11"><span class="lineNumber">      11 </span>  for (var i = 0; i &lt; 10; ++i) {}</a>
-<a name="12"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">      12 </span>  var i = 0;</pre></button>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b <span class="changedTokens">==</span> 0 &amp;&amp; c &gt; 0) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else<span class="changedTokens"> if (!(b &lt;= 0 &amp;&amp; c &gt; 0)) {</span></span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if <span class="changedTokens">(!(b &lt;= 0 )&amp;&amp; c &gt; 0)</span> {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if <span class="changedTokens">(b &lt;= 0 &amp;&amp;!( c &gt; 0))</span> {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">5 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if <span class="changedTokens">(!(b &lt;= 0 )&amp;&amp;</span> c &gt; 0) {</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">6 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b &lt;= 0 <span class="changedTokens">&amp;&amp;!( c &gt; 0))</span> {</span></td></tr></table>
+
+</div></a><a name="9"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">       9 </span>    return a - b;</pre></button>
 <div class="content">
-<b>Undected mutations:</b>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     return a <span class="changedTokens">+</span> b;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+     return a <span class="changedTokens">*</span> b;</span></td></tr></table>
+
+</div></a><a name="10"><span class="lineNumber">      10 </span>  }</a>
+<a name="11"><span class="lineNumber">      11 </span>  for (var i = 0; i &lt; 10; ++i) {}</a>
+<a name="12"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      12 </span>  var i = 0;</pre></button>
+<div class="content">
+<b>Undetected mutations:</b>
 <table class="mutationTable">
 <tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   var i =<span class="changedTokens"> -0</span>;</span></td></tr></table>
+
 </div></a><a name="13"><span class="lineNumber">      13 </span>  while (i &lt; 10) {</a>
 <a name="14"><span class="lineNumber">      14 </span>    ++i;</a>
 <a name="15"><span class="lineNumber">      15 </span>  }</a>
-<a name="16"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">      16 </span>  return a * b + c;</pre></button>
+<a name="16"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      16 </span>  return a * b + c;</pre></button>
 <div class="content">
-<b>Undected mutations:</b>
+<b>Undetected mutations:</b>
 <table class="mutationTable">
 <tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * b <span class="changedTokens">-</span> c;</span></td></tr></table>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * b <span class="changedTokens">*</span> c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a <span class="changedTokens">+</span> b + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a <span class="changedTokens">-</span> b + c;</span></td></tr></table>
+
 </div></a><a name="17"><span class="lineNumber">      17 </span>}</a>
 <a name="18"><span class="lineNumber">      18 </span></a>
 <a name="19"><span class="lineNumber">      19 </span>double poly(double x, double a, double b, double c) {</a>
-<a name="20"><button class="collapsible"><pre class="fileContents"><span class="lineNumber">      20 </span>  return a * x * x + b * x + c;</pre></button>
+<a name="20"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      20 </span>  return a * x * x + b * x + c;</pre></button>
 <div class="content">
-<b>Undected mutations:</b>
+<b>Undetected mutations:</b>
 <table class="mutationTable">
 <tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x + b * x <span class="changedTokens">-</span> c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x <span class="changedTokens">+</span> x + b * x + c;</span></td></tr></table>
+<b>Detected mutations:</b>
+<table class="mutationTable">
+<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x <span class="changedTokens">-</span> b * x + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x <span class="changedTokens">*</span> b * x + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x + b * x <span class="changedTokens">*</span> c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a <span class="changedTokens">+</span> x * x + b * x + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">5 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a <span class="changedTokens">-</span> x * x + b * x + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">6 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x <span class="changedTokens">-</span> x + b * x + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">7 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x + b <span class="changedTokens">+</span> x + c;</span></td></tr><tr><td colspan="2"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">8 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x + b <span class="changedTokens">-</span> x + c;</span></td></tr></table>
+
 </div></a><a name="21"><span class="lineNumber">      21 </span>}</a>
 <a name="22"><span class="lineNumber">      22 </span></a>
 </pre>

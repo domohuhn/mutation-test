@@ -1,5 +1,6 @@
 ## 1.3.0
- - Reports were updated: Files without mutations are now no longer reported as NaN %
+ - Files without mutations are now no longer reported as NaN % mutations
+ - Detected and mutations with timeouts are reported in the generated html
 
 ## 1.2.2
  - Fixed minor problems with the generated html files. Source code strings are escaped and a table was fixed.
@@ -14,7 +15,6 @@
 - Running the program without any arguments no longer causes an error. Instead, the program
   will assume that you are using a dart project, so alle files in lib/ will be mutated and
   tested via dart test.
-
 
 ## 1.1.2
 

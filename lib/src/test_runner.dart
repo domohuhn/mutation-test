@@ -19,7 +19,7 @@ class TestReport {
 class TestRunner {
   /// Runs all test commands from [config] in document order.
   ///
-  /// The method will an aggregate of the result in and some other data.
+  /// The method will report aggregate of the result in and some other data.
   /// If [outputOnFailure] is true, the complete command output will be printed in case of failure.
   Future<TestReport> run(Configuration config, {bool outputOnFailure = false}) async {
     for (final cmd in config.commands) {
