@@ -57,7 +57,9 @@ class MutationTest {
   /// Returns true if all modifications were detected by the test commands.
   ///
   /// Writing output to the command line can be suppressed if [quiet] is set.
-  MutationTest(this.inputs, this.outputPath, this.verbose, this.dry, this.format, {this.ruleFiles, this.builtinRules = true, this.quiet = false})
+  MutationTest(
+      this.inputs, this.outputPath, this.verbose, this.dry, this.format,
+      {this.ruleFiles, this.builtinRules = true, this.quiet = false})
       : bar = MutationProgressBar(0, verbose, 0.8, quiet);
 
   /// Performs the mutation tests asynchronously.
@@ -69,11 +71,16 @@ class MutationTest {
     var foundAll = true;
     if (inputs.isNotEmpty) {
       for (final file in inputs) {
-        var result = await _runMutationTest(file, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules);
+        var result = await _runMutationTest(
+            file, outputPath, verbose, dry, format,
+            ruleFiles: ruleFiles, addBuiltin: builtinRules);
         foundAll = result && foundAll;
       }
     } else {
-      await _runMutationTest('', outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules, useDefaultConfig: true);
+      await _runMutationTest('', outputPath, verbose, dry, format,
+          ruleFiles: ruleFiles,
+          addBuiltin: builtinRules,
+          useDefaultConfig: true);
     }
     return foundAll;
   }
@@ -89,10 +96,15 @@ class MutationTest {
   /// You can perform a [dry] run that wil not run any tests or perform any modifications,
   /// but will list all found mutations per file.
   /// Returns true if all modifications were detected by the test commands.
-  Future<bool> _runMutationTest(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
-      {List<String>? ruleFiles, bool addBuiltin = true, bool useDefaultConfig = false}) async {
-    var data =
-        _createMutationData(inputFile, outputPath, verbose, dry, format, ruleFiles: ruleFiles, addBuiltin: addBuiltin, useDefaultConfig: useDefaultConfig);
+  Future<bool> _runMutationTest(String inputFile, String outputPath,
+      bool verbose, bool dry, ReportFormat format,
+      {List<String>? ruleFiles,
+      bool addBuiltin = true,
+      bool useDefaultConfig = false}) async {
+    var data = _createMutationData(inputFile, outputPath, verbose, dry, format,
+        ruleFiles: ruleFiles,
+        addBuiltin: addBuiltin,
+        useDefaultConfig: useDefaultConfig);
 
     await checkTests(data.configuration, data.test);
 
@@ -127,7 +139,8 @@ class MutationTest {
   Future<void> _countAll() async {
     var totalCount = 0;
     for (final file in inputs) {
-      var data = _createMutationData(file, outputPath, false, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules);
+      var data = _createMutationData(file, outputPath, false, dry, format,
+          ruleFiles: ruleFiles, addBuiltin: builtinRules);
       for (final current in data.configuration.files) {
         final source = File(current.path).readAsStringSync();
         data.filename = current;
@@ -138,7 +151,10 @@ class MutationTest {
       }
     }
     if (inputs.isEmpty) {
-      var data = _createMutationData('', outputPath, false, dry, format, ruleFiles: ruleFiles, addBuiltin: builtinRules, useDefaultConfig: true);
+      var data = _createMutationData('', outputPath, false, dry, format,
+          ruleFiles: ruleFiles,
+          addBuiltin: builtinRules,
+          useDefaultConfig: true);
       for (final current in data.configuration.files) {
         final source = File(current.path).readAsStringSync();
         data.filename = current;
@@ -154,8 +170,11 @@ class MutationTest {
     bar.mutationCount = totalCount;
   }
 
-  MutationData _createMutationData(String inputFile, String outputPath, bool verbose, bool dry, ReportFormat format,
-      {List<String>? ruleFiles, bool addBuiltin = true, bool useDefaultConfig = false}) {
+  MutationData _createMutationData(String inputFile, String outputPath,
+      bool verbose, bool dry, ReportFormat format,
+      {List<String>? ruleFiles,
+      bool addBuiltin = true,
+      bool useDefaultConfig = false}) {
     final configuration = Configuration(verbose, dry);
     final tests = TestRunner();
     final reporter = ResultsReporter(inputFile, addBuiltin);
@@ -191,7 +210,8 @@ class MutationTest {
     configuration.validate();
     reporter.quality = configuration.ratings;
     bar.threshold = configuration.ratings.failure;
-    return MutationData(configuration, tests, TargetFile('', []), '', reporter, bar);
+    return MutationData(
+        configuration, tests, TargetFile('', []), '', reporter, bar);
   }
 
   /// Checks if the tests in [cfg] can be run by the test runner [executor] on the unmodified sources.
@@ -204,13 +224,15 @@ class MutationTest {
     }
     var test = await executor.run(cfg, outputOnFailure: true);
     if (test.result != TestResult.Undetected) {
-      throw MutationError('Running the test commands failed with unmodified code! Aborting.');
+      throw MutationError(
+          'Running the test commands failed with unmodified code! Aborting.');
     }
   }
 
   /// Counts the mutations possible mutations in [data].
   Future<int> countMutations(MutationData data) async {
-    return doMutationTests(data, supressVerbose: true, functor: (MutationData data, MutatedCode mutated) async {
+    return doMutationTests(data, supressVerbose: true,
+        functor: (MutationData data, MutatedCode mutated) async {
       return true;
     });
   }
@@ -220,13 +242,16 @@ class MutationTest {
   /// using all mutation rules in [data] and then the tests are run.
   /// Returns the number of undetected mutations.
   Future<int> doMutationTests(MutationData data,
-      {Future<bool> Function(MutationData data, MutatedCode mutated) functor = _runTest, bool supressVerbose = false}) async {
+      {Future<bool> Function(MutationData data, MutatedCode mutated) functor =
+          _runTest,
+      bool supressVerbose = false}) async {
     var failed = 0;
     for (final mutation in data.configuration.mutations) {
       if (data.configuration.verbose && !supressVerbose) {
         print('Pattern: ${mutation.pattern}');
       }
-      for (final m in mutation.allMutations(data.contents, data.filename.whitelist, data.configuration.exclusions)) {
+      for (final m in mutation.allMutations(data.contents,
+          data.filename.whitelist, data.configuration.exclusions)) {
         if (data.configuration.verbose && !supressVerbose) {
           print('${m.line}');
         }
@@ -264,7 +289,8 @@ class MutationTest {
 Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
   File(data.filename.path).writeAsStringSync(mutated.text);
   var test = await data.test.run(data.configuration);
-  data.results.addTestReport(data.filename.path, mutated.line, test, data.configuration.verbose);
+  data.results.addTestReport(
+      data.filename.path, mutated.line, test, data.configuration.verbose);
   data.bar.increment();
   data.bar.render();
   return test.result == TestResult.Undetected;
@@ -295,7 +321,8 @@ class MutationData {
 
   /// Constructor for the mutation data.
   /// The object is given to the test runner to run tests on the given [filename].
-  MutationData(this.configuration, this.test, this.filename, this.contents, this.results, this.bar);
+  MutationData(this.configuration, this.test, this.filename, this.contents,
+      this.results, this.bar);
 }
 
 /// Returns the version of this library.

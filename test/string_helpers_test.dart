@@ -70,7 +70,8 @@ void main() {
   test('get directory backslash', () {
     expect(getDirectory('somefile.cpp'), '');
     expect(getDirectory('path\\somefile.cpp'), 'path\\');
-    expect(getDirectory('more\\dirs\\path\\somefile.cpp'), 'more\\dirs\\path\\');
+    expect(
+        getDirectory('more\\dirs\\path\\somefile.cpp'), 'more\\dirs\\path\\');
   });
 
   test('create link prefix', () {
@@ -78,15 +79,18 @@ void main() {
     expect(createParentLinkPrefix('path/somefile.cpp'), '../');
     expect(createParentLinkPrefix('more/dirs/path/somefile.cpp'), '../../../');
     expect(createParentLinkPrefix('path\\somefile.cpp'), '../');
-    expect(createParentLinkPrefix('more\\dirs\\path\\somefile.cpp'), '../../../');
+    expect(
+        createParentLinkPrefix('more\\dirs\\path\\somefile.cpp'), '../../../');
   });
 
   test('report file name 2', () {
-    var moo = createReportFileName('input.cpp', 'output', 'html', removeInputExt: false);
+    var moo = createReportFileName('input.cpp', 'output', 'html',
+        removeInputExt: false);
     expect(moo, 'output/input.cpp-report.html');
   });
 
   test('Escape html chars', () {
-    expect(escapeCharsForHtml('aa < bb && cc > dd'), 'aa &lt; bb &amp;&amp; cc &gt; dd');
+    expect(escapeCharsForHtml('aa < bb && cc > dd'),
+        'aa &lt; bb &amp;&amp; cc &gt; dd');
   });
 }
