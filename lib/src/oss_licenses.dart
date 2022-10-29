@@ -696,7 +696,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'lints',
-    description: '''Official Dart lint rules. Defines the \'core\' and \'recommended\' set of lints suggested by the Dart team.
+    description: '''Official Dart lint rules. Defines the 'core' and 'recommended' set of lints suggested by the Dart team.
 ''',
     repository: 'https://github.com/dart-lang/lints',
     authors: [],

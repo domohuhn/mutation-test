@@ -5,11 +5,11 @@
 
 When writing test cases for software, you often rely on metrics like
 code coverage to verify that your test cases actually test your program.
-However, this cannot be determined with a simple metric. It is possible to reach high code coverage, while you are only asserting a fraction of the observable behaviour of your units. You can evaluate your tests by modifying your program in a small way and the verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing).
+However, this cannot be determined with a simple metric. It is possible to reach high code coverage, while you are only asserting a fraction of the observable behaviour of your units. You can evaluate the quality of your tests by modifying your program in a small way and then verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing).
 
 This repository contains a simple command line program that automates these tests for code in any programming language. It can be customized to 
-your needs, because all rules on how to modify the source code and how to
-run the tests are defined in XML documents. The program is fully self contained, so just grab the binary and start testing!
+your needs, because all rules how the source code is modified and how to
+run the tests can be defined in XML documents. The program is fully self contained, so you can just grab the binary and start testing!
 
 ## Quick start
 
@@ -23,7 +23,7 @@ dart pub add --dev mutation_test
 dart pub run mutation_test
 ```
 
-Running this command may take a long time (hours depending on library size). The output will be written to the directory ./mutation-test-report.
+Running this command may take a long time (hours depending on the size of your code). The output will be written to the directory ./mutation-test-report.
 The default report format is html. A top-level [report](https://domohuhn.github.io/mutation-test/doc/output/config-report.html) will be generated listing all input files:
 
 ![Top level report](https://raw.githubusercontent.com/domohuhn/mutation-test/main/doc/top-level-report.png "Top level report")
