@@ -21,8 +21,7 @@ class TestRunner {
   ///
   /// The method will an aggregate of the result in and some other data.
   /// If [outputOnFailure] is true, the complete command output will be printed in case of failure.
-  Future<TestReport> run(Configuration config,
-      {bool outputOnFailure = false}) async {
+  Future<TestReport> run(Configuration config, {bool outputOnFailure = false}) async {
     for (final cmd in config.commands) {
       var result = await _start(cmd, outputOnFailure: outputOnFailure);
       if (result != TestResult.Undetected) {
@@ -37,25 +36,21 @@ class TestRunner {
     var timedout = false;
     var stopwatch = Stopwatch();
     stopwatch.start();
-    var future = await Process.start(cmd.command, cmd.arguments,
-        workingDirectory: cmd.directory);
+    var future = await Process.start(cmd.command, cmd.arguments, workingDirectory: cmd.directory);
     _pid = future.pid;
     var stdout = '';
-    var moo1 =
-        future.stdout.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
+    var moo1 = future.stdout.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
       stdout += e;
     });
     var stderr = '';
-    var moo2 =
-        future.stderr.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
+    var moo2 = future.stderr.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
       stderr += e;
     });
 
     var exitfuture = future.exitCode;
     if (cmd.timeout != null) {
       exitfuture = exitfuture.timeout(cmd.timeout!, onTimeout: () {
-        print(
-            'Command time out after: ${stopwatch.elapsed}! Killing process with pid: ${future.pid}.');
+        print('Command time out after: ${stopwatch.elapsed}! Killing process with pid: ${future.pid}.');
         future.kill(ProcessSignal.sigterm);
         timedout = true;
         return -1;
@@ -69,8 +64,7 @@ class TestRunner {
     final matchesExpectation = exitCode == cmd.expectedReturnValue;
     if (outputOnFailure && (!matchesExpectation || timedout)) {
       print('FAILED: $cmd');
-      print(
-          'Timeout: $timedout (elapsed time: ${stopwatch.elapsed} - exit code may be wrong on timeout)');
+      print('Timeout: $timedout (elapsed time: ${stopwatch.elapsed} - exit code may be wrong on timeout)');
       print('Exit code: $exitCode (expected ${cmd.expectedReturnValue})');
       print('stdout: "$stdout"');
       print('stderr: "$stderr"');

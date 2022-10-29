@@ -23,24 +23,21 @@ void main() {
     var bar = ProgressBar(80, width: 50);
     bar.totalSuffix = 'MB';
     bar.update(40);
-    expect(
-        bar.toString(), '[================>                 ]  50% (40/80MB)');
+    expect(bar.toString(), '[================>                 ]  50% (40/80MB)');
   });
 
   test('Progress bar - Almost full ', () {
     var bar = ProgressBar(80, width: 50);
     bar.totalSuffix = 'MB';
     bar.update(79);
-    expect(
-        bar.toString(), '[=================================>]  99% (79/80MB)');
+    expect(bar.toString(), '[=================================>]  99% (79/80MB)');
   });
 
   test('Progress bar - Full ', () {
     var bar = ProgressBar(80, width: 50);
     bar.totalSuffix = 'MB';
     bar.update(80);
-    expect(
-        bar.toString(), '[=====================================] 100% (80MB)');
+    expect(bar.toString(), '[=====================================] 100% (80MB)');
   });
 
   test('Progress bar - No total ', () {
@@ -48,8 +45,7 @@ void main() {
     bar.showTotal = false;
     bar.totalSuffix = 'MB';
     bar.update(40);
-    expect(
-        bar.toString(), '[=====================>                      ]  50%');
+    expect(bar.toString(), '[=====================>                      ]  50%');
   });
 
   test('Progress bar - No percent ', () {
@@ -57,8 +53,7 @@ void main() {
     bar.showPercent = false;
     bar.totalSuffix = 'MB';
     bar.update(40);
-    expect(
-        bar.toString(), '[==================>                   ] (40/80MB)');
+    expect(bar.toString(), '[==================>                   ] (40/80MB)');
   });
 
   test('Progress bar - No text ', () {

@@ -26,10 +26,7 @@ class TestData {
   }
 
   void changeState(dynamic event) {
-    if (event.a &&
-        event.b &&
-        (event.c || event.d || (event.f && event.g)) &&
-        event.e) {
+    if (event.a && event.b && (event.c || event.d || (event.f && event.g)) && event.e) {
       on = true;
     }
   }

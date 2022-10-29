@@ -9,23 +9,12 @@ import 'package:test/test.dart';
 
 void main() {
   var mut = Mutation('aaa');
-  mut.replacements.addAll([
-    LiteralReplacement('bbb'),
-    LiteralReplacement('ccc'),
-    LiteralReplacement('ddd')
-  ]);
+  mut.replacements.addAll([LiteralReplacement('bbb'), LiteralReplacement('ccc'), LiteralReplacement('ddd')]);
   var text = 'moo aaa xxx aaa';
 
   test('Mutation Iteration with literal replacement', () {
     var index = 0;
-    final expected = [
-      'moo bbb xxx aaa',
-      'moo ccc xxx aaa',
-      'moo ddd xxx aaa',
-      'moo aaa xxx bbb',
-      'moo aaa xxx ccc',
-      'moo aaa xxx ddd'
-    ];
+    final expected = ['moo bbb xxx aaa', 'moo ccc xxx aaa', 'moo ddd xxx aaa', 'moo aaa xxx bbb', 'moo aaa xxx ccc', 'moo aaa xxx ddd'];
     for (final modified in mut.allMutations(text, [], [])) {
       expect(modified.text, expected[index]);
       index += 1;
@@ -68,8 +57,7 @@ void main() {
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">+  <span style="background-color: rgb(50, 255, 50);">bbb</span> </span><br>
 ''');
         expect(modified.line.toString(), '3: "bbb"');
-        expect(modified.line.formatMutatedCodeToHTML(),
-            '<span class="addedLine">+  <span class="changedTokens">bbb</span> </span>');
+        expect(modified.line.formatMutatedCodeToHTML(), '<span class="addedLine">+  <span class="changedTokens">bbb</span> </span>');
       }
     }
     expect(index, 6);
@@ -88,10 +76,7 @@ void main() {
     test('Mutation Iteration with regex replacement', () {
       final input = 'xxx aa bbbb ccc ddd xxx';
       var index = 0;
-      final expected = [
-        'xxx (ddd ccc bbbb aa) xxx',
-        'xxx bbbb masd o\r\n ccc asdas \\\\\\ddd\t\$123a \$e aa xxx'
-      ];
+      final expected = ['xxx (ddd ccc bbbb aa) xxx', 'xxx bbbb masd o\r\n ccc asdas \\\\\\ddd\t\$123a \$e aa xxx'];
       for (final modified in mutation2.allMutations(input, [], [])) {
         expect(modified.text, expected[index]);
         index += 1;

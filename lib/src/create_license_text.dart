@@ -13,8 +13,7 @@ String createLicenseText() {
   if (ext.isEmpty) {
     return rv;
   }
-  rv +=
-      '\n\n-------------------------------------------------------------------------------\nAdditional licenses:\n\n';
+  rv += '\n\n-------------------------------------------------------------------------------\nAdditional licenses:\n\n';
   for (final value in ext) {
     final name = value.name;
     final version = value.version;

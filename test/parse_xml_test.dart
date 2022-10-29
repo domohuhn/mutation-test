@@ -76,8 +76,7 @@ void main() {
   });
 
   test('Read from file', () {
-    final configuration =
-        Configuration.fromFile('./example/should_timeout.xml', false, true);
+    final configuration = Configuration.fromFile('./example/should_timeout.xml', false, true);
     expect(configuration.exclusions.length, 0);
     expect(configuration.mutations.length, 0);
     expect(configuration.files.length, 1);

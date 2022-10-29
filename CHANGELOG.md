@@ -1,3 +1,6 @@
+## 1.3.0
+ - Reports were updated: Files without mutations are now no longer reported as NaN %
+
 ## 1.2.2
  - Fixed minor problems with the generated html files. Source code strings are escaped and a table was fixed.
 

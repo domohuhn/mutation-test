@@ -31,8 +31,7 @@ enum ReportFormat {
 
 /// Creates the test report in directory [outputPath] from [inputFile]
 /// in the specified [format] using the [results].
-void createReport(ResultsReporter results, String outputPath, String inputFile,
-    ReportFormat format) {
+void createReport(ResultsReporter results, String outputPath, String inputFile, ReportFormat format) {
   results.write();
   results.sort();
   switch (format) {
@@ -76,8 +75,7 @@ class FileMutationResults {
   /// undected mutations in this file
   List<MutatedLine> undetectedMutations;
 
-  FileMutationResults(this.path, this.mutationCount, this.contents)
-      : undetectedMutations = [];
+  FileMutationResults(this.path, this.mutationCount, this.contents) : undetectedMutations = [];
 
   bool lineHasUndetectedMutation(int i) {
     for (final m in undetectedMutations) {
@@ -125,8 +123,7 @@ class ResultsReporter {
 
   /// Adds the [test] report to the accumulated statistics.
   /// This method will print to the command line if [verbose] is true.
-  void addTestReport(
-      String file, MutatedLine mutation, TestReport test, bool verbose) {
+  void addTestReport(String file, MutatedLine mutation, TestReport test, bool verbose) {
     _totalRuns += 1;
     switch (test.result) {
       case TestResult.Timeout:
@@ -145,8 +142,7 @@ class ResultsReporter {
           print('Found mutation with ${test.command}');
         }
         if (test.command != null && test.command!.group.isNotEmpty) {
-          _groupStatistics.update(test.command!.group, (v) => v + 1,
-              ifAbsent: () => 1);
+          _groupStatistics.update(test.command!.group, (v) => v + 1, ifAbsent: () => 1);
         }
         _totalFound += 1;
         if (testedFiles.containsKey(file)) {
@@ -190,8 +186,7 @@ class ResultsReporter {
   double get undetectedFraction => (100.0 * undetectedMutations) / _totalRuns;
 
   /// Reports the percentage of detected mutations of the total mutations.
-  double get detectedFraction =>
-      100.0 - (100.0 * undetectedMutations) / _totalRuns;
+  double get detectedFraction => 100.0 - (100.0 * undetectedMutations) / _totalRuns;
 
   /// Reports the percentage of mutations that ran into the timeout.
   double get timeoutFraction => (100.0 * totalTimeouts) / _totalRuns;
@@ -206,10 +201,8 @@ class ResultsReporter {
   void write() {
     print('  --- Results ---');
     print('Test group statistics:');
-    _groupStatistics
-        .forEach((k, v) => print('  Group : $k, Found mutations: $v'));
-    print(
-        '\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations, _totalRuns)})');
+    _groupStatistics.forEach((k, v) => print('  Group : $k, Found mutations: $v'));
+    print('\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations, _totalRuns)})');
     print('Timeouts: $_totalTimeouts');
     print('Elapsed: $elapsed');
     print('Success: $success, Quality rating: $rating');
@@ -218,8 +211,7 @@ class ResultsReporter {
   /// Sorts mutations by lines.
   void sort() {
     testedFiles.forEach((key, value) {
-      value.undetectedMutations
-          .sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+      value.undetectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
     });
   }
 
@@ -238,8 +230,7 @@ class ResultsReporter {
   /// Writes the results of the tests to a xml file in directory [outpath].
   /// The report will be named like the [input], but ending with "-report.xml".
   void writeXMLReport(String outpath, String input) {
-    var text =
-        '<?xml version="1.0" encoding="UTF-8"?>\n<undetected-mutations>\n';
+    var text = '<?xml version="1.0" encoding="UTF-8"?>\n<undetected-mutations>\n';
     text += '<program-version>${mutationTestVersion()}</program-version>\n';
     text += '<elapsed>$elapsed</elapsed>\n';
     text += '<result rating="$rating" success="$success"/>\n';
@@ -259,8 +250,7 @@ class ResultsReporter {
       text += '</file>\n';
     });
     text += '</undetected-mutations>\n';
-    final name =
-        createReportFileName(_sanitizeInputFile(input), outpath, 'xml');
+    final name = createReportFileName(_sanitizeInputFile(input), outpath, 'xml');
     _createPathsAndWriteFile(name, text);
   }
 
@@ -284,15 +274,11 @@ class ResultsReporter {
   /// The report will be named like the [input], but ending with "-report.html".
   void writeHTMLReport(String outpath, String input) {
     var index = createToplevelHtmlFile(this);
-    var fname =
-        createReportFileName(_sanitizeInputFile(input), outpath, 'html');
+    var fname = createReportFileName(_sanitizeInputFile(input), outpath, 'html');
     _createPathsAndWriteFile(fname, index);
     testedFiles.forEach((key, value) {
       var contents = createSourceHtmlFile(this, value, basename(fname));
-      var sname = createReportFileName(key, outpath, 'html',
-          appendReport: false,
-          removeInputExt: false,
-          removePathsFromInput: false);
+      var sname = createReportFileName(key, outpath, 'html', appendReport: false, removeInputExt: false, removePathsFromInput: false);
       _createPathsAndWriteFile(sname, contents);
     });
   }
