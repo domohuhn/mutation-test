@@ -211,8 +211,8 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
 
 String createFileReportLine(
     String path, int mutations, int detected, int timeouts) {
-  var percentage = 100.0 * detected / mutations;
-  var timeoutpct = 100.0 * timeouts / mutations;
+  var percentage = mutations>0 ? 100.0 * detected / mutations : 100.0;
+  var timeoutpct = mutations>0 ? 100.0 * timeouts / mutations : 0.0;
   return '''
 <tr><td class="FileLink" width="60%"><a href="$path.html">$path</a></td>
   <td class="ItemReport" width="10%">

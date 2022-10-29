@@ -251,7 +251,7 @@ td.barBg
      <table width="100%" cellpadding="1" border="0">
      <tbody><tr>
      <td class="ItemLabel" width="10%">Current display:</td>
-     <td class="ItemText" width="35%">top level</td>
+     <td class="ItemText" width="35%">example/source3.dart - <a href="../config-report.html">back to top</a></td>
      <td width="10%"></td>
      <td class="MiddleHeader" width="15%">Detected</td>
      <td class="MiddleHeader" width="15%">Total</td>
@@ -260,11 +260,11 @@ td.barBg
 
      <tr>
      <td class="ItemLabel" width="10%">Date:</td>
-     <td class="ItemText" width="35%">2022-10-29 17:05:15.098341</td>
+     <td class="ItemText" width="35%">2022-10-29 17:05:15.100342</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
-     <td class="ItemReport" width="15%">33</td>
-     <td class="ItemReport" width="15%">81</td>
-     <td class="ItemReportLow" width="15%">40.7 %</td>
+     <td class="ItemReport" width="15%">0</td>
+     <td class="ItemReport" width="15%">0</td>
+     <td class="ItemReportLow" width="15%">NaN %</td>
      </tr>
      
      <tr>
@@ -272,18 +272,10 @@ td.barBg
      <td class="ItemText" width="35%">true</td>
      <td class="ItemLabel" width="10%">Timeouts:</td>
      <td class="ItemReport" width="15%">0</td>
-     <td class="ItemReport" width="15%">81</td>
-     <td class="ItemReportHigh" width="15%">0.0 %</td>
+     <td class="ItemReport" width="15%">0</td>
+     <td class="ItemReportLow" width="15%">NaN %</td>
      </tr>
-     <tr>
-     <td class="ItemLabel" width="10%">Quality rating:</td>
-     <td class="ItemText" width="35%">D</td>
-     <td class="ItemLabel" width="10%">Success:</td>
-     <td class="ItemText" width="15%">false</td>
-     <td class="ItemText" width="15%"></td>
-     <td class="ItemText" width="15%"></td>
-     </tr>
-       </tbody>
+     </tbody>
      </table>
      </td>
      </tr>
@@ -293,50 +285,39 @@ td.barBg
      <tr><td><hr class="ruler"/></td></tr>
 </table>
 
-<center>
-<table width ="80%" cellspacing="1" border="0">
-     <tbody>
-     <tr><td width="60%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td></tr>
-     <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Timeouts</td></tr>
-<tr><td class="FileLink" width="60%"><a href="example/source.dart.html">example/source.dart</a></td>
-  <td class="ItemReport" width="10%">
-  <table width="100%" cellpadding="0" border="1"><tr>
-    <td class="barMed" width="70.0%" height="10"></td>
-    <td class="barBg" width="30.0%" height="10"></td>
-  </tr></table>
-  </td>
-  <td class="ItemReportMedium" width="10%">70.0 %</td>
-  <td class="ItemReportMedium" width="10%">28 / 40</td>
-  <td class="ItemReportHigh" width="10%">0 / 40</td>
-</tr>
-<tr><td class="FileLink" width="60%"><a href="example/source2.dart.html">example/source2.dart</a></td>
-  <td class="ItemReport" width="10%">
-  <table width="100%" cellpadding="0" border="1"><tr>
-    <td class="barLo" width="12.195121951219512%" height="10"></td>
-    <td class="barBg" width="87.8048780487805%" height="10"></td>
-  </tr></table>
-  </td>
-  <td class="ItemReportLow" width="10%">12.2 %</td>
-  <td class="ItemReportLow" width="10%">5 / 41</td>
-  <td class="ItemReportHigh" width="10%">0 / 41</td>
-</tr>
-<tr><td class="FileLink" width="60%"><a href="example/source3.dart.html">example/source3.dart</a></td>
-  <td class="ItemReport" width="10%">
-  <table width="100%" cellpadding="0" border="1"><tr>
-    <td class="barHi" width="100.0%" height="10"></td>
-    <td class="barBg" width="0.0%" height="10"></td>
-  </tr></table>
-  </td>
-  <td class="ItemReportHigh" width="10%">100.0 %</td>
-  <td class="ItemReportHigh" width="10%">0 / 0</td>
-  <td class="ItemReportHigh" width="10%">0 / 0</td>
-</tr>
-    </tbody>
-</table>
-</center>
+<pre class="fileHeader">          Source code</pre>
+<pre class="fileContents">
+<a name="1"><span class="lineNumber">       1 </span>/// Copyright 2021, domohuhn.</a>
+<a name="2"><span class="lineNumber">       2 </span>/// License: BSD-3-Clause</a>
+<a name="3"><span class="lineNumber">       3 </span>/// See LICENSE for the full text of the license</a>
+<a name="4"><span class="lineNumber">       4 </span></a>
+<a name="5"><span class="lineNumber">       5 </span>// empty file for testing ...</a>
+<a name="6"><span class="lineNumber">       6 </span></a>
+</pre>
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
 
-
-<table width ="100%" cellspacing="0" border="0">
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+	for (k = 0; k < coll.length; k++) {
+      var content2 = coll[k].nextElementSibling;
+      if (content2.style.maxHeight && content.parentElement == content2){
+      content2.style.maxHeight = content2.scrollHeight + content.scrollHeight + "px";
+    }
+      
+    }
+    
+  });
+}
+</script><table width ="100%" cellspacing="0" border="0">
   <tr><td><hr class="ruler"/></td></tr>
   <tr><td class="footer">Generated by <a href="https://domohuhn.github.io/mutation-test/">mutation-test version: 1.2.2</a></td></tr>
 </table>
