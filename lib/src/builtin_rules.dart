@@ -129,8 +129,8 @@ String _xmlRules() {
       <mutation text="($1||!($2))"/>
     </regex>
     <!-- Replace start of conditional block -->
-    <regex pattern="\(([^|&amp;]*?)([|&amp;][|&amp;])">
-      <mutation text="(!($1)$2"/>
+    <regex pattern="if\s*\(([^|&amp;\)]*?)([|&amp;][|&amp;])">
+      <mutation text="if (!($1)$2"/>
     </regex>
     <!-- Replace end of conditional block -->
     <regex pattern="([|&amp;][|&amp;])([^|&amp;]*?)\)">
@@ -139,7 +139,8 @@ String _xmlRules() {
     <regex pattern="([|&amp;][|&amp;])[\s]*?\(" dotAll="true">
       <mutation text="$1!("/>
     </regex>
-    <regex pattern="([\s=])([0-9.]+)">
+    <!-- Replaces numbers with negative values -->
+    <regex pattern="([\s=\(])([1-9\.]+[0-9]*|0\.0*[1-9])">
       <mutation text="$1-$2"/>
     </regex>
   </rules>
@@ -156,6 +157,9 @@ String _xmlRules() {
     <!-- excludes anything that matches a pattern  -->
     <!-- multi line comments  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>
+    <!-- exclude increment and decrement operators. Produces mostly false positives.  -->
+    <regex pattern="\+\+"/>
+    <regex pattern="--"/>
     <!-- exclude loops to prevent infinte tests -->
     <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
     <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>

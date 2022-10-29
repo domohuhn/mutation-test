@@ -1,6 +1,7 @@
 ## 1.3.0
  - Files without mutations are now no longer reported as NaN % mutations
  - Detected and mutations with timeouts are reported in the generated html
+ - Updated the builtin rules to not test for +-0 and to exclude ++ and --
 
 ## 1.2.2
  - Fixed minor problems with the generated html files. Source code strings are escaped and a table was fixed.

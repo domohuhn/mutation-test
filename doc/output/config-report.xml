@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <undetected-mutations>
 <program-version>mutation-test version: 1.3.0</program-version>
-<elapsed>0:03:24.543346</elapsed>
+<elapsed>0:03:07.023722</elapsed>
 <result rating="D" success="false"/>
 <rules>
 <ruleset document="./example/config.xml"/><ruleset document="Builtin Rules"/></rules>
@@ -30,18 +30,6 @@
 <original>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</original>
 <modified>  } else if (b &lt; 0 &amp;&amp; c &gt; 0) {</modified>
 </mutation>
-<mutation line="8">
-<original>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</original>
-<modified>  } else if (b &lt;= -0 &amp;&amp; c &gt; 0) {</modified>
-</mutation>
-<mutation line="8">
-<original>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</original>
-<modified>  } else if (b &lt;= 0 &amp;&amp; c &gt; -0) {</modified>
-</mutation>
-<mutation line="12">
-<original>  var i = 0;</original>
-<modified>  var i = -0;</modified>
-</mutation>
 <mutation line="16">
 <original>  return a * b + c;</original>
 <modified>  return a * b - c;</modified>
@@ -56,13 +44,17 @@
 </mutation>
 </file>
 <file name="example/source2.dart">
+<mutation line="10">
+<original>  double number1 = 25.0;</original>
+<modified>  double number1 = -25.0;</modified>
+</mutation>
+<mutation line="11">
+<original>  double number2 = 25.0;</original>
+<modified>  double number2 = -25.0;</modified>
+</mutation>
 <mutation line="15">
 <original>    return number1 * x / number2;</original>
 <modified>    return number1 * x * number2;</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y &lt;= -0.0 &amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="20">
 <original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
@@ -94,6 +86,10 @@
 </mutation>
 <mutation line="20">
 <original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
+<modified>    if (!(y &lt;= 0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
+</mutation>
+<mutation line="20">
+<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    if (y &lt;= 0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
 </mutation>
 <mutation line="22">
@@ -122,23 +118,11 @@
 </mutation>
 <mutation line="22">
 <original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y == -0.0 &amp;&amp; text != &apos;&apos;) {</modified>
+<modified>    } else if (y != 0.0 &amp;&amp; text != &apos;&apos;) {</modified>
 </mutation>
 <mutation line="22">
 <original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
 <modified>    } else if (!(y == 0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y != 0.0 &amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="29">
-<original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
-<modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f || event.g)) &amp;&amp; event.e) {</modified>
-</mutation>
-<mutation line="29">
-<original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
-<modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) || event.e) {</modified>
 </mutation>
 <mutation line="29">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
@@ -166,11 +150,15 @@
 </mutation>
 <mutation line="29">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
-<modified>    if (event.a &amp;&amp; event.b &amp;&amp; (!(event.c )|| event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</modified>
+<modified>    if (event.a &amp;&amp; event.b || (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
 <mutation line="29">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
-<modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (!(event.f )&amp;&amp; event.g)) &amp;&amp; event.e) {</modified>
+<modified>    if (!(event.a )&amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</modified>
+</mutation>
+<mutation line="29">
+<original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
+<modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f || event.g)) &amp;&amp; event.e) {</modified>
 </mutation>
 <mutation line="29">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
@@ -194,7 +182,7 @@
 </mutation>
 <mutation line="29">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>
-<modified>    if (event.a &amp;&amp; event.b || (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</modified>
+<modified>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) || event.e) {</modified>
 </mutation>
 <mutation line="29">
 <original>    if (event.a &amp;&amp; event.b &amp;&amp; (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp; event.e) {</original>

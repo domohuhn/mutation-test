@@ -7,7 +7,7 @@
       <!-- lines can be whitelisted  -->
       <!-- if there is no whitelist, the whole file is used  -->
       <!-- line index starts at 1  -->
-      <lines begin="12" end="33"/>
+      <lines begin="9" end="33"/>
     </file>
     <file>example/source3.dart</file>
   </files>
