@@ -1,5 +1,6 @@
 ## 1.3.1
  - Fixed bugs when creating reports.
+ - Added additional unit tests so that the files are listed in coverage metrics
 
 ## 1.3.0
  - Files without mutations are now no longer reported as NaN % mutations

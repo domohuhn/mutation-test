@@ -6,15 +6,6 @@ import 'package:mutation_test/src/configuration.dart';
 import 'dart:io';
 import 'dart:convert';
 
-/// Result of running a test command
-enum TestResult { Timeout, Detected, Undetected }
-
-class TestReport {
-  TestReport(this.result, {this.command});
-  TestResult result;
-  Command? command;
-}
-
 /// Runs the tests for mutations and stores the results.
 class TestRunner {
   /// Runs all test commands from [config] in document order.

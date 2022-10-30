@@ -3,13 +3,13 @@
 /// See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/errors.dart';
-import 'package:mutation_test/src/test_runner.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/mutation_test.dart';
 import 'package:mutation_test/src/ratings.dart';
-import 'dart:io';
 import 'package:mutation_test/src/string_helpers.dart';
 import 'package:mutation_test/src/html_reporter.dart';
+import 'package:mutation_test/src/commands.dart';
+import 'dart:io';
 
 /// Format for the report file
 enum ReportFormat {
@@ -220,14 +220,14 @@ class ResultsReporter {
   int get undetectedMutations => _totalRuns - _totalFound;
 
   /// Reports the percentage of undetected mutations of the total mutations.
-  double get undetectedFraction => (100.0 * undetectedMutations) / _totalRuns;
+  double get undetectedFraction => _totalRuns>0 ?(100.0 * undetectedMutations) / _totalRuns : 0.0;
 
   /// Reports the percentage of detected mutations of the total mutations.
   double get detectedFraction =>
-      100.0 - (100.0 * undetectedMutations) / _totalRuns;
+      _totalRuns>0 ? 100.0 - (100.0 * undetectedMutations) / _totalRuns : 100.0;
 
   /// Reports the percentage of mutations that ran into the timeout.
-  double get timeoutFraction => (100.0 * totalTimeouts) / _totalRuns;
+  double get timeoutFraction => _totalRuns>0 ? (100.0 * totalTimeouts) / _totalRuns : 0.0;
 
   /// Checks if the test run was successful.
   bool get success => quality.isSuccessful(detectedFraction);
@@ -288,9 +288,8 @@ class ResultsReporter {
     }
   }
 
-  /// Writes the results of the tests to a xml file in directory [outpath].
-  /// The report will be named like the [input], but ending with "-report.xml".
-  void writeXMLReport(String outpath, String input) {
+  /// Creates the XML report string
+  String createXMLReport() {
     var text =
         '<?xml version="1.0" encoding="UTF-8"?>\n<undetected-mutations>\n';
     text += '<program-version>${mutationTestVersion()}</program-version>\n';
@@ -312,14 +311,20 @@ class ResultsReporter {
       text += '</file>\n';
     });
     text += '</undetected-mutations>\n';
+    return text;
+  }
+
+  /// Writes the results of the tests to a xml file in directory [outpath].
+  /// The report will be named like the [input], but ending with "-report.xml".
+  void writeXMLReport(String outpath, String input) {
+    final text = createXMLReport();
     final name =
         createReportFileName(_sanitizeInputFile(input), outpath, 'xml');
     _createPathsAndWriteFile(name, text);
   }
 
-  /// Writes the results of the tests to a markdown file in directory [outpath].
-  /// The report will be named like the [input], but ending with "-report.md".
-  void writeMarkdownReport(String outpath, String input) {
+  /// Creates the markdown report string
+  String createMarkdownReport() {
     var text = _createMarkdownHeader();
     testedFiles.forEach((key, value) {
       text += '## Undetected mutations in file : $key\n';
@@ -329,6 +334,13 @@ class ResultsReporter {
       }
       text += '\n\n';
     });
+    return text;
+  }
+
+  /// Writes the results of the tests to a markdown file in directory [outpath].
+  /// The report will be named like the [input], but ending with "-report.md".
+  void writeMarkdownReport(String outpath, String input) {
+    var text = createMarkdownReport();
     final name = createReportFileName(_sanitizeInputFile(input), outpath, 'md');
     _createPathsAndWriteFile(name, text);
   }

@@ -21,3 +21,14 @@ class Command {
     return 'Command: "$original"';
   }
 }
+
+
+/// Result of running a test command
+enum TestResult { Timeout, Detected, Undetected }
+
+/// A report after running a test command.
+class TestReport {
+  TestReport(this.result, {this.command});
+  TestResult result;
+  Command? command;
+}

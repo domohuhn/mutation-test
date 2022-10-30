@@ -4,6 +4,7 @@
 
 import 'dart:io';
 
+import 'package:mutation_test/src/commands.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/test_runner.dart';
 import 'package:mutation_test/src/errors.dart';
@@ -327,5 +328,6 @@ class MutationData {
 
 /// Returns the version of this library.
 String mutationTestVersion() {
-  return 'mutation-test version: 1.3.0';
+  return 'mutation-test version: 1.3.1';
 }
+
