@@ -140,7 +140,7 @@ String _xmlRules() {
       <mutation text="$1!("/>
     </regex>
     <!-- Replaces numbers with negative values -->
-    <regex pattern="([\s=\(])([1-9\.]+[0-9]*|0\.0*[1-9])">
+    <regex pattern="([\s=\(])([1-9\.]+[0-9]+|0\.0*[1-9])">
       <mutation text="$1-$2"/>
     </regex>
   </rules>

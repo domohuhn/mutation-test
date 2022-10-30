@@ -1,3 +1,6 @@
+## 1.3.1
+ - Fixed bugs when creating reports.
+
 ## 1.3.0
  - Files without mutations are now no longer reported as NaN % mutations
  - Detected and mutations with timeouts are reported in the generated html

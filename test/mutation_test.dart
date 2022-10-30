@@ -109,4 +109,90 @@ void main() {
       }, throwsException);
     });
   });
+
+  
+  group('mutated line', () {
+
+    test('mutation on linebreak', () {
+      var mut = createMutatedLine(4,8,'smoe\n.collapsible {\nsdfsfsf\n','smoe\n-.collapsible {\nsdfsfsf\n');
+      expect(mut.start, 0);
+      expect(mut.toHTML(), 'Line 2:<br>\n'
+            '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 200, 200);">- <span style="background-color: rgb(255, 50, 50);">.co</span>llapsible {</span><br>\n'
+            '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">+ <span style="background-color: rgb(50, 255, 50);">-.co</span>llapsible {</span><br>\n'
+            '');
+      expect(mut.toMarkdown(), mut.toHTML());
+      expect(mut.toString(), '2: "-.collapsible {"');
+      expect(mut.formatMutatedCodeToHTML(), '<span class="addedLine">+ <span class="changedTokens">-.co</span>llapsible {</span>');
+    });
+
+    test('range inverted', () {
+      var mut = createMutatedLine(8,4,'smoe\n.collapsible {\nsdfsfsf\n','smoe\n-.collapsible {\nsdfsfsf\n');
+      try {
+        var str = 'a${mut.toHTML()}';
+        str += mut.toMarkdown();
+        str += mut.toString();
+        str += mut.formatMutatedCodeToHTML();
+        expect(str.isNotEmpty, true);
+      }
+      catch (e) {
+        fail('This code should not thrwo an exception!\nGot: $e');
+      }
+    });
+
+    test('out of range 1', () {
+      var mut = createMutatedLine(-10,-5,'smoe\n.collapsible {\nsdfsfsf\n','smoe\n-.collapsible {\nsdfsfsf\n');
+      try {
+        var str = 'a${mut.toHTML()}';
+        str += mut.toMarkdown();
+        str += mut.toString();
+        str += mut.formatMutatedCodeToHTML();
+        expect(str.isNotEmpty, true);
+      }
+      catch (e) {
+        fail('This code should not thrwo an exception!\nGot: $e');
+      }
+    });
+
+    test('out of range 2', () {
+      var mut = createMutatedLine(-10,4,'smoe\n.collapsible {\nsdfsfsf\n','smoe\n-.collapsible {\nsdfsfsf\n');
+      try {
+        var str = 'a${mut.toHTML()}';
+        str += mut.toMarkdown();
+        str += mut.toString();
+        str += mut.formatMutatedCodeToHTML();
+        expect(str.isNotEmpty, true);
+      }
+      catch (e) {
+        fail('This code should not thrwo an exception!\nGot: $e');
+      }
+    });
+
+    test('out of range 3', () {
+      var mut = createMutatedLine(4,500,'smoe\n.collapsible {\nsdfsfsf\n','smoe\n-.collapsible {\nsdfsfsf\n');
+      try {
+        var str = 'a${mut.toHTML()}';
+        str += mut.toMarkdown();
+        str += mut.toString();
+        str += mut.formatMutatedCodeToHTML();
+        expect(str.isNotEmpty, true);
+      }
+      catch (e) {
+        fail('This code should not thrwo an exception!\nGot: $e');
+      }
+    });
+
+    test('out of range 4', () {
+      var mut = createMutatedLine(400,500,'smoe\n.collapsible {\nsdfsfsf\n','smoe\n-.collapsible {\nsdfsfsf\n');
+      try {
+        var str = 'a${mut.toHTML()}';
+        str += mut.toMarkdown();
+        str += mut.toString();
+        str += mut.formatMutatedCodeToHTML();
+        expect(str.isNotEmpty, true);
+      }
+      catch (e) {
+        fail('This code should not thrwo an exception!\nGot: $e');
+      }
+    });
+  });
 }

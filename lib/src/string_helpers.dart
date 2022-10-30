@@ -95,7 +95,7 @@ String getDirectory(String path) {
       end = end2;
     }
   }
-  if (end == -1) {
+  if (end <= -1 || end > path.length) {
     return '';
   }
   return path.substring(0, end);
