@@ -29,33 +29,6 @@ enum ReportFormat {
   NONE
 }
 
-/// Creates the test report in directory [outputPath] from [inputFile]
-/// in the specified [format] using the [results].
-void createReport(ResultsReporter results, String outputPath, String inputFile,
-    ReportFormat format) {
-  results.write();
-  results.sort();
-  switch (format) {
-    case ReportFormat.XML:
-      results.writeXMLReport(outputPath, inputFile);
-      break;
-    case ReportFormat.MARKDOWN:
-      results.writeMarkdownReport(outputPath, inputFile);
-      break;
-    case ReportFormat.HTML:
-      results.writeHTMLReport(outputPath, inputFile);
-      break;
-    case ReportFormat.ALL:
-      results.writeXMLReport(outputPath, inputFile);
-      results.writeMarkdownReport(outputPath, inputFile);
-      results.writeHTMLReport(outputPath, inputFile);
-      break;
-    case ReportFormat.NONE:
-      return;
-  }
-  print('Output has been written to $outputPath');
-}
-
 /// Holds the report data for a file.
 class FileMutationResults {
   /// path to the file

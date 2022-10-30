@@ -23,6 +23,9 @@ class MutationProgressBar {
         total = ProgressBar(count,
             width: 27, left: 'Total [', widthIncludesText: false);
 
+  /// Starts the progress bar for a new file.
+  /// Prints the [path] of the file and the number of mutations [count] for that file.
+  /// [count] is also used to compute the percentage of progress.
   void startFile(String path, int count) {
     if (!_timer.isRunning) {
       _timer.start();
@@ -34,6 +37,7 @@ class MutationProgressBar {
     file.maximum = count;
   }
 
+  /// Writes the end of file message to the console with the count of [failed] tests.
   void endFile(int failed) {
     var pct = 1.0 - failed.toDouble() / file.maximum.toDouble();
     final prefix = 100 * pct <= threshold ? 'FAILED' : 'OK';
@@ -43,20 +47,28 @@ class MutationProgressBar {
     _writeText(text, true);
   }
 
+  /// Increments the progress bar with one additional test.
   void increment() {
     file.update(1);
     total.update(1);
   }
 
+  /// Updates the progress bar in the console by writing a new line.
   void render() {
+    _writeText(createText(), false);
+  }
+
+  /// Creates the text to update the progress bar
+  String createText() {
     var text = '$file $total';
     var duration = _timer.elapsed;
     var max = duration * (1.0 / total.progress);
     var remaining = max - duration;
     text += ' ~${formatDuration(remaining)}';
     var next = text.length;
-    _writeText(text.padRight(_width), false);
+    text.padRight(_width);
     _width = next;
+    return text;
   }
 
   void _writeText(String text, bool newline) {
