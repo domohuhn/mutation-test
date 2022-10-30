@@ -112,25 +112,26 @@ bool isInRange(List<Range> ranges, String text, int position) {
 /// Adds a mutation to the Testrunner.
 MutatedLine createMutatedLine(
     int absoluteStart, int absoluteEnd, String original, String mutated) {
-  if (absoluteStart<0) {
+  if (absoluteStart < 0) {
     absoluteStart = 0;
   }
-  if (absoluteStart>original.length) {
+  if (absoluteStart > original.length) {
     absoluteStart = original.length;
   }
-  if (absoluteStart>absoluteEnd) {
+  if (absoluteStart > absoluteEnd) {
     absoluteEnd = absoluteStart;
   }
-  if (absoluteEnd>original.length) {
+  if (absoluteEnd > original.length) {
     absoluteEnd = original.length;
   }
   var line = findLineFromPosition(original, absoluteStart);
   final lineStart = findBeginOfLineFromPosition(original, absoluteStart);
   final lineEnd = findEndOfLineFromPosition(original, absoluteEnd);
   // this may be false if the mutation matches the newline character and starts there.
-  final mutationStart = lineStart<=absoluteStart ? absoluteStart - lineStart : 0;
+  final mutationStart =
+      lineStart <= absoluteStart ? absoluteStart - lineStart : 0;
   // if the mutation begin is on the newline character, we want to add one to the line number
-  if (absoluteStart+1 == lineStart) {
+  if (absoluteStart + 1 == lineStart) {
     line += 1;
   }
   final mutationEnd = absoluteEnd - lineStart;
@@ -148,18 +149,22 @@ MutatedLine createMutatedLine(
 class MutatedLine {
   /// line number in the source
   final int line;
+
   /// start position of the mutation in the original line
   late final int start;
+
   /// end position of the mutated code in the original line
   late final int end;
+
   /// original line of code
   final String original;
+
   /// mutated line of code
   final String mutated;
 
   MutatedLine(this.line, int first, int last, this.original, this.mutated) {
     /// make wrong states impossible to repesent
-    start = first>=0 ? first : 0;
+    start = first >= 0 ? first : 0;
     end = last <= original.length ? last : original.length;
   }
 
@@ -192,13 +197,15 @@ class MutatedLine {
   }
 
   String _formatAdded(bool escape) {
-    final begin = start<mutated.length ? start : 0;
+    final begin = start < mutated.length ? start : 0;
     var rv =
         '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">';
     rv += '+ ${_escapeChars(mutated.substring(0, begin), escape)}';
     rv += '<span style="background-color: rgb(50, 255, 50);">';
     var mutationEnd = end + mutated.length - original.length;
-    mutationEnd = mutationEnd>=begin && mutationEnd<=mutated.length ? mutationEnd : begin;
+    mutationEnd = mutationEnd >= begin && mutationEnd <= mutated.length
+        ? mutationEnd
+        : begin;
     rv += _escapeChars(mutated.substring(begin, mutationEnd), escape);
     rv += '</span>';
     rv += _escapeChars(mutated.substring(mutationEnd), escape);
@@ -208,12 +215,14 @@ class MutatedLine {
 
   /// Formats the modified code for the Html reporting.
   String formatMutatedCodeToHTML() {
-    final begin = start<mutated.length ? start : 0;
+    final begin = start < mutated.length ? start : 0;
     var rv = '<span class="addedLine">';
     rv += '+ ${escapeCharsForHtml(mutated.substring(0, begin))}';
     rv += '<span class="changedTokens">';
     var mutationEnd = end + mutated.length - original.length;
-    mutationEnd = mutationEnd>=begin && mutationEnd<=mutated.length ? mutationEnd : begin;
+    mutationEnd = mutationEnd >= begin && mutationEnd <= mutated.length
+        ? mutationEnd
+        : begin;
     rv += escapeCharsForHtml(mutated.substring(begin, mutationEnd));
     rv += '</span>';
     rv += escapeCharsForHtml(mutated.substring(mutationEnd));

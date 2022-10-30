@@ -22,7 +22,6 @@ class Command {
   }
 }
 
-
 /// Result of running a test command
 enum TestResult { Timeout, Detected, Undetected }
 

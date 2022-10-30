@@ -326,7 +326,6 @@ class MutationData {
       this.results, this.bar);
 }
 
-
 /// Creates the test report in directory [outputPath] from [inputFile]
 /// in the specified [format] using the [results].
 void createReport(ResultsReporter results, String outputPath, String inputFile,
@@ -353,4 +352,3 @@ void createReport(ResultsReporter results, String outputPath, String inputFile,
   }
   print('Output has been written to $outputPath');
 }
-

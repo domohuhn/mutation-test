@@ -193,14 +193,17 @@ class ResultsReporter {
   int get undetectedMutations => _totalRuns - _totalFound;
 
   /// Reports the percentage of undetected mutations of the total mutations.
-  double get undetectedFraction => _totalRuns>0 ?(100.0 * undetectedMutations) / _totalRuns : 0.0;
+  double get undetectedFraction =>
+      _totalRuns > 0 ? (100.0 * undetectedMutations) / _totalRuns : 0.0;
 
   /// Reports the percentage of detected mutations of the total mutations.
-  double get detectedFraction =>
-      _totalRuns>0 ? 100.0 - (100.0 * undetectedMutations) / _totalRuns : 100.0;
+  double get detectedFraction => _totalRuns > 0
+      ? 100.0 - (100.0 * undetectedMutations) / _totalRuns
+      : 100.0;
 
   /// Reports the percentage of mutations that ran into the timeout.
-  double get timeoutFraction => _totalRuns>0 ? (100.0 * totalTimeouts) / _totalRuns : 0.0;
+  double get timeoutFraction =>
+      _totalRuns > 0 ? (100.0 * totalTimeouts) / _totalRuns : 0.0;
 
   /// Checks if the test run was successful.
   bool get success => quality.isSuccessful(detectedFraction);
