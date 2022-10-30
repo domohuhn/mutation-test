@@ -55,7 +55,10 @@ class MutationProgressBar {
 
   /// Updates the progress bar in the console by writing a new line.
   void render() {
-    _writeText(createText(), false);
+    var text = createText();
+    var next = text.length;
+    _writeText(text.padRight(_width), false);
+    _width = next;
   }
 
   /// Creates the text to update the progress bar
@@ -65,9 +68,7 @@ class MutationProgressBar {
     var max = duration * (1.0 / total.progress);
     var remaining = max - duration;
     text += ' ~${formatDuration(remaining)}';
-    var next = text.length;
     text.padRight(_width);
-    _width = next;
     return text;
   }
 
