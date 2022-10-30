@@ -4,7 +4,7 @@
 
 import 'package:mutation_test/src/errors.dart';
 import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/mutation_test.dart';
+import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/ratings.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 import 'package:mutation_test/src/html_reporter.dart';

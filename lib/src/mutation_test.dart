@@ -326,8 +326,5 @@ class MutationData {
       this.results, this.bar);
 }
 
-/// Returns the version of this library.
-String mutationTestVersion() {
-  return 'mutation-test version: 1.3.1';
-}
+
 
