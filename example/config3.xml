@@ -16,6 +16,7 @@
     <file>lib/src/report_format.dart</file>
     <file>lib/src/string_helpers.dart</file>
     <file>lib/src/test_runner.dart</file>
+    <file>lib/src/version.dart</file>
   </files>
 
   <commands>

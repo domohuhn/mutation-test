@@ -305,8 +305,7 @@ class ResultsReporter {
     testedFiles.forEach((key, value) {
       text += '## Undetected mutations in file : $key\n';
       for (final mut in value.undetectedMutations) {
-        // ignore: unnecessary_string_escapes
-        text += mut.toMarkdown().replaceAll('*', '\*');
+        text += mut.toMarkdown();
       }
       text += '\n\n';
     });

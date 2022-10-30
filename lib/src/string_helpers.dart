@@ -113,8 +113,7 @@ String convertToXML(String input) {
 
 /// Escapes characters for markdown
 String convertToMarkdown(String input) {
-  // ignore: unnecessary_string_escapes
-  return input.replaceAll('\*', '\\\*');
+  return input.replaceAll('*', '\\*');
 }
 
 /// Formats duration [dur] in the range 0 - 100h.

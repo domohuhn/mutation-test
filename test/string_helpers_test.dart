@@ -56,10 +56,8 @@ void main() {
   });
 
   test('convertToMarkdown', () {
-    // ignore: unnecessary_string_escapes
-    var moo = convertToMarkdown('\*');
-    // ignore: unnecessary_string_escapes
-    expect(moo, '\\\*');
+    var moo = convertToMarkdown('*');
+    expect(moo, '\\*');
   });
 
   test('get directory forwardslash', () {

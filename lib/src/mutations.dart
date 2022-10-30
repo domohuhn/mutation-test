@@ -173,7 +173,8 @@ class MutatedLine {
     var rv = 'Line $line:<br>\n';
     rv += _formatRemoved(true);
     rv += _formatAdded(true);
-    return rv;
+    // ignore: unnecessary_string_escapes
+    return rv.replaceAll('*', '\*');
   }
 
   /// Pretty formatting
