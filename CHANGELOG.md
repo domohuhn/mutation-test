@@ -1,5 +1,6 @@
 ## 1.3.2
  - Added builtin rules to swap arguments on function calls.
+ - Added a dark theme (prefers-color-scheme: dark) in the html reports.
 
 ## 1.3.1
  - Fixed bugs when creating reports.

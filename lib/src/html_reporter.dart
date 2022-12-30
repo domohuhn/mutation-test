@@ -371,8 +371,6 @@ td.mutationText
   vertical-align: top;
 }
 
-
-
 td.ItemText
 {
   text-align: left;
@@ -414,7 +412,6 @@ td.FileLink
   border-color: white;
   border-style: solid;
 }
-
 
 td.ItemReportHigh
 {
@@ -489,7 +486,6 @@ td.ItemHead
   border-style: solid;
 }
 
-
 td.barHi
 {
   background-color: #00eb00;
@@ -508,6 +504,58 @@ td.barLo
 td.barBg
 {
   background-color: #FFFFFF;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #c9d1d9;
+    background: #141517;
+  }
+  td.ItemReport, td.FileLink, td.ItemReportHigh, td.ItemReportMedium, td.ItemReportLow, td.ItemHead {
+    border-color: #152035;
+  }
+  td.ItemReport, td.FileLink {
+    color: #DAE7FE;
+    background-color: #141517;
+  }
+  td.ItemReportHigh, td.ItemReportMedium, td.ItemReportLow, td.barBg {
+    background-color: #141517;
+  }
+  td.ItemReportHigh {
+    color: #A7FC9D;
+  }
+  td.ItemReportMedium {
+    color: #FFEA20;
+  }
+  td.ItemReportLow {
+    color: #FF0000;
+  }
+  span.lineNumber {
+    color: white;
+    background-color: #26334F;
+  }
+  .collapsible {
+    color: #c9d1d9;
+  }
+  .content {
+    color: #c9d1d9;
+    background-color: #1B2539;
+  }
+  .hit {
+    background-color: #26334F;
+  }
+  .addedLine {
+    background-color: rgb(37, 83, 37);
+  }
+  .changedTokens {
+    background-color: rgb(32, 145, 32);
+  }
+  .problem {
+    background-color: #62200B;
+  }
+  a:link, a:visited  {
+	  color: #58a6ff;
+	}
 }
 
 ''';
