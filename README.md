@@ -3,17 +3,23 @@
 [![Dart](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml/badge.svg)](https://github.com/domohuhn/mutation-test/actions/workflows/dart.yml)
 [![codecov](https://codecov.io/gh/domohuhn/mutation-test/branch/main/graph/badge.svg?token=ZS6KU08JY8)](https://codecov.io/gh/domohuhn/mutation-test)
 
-When writing test cases for software, you often rely on metrics like
+When writing test cases for software, QA engineers often rely on metrics like
 code coverage to verify that your test cases actually test your program.
-However, this cannot be determined with a simple metric. It is possible to reach high code coverage, while you are only asserting a fraction of the observable behaviour of your units. You can evaluate the quality of your tests by modifying your program in a small way and then verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing).
+However, you cannot quantify the quality of your tests with such a simple metric. It is possible to reach high line and branch coverage, while you are only testing a fraction of the observable behaviour of your units. The worst case are tests that only call all methods for the line coverage, but do not contain any assertions.
+Sometimes you forget to add an assertion statement or you removed some assertions during development in a branch so that the continuous integration build succeeds.
 
-This repository contains a simple command line program that automates these tests for code in any programming language. It can be customized to 
-your needs, because all rules how the source code is modified and how to
+So how can we evaluate the quality of our software tests if line coverage is not a good metric? What is a "good" test? 
+In short, a good test should fail if there are accidental changes of the observable behaviour of the tested procedures.
+You can evaluate the quality of your tests by modifying a single line of your program and then verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing). After a certain number of mutations, the fraction of detected to undetected mutations is an indication of the quality of your tests.
+Performing this procedure manually on a whole program is extremely tedious.
+
+This repository contains a command line program that automates this procedure for code in any programming language. It can be customized to 
+your needs, because all rules modifying the source code and how to
 run the tests can be defined in XML documents. The program is fully self contained, so you can just grab the binary and start testing!
 
 ## Quick start
 
-If you are working on a dart project, you can simply run the binary without any arguments at the root of your project. 
+If you are working on a dart project, you can run the binary without any arguments at the root of your project. 
 The application will the assume that "dart test" is the test command and that all files ending with ".dart" in
 the directory lib/ are input files.
 
