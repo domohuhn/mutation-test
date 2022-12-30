@@ -10,7 +10,7 @@ const ossLicenses = <Package>[
     repository:
         'https://github.com/dart-lang/sdk/tree/main/pkg/_fe_analyzer_shared',
     authors: [],
-    version: '50.0.0',
+    version: '51.0.0',
     license: '''Copyright 2019, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'This package provides a library that performs static analysis of Dart code.',
     repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/analyzer',
     authors: [],
-    version: '5.2.0',
+    version: '5.3.1',
     license: '''Copyright 2013, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -457,7 +457,7 @@ SOFTWARE.''',
     repository:
         'https://github.com/dart-lang/webdev/tree/master/frontend_server_client',
     authors: [],
-    version: '3.1.0',
+    version: '3.2.0',
     license: '''Copyright 2020, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -491,10 +491,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   ),
   Package(
     name: 'glob',
-    description: 'Bash-style filename globbing.',
+    description: 'A library to perform Bash-style file and directory globbing.',
     repository: 'https://github.com/dart-lang/glob',
     authors: [],
-    version: '2.1.0',
+    version: '2.1.1',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -799,7 +799,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Support for specifying test expectations via an extensible Matcher class. Also includes a number of built-in Matcher implementations for common cases.',
     repository: 'https://github.com/dart-lang/matcher',
     authors: [],
-    version: '0.12.13',
+    version: '0.12.14',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -875,7 +875,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Utilities for handling media (MIME) types, including determining a type from a file extension and file contents.',
     repository: 'https://github.com/dart-lang/mime',
     authors: [],
-    version: '1.0.2',
+    version: '1.0.3',
     license: '''Copyright 2015, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1010,7 +1010,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A string-based path manipulation library. All of the path operations you know and love, with solid support for Windows, POSIX (Linux and Mac OS X), and the web.',
     repository: 'https://github.com/dart-lang/path',
     authors: [],
-    version: '1.8.2',
+    version: '1.8.3',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1120,7 +1120,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Versions and version constraints implementing pub\'s versioning policy. This is very similar to vanilla semver, with a few corner cases.',
     repository: 'https://github.com/dart-lang/pub_semver',
     authors: [],
-    version: '2.1.2',
+    version: '2.1.3',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1276,7 +1276,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/dart-lang/shelf/tree/master/pkgs/shelf_web_socket',
     authors: [],
-    version: '1.0.2',
+    version: '1.0.3',
     license: '''Copyright 2014, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1500,7 +1500,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     description: 'A class for parsing strings using a sequence of patterns.',
     repository: 'https://github.com/dart-lang/string_scanner',
     authors: [],
-    version: '1.1.1',
+    version: '1.2.0',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1575,7 +1575,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A full featured library for writing and running Dart tests across platforms.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test',
     authors: [],
-    version: '1.21.7',
+    version: '1.22.1',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1613,7 +1613,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'The user facing API for structuring Dart tests and checking expectations.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_api',
     authors: [],
-    version: '0.4.15',
+    version: '0.4.17',
     license: '''Copyright 2018, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1651,7 +1651,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A basic library for writing tests and running them on the VM.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_core',
     authors: [],
-    version: '0.4.19',
+    version: '0.4.21',
     license: '''Copyright 2018, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1881,7 +1881,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A lightweight library for parsing, traversing, querying, transforming and building XML documents.',
     homepage: 'https://github.com/renggli/dart-xml',
     authors: [],
-    version: '6.2.0',
+    version: '6.2.2',
     license: '''The MIT License
 
 Copyright (c) 2006-2022 Lukas Renggli.

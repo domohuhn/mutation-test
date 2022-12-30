@@ -1,3 +1,6 @@
+## 1.3.2
+ - Added builtin rules to swap arguments on function calls.
+
 ## 1.3.1
  - Fixed bugs when creating reports.
  - Added additional unit tests so that the files are listed in coverage metrics
