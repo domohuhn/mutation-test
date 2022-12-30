@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <undetected-mutations>
-<program-version>mutation-test version: 1.3.1</program-version>
-<elapsed>0:03:11.629007</elapsed>
+<program-version>mutation-test version: 1.3.2</program-version>
+<elapsed>0:03:26.788738</elapsed>
 <result rating="D" success="false"/>
 <rules>
 <ruleset document="./example/config.xml"/><ruleset document="Builtin Rules"/></rules>
@@ -34,13 +34,29 @@
 <original>  return a * b + c;</original>
 <modified>  return a * b - c;</modified>
 </mutation>
-<mutation line="20">
-<original>  return a * x * x + b * x + c;</original>
-<modified>  return a * x * x + b * x - c;</modified>
+<mutation line="24">
+<original>  return poly(x, y, z, 2.0);</original>
+<modified>  return poly( y,x, z, 2.0);</modified>
 </mutation>
-<mutation line="20">
-<original>  return a * x * x + b * x + c;</original>
-<modified>  return a * x + x + b * x + c;</modified>
+<mutation line="24">
+<original>  return poly(x, y, z, 2.0);</original>
+<modified>  return poly(x, z, y, 2.0);</modified>
+</mutation>
+<mutation line="24">
+<original>  return poly(x, y, z, 2.0);</original>
+<modified>  return poly(x, y, 2.0, z);</modified>
+</mutation>
+<mutation line="28">
+<original>  return inner2(x, y, 1.0);</original>
+<modified>  return inner2( y,x, 1.0);</modified>
+</mutation>
+<mutation line="28">
+<original>  return inner2(x, y, 1.0);</original>
+<modified>  return inner2(x, 1.0, y);</modified>
+</mutation>
+<mutation line="32">
+<original>  return inner(x, y);</original>
+<modified>  return inner( y,x);</modified>
 </mutation>
 </file>
 <file name="example/source2.dart">

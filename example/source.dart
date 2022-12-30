@@ -19,3 +19,16 @@ int conditions(int a, int b, int c) {
 double poly(double x, double a, double b, double c) {
   return a * x * x + b * x + c;
 }
+
+double inner2(double x,double y, double z) {
+  return poly(x, y, z, 2.0);
+}
+
+double inner(double x,double y) {
+  return inner2(x, y, 1.0);
+}
+
+double outer(double x,double y) {
+  return inner(x, y);
+}
+

@@ -23,4 +23,8 @@ void main() {
   test('conditions third', () {
     expect(conditions(2, 3, 0), 6);
   });
+
+  test('func', () {
+    expect(outer(1.0, 1.0), 4.0);
+  });
 }

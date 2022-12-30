@@ -11,7 +11,7 @@ void main() {
     final configuration = Configuration(true, true);
     configuration.parseXMLString(builtinMutationRules());
     expect(configuration.exclusions.length, 10);
-    expect(configuration.mutations.length, 19);
+    expect(configuration.mutations.length, 22);
     expect(configuration.files.length, 0);
     expect(configuration.commands.length, 0);
   });
@@ -20,7 +20,7 @@ void main() {
     final configuration = Configuration(true, true);
     configuration.parseXMLString(fullXMLFile());
     expect(configuration.exclusions.length, 10);
-    expect(configuration.mutations.length, 19);
+    expect(configuration.mutations.length, 22);
     expect(configuration.files.length, 2);
     expect(configuration.commands.length, 2);
     configuration.validate();
