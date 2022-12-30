@@ -5,11 +5,11 @@
 
 When writing test cases for software, QA engineers often rely on metrics like
 code coverage to verify that your test cases actually test your program.
-However, you cannot quantify the quality of your tests with such a simple metric. It is possible to reach high line and branch coverage, while you are only testing a fraction of the observable behaviour of your units. The worst case are tests that only call all methods for the line coverage, but do not contain any assertions.
-Sometimes you forget to add an assertion statement or you removed some assertions during development in a branch so that the continuous integration build succeeds.
+However, you cannot quantify the quality of your tests with such a simple metric. It is possible to reach high line and branch coverage, while you are only testing a fraction of the observable behaviour of your units. The worst case are tests that only call all methods to reach a high line coverage, but do not contain any assertions.
+Sometimes you forget to add an assertion statement in a test case or you removed some assertions during in your development branch so that the continuous integration build succeeds. Ideally, this should be caught during the code review, but any manual process is error prone.
 
 So how can we evaluate the quality of our software tests if line coverage is not a good metric? What is a "good" test? 
-In short, a good test should fail if there are accidental changes of the observable behaviour of the tested procedures.
+In short, a good test should fail if there are changes of the observable behaviour of the tested procedures.
 You can evaluate the quality of your tests by modifying a single line of your program and then verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing). After a certain number of mutations, the fraction of detected to undetected mutations is an indication of the quality of your tests.
 Performing this procedure manually on a whole program is extremely tedious.
 
