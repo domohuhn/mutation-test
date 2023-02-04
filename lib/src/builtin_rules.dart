@@ -72,26 +72,26 @@ String _xmlRules() {
     <literal text="||">
       <mutation text="&amp;&amp;"/>
     </literal>
-	  <!-- Replaces assignments with other assignments -->
-	  <literal text="+=">
+    <!-- Replaces assignments with other assignments -->
+    <literal text="+=">
       <mutation text="="/>
     </literal>
-	  <literal text="-=">
+    <literal text="-=">
       <mutation text="="/>
     </literal>
-	  <literal text="*=">
+    <literal text="*=">
       <mutation text="="/>
     </literal>
-	  <literal text="/=">
+    <literal text="/=">
       <mutation text="="/>
     </literal>
-	  <literal text="&=">
+    <literal text="&=">
       <mutation text="="/>
     </literal>
-	  <literal text="^=">
+    <literal text="^=">
       <mutation text="="/>
     </literal>
-	  <!-- Replaces comparison operators -->
+    <!-- Replaces comparison operators -->
     <literal text="==">
       <mutation text="!="/>
     </literal>
@@ -167,10 +167,10 @@ String _xmlRules() {
     <regex pattern="\+([^=])">
       <mutation text="-$1"/>
     </regex>
-	  <regex pattern="-([^=])">
+    <regex pattern="-([^=])">
       <mutation text="+$1"/>
     </regex>
-	  <regex pattern="\*([^=])">
+    <regex pattern="\*([^=])">
       <mutation text="/$1"/>
     </regex>
     <regex pattern="/([^=])">
