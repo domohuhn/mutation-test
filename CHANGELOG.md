@@ -1,6 +1,9 @@
+## 1.3.3
+ - Improve builtin rules with operators like "+=". There should be less useless mutations that are always detected now.
+
 ## 1.3.2
  - Added builtin rules to swap arguments on function calls.
- - Added a dark theme (prefers-color-scheme: dark) in the html reports.
+ - Added a dark theme (prefers-color-scheme: dark) for html reports.
 
 ## 1.3.1
  - Fixed bugs when creating reports.

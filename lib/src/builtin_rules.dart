@@ -58,37 +58,51 @@ String _xmlInputs() {
 /// A XML snippet for a rules file.
 String _xmlRules() {
   return r'''
-   <!-- The rules element describes all mutations done during a mutation test -->
-   <!-- The following children are parsed: literal and regex -->
-   <!-- A literal element matches the literal text -->
-   <!-- A regex element mutates source code if the regular expression matches -->
-   <!-- Each of them must have at least one mutation child -->
-   <rules>
+  <!-- The rules element describes all mutations done during a mutation test -->
+  <!-- The following children are parsed: literal and regex -->
+  <!-- A literal element matches the literal text -->
+  <!-- A regex element mutates source code if the regular expression matches -->
+  <!-- Each of them must have at least one mutation child -->
+  <rules>
     <!-- A literal element matches the literal text and replaces it with the list of mutations  -->
+    <!-- Replaces 'and' and 'or'  with each other -->
     <literal text="&amp;&amp;">
       <mutation text="||"/>
     </literal>
     <literal text="||">
       <mutation text="&amp;&amp;"/>
     </literal>
-    <literal text="+">
-      <mutation text="-"/>
-      <mutation text="*"/>
+	  <!-- Replaces assignments with other assignments -->
+	  <literal text="+=">
+      <mutation text="="/>
     </literal>
-    <literal text="-">
-      <mutation text="+"/>
-      <mutation text="*"/>
+	  <literal text="-=">
+      <mutation text="="/>
     </literal>
-    <literal text="*">
-      <mutation text="+"/>
-      <mutation text="-"/>
+	  <literal text="*=">
+      <mutation text="="/>
     </literal>
-    <literal text="/">
-      <mutation text="*"/>
-      <mutation text="+"/>
+	  <literal text="/=">
+      <mutation text="="/>
     </literal>
+	  <literal text="+=">
+      <mutation text="="/>
+    </literal>
+	  <literal text="-=">
+      <mutation text="="/>
+    </literal>
+	  <literal text="&=">
+      <mutation text="="/>
+    </literal>
+	  <literal text="^=">
+      <mutation text="="/>
+    </literal>
+	  <!-- Replaces comparison operators -->
     <literal text="==">
       <mutation text="!="/>
+    </literal>
+    <literal text="!=">
+      <mutation text="=="/>
     </literal>
     <literal text="&lt;=">
       <mutation text="=="/>
@@ -97,9 +111,6 @@ String _xmlRules() {
     <literal text="&gt;=">
       <mutation text="=="/>
       <mutation text="&gt;"/>
-    </literal>
-    <literal text="!=">
-      <mutation text="=="/>
     </literal>
     <!-- It is also possible to match a regular expression with capture groups. -->
     <!-- If the optional attribute dotAll is set to true, then the . will also match newlines.  -->
@@ -158,6 +169,19 @@ String _xmlRules() {
       <mutation text="$1($2,$4,$3,$5);"/>
       <mutation text="$1($2,$3,$5,$4);"/>
     </regex>
+    <!-- Replaces arithmetic operators with their opposite -->
+    <regex pattern="\+([^=])">
+      <mutation text="-$1"/>
+    </regex>
+	  <regex pattern="-([^=])">
+      <mutation text="+$1"/>
+    </regex>
+	  <regex pattern="\*([^=])">
+      <mutation text="/$1"/>
+    </regex>
+    <regex pattern="/([^=])">
+      <mutation text="*$1"/>
+    </regex>
   </rules>
   <!-- This element creates a blacklist, allowing you to exclude parts from the mutations -->
   <exclude>
@@ -188,7 +212,7 @@ String _xmlRules() {
   <!-- If no threshold element is found, these values will be used. -->
   <threshold failure="80">
     <!-- Provides reliability rating levels. Attributes are required. -->
-    <rating over="100" name="A"/>
+    <rating over="95" name="A"/>
     <rating over="80" name="B"/>
     <rating over="60" name="C"/>
     <rating over="40" name="D"/>

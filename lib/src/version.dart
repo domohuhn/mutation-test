@@ -4,5 +4,5 @@
 
 /// Returns the version of this library.
 String mutationTestVersion() {
-  return 'mutation-test version: 1.3.2';
+  return 'mutation-test version: 1.3.3';
 }
