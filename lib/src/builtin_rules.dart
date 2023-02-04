@@ -85,12 +85,6 @@ String _xmlRules() {
 	  <literal text="/=">
       <mutation text="="/>
     </literal>
-	  <literal text="+=">
-      <mutation text="="/>
-    </literal>
-	  <literal text="-=">
-      <mutation text="="/>
-    </literal>
 	  <literal text="&=">
       <mutation text="="/>
     </literal>
@@ -199,12 +193,14 @@ String _xmlRules() {
     <!-- exclude increment and decrement operators. Produces mostly false positives.  -->
     <regex pattern="\+\+"/>
     <regex pattern="--"/>
-    <!-- exclude loops to prevent infinte tests -->
+    <!-- excludes loops from mutations to prevent tests to run forever -->
     <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
     <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>
     <!-- lines can also be globally excluded  -->
     <!-- line index starts at 1  -->
     <!-- lines begin="1" end="2"/-->
+    <!-- It is possible to exclude files using the file element. -->
+    <!-- <file>path/to/exclude.dart</file> -->
   </exclude>
   <!-- Configures the reporting thresholds as percentage of detected mutations -->
   <!-- Attribute failure is required and must be a floating point number. -->

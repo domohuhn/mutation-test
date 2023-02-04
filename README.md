@@ -207,7 +207,7 @@ The commands block lets you specify the command line programs to verify that a m
 </commands>
 ```
 ### Exclude
-You can create rules to exclude protions of the source files from mutations:
+You can create rules to exclude portions of source files or the full file from the mutation testing:
 ```Xml
 <exclude>
   <!-- excludes anything between two tokens  -->
@@ -215,14 +215,18 @@ You can create rules to exclude protions of the source files from mutations:
   <token begin="#" end="\n"/>
   <!-- excludes anything that matches a pattern  -->
   <regex pattern="/[*].*?[*]/" dotAll="true"/>
-  <!-- exclude loops to prevent infinte tests -->
+  <!-- excludes loops from mutations to prevent tests to run forever -->
   <regex pattern="[\s]for[\s]*\(.*?\)[\s]*{" dotAll="true"/>
   <regex pattern="[\s]while[\s]*\(.*?\)[\s]*{.*?}" dotAll="true"/>
   <!-- lines can also be globally excluded  -->
-  <!-- line index starts at 1  -->
-  <!-- lines begin="1" end="2"/-->
+  <!-- line index starts at 1 -->
+  <lines begin="1" end="2">
+  <!-- It is possible to exclude files using the file element. -->
+  <file>path/to/exclude.dart</file>
 </exclude>
 ```
+Explicit exclusions have precedence over inclusions. 
+
 ### Rules
 This element is the most important part of the document. It defines what is mutated, and how it is changed.
 ```Xml

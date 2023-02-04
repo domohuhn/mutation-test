@@ -11,7 +11,7 @@ void main() {
     final configuration = Configuration(true, true);
     configuration.parseXMLString(builtinMutationRules());
     expect(configuration.exclusions.length, 10);
-    expect(configuration.mutations.length, 30);
+    expect(configuration.mutations.length, 28);
     expect(configuration.files.length, 0);
     expect(configuration.commands.length, 0);
   });
@@ -20,10 +20,19 @@ void main() {
     final configuration = Configuration(true, true);
     configuration.parseXMLString(fullXMLFile());
     expect(configuration.exclusions.length, 10);
-    expect(configuration.mutations.length, 30);
+    expect(configuration.mutations.length, 28);
     expect(configuration.files.length, 2);
     expect(configuration.commands.length, 2);
     configuration.validate();
+  });
+
+  test('Parse file exclusion', () {
+    final configuration = Configuration(true, true);
+    configuration.parseXMLString(_excludeFiles);
+    expect(configuration.files.length, 0);
+    expect(configuration.excludedFiles.length, 2);
+    expect(configuration.excludedFiles[0], 'some/file/to/exclude');
+    expect(configuration.excludedFiles[1], 'test/parse_xml_test.dart');
   });
 
   test('Input error - wrong version', () {
@@ -167,5 +176,18 @@ String _noMutationChild = '''
   <rules>
     <literal text="aa"/>
   </rules>
+</mutations>
+''';
+
+String _excludeFiles = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations version="1.0">
+  <files>
+    <file>test/parse_xml_test.dart</file>
+  </files>
+  <exclude>
+    <file>some/file/to/exclude</file>
+    <file>test/parse_xml_test.dart</file>
+  </exclude>
 </mutations>
 ''';

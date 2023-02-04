@@ -31,7 +31,7 @@ class MutationProgressBar {
       _timer.start();
     }
     if (!quiet) {
-      print('$path : performing $count mutations'.padRight(_width));
+      print('$path : $count mutations'.padRight(_width));
     }
     file.current = 0;
     file.maximum = count;
@@ -42,7 +42,7 @@ class MutationProgressBar {
     var pct = 1.0 - failed.toDouble() / file.maximum.toDouble();
     final prefix = 100 * pct <= threshold ? 'FAILED' : 'OK';
     var text =
-        '$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations passed all tests!'
+        '$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations were not detected!'
             .padRight(_width);
     _writeText(text, true);
   }

@@ -1,5 +1,6 @@
 ## 1.3.3
  - Improve builtin rules with operators like "+=". There should be less useless mutations that are always detected now.
+ - The \<exclude\> element in xml rule definitions now supports the exclusion of files by listing them as \<file\> element.
 
 ## 1.3.2
  - Added builtin rules to swap arguments on function calls.
