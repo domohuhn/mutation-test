@@ -12,8 +12,8 @@ double testfunc(double x) {
   return add(x,y);
 }
 ''';
-    for(final mut in configuration.mutations) {
-      for(final moo in mut.allMutations(testSource, [], [])) {
+    for (final mut in configuration.mutations) {
+      for (final moo in mut.allMutations(testSource, [], [])) {
         expect(moo.line.start, 8);
         expect(moo.line.end, 18);
         expect(moo.line.mutated, '  return add(y,x);');
@@ -32,8 +32,9 @@ super(name, false) {
   throw Err('bla name');
 }
 ''';
-    for(final mut in configuration.mutations) {
-      for(final moo in mut.allMutations(testSource, [], configuration.exclusions)) {
+    for (final mut in configuration.mutations) {
+      for (final moo
+          in mut.allMutations(testSource, [], configuration.exclusions)) {
         print(moo);
         fail('There should be no matches!');
       }
@@ -49,8 +50,8 @@ double testfunc(double x) {
   return add(x,y,x);
 }
 ''';
-    for(final mut in configuration.mutations) {
-      for(final moo in mut.allMutations(testSource, [], [])) {
+    for (final mut in configuration.mutations) {
+      for (final moo in mut.allMutations(testSource, [], [])) {
         expect(moo.line.start, 8);
         expect(moo.line.end, 20);
       }
@@ -67,8 +68,9 @@ super(name, false) {
   throw Err('bla name',two);
 }
 ''';
-    for(final mut in configuration.mutations) {
-      for(final moo in mut.allMutations(testSource, [], configuration.exclusions)) {
+    for (final mut in configuration.mutations) {
+      for (final moo
+          in mut.allMutations(testSource, [], configuration.exclusions)) {
         expect(moo.line.line, 4);
       }
     }
@@ -83,8 +85,8 @@ double testfunc(double x) {
   return add(x,y,z,a);
 }
 ''';
-    for(final mut in configuration.mutations) {
-      for(final moo in mut.allMutations(testSource, [], [])) {
+    for (final mut in configuration.mutations) {
+      for (final moo in mut.allMutations(testSource, [], [])) {
         expect(moo.line.start, 8);
         expect(moo.line.end, 22);
       }
@@ -101,12 +103,11 @@ super(name, false) {
   throw Err('bla name',two,three);
 }
 ''';
-    for(final mut in configuration.mutations) {
-      for(final moo in mut.allMutations(testSource, [], configuration.exclusions)) {
+    for (final mut in configuration.mutations) {
+      for (final moo
+          in mut.allMutations(testSource, [], configuration.exclusions)) {
         expect(moo.line.line, 4);
       }
     }
   });
-
 }
-
