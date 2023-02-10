@@ -1,3 +1,6 @@
+## 1.3.4
+ - Improved mutation rules that switch function arguments
+
 ## 1.3.3
  - Improve builtin rules with operators like "+=". There should be less useless mutations that are always detected now.
  - The \<exclude\> element in xml rule definitions now supports the exclusion of files by listing them as \<file\> element.

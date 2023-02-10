@@ -148,17 +148,18 @@ String _xmlRules() {
     <regex pattern="([\s=\(])([1-9\.]+[0-9]+|0\.0*[1-9])">
       <mutation text="$1-$2"/>
     </regex>
+    <!-- checks if neighboring arguments may have been mixed up -->
     <!-- switch function call arguments. Matches 2 args -->
-    <regex pattern="([\s][a-zA-z]*?[^\(;\s]*?)\s*\(([^,]*),([^,]*)\)\s*;">
+    <regex pattern="([\s][a-zA-Z]+?[^(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?)\)\s*;">
       <mutation text="$1($3,$2);"/>
     </regex>
     <!-- switch function call arguments. Matches 3 args -->
-    <regex pattern="([\s][a-zA-z]*?[^\(;\s{}]*?)\s*\(([^,\n\(]*),([^,\n\(]*),([^,\n\(]*)\)\s*;">
+    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;">
       <mutation text="$1($3,$2,$4);"/>
       <mutation text="$1($2,$4,$3);"/>
     </regex>
     <!-- switch function call arguments. Matches 4 args -->
-    <regex pattern="([\s][a-zA-z]*?[^\(;\s{}]*?)\s*\(([^,\n\(]*),([^,\n\(]*),([^,\n\(]*),([^,\n\(]*)\)\s*;">
+    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;">
       <mutation text="$1($3,$2,$4,$5);"/>
       <mutation text="$1($2,$4,$3,$5);"/>
       <mutation text="$1($2,$3,$5,$4);"/>
