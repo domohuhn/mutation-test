@@ -1,5 +1,6 @@
 ## 1.3.4
  - Improved mutation rules that switch function arguments
+ - Updated dependencies
 
 ## 1.3.3
  - Improve builtin rules with operators like "+=". There should be less useless mutations that are always detected now.
