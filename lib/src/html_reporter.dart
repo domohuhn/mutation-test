@@ -2,6 +2,7 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/report_format.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/string_helpers.dart';
@@ -41,20 +42,26 @@ String removeNewline(String s) {
   return s;
 }
 
-String _createMutationReportList(int line, dynamic mutations, String title) {
-  var rv = '<b>$title</b>\n<table class="mutationTable">\n';
+String _createMutationReportList(
+    int line, List<MutatedLine> mutations, String title) {
+  final rv = StringBuffer('<b>$title</b>\n<table class="mutationTable">\n');
   int i = 1;
   for (final mut in mutations) {
     if (line == mut.line) {
-      if (i > 1) {
-        rv += '<tr><td colspan="2"><hr class="ruler"/></td></tr>';
-      }
-      rv +=
-          '<tr><td class="mutationLabel" width="10%">$i :</td><td class="mutationText" width="90%">${mut.formatMutatedCodeToHTML()}</td></tr>';
+      if (i > 1) rv.write('<tr><td colspan="2"><hr class="ruler"/></td></tr>');
+
+      rv.write('<tr><td class="mutationLabel" width="5%">$i :</td>');
+
+      rv.write('<td class="mutationText" width="87%">'
+          '${mut.formatMutatedCodeToHTML()}</td></tr>');
+
+      rv.write('<tr><td class="match" width="8%">${mut.mutation.pattern}</td>');
+
       ++i;
     }
   }
-  return '$rv</table>\n';
+  rv.write('</table>\n');
+  return rv.toString();
 }
 
 String createMutationList(int line, FileMutationResults file) {
