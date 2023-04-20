@@ -53,9 +53,10 @@ String _createMutationReportList(
       rv.write('<tr><td class="mutationLabel" width="5%">$i :</td>');
 
       rv.write('<td class="mutationText" width="87%">'
-          '${mut.formatMutatedCodeToHTML()}</td></tr>');
+          '${mut.formatMutatedCodeToHTML()}</td>');
 
-      rv.write('<tr><td class="match" width="8%">${mut.mutation.pattern}</td>');
+      rv.write('<td class="match" width="8%">${mut.mutation.pattern}</td>');
+      rv.write('</tr>');
 
       ++i;
     }
