@@ -48,7 +48,7 @@ String _createMutationReportList(
   int i = 1;
   for (final mut in mutations) {
     if (line == mut.line) {
-      if (i > 1) rv.write('<tr><td colspan="2"><hr class="ruler"/></td></tr>');
+      if (i > 1) rv.write('<tr><td colspan="3"><hr class="ruler"/></td></tr>');
 
       rv.write('<tr><td class="mutationLabel" width="5%">$i :</td>');
 
