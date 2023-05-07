@@ -8,29 +8,35 @@ import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 
 String createToplevelHtmlFile(ResultsReporter reporter) {
-  var rv = createHtmlFileHeader(reporter, 'top level', reporter.totalMutations,
-      reporter.foundMutations, reporter.totalTimeouts, true, '');
-  rv += '''
+  final rv = StringBuffer(createHtmlFileHeader(
+      reporter,
+      'top level',
+      reporter.totalMutations,
+      reporter.foundMutations,
+      reporter.totalTimeouts,
+      true,
+      ''));
+  rv.write('''
 <center>
 <table width ="80%" cellspacing="1" border="0">
      <tbody>
      <tr><td width="60%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td></tr>
      <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Timeouts</td></tr>
-''';
+''');
   reporter.testedFiles.forEach((key, value) {
-    rv += createFileReportLine(
-        key, value.mutationCount, value.detectedCount, value.timeoutCount);
+    rv.write(createFileReportLine(
+        key, value.mutationCount, value.detectedCount, value.timeoutCount));
   });
 
-  rv += '''
+  rv.write('''
     </tbody>
 </table>
 </center>
 
 
-''';
-  rv += createHtmlFooter();
-  return rv;
+''');
+  rv.write(createHtmlFooter());
+  return rv.toString();
 }
 
 String removeNewline(String s) {
@@ -44,7 +50,8 @@ String removeNewline(String s) {
 
 String _createMutationReportList(
     int line, List<MutatedLine> mutations, String title) {
-  final rv = StringBuffer('<b>$title</b>\n<table class="mutationTable">\n');
+  final rv = StringBuffer(
+      '<b>$title</b>\n<table class="mutationTable" width="100%">\n');
   int i = 1;
   for (final mut in mutations) {
     if (line == mut.line) {
@@ -66,46 +73,52 @@ String _createMutationReportList(
 }
 
 String createMutationList(int line, FileMutationResults file) {
-  var rv = '';
+  final rv = StringBuffer('');
   if (file.lineHasUndetectedMutation(line)) {
-    rv += _createMutationReportList(
-        line, file.undetectedMutations, 'Undetected mutations:');
+    rv.write(_createMutationReportList(
+        line, file.undetectedMutations, 'Undetected mutations:'));
   }
   if (file.lineHasDetectedMutation(line)) {
-    rv += _createMutationReportList(
-        line, file.detectedMutations, 'Detected mutations:');
+    rv.write(_createMutationReportList(
+        line, file.detectedMutations, 'Detected mutations:'));
   }
   if (file.lineHasTimeoutMutation(line)) {
-    rv += _createMutationReportList(
-        line, file.timeoutMutations, 'Mutations that caused a time out:');
+    rv.write(_createMutationReportList(
+        line, file.timeoutMutations, 'Mutations that caused a time out:'));
   }
-  return rv;
+  return rv.toString();
 }
 
 String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file,
     String toplevelFileName) {
-  var rv = createHtmlFileHeader(reporter, file.path, file.mutationCount,
-      file.detectedCount, file.timeoutCount, false, toplevelFileName);
-  rv +=
-      '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n';
+  final rv = StringBuffer(createHtmlFileHeader(
+      reporter,
+      file.path,
+      file.mutationCount,
+      file.detectedCount,
+      file.timeoutCount,
+      false,
+      toplevelFileName));
+  rv.write(
+      '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n');
   var i = 1;
   for (final src in file.contents.split('\n')) {
     final fmtln = escapeCharsForHtml(removeNewline(src));
     if (file.lineHasMutation(i)) {
       final colorClass = file.lineHasProblem(i) ? 'problem' : 'hit';
-      rv +=
+      rv.write(
           '''<a name="$i"><button class="collapsible $colorClass"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button>
 <div class="content">
 ${createMutationList(i, file)}
-</div></a>''';
+</div></a>''');
     } else {
-      rv +=
-          '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n';
+      rv.write(
+          '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n');
     }
     ++i;
   }
-  rv += '</pre>\n';
-  rv += '''
+  rv.write('</pre>\n');
+  rv.write('''
 <script>
 var coll = document.getElementsByClassName("collapsible");
 var i;
@@ -129,9 +142,9 @@ for (i = 0; i < coll.length; i++) {
     
   });
 }
-</script>''';
-  rv += createHtmlFooter();
-  return rv;
+</script>''');
+  rv.write(createHtmlFooter());
+  return rv.toString();
 }
 
 String selectColor(double pct) {
@@ -163,16 +176,16 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
     locationText +=
         ' - <a href="${createParentLinkPrefix(current)}$toplevelFileName">back to top</a>';
   }
-  var rv = '''
+  final rv = StringBuffer('''
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-''';
-  rv += getCSSFileContents();
-  rv += '</style>\n</head>\n<body>\n';
-  rv += '''
+''');
+  rv.write(getCSSFileContents());
+  rv.write('</style>\n</head>\n<body>\n');
+  rv.write('''
 <table width ="100%" cellspacing="0" border="0">
     <tr><td class="title">Mutation test report</td></tr>
      <tr><td><hr class="ruler"/></td></tr>
@@ -206,9 +219,9 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
      <td class="ItemReport" width="15%">$total</td>
      <td class="${selectColor(100.0 - timeoutFraction)}" width="15%">${timeoutFraction.toStringAsFixed(1)} %</td>
      </tr>
-''';
+''');
   if (isToplevel) {
-    rv += '''
+    rv.write('''
      <tr>
      <td class="ItemLabel" width="10%">Quality rating:</td>
      <td class="ItemText" width="35%">${reporter.rating}</td>
@@ -217,10 +230,10 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
      <td class="ItemText" width="15%"></td>
      <td class="ItemText" width="15%"></td>
      </tr>
-  ''';
+  ''');
   }
 
-  rv += '''
+  rv.write('''
      </tbody>
      </table>
      </td>
@@ -231,9 +244,9 @@ String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
      <tr><td><hr class="ruler"/></td></tr>
 </table>
 
-''';
+''');
 
-  return rv;
+  return rv.toString();
 }
 
 String createFileReportLine(

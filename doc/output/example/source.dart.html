@@ -321,7 +321,7 @@ td.barBg
 
      <tr>
      <td class="ItemLabel" width="10%">Date:</td>
-     <td class="ItemText" width="35%">2023-04-09 16:28:54.749128</td>
+     <td class="ItemText" width="35%">2023-05-07 14:07:08.009879</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
      <td class="ItemReport" width="15%">22</td>
      <td class="ItemReport" width="15%">35</td>
@@ -356,52 +356,32 @@ td.barBg
 <a name="6"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">       6 </span>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c <span class="changedTokens">&amp;&amp;</span> b == c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c || b <span class="changedTokens">!=</span> c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c |<span class="changedTokens">|!( b &gt; c )|</span>| b == c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c <span class="changedTokens">||!( b == c))</span>) {
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c <span class="changedTokens">&amp;&amp;</span> b == c)) {</span></td><td class="match" width="8%">||</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c || b <span class="changedTokens">!=</span> c)) {</span></td><td class="match" width="8%">==</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c |<span class="changedTokens">|!( b &gt; c )|</span>| b == c)) {</span></td><td class="match" width="8%">RegExp: pattern=\|([^|()]+?)\| flags=ms</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c || b &gt; c <span class="changedTokens">||!( b == c))</span>) {</span></td><td class="match" width="8%">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m</td></tr></table>
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b <span class="changedTokens">||</span> (a &lt; c || b &gt; c || b == c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c <span class="changedTokens">&amp;&amp;</span> b &gt; c || b == c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a <span class="changedTokens">!=</span> b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+  <span class="changedTokens"> if (!(a == b &amp;&amp; (a &lt; c || b &gt; c || b == c))) {</span>
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">5 :</td><td class="mutationText" width="90%"><span class="addedLine">+   <span class="changedTokens">if (!(a == b )&amp;&amp;</span> (a &lt; c || b &gt; c || b == c)) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">6 :</td><td class="mutationText" width="90%"><span class="addedLine">+   if (a == b <span class="changedTokens">&amp;&amp;!(</span>a &lt; c || b &gt; c || b == c)) {
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b <span class="changedTokens">||</span> (a &lt; c || b &gt; c || b == c)) {</span></td><td class="match" width="8%">&&</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b &amp;&amp; (a &lt; c <span class="changedTokens">&amp;&amp;</span> b &gt; c || b == c)) {</span></td><td class="match" width="8%">||</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a <span class="changedTokens">!=</span> b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</span></td><td class="match" width="8%">==</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+  <span class="changedTokens"> if (!(a == b &amp;&amp; (a &lt; c || b &gt; c || b == c))) {</span></span></td><td class="match" width="8%">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+   <span class="changedTokens">if (!(a == b )&amp;&amp;</span> (a &lt; c || b &gt; c || b == c)) {</span></td><td class="match" width="8%">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+   if (a == b <span class="changedTokens">&amp;&amp;!(</span>a &lt; c || b &gt; c || b == c)) {</span></td><td class="match" width="8%">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms</td></tr></table>
 
 </div></a><a name="7"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">       7 </span>    return a + c;</pre></button>
 <div class="content">
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     return a <span class="changedTokens">- </span>c;
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     return a <span class="changedTokens">- </span>c;</span></td><td class="match" width="8%">RegExp: pattern=\+([^=]) flags=m</td></tr></table>
 
 </div></a><a name="8"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">       8 </span>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b &lt;= 0 <span class="changedTokens">||</span> c &gt; 0) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b <span class="changedTokens">&lt;</span> 0 &amp;&amp; c &gt; 0) {
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else if (b &lt;= 0 <span class="changedTokens">||</span> c &gt; 0) {</span></td><td class="match" width="8%">&&</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else if (b <span class="changedTokens">&lt;</span> 0 &amp;&amp; c &gt; 0) {</span></td><td class="match" width="8%"><=</td></tr></table>
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b <span class="changedTokens">==</span> 0 &amp;&amp; c &gt; 0) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else<span class="changedTokens"> if (!(b &lt;= 0 &amp;&amp; c &gt; 0)) {</span>
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if <span class="changedTokens">(!(b &lt;= 0 )&amp;&amp; c &gt; 0)</span> {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if <span class="changedTokens">(b &lt;= 0 &amp;&amp;!( c &gt; 0))</span> {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">5 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else <span class="changedTokens">if (!(b &lt;= 0 )&amp;&amp;</span> c &gt; 0) {
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">6 :</td><td class="mutationText" width="90%"><span class="addedLine">+   } else if (b &lt;= 0 <span class="changedTokens">&amp;&amp;!( c &gt; 0))</span> {
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else if (b <span class="changedTokens">==</span> 0 &amp;&amp; c &gt; 0) {</span></td><td class="match" width="8%"><=</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else<span class="changedTokens"> if (!(b &lt;= 0 &amp;&amp; c &gt; 0)) {</span></span></td><td class="match" width="8%">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else if <span class="changedTokens">(!(b &lt;= 0 )&amp;&amp; c &gt; 0)</span> {</span></td><td class="match" width="8%">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else if <span class="changedTokens">(b &lt;= 0 &amp;&amp;!( c &gt; 0))</span> {</span></td><td class="match" width="8%">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else <span class="changedTokens">if (!(b &lt;= 0 )&amp;&amp;</span> c &gt; 0) {</span></td><td class="match" width="8%">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+   } else if (b &lt;= 0 <span class="changedTokens">&amp;&amp;!( c &gt; 0))</span> {</span></td><td class="match" width="8%">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m</td></tr></table>
 
 </div></a><a name="9"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">       9 </span>    return a - b;</pre></button>
 <div class="content">
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+     return a <span class="changedTokens">+ </span>b;
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     return a <span class="changedTokens">+ </span>b;</span></td><td class="match" width="8%">RegExp: pattern=-([^=]) flags=m</td></tr></table>
 
 </div></a><a name="10"><span class="lineNumber">      10 </span>  }</a>
 <a name="11"><span class="lineNumber">      11 </span>  for (var i = 0; i &lt; 10; ++i) {}</a>
@@ -412,13 +392,11 @@ td.barBg
 <a name="16"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      16 </span>  return a * b + c;</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * b <span class="changedTokens">- </span>c;
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a * b <span class="changedTokens">- </span>c;</span></td><td class="match" width="8%">RegExp: pattern=\+([^=]) flags=m</td></tr></table>
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a <span class="changedTokens">/ </span>b + c;
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a <span class="changedTokens">/ </span>b + c;</span></td><td class="match" width="8%">RegExp: pattern=\*([^=]) flags=m</td></tr></table>
 
 </div></a><a name="17"><span class="lineNumber">      17 </span>}</a>
 <a name="18"><span class="lineNumber">      18 </span></a>
@@ -426,13 +404,8 @@ td.barBg
 <a name="20"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">      20 </span>  return a * x * x + b * x + c;</pre></button>
 <div class="content">
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x <span class="changedTokens">- </span>b * x + c;
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x + b * x <span class="changedTokens">- </span>c;
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a <span class="changedTokens">/ </span>x * x + b * x + c;
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">4 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x <span class="changedTokens">/ </span>x + b * x + c;
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">5 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return a * x * x + b <span class="changedTokens">/ </span>x + c;
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a * x * x <span class="changedTokens">- </span>b * x + c;</span></td><td class="match" width="8%">RegExp: pattern=\+([^=]) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a * x * x + b * x <span class="changedTokens">- </span>c;</span></td><td class="match" width="8%">RegExp: pattern=\+([^=]) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a <span class="changedTokens">/ </span>x * x + b * x + c;</span></td><td class="match" width="8%">RegExp: pattern=\*([^=]) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a * x <span class="changedTokens">/ </span>x + b * x + c;</span></td><td class="match" width="8%">RegExp: pattern=\*([^=]) flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return a * x * x + b <span class="changedTokens">/ </span>x + c;</span></td><td class="match" width="8%">RegExp: pattern=\*([^=]) flags=m</td></tr></table>
 
 </div></a><a name="21"><span class="lineNumber">      21 </span>}</a>
 <a name="22"><span class="lineNumber">      22 </span></a>
@@ -440,15 +413,11 @@ td.barBg
 <a name="24"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      24 </span>  return poly(x, y, z, 2.0);</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return<span class="changedTokens"> poly( y,x, z, 2.0);</span>
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return<span class="changedTokens"> poly(x, z, y, 2.0);</span>
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">3 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return<span class="changedTokens"> poly(x, y, 2.0, z);</span>
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return<span class="changedTokens"> poly( y,x, z, 2.0);</span></span></td><td class="match" width="8%">RegExp: pattern=([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*; flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return<span class="changedTokens"> poly(x, z, y, 2.0);</span></span></td><td class="match" width="8%">RegExp: pattern=([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*; flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return<span class="changedTokens"> poly(x, y, 2.0, z);</span></span></td><td class="match" width="8%">RegExp: pattern=([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*; flags=m</td></tr></table>
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return poly(x, y, z,<span class="changedTokens"> -2.0</span>);
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return poly(x, y, z,<span class="changedTokens"> -2.0</span>);</span></td><td class="match" width="8%">RegExp: pattern=([\s=\(])([1-9\.]+[0-9]+|0\.0*[1-9]) flags=m</td></tr></table>
 
 </div></a><a name="25"><span class="lineNumber">      25 </span>}</a>
 <a name="26"><span class="lineNumber">      26 </span></a>
@@ -456,14 +425,11 @@ td.barBg
 <a name="28"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      28 </span>  return inner2(x, y, 1.0);</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return<span class="changedTokens"> inner2( y,x, 1.0);</span>
-</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="10%">2 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return<span class="changedTokens"> inner2(x, 1.0, y);</span>
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return<span class="changedTokens"> inner2( y,x, 1.0);</span></span></td><td class="match" width="8%">RegExp: pattern=([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*; flags=m</td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return<span class="changedTokens"> inner2(x, 1.0, y);</span></span></td><td class="match" width="8%">RegExp: pattern=([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*; flags=m</td></tr></table>
 <b>Detected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return inner2(x, y,<span class="changedTokens"> -1.0</span>);
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return inner2(x, y,<span class="changedTokens"> -1.0</span>);</span></td><td class="match" width="8%">RegExp: pattern=([\s=\(])([1-9\.]+[0-9]+|0\.0*[1-9]) flags=m</td></tr></table>
 
 </div></a><a name="29"><span class="lineNumber">      29 </span>}</a>
 <a name="30"><span class="lineNumber">      30 </span></a>
@@ -471,9 +437,8 @@ td.barBg
 <a name="32"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      32 </span>  return inner(x, y);</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
-<table class="mutationTable">
-<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+   return<span class="changedTokens"> inner( y,x);</span>
-</span></td></tr></table>
+<table class="mutationTable" width="100%">
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   return<span class="changedTokens"> inner( y,x);</span></span></td><td class="match" width="8%">RegExp: pattern=([\s][a-zA-Z]+?[^(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?)\)\s*; flags=m</td></tr></table>
 
 </div></a><a name="33"><span class="lineNumber">      33 </span>}</a>
 <a name="34"><span class="lineNumber">      34 </span></a>
@@ -503,7 +468,7 @@ for (i = 0; i < coll.length; i++) {
 }
 </script><table width ="100%" cellspacing="0" border="0">
   <tr><td><hr class="ruler"/></td></tr>
-  <tr><td class="footer">Generated by mutation-test version: 1.3.4</td></tr>
+  <tr><td class="footer">Generated by mutation-test version: 1.4.0</td></tr>
 </table>
 </body>
 </html>

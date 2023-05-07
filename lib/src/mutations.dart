@@ -192,65 +192,65 @@ class MutatedLine {
 
   /// Pretty formatting
   String toMarkdown() {
-    var rv = 'Line $line:<br>\n';
-    rv += _formatRemoved(true);
-    rv += _formatAdded(true);
+    final rv = StringBuffer('Line $line:<br>\n');
+    rv.write(_formatRemoved(true));
+    rv.write(_formatAdded(true));
     // ignore: unnecessary_string_escapes
-    return rv.replaceAll('*', '\*');
+    return rv.toString().replaceAll('*', '\*');
   }
 
   /// Pretty formatting
   String toHTML() {
-    var rv = 'Line $line:<br>\n';
-    rv += _formatRemoved(false);
-    rv += _formatAdded(false);
-    return rv;
+    final rv = StringBuffer('Line $line:<br>\n');
+    rv.write(_formatRemoved(false));
+    rv.write(_formatAdded(false));
+    return rv.toString();
   }
 
   String _formatRemoved(bool escape) {
-    var rv =
-        '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 200, 200);">';
-    rv += '- ${_escapeChars(original.substring(0, start), escape)}';
-    rv += '<span style="background-color: rgb(255, 50, 50);">';
-    rv += _escapeChars(original.substring(start, end), escape);
-    rv += '</span>';
-    rv += _escapeChars(original.substring(end), escape);
-    rv += '</span><br>\n';
-    return rv;
+    final rv = StringBuffer(
+        '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(255, 200, 200);">');
+    rv.write('- ${_escapeChars(original.substring(0, start), escape)}');
+    rv.write('<span style="background-color: rgb(255, 50, 50);">');
+    rv.write(_escapeChars(original.substring(start, end), escape));
+    rv.write('</span>');
+    rv.write(_escapeChars(original.substring(end), escape));
+    rv.write('</span><br>\n');
+    return rv.toString();
   }
 
   String _formatAdded(bool escape) {
     final begin = start < mutated.length ? start : 0;
-    var rv =
-        '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">';
-    rv += '+ ${_escapeChars(mutated.substring(0, begin), escape)}';
-    rv += '<span style="background-color: rgb(50, 255, 50);">';
+    final rv = StringBuffer(
+        '&nbsp;&nbsp;&nbsp;&nbsp;<span style="background-color: rgb(200, 255, 200);">');
+    rv.write('+ ${_escapeChars(mutated.substring(0, begin), escape)}');
+    rv.write('<span style="background-color: rgb(50, 255, 50);">');
     var mutationEnd = end + mutated.length - original.length;
     mutationEnd = mutationEnd >= begin && mutationEnd <= mutated.length
         ? mutationEnd
         : begin;
-    rv += _escapeChars(mutated.substring(begin, mutationEnd), escape);
-    rv += '</span>';
-    rv += _escapeChars(mutated.substring(mutationEnd), escape);
-    rv += '</span><br>\n';
-    return rv;
+    rv.write(_escapeChars(mutated.substring(begin, mutationEnd), escape));
+    rv.write('</span>');
+    rv.write(_escapeChars(mutated.substring(mutationEnd), escape));
+    rv.write('</span><br>\n');
+    return rv.toString();
   }
 
   /// Formats the modified code for the Html reporting.
   String formatMutatedCodeToHTML() {
     final begin = start < mutated.length ? start : 0;
-    var rv = '<span class="addedLine">';
-    rv += '+ ${escapeCharsForHtml(mutated.substring(0, begin))}';
-    rv += '<span class="changedTokens">';
+    final rv = StringBuffer('<span class="addedLine">');
+    rv.write('+ ${escapeCharsForHtml(mutated.substring(0, begin))}');
+    rv.write('<span class="changedTokens">');
     var mutationEnd = end + mutated.length - original.length;
     mutationEnd = mutationEnd >= begin && mutationEnd <= mutated.length
         ? mutationEnd
         : begin;
-    rv += escapeCharsForHtml(mutated.substring(begin, mutationEnd));
-    rv += '</span>';
-    rv += escapeCharsForHtml(mutated.substring(mutationEnd));
-    rv += '</span>';
-    return rv;
+    rv.write(escapeCharsForHtml(mutated.substring(begin, mutationEnd)));
+    rv.write('</span>');
+    rv.write(escapeCharsForHtml(mutated.substring(mutationEnd)));
+    rv.write('</span>');
+    return rv.toString();
   }
 
   String _escapeChars(String text, bool doIt) {
