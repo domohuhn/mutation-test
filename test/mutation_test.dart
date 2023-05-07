@@ -112,8 +112,13 @@ void main() {
 
   group('mutated line', () {
     test('mutation on linebreak', () {
-      var mut = createMutatedLine(4, 8, 'smoe\n.collapsible {\nsdfsfsf\n',
-          'smoe\n-.collapsible {\nsdfsfsf\n');
+      var mut = createMutatedLine(
+        4,
+        8,
+        'smoe\n.collapsible {\nsdfsfsf\n',
+        'smoe\n-.collapsible {\nsdfsfsf\n',
+        Mutation('.'),
+      );
       expect(mut.start, 0);
       expect(
           mut.toHTML(),
@@ -128,8 +133,13 @@ void main() {
     });
 
     test('range inverted', () {
-      var mut = createMutatedLine(8, 4, 'smoe\n.collapsible {\nsdfsfsf\n',
-          'smoe\n-.collapsible {\nsdfsfsf\n');
+      var mut = createMutatedLine(
+        8,
+        4,
+        'smoe\n.collapsible {\nsdfsfsf\n',
+        'smoe\n-.collapsible {\nsdfsfsf\n',
+        Mutation('.'),
+      );
       try {
         var str = 'a${mut.toHTML()}';
         str += mut.toMarkdown();
@@ -142,8 +152,13 @@ void main() {
     });
 
     test('out of range 1', () {
-      var mut = createMutatedLine(-10, -5, 'smoe\n.collapsible {\nsdfsfsf\n',
-          'smoe\n-.collapsible {\nsdfsfsf\n');
+      var mut = createMutatedLine(
+        -10,
+        -5,
+        'smoe\n.collapsible {\nsdfsfsf\n',
+        'smoe\n-.collapsible {\nsdfsfsf\n',
+        Mutation('.'),
+      );
       try {
         var str = 'a${mut.toHTML()}';
         str += mut.toMarkdown();
@@ -156,8 +171,13 @@ void main() {
     });
 
     test('out of range 2', () {
-      var mut = createMutatedLine(-10, 4, 'smoe\n.collapsible {\nsdfsfsf\n',
-          'smoe\n-.collapsible {\nsdfsfsf\n');
+      var mut = createMutatedLine(
+        -10,
+        4,
+        'smoe\n.collapsible {\nsdfsfsf\n',
+        'smoe\n-.collapsible {\nsdfsfsf\n',
+        Mutation('.'),
+      );
       try {
         var str = 'a${mut.toHTML()}';
         str += mut.toMarkdown();
@@ -170,8 +190,13 @@ void main() {
     });
 
     test('out of range 3', () {
-      var mut = createMutatedLine(4, 500, 'smoe\n.collapsible {\nsdfsfsf\n',
-          'smoe\n-.collapsible {\nsdfsfsf\n');
+      var mut = createMutatedLine(
+        4,
+        500,
+        'smoe\n.collapsible {\nsdfsfsf\n',
+        'smoe\n-.collapsible {\nsdfsfsf\n',
+        Mutation('.'),
+      );
       try {
         var str = 'a${mut.toHTML()}';
         str += mut.toMarkdown();
@@ -184,8 +209,13 @@ void main() {
     });
 
     test('out of range 4', () {
-      var mut = createMutatedLine(400, 500, 'smoe\n.collapsible {\nsdfsfsf\n',
-          'smoe\n-.collapsible {\nsdfsfsf\n');
+      var mut = createMutatedLine(
+        400,
+        500,
+        'smoe\n.collapsible {\nsdfsfsf\n',
+        'smoe\n-.collapsible {\nsdfsfsf\n',
+        Mutation('.'),
+      );
       try {
         var str = 'a${mut.toHTML()}';
         str += mut.toMarkdown();

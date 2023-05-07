@@ -28,6 +28,7 @@ class Mutation {
 /// Wrapper to allow iteration
 class IterableMutation extends Iterable<MutatedCode> {
   IterableMutation(this._itr);
+
   final Iterator<MutatedCode> _itr;
 
   @override
@@ -41,6 +42,7 @@ class MutatedCode {
 
   /// Information about the mutated line.
   MutatedLine line;
+
   MutatedCode(this.text, this.line);
 }
 
@@ -56,8 +58,10 @@ class MutationIterator implements Iterator<MutatedCode> {
   int _index = 0;
   bool _initialized = false;
 
-  final MutatedCode _currentMutation =
-      MutatedCode('', MutatedLine(0, 0, 0, '', ''));
+  final MutatedCode _currentMutation = MutatedCode(
+    '',
+    MutatedLine(0, 0, 0, '', '', Mutation('')),
+  );
   final Iterator<Match> _matches;
 
   @override
@@ -81,8 +85,15 @@ class MutationIterator implements Iterator<MutatedCode> {
     }
     _currentMutation.text =
         mutation.replacements[_index].replace(text, _matches.current);
-    _currentMutation.line = createMutatedLine(_matches.current.start,
-        _matches.current.end, text, _currentMutation.text);
+
+    _currentMutation.line = createMutatedLine(
+      _matches.current.start,
+      _matches.current.end,
+      text,
+      _currentMutation.text,
+      mutation,
+    );
+
     _index += 1;
     return true;
   }
@@ -111,7 +122,12 @@ bool isInRange(List<Range> ranges, String text, int position) {
 
 /// Adds a mutation to the Testrunner.
 MutatedLine createMutatedLine(
-    int absoluteStart, int absoluteEnd, String original, String mutated) {
+  int absoluteStart,
+  int absoluteEnd,
+  String original,
+  String mutated,
+  Mutation mutation,
+) {
   if (absoluteStart < 0) {
     absoluteStart = 0;
   }
@@ -137,12 +153,15 @@ MutatedLine createMutatedLine(
   final mutationEnd = absoluteEnd - lineStart;
   final lineEndMutated =
       findEndOfLineFromPosition(mutated, lineStart + mutationEnd);
+
   return MutatedLine(
-      line,
-      mutationStart,
-      mutationEnd,
-      original.substring(lineStart, lineEnd),
-      mutated.substring(lineStart, lineEndMutated));
+    line,
+    mutationStart,
+    mutationEnd,
+    original.substring(lineStart, lineEnd),
+    mutated.substring(lineStart, lineEndMutated),
+    mutation,
+  );
 }
 
 /// A mutation data structure with Information about a mutated line.
@@ -162,7 +181,10 @@ class MutatedLine {
   /// mutated line of code
   final String mutated;
 
-  MutatedLine(this.line, int first, int last, this.original, this.mutated) {
+  final Mutation mutation;
+
+  MutatedLine(this.line, int first, int last, this.original, this.mutated,
+      this.mutation) {
     /// make wrong states impossible to repesent
     start = first >= 0 ? first : 0;
     end = last <= original.length ? last : original.length;

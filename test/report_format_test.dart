@@ -16,20 +16,23 @@ void main() {
     var reporter = ResultsReporter('test.xml', true);
     reporter.startFileTest('path.dart', 3, 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
-        'path.dart',
-        MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;'),
-        TestReport(TestResult.Detected),
-        true);
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation('0')),
+      TestReport(TestResult.Detected),
+      true,
+    );
     reporter.addTestReport(
-        'path.dart',
-        MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;'),
-        TestReport(TestResult.Undetected),
-        true);
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation('0')),
+      TestReport(TestResult.Undetected),
+      true,
+    );
     reporter.addTestReport(
-        'path.dart',
-        MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;'),
-        TestReport(TestResult.Timeout),
-        true);
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation('0')),
+      TestReport(TestResult.Timeout),
+      true,
+    );
     test('Usage test for the reporter', () {
       expect(reporter.builtinRulesAdded, true);
       expect(reporter.foundMutations, 1);

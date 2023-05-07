@@ -23,20 +23,23 @@ void main() {
     var reporter = ResultsReporter('test.xml', true);
     reporter.startFileTest('path.dart', 3, 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
-        'path.dart',
-        MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;'),
-        TestReport(TestResult.Detected),
-        true);
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation('[0-9]+')),
+      TestReport(TestResult.Detected),
+      true,
+    );
     reporter.addTestReport(
-        'path.dart',
-        MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;'),
-        TestReport(TestResult.Undetected),
-        true);
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation('[0-9]+')),
+      TestReport(TestResult.Undetected),
+      true,
+    );
     reporter.addTestReport(
-        'path.dart',
-        MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;'),
-        TestReport(TestResult.Timeout),
-        true);
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation('[0-9]+')),
+      TestReport(TestResult.Timeout),
+      true,
+    );
     var result = createSourceHtmlFile(ResultsReporter('test.xml', true),
         reporter.testedFiles.values.first, 'test.html');
     // exclude report creation time
@@ -181,13 +184,13 @@ final htmlSourceFileReport = '<!DOCTYPE html>\n'
     '<div class="content">\n'
     '<b>Undetected mutations:</b>\n'
     '<table class="mutationTable">\n'
-    '<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+ <span class="changedTokens">var x</span> = a;</span></td></tr></table>\n'
+    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x</span> = a;</span></td><td class="match" width="8%">[0-9]+</td></tr></table>\n'
     '<b>Detected mutations:</b>\n'
     '<table class="mutationTable">\n'
-    '<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+ <span class="changedTokens">var x </span>= -0;</span></td></tr></table>\n'
+    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x </span>= -0;</span></td><td class="match" width="8%">[0-9]+</td></tr></table>\n'
     '<b>Mutations that caused a time out:</b>\n'
     '<table class="mutationTable">\n'
-    '<tr><td class="mutationLabel" width="10%">1 :</td><td class="mutationText" width="90%"><span class="addedLine">+ <span class="changedTokens">var x</span> = c;</span></td></tr></table>\n'
+    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x</span> = c;</span></td><td class="match" width="8%">[0-9]+</td></tr></table>\n'
     '\n'
     '</div></a><a name="2"><span class="lineNumber">       2 </span></a>\n'
     '<a name="3"><span class="lineNumber">       3 </span>// mooo</a>\n'
