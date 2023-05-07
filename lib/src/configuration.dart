@@ -172,7 +172,7 @@ class Configuration {
   }
 
   void _addFile(xml.XmlElement element) {
-    final path = element.text.trim();
+    final path = element.innerText.trim();
     if (!File(path).existsSync()) {
       throw MutationError('Input file "$path" not found!');
     }
@@ -184,12 +184,11 @@ class Configuration {
   }
 
   void _addExcludedFile(xml.XmlElement element) {
-    final path = element.text.trim();
-    excludedFiles.add(path);
+    excludedFiles.add(element.innerText.trim());
   }
 
   void _addDirectory(xml.XmlElement element) {
-    final path = element.text.trim();
+    final path = element.innerText.trim();
     if (!Directory(path).existsSync()) {
       throw MutationError('Input directory "$path" not found!');
     }
@@ -290,7 +289,8 @@ class Configuration {
 
   /// Parses a <command> token from [element] and adds it to the interal structure.
   void _addCommand(xml.XmlElement element) {
-    var text = element.text.split(' ');
+    final original = element.innerText;
+    var text = original.split(' ');
     if (text.isEmpty) {
       throw MutationError('Received empty text for a <command>');
     }
@@ -298,7 +298,7 @@ class Configuration {
     final args = <String>[];
     args.addAll(text);
     args.removeAt(0);
-    final cmd = Command(element.text, process, args);
+    final cmd = Command(original, process, args);
     final group = element.getAttribute('group');
     if (group != null) {
       cmd.group = group;
