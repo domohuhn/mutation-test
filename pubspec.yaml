@@ -1,6 +1,6 @@
 name: mutation_test
 description: A command line application to measure the quality of your test cases by mutating your code and checking if your tests detect the changes.
-version: 1.3.4
+version: 1.4.0
 homepage: https://domohuhn.github.io/mutation-test/
 repository: https://github.com/domohuhn/mutation-test
 issue_tracker: https://github.com/domohuhn/mutation-test/issues

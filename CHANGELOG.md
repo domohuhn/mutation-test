@@ -1,3 +1,6 @@
+## 1.4.0
+ - Added a column in the generated html report that shows the mutation match pattern
+
 ## 1.3.4
  - Improved mutation rules that switch function arguments
  - Updated dependencies

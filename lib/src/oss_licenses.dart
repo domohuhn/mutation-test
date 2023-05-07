@@ -10,7 +10,7 @@ const ossLicenses = <Package>[
     repository:
         'https://github.com/dart-lang/sdk/tree/main/pkg/_fe_analyzer_shared',
     authors: [],
-    version: '54.0.0',
+    version: '59.0.0',
     license: '''Copyright 2019, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'This package provides a library that performs static analysis of Dart code.',
     repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/analyzer',
     authors: [],
-    version: '5.6.0',
+    version: '5.11.1',
     license: '''Copyright 2013, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Library for defining parsers for parsing raw command-line arguments into a set of options and values using GNU and POSIX style options.',
     repository: 'https://github.com/dart-lang/args',
     authors: [],
-    version: '2.4.0',
+    version: '2.4.1',
     license: '''Copyright 2013, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -310,10 +310,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'crypto',
     description:
-        'Implementations of SHA, MD5, and HMAC cryptographic functions',
+        'Implementations of SHA, MD5, and HMAC cryptographic functions.',
     repository: 'https://github.com/dart-lang/crypto',
     authors: [],
-    version: '3.0.2',
+    version: '3.0.3',
     license: '''Copyright 2015, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -646,7 +646,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Annotations to create static Dart interfaces for JavaScript APIs.',
     repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/js',
     authors: [],
-    version: '0.6.5',
+    version: '0.6.7',
     license: '''Copyright 2012, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -685,7 +685,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/google/json_serializable.dart/tree/master/json_annotation',
     authors: [],
-    version: '4.8.0',
+    version: '4.8.1',
     license: '''Copyright 2017, the Dart project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -1049,10 +1049,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     homepage: 'https://petitparser.github.io',
     repository: 'https://github.com/petitparser/dart-petitparser',
     authors: [],
-    version: '5.1.0',
+    version: '5.4.0',
     license: '''The MIT License
 
-Copyright (c) 2006-2022 Lukas Renggli.
+Copyright (c) 2006-2023 Lukas Renggli.
 All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1120,7 +1120,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Versions and version constraints implementing pub\'s versioning policy. This is very similar to vanilla semver, with a few corner cases.',
     repository: 'https://github.com/dart-lang/pub_semver',
     authors: [],
-    version: '2.1.3',
+    version: '2.1.4',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1159,7 +1159,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 ''',
     repository: 'https://github.com/dart-lang/shelf/tree/master/pkgs/shelf',
     authors: [],
-    version: '1.4.0',
+    version: '1.4.1',
     license: '''Copyright 2014, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1197,7 +1197,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/dart-lang/shelf/tree/master/pkgs/shelf_packages_handler',
     authors: [],
-    version: '3.0.1',
+    version: '3.0.2',
     license: '''Copyright 2016, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1236,7 +1236,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/dart-lang/shelf/tree/master/pkgs/shelf_static',
     authors: [],
-    version: '1.1.1',
+    version: '1.1.2',
     license: '''Copyright 2015, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1276,7 +1276,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/dart-lang/shelf/tree/master/pkgs/shelf_web_socket',
     authors: [],
-    version: '1.0.3',
+    version: '1.0.4',
     license: '''Copyright 2014, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1576,7 +1576,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A full featured library for writing and running Dart tests across platforms.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test',
     authors: [],
-    version: '1.24.1',
+    version: '1.24.2',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1614,7 +1614,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'The user facing API for structuring Dart tests and checking expectations.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_api',
     authors: [],
-    version: '0.5.1',
+    version: '0.5.2',
     license: '''Copyright 2018, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1652,7 +1652,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A basic library for writing tests and running them on the VM.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_core',
     authors: [],
-    version: '0.5.1',
+    version: '0.5.2',
     license: '''Copyright 2018, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1728,7 +1728,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A library to communicate with a service implementing the Dart VM service protocol.',
     repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/vm_service',
     authors: [],
-    version: '11.2.0',
+    version: '11.5.0',
     license: '''Copyright 2015, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1804,7 +1804,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'StreamChannel wrappers for WebSockets. Provides a cross-platform WebSocketChannel API, a cross-platform implementation of that API that communicates over an underlying StreamChannel.',
     repository: 'https://github.com/dart-lang/web_socket_channel',
     authors: [],
-    version: '2.3.0',
+    version: '2.4.0',
     license: '''Copyright 2016, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1882,10 +1882,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A lightweight library for parsing, traversing, querying, transforming and building XML documents.',
     homepage: 'https://github.com/renggli/dart-xml',
     authors: [],
-    version: '6.2.2',
+    version: '6.3.0',
     license: '''The MIT License
 
-Copyright (c) 2006-2022 Lukas Renggli.
+Copyright (c) 2006-2023 Lukas Renggli.
 All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1915,7 +1915,7 @@ THE SOFTWARE.''',
         'A parser for YAML, a human-friendly data serialization standard',
     repository: 'https://github.com/dart-lang/yaml',
     authors: [],
-    version: '3.1.1',
+    version: '3.1.2',
     license: '''Copyright (c) 2014, the Dart project authors.
 Copyright (c) 2006, Kirill Simonov.
 
