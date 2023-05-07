@@ -248,6 +248,28 @@ td.barBg
   background-color: #FFFFFF;
 }
 
+.match {
+  text-align: right;
+  position: relative;
+}
+
+.match .tooltip {
+  visibility: hidden;
+  background-color: #bbb;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 5px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  right: 0%;
+}
+
+.match:hover .tooltip {
+  visibility: visible;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     color: #c9d1d9;
@@ -298,6 +320,11 @@ td.barBg
   a:link, a:visited  {
 	  color: #58a6ff;
 	}
+  
+  .match .tooltip {
+    background-color: black;
+    color: #fff;
+  }
 }
 
 </style>
@@ -321,7 +348,7 @@ td.barBg
 
      <tr>
      <td class="ItemLabel" width="10%">Date:</td>
-     <td class="ItemText" width="35%">2023-05-07 14:07:08.009879</td>
+     <td class="ItemText" width="35%">2023-05-07 16:32:27.861048</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
      <td class="ItemReport" width="15%">23</td>
      <td class="ItemReport" width="15%">72</td>

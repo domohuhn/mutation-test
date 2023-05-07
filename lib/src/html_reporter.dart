@@ -62,8 +62,10 @@ String _createMutationReportList(
       rv.write('<td class="mutationText" width="87%">'
           '${mut.formatMutatedCodeToHTML()}</td>');
 
-      rv.write('<td class="match" width="8%">${mut.mutation.pattern}</td>');
-      rv.write('</tr>');
+      rv.write('<td class="match">${mut.mutation.pattern}');
+      if (mut.mutation.id != null)
+        rv.write('<span class="tooltip">Id: ${mut.mutation.id}</span>');
+      rv.write('</td></tr>');
 
       ++i;
     }
@@ -527,6 +529,28 @@ td.barBg
   background-color: #FFFFFF;
 }
 
+.match {
+  text-align: right;
+  position: relative;
+}
+
+.match .tooltip {
+  visibility: hidden;
+  background-color: #bbb;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 5px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  right: 0%;
+}
+
+.match:hover .tooltip {
+  visibility: visible;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     color: #c9d1d9;
@@ -577,6 +601,11 @@ td.barBg
   a:link, a:visited  {
 	  color: #58a6ff;
 	}
+  
+  .match .tooltip {
+    background-color: black;
+    color: #fff;
+  }
 }
 
 ''';

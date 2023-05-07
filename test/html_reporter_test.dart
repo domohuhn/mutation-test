@@ -13,8 +13,8 @@ void main() {
   test('Create Toplevel html file', () {
     var result = createToplevelHtmlFile(ResultsReporter('test.xml', true));
     // exclude report creation time
-    final end1 = 5494;
-    final start2 = end1 + 24;
+    final end1 = emptyToplevel.indexOf('Date:') + 49;
+    final start2 = end1 + 26;
     expect(result.substring(0, end1), emptyToplevel.substring(0, end1));
     expect(result.substring(start2), emptyToplevel.substring(start2));
   });
@@ -36,15 +36,16 @@ void main() {
     );
     reporter.addTestReport(
       'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation('[0-9]+')),
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;',
+          Mutation('[0-9]+', id: 'testId')),
       TestReport(TestResult.Timeout),
       true,
     );
     var result = createSourceHtmlFile(ResultsReporter('test.xml', true),
         reporter.testedFiles.values.first, 'test.html');
     // exclude report creation time
-    final end1 = 5534;
-    final start2 = end1 + 24;
+    final end1 = htmlSourceFileReport.indexOf('Date:') + 49;
+    final start2 = end1 + 26;
     expect(result.substring(0, end1), htmlSourceFileReport.substring(0, end1));
     expect(result.substring(start2), htmlSourceFileReport.substring(start2));
   });
@@ -184,13 +185,13 @@ final htmlSourceFileReport = '<!DOCTYPE html>\n'
     '<div class="content">\n'
     '<b>Undetected mutations:</b>\n'
     '<table class="mutationTable" width="100%">\n'
-    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x</span> = a;</span></td><td class="match" width="8%">[0-9]+</td></tr></table>\n'
+    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x</span> = a;</span></td><td class="match">[0-9]+</td></tr></table>\n'
     '<b>Detected mutations:</b>\n'
     '<table class="mutationTable" width="100%">\n'
-    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x </span>= -0;</span></td><td class="match" width="8%">[0-9]+</td></tr></table>\n'
+    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x </span>= -0;</span></td><td class="match">[0-9]+</td></tr></table>\n'
     '<b>Mutations that caused a time out:</b>\n'
     '<table class="mutationTable" width="100%">\n'
-    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x</span> = c;</span></td><td class="match" width="8%">[0-9]+</td></tr></table>\n'
+    '<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+ <span class="changedTokens">var x</span> = c;</span></td><td class="match">[0-9]+<span class="tooltip">Id: testId</span></td></tr></table>\n'
     '\n'
     '</div></a><a name="2"><span class="lineNumber">       2 </span></a>\n'
     '<a name="3"><span class="lineNumber">       3 </span>// mooo</a>\n'

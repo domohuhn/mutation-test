@@ -66,43 +66,43 @@ String _xmlRules() {
   <rules>
     <!-- A literal element matches the literal text and replaces it with the list of mutations  -->
     <!-- Replaces 'and' and 'or'  with each other -->
-    <literal text="&amp;&amp;">
+    <literal text="&amp;&amp;" id="builtin.and">
       <mutation text="||"/>
     </literal>
-    <literal text="||">
+    <literal text="||" id="builtin.or">
       <mutation text="&amp;&amp;"/>
     </literal>
     <!-- Replaces assignments with other assignments -->
-    <literal text="+=">
+    <literal text="+=" id="builtin.op.add_assign">
       <mutation text="="/>
     </literal>
-    <literal text="-=">
+    <literal text="-=" id="builtin.op.sub_assign">
       <mutation text="="/>
     </literal>
-    <literal text="*=">
+    <literal text="*=" id="builtin.op.mul_assign">
       <mutation text="="/>
     </literal>
-    <literal text="/=">
+    <literal text="/=" id="builtin.op.div_assign">
       <mutation text="="/>
     </literal>
-    <literal text="&=">
+    <literal text="&=" id="builtin.op.and_assign">
       <mutation text="="/>
     </literal>
-    <literal text="^=">
+    <literal text="^=" id="builtin.op.or_assign">
       <mutation text="="/>
     </literal>
     <!-- Replaces comparison operators -->
-    <literal text="==">
+    <literal text="==" id="builtin.op.eq">
       <mutation text="!="/>
     </literal>
-    <literal text="!=">
+    <literal text="!=" id="builtin.op.neq">
       <mutation text="=="/>
     </literal>
-    <literal text="&lt;=">
+    <literal text="&lt;=" id="builtin.op.leq">
       <mutation text="=="/>
       <mutation text="&lt;"/>
     </literal>
-    <literal text="&gt;=">
+    <literal text="&gt;=" id="builtin.op.geq">
       <mutation text="=="/>
       <mutation text="&gt;"/>
     </literal>
@@ -110,7 +110,7 @@ String _xmlRules() {
     <!-- If the optional attribute dotAll is set to true, then the . will also match newlines.  -->
     <!-- If not present, the default value for dotAll is false.  -->
     <!-- Here, we capture everything inside of the braces of "if ()" -->
-    <regex pattern="[\s]if[\s]*\((.*?)\)[\s]*{" dotAll="true">
+    <regex pattern="[\s]if[\s]*\((.*?)\)[\s]*{" dotAll="true" id="builtin.if">
       <!-- You can access groups via $1. -->
       <!-- If your string contains a $ followed by a number that should not be replaced, escape the dollar \$ -->
       <!-- If your string contains a \$ followed by a number that should not be replaced, escape the slash \\$ -->
@@ -118,63 +118,63 @@ String _xmlRules() {
       <mutation text=" if (!($1)) {"/>
     </regex>
     <!-- Matches long chains of && -->
-    <regex pattern="&amp;([^&amp;()]+?)&amp;" dotAll="true">
+    <regex pattern="&amp;([^&amp;()]+?)&amp;" dotAll="true" id="builtin.logical.and_chain">
       <mutation text="&amp;!($1)&amp;"/>
     </regex>
     <!-- Matches long chains of || -->
-    <regex pattern="\|([^|()]+?)\|" dotAll="true">
+    <regex pattern="\|([^|()]+?)\|" dotAll="true" id="builtin.logical.or_chain">
       <mutation text="|!($1)|"/>
     </regex>
-    <regex pattern="\(([^$(]*?)&amp;&amp;([^$()]*?)\)">
+    <regex pattern="\(([^$(]*?)&amp;&amp;([^$()]*?)\)" id="builtin.logical.and_chain2">
       <mutation text="(!($1)&amp;&amp;$2)"/>
       <mutation text="($1&amp;&amp;!($2))"/>
     </regex>
-    <regex pattern="\(([^|(]*?)\|\|([^()|]*?)\)">
+    <regex pattern="\(([^|(]*?)\|\|([^()|]*?)\)" id="builtin.logical.or_chain2">
       <mutation text="(!($1)||$2)"/>
       <mutation text="($1||!($2))"/>
     </regex>
     <!-- Replace start of conditional block -->
-    <regex pattern="if\s*\(([^|&amp;\)]*?)([|&amp;][|&amp;])">
+    <regex pattern="if\s*\(([^|&amp;\)]*?)([|&amp;][|&amp;])" id="builtin.if.start">
       <mutation text="if (!($1)$2"/>
     </regex>
     <!-- Replace end of conditional block -->
-    <regex pattern="([|&amp;][|&amp;])([^|&amp;]*?)\)">
+    <regex pattern="([|&amp;][|&amp;])([^|&amp;]*?)\)" id="builtin.if.end">
       <mutation text="$1!($2))"/>
     </regex>
-    <regex pattern="([|&amp;][|&amp;])[\s]*?\(" dotAll="true">
+    <regex pattern="([|&amp;][|&amp;])[\s]*?\(" dotAll="true" id="builtin.logical.chain_not">
       <mutation text="$1!("/>
     </regex>
     <!-- Replaces numbers with negative values -->
-    <regex pattern="([\s=\(])([1-9\.]+[0-9]+|0\.0*[1-9])">
+    <regex pattern="([\s=\(])([1-9\.]+[0-9]+|0\.0*[1-9])" id="builtin.number.negative">
       <mutation text="$1-$2"/>
     </regex>
     <!-- checks if neighboring arguments may have been mixed up -->
     <!-- switch function call arguments. Matches 2 args -->
-    <regex pattern="([\s][a-zA-Z]+?[^(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?)\)\s*;">
+    <regex pattern="([\s][a-zA-Z]+?[^(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?)\)\s*;" id="builtin.function.arg2">
       <mutation text="$1($3,$2);"/>
     </regex>
     <!-- switch function call arguments. Matches 3 args -->
-    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;">
+    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;" id="builtin.function.arg3">
       <mutation text="$1($3,$2,$4);"/>
       <mutation text="$1($2,$4,$3);"/>
     </regex>
     <!-- switch function call arguments. Matches 4 args -->
-    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;">
+    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;"  id="builtin.function.arg4">
       <mutation text="$1($3,$2,$4,$5);"/>
       <mutation text="$1($2,$4,$3,$5);"/>
       <mutation text="$1($2,$3,$5,$4);"/>
     </regex>
     <!-- Replaces arithmetic operators with their opposite -->
-    <regex pattern="\+([^=])">
+    <regex pattern="\+([^=])" id="builtin.arith.add">
       <mutation text="-$1"/>
     </regex>
-    <regex pattern="-([^=])">
+    <regex pattern="-([^=])" id="builtin.arith.sub">
       <mutation text="+$1"/>
     </regex>
-    <regex pattern="\*([^=])">
+    <regex pattern="\*([^=])" id="builtin.arith.mul">
       <mutation text="/$1"/>
     </regex>
-    <regex pattern="/([^=])">
+    <regex pattern="/([^=])" id="builtin.arith.div">
       <mutation text="*$1"/>
     </regex>
   </rules>

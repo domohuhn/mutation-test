@@ -11,12 +11,13 @@ import 'package:mutation_test/src/range.dart';
 /// Each occurence of the pattern will be replaced by one of the replacements and then the test commands are run
 /// to check if the mutation is detected.
 class Mutation {
+  final String? id;
   final Pattern pattern;
   final List<Replacement> replacements = [];
 
-  Mutation(this.pattern);
+  Mutation(this.pattern, {this.id});
 
-  /// Iterate through [text] and replaces all matches of the pattern with every replacement.
+  /// Iterates through [text] and replaces all matches of the pattern with every replacement.
   /// Only one match is mutated at a time and replaced with a single replacement.
   IterableMutation allMutations(
       String text, List<Range> whitelist, List<Range> exclusions) {

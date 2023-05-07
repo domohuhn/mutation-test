@@ -321,7 +321,7 @@ class Configuration {
     if (str == null) {
       throw MutationError('Each <literal> must have a text attribute!');
     }
-    var mutation = Mutation(str);
+    var mutation = Mutation(str, id: element.getAttribute('id'));
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {
@@ -338,7 +338,8 @@ class Configuration {
 
   /// Adds a regular expression text replacement rule from [element]
   void _addRegexRule(xml.XmlElement element) {
-    var mutation = Mutation(_parseRegEx(element));
+    var mutation =
+        Mutation(_parseRegEx(element), id: element.getAttribute('id'));
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {

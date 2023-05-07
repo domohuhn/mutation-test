@@ -237,8 +237,9 @@ This element is the most important part of the document. It defines what is muta
 <!-- Each of them must have at least one mutation child -->
 <rules>
   <!-- A literal element matches the literal text and replaces it with the 
-       list of mutations. This will replace any "+" with "-" or "*". -->
-  <literal text="+">
+       list of mutations. This will replace any "+" with "-" or "*".
+       The "id" attribute is optional and will be used when creating the reports. -->
+  <literal text="+" id="add">
     <mutation text="-"/>
     <mutation text="*"/>
   </literal>
@@ -247,7 +248,7 @@ This element is the most important part of the document. It defines what is muta
        then the . will also match newlines.  -->
   <!-- If not present, the default value for dotAll is false.  -->
   <!-- Here, we capture everything inside of the braces of "if ()" -->
-  <regex pattern="[\s]if[\s]*\((.*?)\)[\s]*{" dotAll="true">
+  <regex pattern="[\s]if[\s]*\((.*?)\)[\s]*{" dotAll="true" id="if">
     <!-- You can access groups via $1. -->
     <!-- If your string contains a $ followed by a number that should not be
          replaced, escape the dollar \$ -->
@@ -296,8 +297,8 @@ Here is a table of all XML elements that are parsed by this program:
 | matching    |                                 | pattern     | Specifies the pattern for the file names in the directory.
 | command     |                                 | name, group, expected-return, timeout      | Contains the command to execute as text. All attributes are optional. |
 | token       |                                 | begin, end  | A range in the source file delimited by the begin and end tokens. |
-| literal     | mutation                        | text        | Matches the string in attribute text and replaces it with its children. |
-| regex       | mutation                        | pattern, dotAll | A pattern for a regular expression. The expression is always multiline and processes the complete file. You can use "." to match newlines if the optional attribute dotAll is set to true. |
+| literal     | mutation                        | id, text    | Matches the string in attribute text and replaces it with its children. |
+| regex       | mutation                        | id, pattern, dotAll | A pattern for a regular expression. The expression is always multiline and processes the complete file. You can use "." to match newlines if the optional attribute dotAll is set to true. |
 | mutation    |                                 | text        | A replacement for a match. If this element is a child of a regex node, then capture groups can be used in the text via $i. |
 | threshold   | rating                          | failure     | Configures the limit for a failed analysis and the quality ratings |
 | rating      |                                 | over, name  | A quality rating. Attribute over is the lowest percentage for this rating.  |
