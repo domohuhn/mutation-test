@@ -27,47 +27,13 @@ import 'dart:io' show Platform;
 /// Each mutated line is a test case.
 ///
 String createXUnitReport(ResultsReporter reporter, bool conformToJUnit) {
-  final tmpNow = DateTime.now().toIso8601String();
-  final now = tmpNow.substring(0, tmpNow.lastIndexOf('.'));
   final builder = xml.XmlBuilder();
   builder.processing('xml', 'version="1.0"');
   builder.element('testsuites', nest: () {
     for (final rule in reporter.rules) {
       builder.element('testsuite', nest: () {
         final filtered = reporter.filterResultsByRuleIndex(rule.index);
-        int tests = 0;
-        int failures = 0;
-        int timeouts = 0;
-        var total = Duration();
-        filtered.forEach((file, results) {
-          tests += results.mutationCount;
-          failures += results.undetectedCount;
-          timeouts += results.timeoutCount;
-          total += results.elapsed;
-        });
-        builder.attribute('id', rule.index);
-        builder.attribute('name', rule.xUnitId);
-        builder.attribute('package', rule.xUnitId);
-        builder.attribute('tests', tests);
-        builder.attribute('failures', failures);
-        builder.attribute('errors', timeouts);
-        builder.attribute('time', total.inMilliseconds * 0.001);
-        builder.attribute('timestamp', now);
-        String hostname = Platform.localHostname;
-        builder.attribute('hostname', hostname);
-
-        if (conformToJUnit) {
-          builder.element('properties', nest: () {
-            builder.element('property', nest: () {
-              builder.attribute('name', 'test_runner');
-              builder.attribute('value', 'mutation_test');
-            });
-            builder.element('property', nest: () {
-              builder.attribute('name', 'version');
-              builder.attribute('value', mutationTestVersion());
-            });
-          });
-        }
+        _addAttributesToTestsuite(filtered, rule, builder, conformToJUnit);
         filtered.forEach((file, results) {
           _addTestCases(
               builder, file, results.detectedMutations, TestResult.Detected);
@@ -88,6 +54,45 @@ String createXUnitReport(ResultsReporter reporter, bool conformToJUnit) {
       pretty: true,
       preserveWhitespace: (node) =>
           node.parentElement?.name.local == 'testcase');
+}
+
+void _addAttributesToTestsuite(Map<String, FileMutationResults> filtered,
+    Mutation rule, xml.XmlBuilder builder, bool conformToJUnit) {
+  final tmpNow = DateTime.now().toIso8601String();
+  final now = tmpNow.substring(0, tmpNow.lastIndexOf('.'));
+  int tests = 0;
+  int failures = 0;
+  int timeouts = 0;
+  var total = Duration();
+  filtered.forEach((file, results) {
+    tests += results.mutationCount;
+    failures += results.undetectedCount;
+    timeouts += results.timeoutCount;
+    total += results.elapsed;
+  });
+  builder.attribute('id', rule.index);
+  builder.attribute('name', rule.xUnitId);
+  builder.attribute('package', rule.xUnitId);
+  builder.attribute('tests', tests);
+  builder.attribute('failures', failures);
+  builder.attribute('errors', timeouts);
+  builder.attribute('time', total.inMilliseconds * 0.001);
+  builder.attribute('timestamp', now);
+  String hostname = Platform.localHostname;
+  builder.attribute('hostname', hostname);
+
+  if (conformToJUnit) {
+    builder.element('properties', nest: () {
+      builder.element('property', nest: () {
+        builder.attribute('name', 'test_runner');
+        builder.attribute('value', 'mutation_test');
+      });
+      builder.element('property', nest: () {
+        builder.attribute('name', 'version');
+        builder.attribute('value', mutationTestVersion());
+      });
+    });
+  }
 }
 
 void _addTestCases(xml.XmlBuilder builder, String file, List<MutatedLine> lines,
