@@ -115,7 +115,7 @@ class MutationTest {
       data.contents = source;
 
       var count = await countMutations(data);
-      data.results.startFileTest(current.path, count, data.contents);
+      data.results.startFileTest(current.path, data.contents);
       data.bar.startFile(current.path, count);
       if (dry || count == 0) {
         continue;
@@ -289,8 +289,11 @@ class MutationTest {
 /// Undetected Mutations are added to the TestRunner in [data].
 /// Returns true if the mutation was not found by the tests.
 Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
+  final Stopwatch timer = Stopwatch()..start();
   File(data.filename.path).writeAsStringSync(mutated.text);
-  var test = await data.test.run(data.configuration);
+  final test = await data.test.run(data.configuration);
+  timer.stop();
+  mutated.line.elapsed = timer.elapsed;
   data.results.addTestReport(
       data.filename.path, mutated.line, test, data.configuration.verbose);
   data.bar.increment();
@@ -347,9 +350,17 @@ void createReport(ResultsReporter results, String outputPath, String inputFile,
       results.writeXMLReport(outputPath, inputFile);
       results.writeMarkdownReport(outputPath, inputFile);
       results.writeHTMLReport(outputPath, inputFile);
+      results.writeXUnitReport(outputPath, inputFile);
+      results.writeJUnitReport(outputPath, inputFile);
       break;
     case ReportFormat.NONE:
       return;
+    case ReportFormat.XUNIT:
+      results.writeXUnitReport(outputPath, inputFile);
+      break;
+    case ReportFormat.JUNIT:
+      results.writeJUnitReport(outputPath, inputFile);
+      break;
   }
   print('Output has been written to $outputPath');
 }

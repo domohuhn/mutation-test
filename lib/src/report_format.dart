@@ -9,6 +9,7 @@ import 'package:mutation_test/src/ratings.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 import 'package:mutation_test/src/html_reporter.dart';
 import 'package:mutation_test/src/commands.dart';
+import 'package:mutation_test/src/xunit_reporter.dart';
 import 'dart:io';
 
 /// Format for the report file
@@ -21,6 +22,12 @@ enum ReportFormat {
 
   /// Creates the report as html documents.
   HTML,
+
+  /// Creates the report as junit xml document.
+  JUNIT,
+
+  /// Creates the report as xunit xml document.
+  XUNIT,
 
   /// Creates all reports at once.
   ALL,
@@ -38,24 +45,41 @@ class FileMutationResults {
   String contents;
 
   /// total mutation count per file
-  int mutationCount = 0;
+  int get mutationCount => detectedCount + timeoutCount + undetectedCount;
 
   /// detected count per file
-  int detectedCount = 0;
+  int get detectedCount => detectedMutations.length;
 
   /// timeout count per file
-  int timeoutCount = 0;
+  int get timeoutCount => timeoutMutations.length;
 
-  /// undected mutations in this file
+  /// detected count per file
+  int get undetectedCount => undetectedMutations.length;
+
+  /// undetected mutations in this file
   List<MutatedLine> undetectedMutations;
 
-  /// dected mutations in this file
+  /// detected mutations in this file
   List<MutatedLine> detectedMutations;
 
-  /// dected mutations in this file
+  /// detected mutations in this file
   List<MutatedLine> timeoutMutations;
 
-  FileMutationResults(this.path, this.mutationCount, this.contents)
+  Duration get elapsed {
+    var dur = Duration();
+    for (var element in undetectedMutations) {
+      dur += element.elapsed;
+    }
+    for (var element in detectedMutations) {
+      dur += element.elapsed;
+    }
+    for (var element in timeoutMutations) {
+      dur += element.elapsed;
+    }
+    return dur;
+  }
+
+  FileMutationResults(this.path, this.contents)
       : undetectedMutations = [],
         detectedMutations = [],
         timeoutMutations = [];
@@ -91,6 +115,12 @@ class FileMutationResults {
     }
     return false;
   }
+
+  void sort() {
+    undetectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+    detectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+    timeoutMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+  }
 }
 
 /// This class logs the mutations and can create report documents in different
@@ -102,8 +132,37 @@ class ResultsReporter {
   /// statistics which command group caught how many mutations
   final Map<String, int> _groupStatistics = {};
 
-  /// stores the undetected mutations
+  /// stores the mutation results. Mapping filename -> results
   final Map<String, FileMutationResults> testedFiles = {};
+
+  /// Returns a map containing the mutation results per file
+  /// for a single rule. This method uses the parsed [index]
+  /// for filtering.
+  Map<String, FileMutationResults> filterResultsByRuleIndex(int index) {
+    Map<String, FileMutationResults> rv = {};
+    testedFiles.forEach((file, results) {
+      final tmp = FileMutationResults(results.path, results.contents);
+      results.detectedMutations
+          .where((element) => element.mutation.index == index)
+          .forEach((match) {
+        tmp.detectedMutations.add(match);
+      });
+      results.undetectedMutations
+          .where((element) => element.mutation.index == index)
+          .forEach((match) {
+        tmp.undetectedMutations.add(match);
+      });
+      results.timeoutMutations
+          .where((element) => element.mutation.index == index)
+          .forEach((match) {
+        tmp.timeoutMutations.add(match);
+      });
+      if (tmp.mutationCount > 0) {
+        rv[file] = tmp;
+      }
+    });
+    return rv;
+  }
 
   /// all files that were added as rules
   List<String> xmlFiles = [];
@@ -115,7 +174,7 @@ class ResultsReporter {
 
   /// Creates a test runner and adds [inputFile] to the xml input file list.
   /// [builtinRulesAdded] sets the flag in the report file when the builtin rules were added.
-  ResultsReporter(String inputFile, this.builtinRulesAdded) {
+  ResultsReporter(String inputFile, this.builtinRulesAdded) : rules = [] {
     xmlFiles.add(inputFile);
     _timer.start();
   }
@@ -132,17 +191,16 @@ class ResultsReporter {
   void addTestReport(
       String file, MutatedLine mutation, TestReport test, bool verbose) {
     _totalRuns += 1;
+    if (!testedFiles.containsKey(file)) {
+      throw MutationError('"$file" was not registered in the reporter!');
+    }
+    _addRule(mutation.mutation);
     switch (test.result) {
       case TestResult.Timeout:
         if (verbose) {
           print('Timeout for ${test.command}');
         }
         _totalTimeouts += 1;
-        if (testedFiles.containsKey(file)) {
-          testedFiles[file]!.timeoutCount += 1;
-        } else {
-          throw MutationError('"$file" was not registered in the reporter!');
-        }
         addTimeoutMutation(file, mutation);
         break;
       case TestResult.Detected:
@@ -154,11 +212,6 @@ class ResultsReporter {
               ifAbsent: () => 1);
         }
         _totalFound += 1;
-        if (testedFiles.containsKey(file)) {
-          testedFiles[file]!.detectedCount += 1;
-        } else {
-          throw MutationError('"$file" was not registered in the reporter!');
-        }
         addDetectedMutation(file, mutation);
         break;
       case TestResult.Undetected:
@@ -170,13 +223,20 @@ class ResultsReporter {
     }
   }
 
-  /// Starts a test run on the file [path] with [count] mutations.
+  void _addRule(Mutation rule) {
+    for (final existing in rules) {
+      if (existing.index == rule.index) {
+        return;
+      }
+    }
+    rules.add(rule);
+  }
+
+  /// Starts a test run on the file [path].
   /// The [contents] of the file are used for the html reporting.
-  void startFileTest(String path, int count, String contents) {
-    if (testedFiles.containsKey(path)) {
-      testedFiles[path]!.mutationCount += count;
-    } else {
-      testedFiles[path] = FileMutationResults(path, count, contents);
+  void startFileTest(String path, String contents) {
+    if (!testedFiles.containsKey(path)) {
+      testedFiles[path] = FileMutationResults(path, contents);
     }
   }
 
@@ -227,12 +287,12 @@ class ResultsReporter {
   /// Sorts mutations by lines.
   void sort() {
     testedFiles.forEach((key, value) {
-      value.undetectedMutations
-          .sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
-      value.detectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
-      value.timeoutMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+      value.sort();
     });
   }
+
+  /// The list of all mutations that were executed
+  List<Mutation> rules;
 
   /// Checks if all mutations were found.
   bool get foundAll => _totalRuns == _totalFound;
@@ -335,6 +395,26 @@ class ResultsReporter {
           removePathsFromInput: false);
       _createPathsAndWriteFile(sname, contents);
     });
+  }
+
+  /// Writes the xunit report in directory [outpath].
+  /// The report will have the basename of [input], but ending with "-xunit.xml".
+  void writeXUnitReport(String outpath, String input) {
+    final contents = createXUnitReport(this, false);
+    final fname = createReportFileName(_sanitizeInputFile(input), outpath, '',
+        appendReport: false);
+    _createPathsAndWriteFile(
+        '${fname.substring(0, fname.length - 1)}-xunit.xml', contents);
+  }
+
+  /// Writes the junit report in directory [outpath].
+  /// The report will have the basename of [input], but ending with "-junit.xml".
+  void writeJUnitReport(String outpath, String input) {
+    final contents = createXUnitReport(this, true);
+    final fname = createReportFileName(_sanitizeInputFile(input), outpath, '',
+        appendReport: false);
+    _createPathsAndWriteFile(
+        '${fname.substring(0, fname.length - 1)}-junit.xml', contents);
   }
 
   String _sanitizeInputFile(String input) {

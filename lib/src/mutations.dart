@@ -2,9 +2,12 @@
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/errors.dart';
 import 'package:mutation_test/src/string_helpers.dart';
 import 'package:mutation_test/src/replacements.dart';
 import 'package:mutation_test/src/range.dart';
+
+const String _backUpIdPrefix = 'NamelessMutationRule';
 
 /// A possible mutation of the source file.
 ///
@@ -12,10 +15,19 @@ import 'package:mutation_test/src/range.dart';
 /// to check if the mutation is detected.
 class Mutation {
   final String? id;
+
+  /// This mutation was parsed as the xth rule.
+  /// Used internally to indentify mutation rules.
+  final int index;
   final Pattern pattern;
   final List<Replacement> replacements = [];
 
-  Mutation(this.pattern, {this.id});
+  Mutation(this.index, this.pattern, {this.id}) {
+    if (id != null && id!.contains(_backUpIdPrefix)) {
+      throw MutationError(
+          'An id for a rule must not contain "$_backUpIdPrefix"! Got: $id');
+    }
+  }
 
   /// Iterates through [text] and replaces all matches of the pattern with every replacement.
   /// Only one match is mutated at a time and replaced with a single replacement.
@@ -24,6 +36,8 @@ class Mutation {
     return IterableMutation(
         MutationIterator(this, text, whitelist, exclusions));
   }
+
+  String get xUnitId => id != null ? id! : '$_backUpIdPrefix-$index';
 }
 
 /// Wrapper to allow iteration
@@ -61,7 +75,7 @@ class MutationIterator implements Iterator<MutatedCode> {
 
   final MutatedCode _currentMutation = MutatedCode(
     '',
-    MutatedLine(0, 0, 0, '', '', Mutation('')),
+    MutatedLine(0, 0, 0, '', '', Mutation(0, '')),
   );
   final Iterator<Match> _matches;
 
@@ -94,6 +108,7 @@ class MutationIterator implements Iterator<MutatedCode> {
       _currentMutation.text,
       mutation,
     );
+    _currentMutation.line.replacementIndex = _index;
 
     _index += 1;
     return true;
@@ -183,6 +198,12 @@ class MutatedLine {
   final String mutated;
 
   final Mutation mutation;
+
+  /// The time needed to perform and verify this mutation
+  Duration elapsed = Duration();
+
+  /// the order in the list of replacements for this rule
+  int replacementIndex = 0;
 
   MutatedLine(this.line, int first, int last, this.original, this.mutated,
       this.mutation) {

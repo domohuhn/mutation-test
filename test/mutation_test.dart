@@ -8,7 +8,7 @@ import 'package:mutation_test/src/range.dart';
 import 'package:test/test.dart';
 
 void main() {
-  var mut = Mutation('aaa');
+  var mut = Mutation(0, 'aaa');
   mut.replacements.addAll([
     LiteralReplacement('bbb'),
     LiteralReplacement('ccc'),
@@ -80,7 +80,7 @@ void main() {
       final expected = '\$2 masd o\r\n \$3 asdas \\\\\\\$4\t\$123a \$e \$1';
       expect(reg.text, expected);
     });
-    var mutation2 = Mutation(RegExp(r'([a]+) ([b]+) ([c]+) ([d]+)'));
+    var mutation2 = Mutation(0, RegExp(r'([a]+) ([b]+) ([c]+) ([d]+)'));
 
     var reg2 = RegexReplacement(r'($4 $3 $2 $1)');
     mutation2.replacements.add(reg2);
@@ -99,7 +99,7 @@ void main() {
     });
 
     test('Mutation Iteration with regex but wrong group count', () {
-      var mutation3 = Mutation(RegExp(r'([a]+) ([b]+)'));
+      var mutation3 = Mutation(0, RegExp(r'([a]+) ([b]+)'));
       mutation3.replacements.add(reg2);
       expect(() {
         final input = 'xxx aa bbbb ccc ddd xxx';
@@ -117,7 +117,7 @@ void main() {
         8,
         'smoe\n.collapsible {\nsdfsfsf\n',
         'smoe\n-.collapsible {\nsdfsfsf\n',
-        Mutation('.'),
+        Mutation(0, '.'),
       );
       expect(mut.start, 0);
       expect(
@@ -138,7 +138,7 @@ void main() {
         4,
         'smoe\n.collapsible {\nsdfsfsf\n',
         'smoe\n-.collapsible {\nsdfsfsf\n',
-        Mutation('.'),
+        Mutation(0, '.'),
       );
       try {
         var str = 'a${mut.toHTML()}';
@@ -157,7 +157,7 @@ void main() {
         -5,
         'smoe\n.collapsible {\nsdfsfsf\n',
         'smoe\n-.collapsible {\nsdfsfsf\n',
-        Mutation('.'),
+        Mutation(0, '.'),
       );
       try {
         var str = 'a${mut.toHTML()}';
@@ -176,7 +176,7 @@ void main() {
         4,
         'smoe\n.collapsible {\nsdfsfsf\n',
         'smoe\n-.collapsible {\nsdfsfsf\n',
-        Mutation('.'),
+        Mutation(0, '.'),
       );
       try {
         var str = 'a${mut.toHTML()}';
@@ -195,7 +195,7 @@ void main() {
         500,
         'smoe\n.collapsible {\nsdfsfsf\n',
         'smoe\n-.collapsible {\nsdfsfsf\n',
-        Mutation('.'),
+        Mutation(0, '.'),
       );
       try {
         var str = 'a${mut.toHTML()}';
@@ -214,7 +214,7 @@ void main() {
         500,
         'smoe\n.collapsible {\nsdfsfsf\n',
         'smoe\n-.collapsible {\nsdfsfsf\n',
-        Mutation('.'),
+        Mutation(0, '.'),
       );
       try {
         var str = 'a${mut.toHTML()}';

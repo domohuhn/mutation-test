@@ -1,6 +1,7 @@
 /// Copyright 2021, domohuhn.
 /// License: BSD-3-Clause
 /// See LICENSE for the full text of the license
+
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
 import 'package:mutation_test/src/mutations.dart';
@@ -321,7 +322,8 @@ class Configuration {
     if (str == null) {
       throw MutationError('Each <literal> must have a text attribute!');
     }
-    var mutation = Mutation(str, id: element.getAttribute('id'));
+    var mutation =
+        Mutation(mutations.length, str, id: element.getAttribute('id'));
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {
@@ -338,8 +340,8 @@ class Configuration {
 
   /// Adds a regular expression text replacement rule from [element]
   void _addRegexRule(xml.XmlElement element) {
-    var mutation =
-        Mutation(_parseRegEx(element), id: element.getAttribute('id'));
+    var mutation = Mutation(mutations.length, _parseRegEx(element),
+        id: element.getAttribute('id'));
     for (var child in element.findAllElements('mutation')) {
       var replacement = child.getAttribute('text');
       if (replacement == null) {

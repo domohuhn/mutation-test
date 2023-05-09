@@ -63,8 +63,9 @@ String _createMutationReportList(
           '${mut.formatMutatedCodeToHTML()}</td>');
 
       rv.write('<td class="match">${mut.mutation.pattern}');
-      if (mut.mutation.id != null)
+      if (mut.mutation.id != null) {
         rv.write('<span class="tooltip">Id: ${mut.mutation.id}</span>');
+      }
       rv.write('</td></tr>');
 
       ++i;

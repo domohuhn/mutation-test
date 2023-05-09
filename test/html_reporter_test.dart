@@ -5,9 +5,9 @@
 import 'package:mutation_test/src/report_format.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/html_reporter.dart';
-import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/commands.dart';
 import 'package:test/test.dart';
+
+import 'create_test_data.dart';
 
 void main() {
   test('Create Toplevel html file', () {
@@ -20,29 +20,9 @@ void main() {
   });
 
   test('Create html source report', () {
-    var reporter = ResultsReporter('test.xml', true);
-    reporter.startFileTest('path.dart', 3, 'var x = 0;\n\n// mooo\n');
-    reporter.addTestReport(
-      'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation('[0-9]+')),
-      TestReport(TestResult.Detected),
-      true,
-    );
-    reporter.addTestReport(
-      'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation('[0-9]+')),
-      TestReport(TestResult.Undetected),
-      true,
-    );
-    reporter.addTestReport(
-      'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;',
-          Mutation('[0-9]+', id: 'testId')),
-      TestReport(TestResult.Timeout),
-      true,
-    );
-    var result = createSourceHtmlFile(ResultsReporter('test.xml', true),
-        reporter.testedFiles.values.first, 'test.html');
+    final reporter = createTestData();
+    var result = createSourceHtmlFile(
+        reporter, reporter.testedFiles.values.first, 'test.html');
     // exclude report creation time
     final end1 = htmlSourceFileReport.indexOf('Date:') + 49;
     final start2 = end1 + 26;

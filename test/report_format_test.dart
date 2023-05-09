@@ -14,22 +14,22 @@ import 'package:test/test.dart';
 void main() {
   group('With data', () {
     var reporter = ResultsReporter('test.xml', true);
-    reporter.startFileTest('path.dart', 3, 'var x = 0;\n\n// mooo\n');
+    reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
       'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation('0')),
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation(0, '0')),
       TestReport(TestResult.Detected),
       true,
     );
     reporter.addTestReport(
       'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation('0')),
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation(0, '0')),
       TestReport(TestResult.Undetected),
       true,
     );
     reporter.addTestReport(
       'path.dart',
-      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation('0')),
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation(0, '0')),
       TestReport(TestResult.Timeout),
       true,
     );

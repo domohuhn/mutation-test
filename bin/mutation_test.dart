@@ -65,7 +65,7 @@ void main(List<String> arguments) async {
     ..addOption(format,
         abbr: 'f',
         help: 'Sets the report file format',
-        allowed: ['html', 'md', 'xml', 'all', 'none'],
+        allowed: ['html', 'md', 'xml', 'junit', 'xunit', 'all', 'none'],
         defaultsTo: 'html')
     ..addMultiOption(rules,
         abbr: 'r',
@@ -109,6 +109,10 @@ void main(List<String> arguments) async {
     fmt = ReportFormat.MARKDOWN;
   } else if (reportFormatStr == 'xml') {
     fmt = ReportFormat.XML;
+  } else if (reportFormatStr == 'junit') {
+    fmt = ReportFormat.JUNIT;
+  } else if (reportFormatStr == 'xunit') {
+    fmt = ReportFormat.XUNIT;
   } else if (reportFormatStr == 'none') {
     fmt = ReportFormat.NONE;
   } else if (reportFormatStr == 'all') {
