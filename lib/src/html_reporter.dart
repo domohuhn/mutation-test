@@ -1,6 +1,6 @@
-/// Copyright 2021, domohuhn.
-/// License: BSD-3-Clause
-/// See LICENSE for the full text of the license
+// Copyright 2021, domohuhn.
+// License: BSD-3-Clause
+// See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/report_format.dart';
