@@ -5,9 +5,10 @@
 import 'package:mutation_test/src/report_format.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/commands.dart';
+import 'mock_file_writer.dart';
 
 ResultsReporter createTestData() {
-  var reporter = ResultsReporter('test.xml', true);
+  var reporter = ResultsReporter('test.xml', true, MockFileWriter());
   reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
   reporter.addTestReport(
     'path.dart',

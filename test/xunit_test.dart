@@ -8,11 +8,13 @@ import 'package:mutation_test/src/xunit_reporter.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
+import 'mock_file_writer.dart';
 
 void main() {
   group('Xunit', () {
     test('Create Empty Xunit report', () {
-      var result = createXUnitReport(ResultsReporter('test.xml', true), false);
+      var result = createXUnitReport(
+          ResultsReporter('test.xml', true, MockFileWriter()), false);
       expect(result, '<?xml version="1.0"?>\n<testsuites/>');
     });
 
@@ -31,7 +33,8 @@ void main() {
 
   group('Junit', () {
     test('Create Empty Junit report', () {
-      var result = createXUnitReport(ResultsReporter('test.xml', true), true);
+      var result = createXUnitReport(
+          ResultsReporter('test.xml', true, MockFileWriter()), true);
       expect(result, '<?xml version="1.0"?>\n<testsuites/>');
     });
 

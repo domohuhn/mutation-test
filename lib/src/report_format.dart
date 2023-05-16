@@ -3,6 +3,7 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/errors.dart';
+import 'package:mutation_test/src/file_writer.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/ratings.dart';
@@ -10,7 +11,6 @@ import 'package:mutation_test/src/string_helpers.dart';
 import 'package:mutation_test/src/html_reporter.dart';
 import 'package:mutation_test/src/commands.dart';
 import 'package:mutation_test/src/xunit_reporter.dart';
-import 'dart:io';
 
 /// Format for the report file
 enum ReportFormat {
@@ -172,9 +172,12 @@ class ResultsReporter {
 
   Duration get elapsed => _timer.elapsed;
 
+  final FileWriter writer;
+
   /// Creates a test runner and adds [inputFile] to the xml input file list.
   /// [builtinRulesAdded] sets the flag in the report file when the builtin rules were added.
-  ResultsReporter(String inputFile, this.builtinRulesAdded) : rules = [] {
+  ResultsReporter(String inputFile, this.builtinRulesAdded, this.writer)
+      : rules = [] {
     xmlFiles.add(inputFile);
     _timer.start();
   }
@@ -425,13 +428,7 @@ class ResultsReporter {
   }
 
   void _createPathsAndWriteFile(String path, String text) {
-    final dir = getDirectory(path);
-    if (dir.isNotEmpty) {
-      if (!Directory(dir).existsSync()) {
-        Directory(dir).createSync(recursive: true);
-      }
-    }
-    File(path).writeAsStringSync(text);
+    writer.createPathsAndWriteFile(path, text);
   }
 
   String _createMarkdownHeader() {

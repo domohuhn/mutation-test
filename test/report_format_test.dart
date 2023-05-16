@@ -8,12 +8,12 @@ import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/commands.dart';
 import 'package:test/test.dart';
 
-// this is a bad test - but better than doing nothing
-// tests almost all interface funtions
+import 'create_test_data.dart';
+import 'mock_file_writer.dart';
 
 void main() {
   group('With data', () {
-    var reporter = ResultsReporter('test.xml', true);
+    var reporter = ResultsReporter('test.xml', true, MockFileWriter());
     reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
       'path.dart',
@@ -112,7 +112,7 @@ void main() {
   });
 
   group('no data', () {
-    var reporter = ResultsReporter('test.xml', false);
+    var reporter = ResultsReporter('test.xml', false, MockFileWriter());
 
     test('builtin rules', () {
       expect(reporter.builtinRulesAdded, false);
@@ -152,6 +152,75 @@ void main() {
       expect(md.substring(0, end1), mdString.substring(0, end1));
       expect(md.substring(start2, end2), mdString.substring(start2, end2));
       expect(md.substring(start3), mdString.substring(start3));
+    });
+  });
+
+  group('Write Reports', () {
+    test('md', () {
+      final data = createTestData();
+      expect(data.foundAll, false);
+      data.writeMarkdownReport('fake_dir', 'in.xml');
+
+      var mock = data.writer as MockFileWriter;
+
+      expect(mock.argPaths.length, 1);
+      expect(mock.argPaths[0], 'fake_dir/in-report.md');
+      expect(mock.argTexts.length, 1);
+      expect(mock.argTexts[0].length, 906);
+    });
+
+    test('junit', () {
+      final data = createTestData();
+      expect(data.foundAll, false);
+      data.writeJUnitReport('fake_dir', 'in.xml');
+
+      var mock = data.writer as MockFileWriter;
+
+      expect(mock.argPaths.length, 1);
+      expect(mock.argPaths[0], 'fake_dir/in-junit.xml');
+      expect(mock.argTexts.length, 1);
+      expect(mock.argTexts[0].length, 1054);
+    });
+
+    test('xunit', () {
+      final data = createTestData();
+      expect(data.foundAll, false);
+      data.writeXUnitReport('fake_dir', 'in.xml');
+
+      var mock = data.writer as MockFileWriter;
+
+      expect(mock.argPaths.length, 1);
+      expect(mock.argPaths[0], 'fake_dir/in-xunit.xml');
+      expect(mock.argTexts.length, 1);
+      expect(mock.argTexts[0].length, 854);
+    });
+
+    test('xml', () {
+      final data = createTestData();
+      expect(data.foundAll, false);
+      data.writeXMLReport('fake_dir', 'in.xml');
+
+      var mock = data.writer as MockFileWriter;
+
+      expect(mock.argPaths.length, 1);
+      expect(mock.argPaths[0], 'fake_dir/in-report.xml');
+      expect(mock.argTexts.length, 1);
+      expect(mock.argTexts[0].length, 398);
+    });
+
+    test('html', () {
+      final data = createTestData();
+      expect(data.foundAll, false);
+      data.writeHTMLReport('fake_dir', 'in.xml');
+
+      var mock = data.writer as MockFileWriter;
+
+      expect(mock.argPaths.length, 2);
+      expect(mock.argPaths[0], 'fake_dir/in-report.html');
+      expect(mock.argPaths[1], 'fake_dir/path.dart.html');
+      expect(mock.argTexts.length, 2);
+      expect(mock.argTexts[0].length, 7981);
+      expect(mock.argTexts[1].length, 8843);
     });
   });
 }

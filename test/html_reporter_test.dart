@@ -8,10 +8,12 @@ import 'package:mutation_test/src/html_reporter.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
+import 'mock_file_writer.dart';
 
 void main() {
   test('Create Toplevel html file', () {
-    var result = createToplevelHtmlFile(ResultsReporter('test.xml', true));
+    var result = createToplevelHtmlFile(
+        ResultsReporter('test.xml', true, MockFileWriter()));
     // exclude report creation time
     final end1 = emptyToplevel.indexOf('Date:') + 49;
     final start2 = end1 + 26;
