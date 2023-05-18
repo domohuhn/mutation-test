@@ -4,17 +4,12 @@
 
 import 'dart:io';
 
-import 'package:mutation_test/src/core/commands.dart';
-import 'package:mutation_test/src/core/mutation.dart';
+import 'package:mutation_test/src/core/core.dart';
 import 'package:mutation_test/src/reports/create_report.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
-import 'package:mutation_test/src/core/test_runner.dart';
-import 'package:mutation_test/src/core/errors.dart';
 import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:mutation_test/src/reports/report_formats.dart';
 import 'package:mutation_test/src/configuration/builtin_rules.dart';
-import 'package:mutation_test/src/core/app_progress_bar.dart';
-import 'package:mutation_test/src/core/system_interactions.dart';
 
 /// This is the primary interface for the mutation testing.
 ///
@@ -125,12 +120,15 @@ class MutationTest {
       var count = await countMutations(data);
       data.results.startFileTest(current.path, data.contents);
       data.bar.startFile(current.path, count);
-      if (dry || count == 0) {
+      if (count == 0) {
         continue;
       }
 
       var failed = await doMutationTests(data);
       data.bar.endFile(failed);
+      if (dry) {
+        continue;
+      }
 
       // restore orignal
       File(current.path).writeAsStringSync(source);
@@ -138,9 +136,7 @@ class MutationTest {
         break;
       }
     }
-    if (!dry) {
-      createReport(data.results, outputPath, inputFile, format);
-    }
+    createReport(data.results, outputPath, inputFile, format);
     return data.results.success;
   }
 
@@ -253,13 +249,13 @@ class MutationTest {
       bool supressVerbose = false}) async {
     var failed = 0;
     for (final mutation in data.configuration.mutations) {
-      if (data.configuration.verbose && !supressVerbose) {
-        print('Pattern: ${mutation.pattern}');
+      if (!supressVerbose) {
+        data.results.system.verboseWriteLine('Pattern: ${mutation.pattern}');
       }
       for (final m in mutation.allMutations(data.contents,
           data.filename.whitelist, data.configuration.exclusions)) {
-        if (data.configuration.verbose && !supressVerbose) {
-          print('${m.line}');
+        if (!supressVerbose) {
+          data.results.system.verboseWriteLine('${m.line}');
         }
         if (!_continue) {
           return failed;
@@ -293,6 +289,11 @@ class MutationTest {
 /// Undetected Mutations are added to the TestRunner in [data].
 /// Returns true if the mutation was not found by the tests.
 Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
+  if (data.configuration.dry) {
+    data.results.addTestReport(
+        data.filename.path, mutated.line, TestReport(TestResult.Undetected));
+    return true;
+  }
   final Stopwatch timer = Stopwatch()..start();
   File(data.filename.path).writeAsStringSync(mutated.text);
   final test = await data.test.run(data.configuration, data.results.system);
@@ -302,33 +303,4 @@ Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
   data.bar.increment();
   data.bar.render();
   return test.result == TestResult.Undetected;
-}
-
-/// Data structure holding all data for a mutation run.
-class MutationData {
-  /// The current configuration
-  final Configuration configuration;
-
-  /// The testrunner
-  final TestRunner test;
-
-  /// Name of the file to mutate
-  TargetFile filename;
-
-  /// Contents of the file to mutate
-  String contents;
-
-  /// Class to store the results in
-  final ReportData results;
-
-  /// A reference to the progress bar.
-  final AppProgressBar bar;
-
-  /// Checks if the reporting should be verbose.
-  bool get verbose => configuration.verbose;
-
-  /// Constructor for the mutation data.
-  /// The object is given to the test runner to run tests on the given [filename].
-  MutationData(this.configuration, this.test, this.filename, this.contents,
-      this.results, this.bar);
 }

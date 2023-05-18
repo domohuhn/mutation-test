@@ -1,8 +1,10 @@
 ## 1.4.0
- - Added optional "id" attribute to rules in the xml configuration file
- - Added a column in the generated html report that shows the mutation pattern and id
  - Added junit/xunit style XML reports to conform to the standard for test tools.
    It should now be possible to upload the results in tools like Polarion.
+ - Performing a dry run will now generate the specified outputs. All mutations
+   defined by the rules will be marked as undetected.
+ - Added optional "id" attribute to rules in the xml configuration file
+ - Added a column in the generated html report that shows the mutation pattern and id
 
 ## 1.3.4
  - Improved mutation rules that switch function arguments

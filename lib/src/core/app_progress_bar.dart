@@ -36,9 +36,9 @@ class AppProgressBar {
 
   /// Writes the end of file message to the console with the count of [failed] tests.
   void endFile(int failed) {
-    var pct = 1.0 - failed.toDouble() / file.maximum.toDouble();
+    final pct = 1.0 - failed.toDouble() / file.maximum.toDouble();
     final prefix = 100 * pct <= threshold ? 'FAILED' : 'OK';
-    var text =
+    final text =
         '\r$prefix: $failed/${file.maximum} (${asPercentString(failed, file.maximum)}) mutations were not detected!'
             .padRight(_width + 1);
     system.writeLine(text);
@@ -52,8 +52,8 @@ class AppProgressBar {
 
   /// Updates the progress bar in the console by writing a new line.
   void render() {
-    var text = _createText();
-    var next = text.length;
+    final text = _createText();
+    final next = text.length;
     system.write('\r${text.padRight(_width)}');
     system.verboseWriteLine('');
     _width = next;
@@ -61,12 +61,10 @@ class AppProgressBar {
 
   /// Creates the text to update the progress bar
   String _createText() {
-    var text = '$file $total';
-    var duration = _timer.elapsed;
-    var max = duration * (1.0 / total.progress);
-    var remaining = max - duration;
-    text += ' ~${formatDuration(remaining)}';
-    text.padRight(_width);
-    return text;
+    final duration = _timer.elapsed;
+    final max = duration * (1.0 / total.progress);
+    final remaining = max - duration;
+    final text = '$file $total ~${formatDuration(remaining)}';
+    return text.padRight(_width);
   }
 }
