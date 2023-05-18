@@ -2,6 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/core/mutated_line.dart';
 import 'package:mutation_test/src/reports/command_line_report.dart';
 import 'package:mutation_test/src/reports/html_report.dart';
 import 'package:mutation_test/src/reports/markdown_report.dart';
@@ -9,7 +10,7 @@ import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/xml_report.dart';
 import 'package:mutation_test/src/reports/xunit_report.dart';
 import 'package:mutation_test/src/version.dart';
-import 'package:mutation_test/src/core/mutations.dart';
+import 'package:mutation_test/src/core/mutation.dart';
 import 'package:mutation_test/src/core/commands.dart';
 import 'package:test/test.dart';
 

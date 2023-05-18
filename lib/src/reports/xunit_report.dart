@@ -3,7 +3,8 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/core/commands.dart';
-import 'package:mutation_test/src/core/mutations.dart';
+import 'package:mutation_test/src/core/mutated_line.dart';
+import 'package:mutation_test/src/core/mutation.dart';
 import 'package:mutation_test/src/reports/file_mutation_results.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';

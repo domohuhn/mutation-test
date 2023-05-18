@@ -4,7 +4,7 @@
 
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
-import 'package:mutation_test/src/core/mutations.dart';
+import 'package:mutation_test/src/core/mutation.dart';
 import 'package:mutation_test/src/core/replacements.dart';
 import 'package:mutation_test/src/core/commands.dart';
 import 'package:mutation_test/src/core/errors.dart';
