@@ -47,10 +47,13 @@ class MutationTest {
   bool builtinRules;
 
   /// The progress bar printed to the command line.
-  AppProgressBar bar;
+  late AppProgressBar bar;
 
   /// If any messages should be printed to the command line.
   bool quiet;
+
+  /// Abstraction for the system.
+  SystemInteractions system;
 
   /// Runs the mutation tests using the inputs from [inputs].
   /// Undetected modifications are written to a file in [outputPath] using the
@@ -68,7 +71,9 @@ class MutationTest {
   MutationTest(
       this.inputs, this.outputPath, this.verbose, this.dry, this.format,
       {this.ruleFiles, this.builtinRules = true, this.quiet = false})
-      : bar = AppProgressBar(0, 0.8, SystemInteractions(verbose, quiet));
+      : system = SystemInteractions(verbose, quiet) {
+    bar = AppProgressBar(0, 0.8, system);
+  }
 
   /// Performs the mutation tests asynchronously.
   /// The test run uses the options given during construction.
@@ -175,7 +180,7 @@ class MutationTest {
         fileCount += 1;
       }
     }
-    print('Found $totalCount mutations in $fileCount source files!');
+    system.writeLine('Found $totalCount mutations in $fileCount source files!');
     bar.mutationCount = totalCount;
   }
 
@@ -196,25 +201,21 @@ class MutationTest {
       }
     }
     if (addBuiltin) {
-      if (verbose) {
-        print('Adding the builtin default mutation rules!');
-      }
+      system.verboseWriteLine('Adding the builtin default mutation rules!');
       reporter.xmlFiles.add('Builtin Rules');
       configuration.parseXMLString(builtinMutationRules());
     }
     if (!useDefaultConfig) {
       if (inputFile.endsWith('.xml')) {
-        if (verbose) {
-          print('Loading additional XML configuration : "$inputFile"');
-        }
+        system.verboseWriteLine(
+            'Loading additional XML configuration : "$inputFile"');
         configuration.addRulesFromFile(inputFile);
       } else {
         configuration.files.add(TargetFile(inputFile, []));
       }
     } else {
-      if (verbose) {
-        print('No input files found - assuming default dart configuration!');
-      }
+      system.verboseWriteLine(
+          'No input files found - assuming default dart configuration!');
       configuration.parseXMLString(dartDefaultConfiguration());
     }
     configuration.validate();
@@ -226,13 +227,12 @@ class MutationTest {
 
   /// Checks if the tests in [cfg] can be run by the test runner [executor] on the unmodified sources.
   Future<void> checkTests(Configuration cfg, TestRunner executor) async {
-    if (cfg.verbose) {
-      print('Checking if the test commands work with unmodified sources ...');
-    }
+    system.verboseWriteLine(
+        'Checking if the test commands work with unmodified sources ...');
     if (cfg.dry) {
       return;
     }
-    var test = await executor.run(cfg, outputOnFailure: true);
+    var test = await executor.run(cfg, system, outputOnFailure: true);
     if (test.result != TestResult.Undetected) {
       throw MutationError(
           'Running the test commands failed with unmodified code! Aborting.');
@@ -286,7 +286,7 @@ class MutationTest {
   /// Aborts the tests and restores the original state of the source code.
   void abortMutationTest() {
     _continue = false;
-    print('Abort requested! Waiting for unfinished tasks...');
+    system.writeLine('Abort requested! Waiting for unfinished tasks...');
     if (_testRunner != null) {
       _testRunner!.kill();
     }
@@ -299,7 +299,7 @@ class MutationTest {
 Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
   final Stopwatch timer = Stopwatch()..start();
   File(data.filename.path).writeAsStringSync(mutated.text);
-  final test = await data.test.run(data.configuration);
+  final test = await data.test.run(data.configuration, data.results.system);
   timer.stop();
   mutated.line.elapsed = timer.elapsed;
   data.results.addTestReport(data.filename.path, mutated.line, test);
@@ -369,5 +369,5 @@ void createReport(ReportData results, String outputPath, String inputFile,
       writeJUnitReport(outputPath, inputFile, results, results.system);
       break;
   }
-  print('Output has been written to $outputPath');
+  results.system.writeLine('Output has been written to $outputPath');
 }
