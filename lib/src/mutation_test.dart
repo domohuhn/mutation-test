@@ -9,9 +9,9 @@ import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/test_runner.dart';
 import 'package:mutation_test/src/errors.dart';
 import 'package:mutation_test/src/configuration.dart';
-import 'package:mutation_test/src/report_format.dart';
+import 'package:mutation_test/src/reports/report_format.dart';
 import 'package:mutation_test/src/builtin_rules.dart';
-import 'package:mutation_test/src/mutation_progress_bar.dart';
+import 'package:mutation_test/src/app_progress_bar.dart';
 import 'package:mutation_test/src/system_interactions.dart';
 
 /// This is the primary interface for the mutation testing.
@@ -41,7 +41,7 @@ class MutationTest {
   bool builtinRules;
 
   /// The progress bar printed to the command line.
-  MutationProgressBar bar;
+  AppProgressBar bar;
 
   /// If any messages should be printed to the command line.
   bool quiet;
@@ -62,7 +62,7 @@ class MutationTest {
   MutationTest(
       this.inputs, this.outputPath, this.verbose, this.dry, this.format,
       {this.ruleFiles, this.builtinRules = true, this.quiet = false})
-      : bar = MutationProgressBar(0, 0.8, SystemInteractions(verbose, quiet));
+      : bar = AppProgressBar(0, 0.8, SystemInteractions(verbose, quiet));
 
   /// Performs the mutation tests asynchronously.
   /// The test run uses the options given during construction.
@@ -321,7 +321,7 @@ class MutationData {
   final ResultsReporter results;
 
   /// A reference to the progress bar.
-  final MutationProgressBar bar;
+  final AppProgressBar bar;
 
   /// Checks if the reporting should be verbose.
   bool get verbose => configuration.verbose;

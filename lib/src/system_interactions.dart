@@ -3,7 +3,7 @@
 // See LICENSE for the full text of the license
 
 import 'dart:io';
-import 'package:mutation_test/src/string_helpers.dart';
+import 'package:mutation_test/src/reports/string_helpers.dart';
 
 /// SystemInteractions serves as abstraction of the interaction with the system. It can
 /// be injected to other functions to e.g. write to the file system, while

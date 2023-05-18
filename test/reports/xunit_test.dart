@@ -2,13 +2,13 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/report_format.dart';
+import 'package:mutation_test/src/reports/report_format.dart';
 import 'package:mutation_test/src/version.dart';
-import 'package:mutation_test/src/xunit_reporter.dart';
+import 'package:mutation_test/src/reports/xunit_reporter.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
-import 'mock_system_interactions.dart';
+import '../mock_system_interactions.dart';
 
 void main() {
   group('Xunit', () {

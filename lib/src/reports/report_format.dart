@@ -7,10 +7,10 @@ import 'package:mutation_test/src/system_interactions.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/ratings.dart';
-import 'package:mutation_test/src/string_helpers.dart';
-import 'package:mutation_test/src/html_reporter.dart';
+import 'package:mutation_test/src/reports/string_helpers.dart';
+import 'package:mutation_test/src/reports/html_reporter.dart';
 import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/xunit_reporter.dart';
+import 'package:mutation_test/src/reports/xunit_reporter.dart';
 
 /// Format for the report file
 enum ReportFormat {

@@ -3,7 +3,7 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/errors.dart';
-import 'package:mutation_test/src/string_helpers.dart';
+import 'package:mutation_test/src/reports/string_helpers.dart';
 import 'package:mutation_test/src/replacements.dart';
 import 'package:mutation_test/src/range.dart';
 

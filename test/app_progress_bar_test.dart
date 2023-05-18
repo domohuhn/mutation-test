@@ -2,7 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/mutation_progress_bar.dart';
+import 'package:mutation_test/src/app_progress_bar.dart';
 import 'package:test/test.dart';
 
 import 'mock_system_interactions.dart';
@@ -10,7 +10,7 @@ import 'mock_system_interactions.dart';
 void main() {
   test('App Progress bar - start file', () {
     final mock = MockSystemInteractions();
-    final bar = MutationProgressBar(500, 0.8, mock);
+    final bar = AppProgressBar(500, 0.8, mock);
     bar.startFile('moo', 100);
     expect(mock.argLine.length, 1);
     expect(mock.argLine[0], 'moo : 100 mutations');
@@ -18,7 +18,7 @@ void main() {
 
   test('App Progress bar - render', () {
     final mock = MockSystemInteractions();
-    final bar = MutationProgressBar(500, 0.8, mock);
+    final bar = AppProgressBar(500, 0.8, mock);
     bar.startFile('moo', 100);
     for (int i = 0; i < 50; ++i) {
       bar.increment();
@@ -35,7 +35,7 @@ void main() {
 
   test('App Progress bar - end file - failed', () {
     final mock = MockSystemInteractions();
-    final bar = MutationProgressBar(500, 80, mock);
+    final bar = AppProgressBar(500, 80, mock);
     bar.startFile('moo', 100);
     mock.clear();
     bar.endFile(50);
@@ -46,7 +46,7 @@ void main() {
 
   test('App Progress bar - end file - ok', () {
     final mock = MockSystemInteractions();
-    final bar = MutationProgressBar(500, 80, mock);
+    final bar = AppProgressBar(500, 80, mock);
     bar.startFile('moo', 100);
     mock.clear();
     bar.endFile(0);

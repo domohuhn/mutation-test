@@ -4,10 +4,10 @@
 
 import 'package:mutation_test/src/progress_bar.dart';
 import 'package:mutation_test/src/system_interactions.dart';
-import 'package:mutation_test/src/string_helpers.dart';
+import 'package:mutation_test/src/reports/string_helpers.dart';
 
 /// Tracks the current progress and estimates the remaining time.
-class MutationProgressBar {
+class AppProgressBar {
   ProgressBar file;
   ProgressBar total;
   double threshold;
@@ -17,7 +17,7 @@ class MutationProgressBar {
 
   set mutationCount(int v) => total.maximum = v;
 
-  MutationProgressBar(int count, this.threshold, this.system)
+  AppProgressBar(int count, this.threshold, this.system)
       : file = ProgressBar(count, width: 30, showTotal: false, left: 'File ['),
         total = ProgressBar(count,
             width: 27, left: 'Total [', widthIncludesText: false);

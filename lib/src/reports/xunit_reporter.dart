@@ -4,7 +4,7 @@
 
 import 'package:mutation_test/src/commands.dart';
 import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/report_format.dart';
+import 'package:mutation_test/src/reports/report_format.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:io' show Platform;
