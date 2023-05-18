@@ -26,18 +26,18 @@ class TestRunner {
   /// Starts the process and checks its results.
   Future<TestResult> _start(Command cmd, {bool outputOnFailure = false}) async {
     var timedout = false;
-    var stopwatch = Stopwatch();
+    final stopwatch = Stopwatch();
     stopwatch.start();
     var future = await Process.start(cmd.command, cmd.arguments,
         workingDirectory: cmd.directory);
     _pid = future.pid;
     var stdout = '';
-    var moo1 =
+    final awaitableStdout =
         future.stdout.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
       stdout += e;
     });
     var stderr = '';
-    var moo2 =
+    final awaitableStderr =
         future.stderr.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
       stderr += e;
     });
@@ -54,8 +54,8 @@ class TestRunner {
     }
 
     var exitCode = await exitfuture;
-    await moo1;
-    await moo2;
+    await awaitableStdout;
+    await awaitableStderr;
 
     final matchesExpectation = exitCode == cmd.expectedReturnValue;
     if (outputOnFailure && (!matchesExpectation || timedout)) {
