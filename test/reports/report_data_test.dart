@@ -24,7 +24,7 @@ void main() {
       'path.dart',
       MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation(0, '0')),
       TestReport(TestResult.Detected),
-          );
+    );
     reporter.addTestReport(
       'path.dart',
       MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation(0, '0')),
@@ -45,14 +45,15 @@ void main() {
 
     test('write command line report', () {
       writeCommandLineReport(reporter, reporter.system);
-      
+
       var mock = reporter.system as MockSystemInteractions;
       expect(mock.argLine.length, 6);
       expect(mock.argLine[0], '  --- Results ---');
       expect(mock.argLine[1], 'Test group statistics:');
-      expect(mock.argLine[2], '\nTotal tests: 3\nUndetected Mutations: 2 (66.67%)');
+      expect(mock.argLine[2],
+          '\nTotal tests: 3\nUndetected Mutations: 2 (66.67%)');
       expect(mock.argLine[3], 'Timeouts: 1');
-      expect(mock.argLine[4].substring(0,16), 'Elapsed: 0:00:00');
+      expect(mock.argLine[4].substring(0, 16), 'Elapsed: 0:00:00');
       expect(mock.argLine[5], 'Success: false, Quality rating: N/A');
     });
 
@@ -134,17 +135,18 @@ void main() {
       expect(reporter.rating, 'N/A');
       reporter.sort();
     });
-    
+
     test('write command line report', () {
       writeCommandLineReport(reporter, reporter.system);
-      
+
       var mock = reporter.system as MockSystemInteractions;
       expect(mock.argLine.length, 6);
       expect(mock.argLine[0], '  --- Results ---');
       expect(mock.argLine[1], 'Test group statistics:');
-      expect(mock.argLine[2], '\nTotal tests: 0\nUndetected Mutations: 0 (0.00%)');
+      expect(
+          mock.argLine[2], '\nTotal tests: 0\nUndetected Mutations: 0 (0.00%)');
       expect(mock.argLine[3], 'Timeouts: 0');
-      expect(mock.argLine[4].substring(0,16), 'Elapsed: 0:00:00');
+      expect(mock.argLine[4].substring(0, 16), 'Elapsed: 0:00:00');
       expect(mock.argLine[5], 'Success: true, Quality rating: N/A');
     });
 
