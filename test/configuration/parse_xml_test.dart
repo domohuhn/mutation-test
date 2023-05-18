@@ -32,7 +32,8 @@ void main() {
     expect(configuration.files.length, 0);
     expect(configuration.excludedFiles.length, 2);
     expect(configuration.excludedFiles[0], 'some/file/to/exclude');
-    expect(configuration.excludedFiles[1], 'test/configuration/parse_xml_test.dart');
+    expect(configuration.excludedFiles[1],
+        'test/configuration/parse_xml_test.dart');
   });
 
   test('Input error - wrong version', () {

@@ -113,7 +113,6 @@ class MutatedLine {
   }
 }
 
-
 /// Adds a mutation to the Testrunner.
 MutatedLine createMutatedLine(
   int absoluteStart,
@@ -157,4 +156,3 @@ MutatedLine createMutatedLine(
     mutation,
   );
 }
-
