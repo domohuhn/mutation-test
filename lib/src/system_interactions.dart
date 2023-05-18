@@ -26,16 +26,19 @@ class SystemInteractions {
   bool verbose = false;
   bool quiet = false;
 
+  /// Writes a line of [text] to the terminal if verbose is true and quiet false.
   void verboseWriteLine(String text) {
     if (verbose) {
       _write(text, true);
     }
   }
 
+  /// Writes a line of [text] to the terminal if quiet is false.
   void writeLine(String text) {
     _write(text, true);
   }
 
+  /// Writes [text] to the terminal (without appending a new line) if quiet is false.
   void write(String text) {
     _write(text, false);
   }

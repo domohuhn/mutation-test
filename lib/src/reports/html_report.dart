@@ -3,11 +3,31 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/reports/report_format.dart';
+import 'package:mutation_test/src/reports/file_mutation_results.dart';
+import 'package:mutation_test/src/reports/report_data.dart';
+import 'package:mutation_test/src/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
 
-String createToplevelHtmlFile(ResultsReporter reporter) {
+/// Writes the results of the tests to a html file in directory [outpath].
+/// The report will be named like the [input], but ending with "-report.html".
+void writeHTMLReport(
+    String outpath, String input, ReportData data, SystemInteractions system) {
+  var index = createToplevelHtmlFile(data);
+  var fname =
+      createReportFileName(inputFileOrDefaultName(input), outpath, 'html');
+  system.createPathsAndWriteFile(fname, index);
+  data.testedFiles.forEach((key, value) {
+    var contents = createSourceHtmlFile(data, value, basename(fname));
+    var sname = createReportFileName(key, outpath, 'html',
+        appendReport: false,
+        removeInputExt: false,
+        removePathsFromInput: false);
+    system.createPathsAndWriteFile(sname, contents);
+  });
+}
+
+String createToplevelHtmlFile(ReportData reporter) {
   final rv = StringBuffer(createHtmlFileHeader(
       reporter,
       'top level',
@@ -92,8 +112,8 @@ String createMutationList(int line, FileMutationResults file) {
   return rv.toString();
 }
 
-String createSourceHtmlFile(ResultsReporter reporter, FileMutationResults file,
-    String toplevelFileName) {
+String createSourceHtmlFile(
+    ReportData reporter, FileMutationResults file, String toplevelFileName) {
   final rv = StringBuffer(createHtmlFileHeader(
       reporter,
       file.path,
@@ -170,7 +190,7 @@ String selectBarColor(double pct) {
   }
 }
 
-String createHtmlFileHeader(ResultsReporter reporter, String current, int total,
+String createHtmlFileHeader(ReportData reporter, String current, int total,
     int detected, int timeouts, bool isToplevel, String toplevelFileName) {
   var detectedFraction = total > 0 ? 100.0 * detected / total : 100.0;
   var timeoutFraction = total > 0 ? 100.0 * timeouts / total : 0.0;

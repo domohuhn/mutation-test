@@ -2,7 +2,11 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/reports/report_format.dart';
+import 'package:mutation_test/src/reports/html_report.dart';
+import 'package:mutation_test/src/reports/markdown_report.dart';
+import 'package:mutation_test/src/reports/report_data.dart';
+import 'package:mutation_test/src/reports/xml_report.dart';
+import 'package:mutation_test/src/reports/xunit_report.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/commands.dart';
@@ -13,7 +17,7 @@ import '../mock_system_interactions.dart';
 
 void main() {
   group('With data', () {
-    var reporter = ResultsReporter('test.xml', true, MockSystemInteractions());
+    var reporter = ReportData('test.xml', true, MockSystemInteractions());
     reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
       'path.dart',
@@ -55,7 +59,7 @@ void main() {
     });
 
     test('XML report', () {
-      final xml = reporter.createXMLReport();
+      final xml = createXMLReport(reporter);
       // exclude execution time
       expect(xml.substring(0, 137), xmlReportString.substring(0, 137));
       expect(
@@ -75,7 +79,7 @@ void main() {
     });
 
     test('md report', () {
-      final md = reporter.createMarkdownReport();
+      final md = createMarkdownReport(reporter);
       final end1 = 86;
       final start2 = 113;
       final end2 = 307;
@@ -112,7 +116,7 @@ void main() {
   });
 
   group('no data', () {
-    var reporter = ResultsReporter('test.xml', false, MockSystemInteractions());
+    var reporter = ReportData('test.xml', false, MockSystemInteractions());
 
     test('builtin rules', () {
       expect(reporter.builtinRulesAdded, false);
@@ -136,14 +140,14 @@ void main() {
     });
 
     test('XML report', () {
-      final xml = reporter.createXMLReport();
+      final xml = createXMLReport(reporter);
       // exclude execution time
       expect(xml.substring(0, 137), xmlReportString.substring(0, 137));
       expect(xml.substring(149), xmlReportString.substring(149));
     });
 
     test('md report', () {
-      final md = reporter.createMarkdownReport();
+      final md = createMarkdownReport(reporter);
       final end1 = 86;
       final start2 = 113;
       final end2 = 307;
@@ -159,7 +163,7 @@ void main() {
     test('md', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      data.writeMarkdownReport('fake_dir', 'in.xml');
+      writeMarkdownReport('fake_dir', 'in.xml', data, data.writer);
 
       var mock = data.writer as MockSystemInteractions;
 
@@ -172,7 +176,7 @@ void main() {
     test('junit', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      data.writeJUnitReport('fake_dir', 'in.xml');
+      writeJUnitReport('fake_dir', 'in.xml', data, data.writer);
 
       var mock = data.writer as MockSystemInteractions;
 
@@ -185,7 +189,7 @@ void main() {
     test('xunit', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      data.writeXUnitReport('fake_dir', 'in.xml');
+      writeXUnitReport('fake_dir', 'in.xml', data, data.writer);
 
       var mock = data.writer as MockSystemInteractions;
 
@@ -198,7 +202,7 @@ void main() {
     test('xml', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      data.writeXMLReport('fake_dir', 'in.xml');
+      writeXMLReport('fake_dir', 'in.xml', data, data.writer);
 
       var mock = data.writer as MockSystemInteractions;
 
@@ -211,7 +215,7 @@ void main() {
     test('html', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      data.writeHTMLReport('fake_dir', 'in.xml');
+      writeHTMLReport('fake_dir', 'in.xml', data, data.writer);
 
       var mock = data.writer as MockSystemInteractions;
 

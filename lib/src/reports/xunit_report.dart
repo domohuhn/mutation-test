@@ -4,10 +4,35 @@
 
 import 'package:mutation_test/src/commands.dart';
 import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/reports/report_format.dart';
+import 'package:mutation_test/src/reports/file_mutation_results.dart';
+import 'package:mutation_test/src/reports/report_data.dart';
+import 'package:mutation_test/src/reports/string_helpers.dart';
+import 'package:mutation_test/src/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:io' show Platform;
+
+/// Writes the xunit report in directory [outpath].
+/// The report will have the basename of [input], but ending with "-xunit.xml".
+void writeXUnitReport(
+    String outpath, String input, ReportData data, SystemInteractions system) {
+  final contents = createXUnitReport(data, false);
+  final fname = createReportFileName(inputFileOrDefaultName(input), outpath, '',
+      appendReport: false);
+  system.createPathsAndWriteFile(
+      '${fname.substring(0, fname.length - 1)}-xunit.xml', contents);
+}
+
+/// Writes the junit report in directory [outpath].
+/// The report will have the basename of [input], but ending with "-junit.xml".
+void writeJUnitReport(
+    String outpath, String input, ReportData data, SystemInteractions system) {
+  final contents = createXUnitReport(data, true);
+  final fname = createReportFileName(inputFileOrDefaultName(input), outpath, '',
+      appendReport: false);
+  system.createPathsAndWriteFile(
+      '${fname.substring(0, fname.length - 1)}-junit.xml', contents);
+}
 
 /// Creates an xunit report xml using the results stored in the [reporter].
 /// There is no "official" schema to create a conforming xml document.
@@ -26,7 +51,7 @@ import 'dart:io' show Platform;
 /// Each mutation rule is converted to a test suite.
 /// Each mutated line is a test case.
 ///
-String createXUnitReport(ResultsReporter reporter, bool conformToJUnit) {
+String createXUnitReport(ReportData reporter, bool conformToJUnit) {
   final builder = xml.XmlBuilder();
   builder.processing('xml', 'version="1.0"');
   builder.element('testsuites', nest: () {

@@ -6,10 +6,15 @@ import 'dart:io';
 
 import 'package:mutation_test/src/commands.dart';
 import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/reports/html_report.dart';
+import 'package:mutation_test/src/reports/markdown_report.dart';
+import 'package:mutation_test/src/reports/report_data.dart';
+import 'package:mutation_test/src/reports/xml_report.dart';
+import 'package:mutation_test/src/reports/xunit_report.dart';
 import 'package:mutation_test/src/test_runner.dart';
 import 'package:mutation_test/src/errors.dart';
 import 'package:mutation_test/src/configuration.dart';
-import 'package:mutation_test/src/reports/report_format.dart';
+import 'package:mutation_test/src/reports/report_formats.dart';
 import 'package:mutation_test/src/builtin_rules.dart';
 import 'package:mutation_test/src/app_progress_bar.dart';
 import 'package:mutation_test/src/system_interactions.dart';
@@ -180,8 +185,8 @@ class MutationTest {
       bool useDefaultConfig = false}) {
     final configuration = Configuration(verbose, dry);
     final tests = TestRunner();
-    final reporter = ResultsReporter(
-        inputFile, addBuiltin, SystemInteractions(verbose, quiet));
+    final reporter =
+        ReportData(inputFile, addBuiltin, SystemInteractions(verbose, quiet));
     _testRunner = tests;
     if (ruleFiles != null && ruleFiles.isNotEmpty) {
       for (final rf in ruleFiles) {
@@ -318,7 +323,7 @@ class MutationData {
   String contents;
 
   /// Class to store the results in
-  final ResultsReporter results;
+  final ReportData results;
 
   /// A reference to the progress bar.
   final AppProgressBar bar;
@@ -334,34 +339,34 @@ class MutationData {
 
 /// Creates the test report in directory [outputPath] from [inputFile]
 /// in the specified [format] using the [results].
-void createReport(ResultsReporter results, String outputPath, String inputFile,
+void createReport(ReportData results, String outputPath, String inputFile,
     ReportFormat format) {
   results.write();
   results.sort();
   switch (format) {
-    case ReportFormat.XML:
-      results.writeXMLReport(outputPath, inputFile);
-      break;
-    case ReportFormat.MARKDOWN:
-      results.writeMarkdownReport(outputPath, inputFile);
-      break;
-    case ReportFormat.HTML:
-      results.writeHTMLReport(outputPath, inputFile);
-      break;
-    case ReportFormat.ALL:
-      results.writeXMLReport(outputPath, inputFile);
-      results.writeMarkdownReport(outputPath, inputFile);
-      results.writeHTMLReport(outputPath, inputFile);
-      results.writeXUnitReport(outputPath, inputFile);
-      results.writeJUnitReport(outputPath, inputFile);
-      break;
     case ReportFormat.NONE:
       return;
+    case ReportFormat.XML:
+      writeXMLReport(outputPath, inputFile, results, results.writer);
+      break;
+    case ReportFormat.MARKDOWN:
+      writeMarkdownReport(outputPath, inputFile, results, results.writer);
+      break;
+    case ReportFormat.HTML:
+      writeHTMLReport(outputPath, inputFile, results, results.writer);
+      break;
     case ReportFormat.XUNIT:
-      results.writeXUnitReport(outputPath, inputFile);
+      writeXUnitReport(outputPath, inputFile, results, results.writer);
       break;
     case ReportFormat.JUNIT:
-      results.writeJUnitReport(outputPath, inputFile);
+      writeJUnitReport(outputPath, inputFile, results, results.writer);
+      break;
+    case ReportFormat.ALL:
+      writeXMLReport(outputPath, inputFile, results, results.writer);
+      writeMarkdownReport(outputPath, inputFile, results, results.writer);
+      writeHTMLReport(outputPath, inputFile, results, results.writer);
+      writeXUnitReport(outputPath, inputFile, results, results.writer);
+      writeJUnitReport(outputPath, inputFile, results, results.writer);
       break;
   }
   print('Output has been written to $outputPath');

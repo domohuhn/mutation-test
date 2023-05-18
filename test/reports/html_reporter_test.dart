@@ -2,9 +2,9 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/reports/report_format.dart';
+import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/version.dart';
-import 'package:mutation_test/src/reports/html_reporter.dart';
+import 'package:mutation_test/src/reports/html_report.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
@@ -13,7 +13,7 @@ import '../mock_system_interactions.dart';
 void main() {
   test('Create Toplevel html file', () {
     var result = createToplevelHtmlFile(
-        ResultsReporter('test.xml', true, MockSystemInteractions()));
+        ReportData('test.xml', true, MockSystemInteractions()));
     // exclude report creation time
     final end1 = emptyToplevel.indexOf('Date:') + 49;
     final start2 = end1 + 26;

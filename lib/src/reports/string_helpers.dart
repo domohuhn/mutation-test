@@ -83,6 +83,14 @@ String basename(String path) {
   return path.substring(start);
 }
 
+/// Replaces the input file with a default name if empty
+String inputFileOrDefaultName(String input) {
+  if (input.isNotEmpty) {
+    return input;
+  }
+  return 'mutation-test';
+}
+
 /// Gets the directory from the given path [path].
 String getDirectory(String path) {
   var end = -1;

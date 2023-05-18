@@ -2,9 +2,9 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/reports/report_format.dart';
+import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/version.dart';
-import 'package:mutation_test/src/reports/xunit_reporter.dart';
+import 'package:mutation_test/src/reports/xunit_report.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
@@ -14,7 +14,7 @@ void main() {
   group('Xunit', () {
     test('Create Empty Xunit report', () {
       var result = createXUnitReport(
-          ResultsReporter('test.xml', true, MockSystemInteractions()), false);
+          ReportData('test.xml', true, MockSystemInteractions()), false);
       expect(result, '<?xml version="1.0"?>\n<testsuites/>');
     });
 
@@ -34,7 +34,7 @@ void main() {
   group('Junit', () {
     test('Create Empty Junit report', () {
       var result = createXUnitReport(
-          ResultsReporter('test.xml', true, MockSystemInteractions()), true);
+          ReportData('test.xml', true, MockSystemInteractions()), true);
       expect(result, '<?xml version="1.0"?>\n<testsuites/>');
     });
 
