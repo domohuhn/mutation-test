@@ -2,8 +2,8 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/builtin_rules.dart';
-import 'package:mutation_test/src/configuration.dart';
+import 'package:mutation_test/src/configuration/builtin_rules.dart';
+import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -32,7 +32,7 @@ void main() {
     expect(configuration.files.length, 0);
     expect(configuration.excludedFiles.length, 2);
     expect(configuration.excludedFiles[0], 'some/file/to/exclude');
-    expect(configuration.excludedFiles[1], 'test/parse_xml_test.dart');
+    expect(configuration.excludedFiles[1], 'test/configuration/parse_xml_test.dart');
   });
 
   test('Input error - wrong version', () {
@@ -183,11 +183,11 @@ String _excludeFiles = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <mutations version="1.0">
   <files>
-    <file>test/parse_xml_test.dart</file>
+    <file>test/configuration/parse_xml_test.dart</file>
   </files>
   <exclude>
     <file>some/file/to/exclude</file>
-    <file>test/parse_xml_test.dart</file>
+    <file>test/configuration/parse_xml_test.dart</file>
   </exclude>
 </mutations>
 ''';

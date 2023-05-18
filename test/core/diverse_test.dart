@@ -2,8 +2,8 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/errors.dart';
+import 'package:mutation_test/src/core/commands.dart';
+import 'package:mutation_test/src/core/errors.dart';
 import 'package:test/test.dart';
 
 void main() {

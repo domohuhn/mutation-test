@@ -2,12 +2,12 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/configuration.dart';
-import 'package:mutation_test/src/test_runner.dart';
+import 'package:mutation_test/src/core/commands.dart';
+import 'package:mutation_test/src/configuration/configuration.dart';
+import 'package:mutation_test/src/core/test_runner.dart';
 import 'package:test/test.dart';
 
-import 'mock_system_interactions.dart';
+import '../mock_system_interactions.dart';
 
 void main() async {
   final mock = MockSystemInteractions();

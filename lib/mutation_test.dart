@@ -14,6 +14,6 @@ library mutation_test;
 
 export 'package:mutation_test/src/mutation_test.dart';
 export 'package:mutation_test/src/reports/report_formats.dart';
-export 'package:mutation_test/src/builtin_rules.dart';
+export 'package:mutation_test/src/configuration/builtin_rules.dart';
 export 'package:mutation_test/src/version.dart';
 export 'package:mutation_test/src/create_license_text.dart';

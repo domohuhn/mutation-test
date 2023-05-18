@@ -2,7 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:test/test.dart';
 import 'dart:io';
 

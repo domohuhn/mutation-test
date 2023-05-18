@@ -2,8 +2,8 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/progress_bar.dart';
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/core/progress_bar.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
 
 /// Tracks the current progress and estimates the remaining time.

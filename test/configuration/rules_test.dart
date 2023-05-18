@@ -1,5 +1,5 @@
-import 'package:mutation_test/src/builtin_rules.dart';
-import 'package:mutation_test/src/configuration.dart';
+import 'package:mutation_test/src/configuration/builtin_rules.dart';
+import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:test/test.dart';
 
 void main() {

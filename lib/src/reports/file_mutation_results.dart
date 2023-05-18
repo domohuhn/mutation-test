@@ -2,7 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/core/mutations.dart';
 
 /// Holds the report data for a file.
 class FileMutationResults {

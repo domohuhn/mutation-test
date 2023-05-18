@@ -4,7 +4,7 @@
 
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 
 /// Prints the statistics to the command line at the end of the execution.
 /// [reporter] holds the results of the test run that will be formatted to xml

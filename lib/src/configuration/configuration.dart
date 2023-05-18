@@ -4,12 +4,12 @@
 
 import 'dart:io';
 import 'package:xml/xml.dart' as xml;
-import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/replacements.dart';
-import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/errors.dart';
-import 'package:mutation_test/src/range.dart';
-import 'package:mutation_test/src/ratings.dart';
+import 'package:mutation_test/src/core/mutations.dart';
+import 'package:mutation_test/src/core/replacements.dart';
+import 'package:mutation_test/src/core/commands.dart';
+import 'package:mutation_test/src/core/errors.dart';
+import 'package:mutation_test/src/core/range.dart';
+import 'package:mutation_test/src/reports/ratings.dart';
 
 /// A structure holding the information about the mutation input.
 class TargetFile {

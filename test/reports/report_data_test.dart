@@ -9,8 +9,8 @@ import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/xml_report.dart';
 import 'package:mutation_test/src/reports/xunit_report.dart';
 import 'package:mutation_test/src/version.dart';
-import 'package:mutation_test/src/mutations.dart';
-import 'package:mutation_test/src/commands.dart';
+import 'package:mutation_test/src/core/mutations.dart';
+import 'package:mutation_test/src/core/commands.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';

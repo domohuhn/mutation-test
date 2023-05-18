@@ -4,21 +4,21 @@
 
 import 'dart:io';
 
-import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/core/commands.dart';
+import 'package:mutation_test/src/core/mutations.dart';
 import 'package:mutation_test/src/reports/command_line_report.dart';
 import 'package:mutation_test/src/reports/html_report.dart';
 import 'package:mutation_test/src/reports/markdown_report.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/xml_report.dart';
 import 'package:mutation_test/src/reports/xunit_report.dart';
-import 'package:mutation_test/src/test_runner.dart';
-import 'package:mutation_test/src/errors.dart';
-import 'package:mutation_test/src/configuration.dart';
+import 'package:mutation_test/src/core/test_runner.dart';
+import 'package:mutation_test/src/core/errors.dart';
+import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:mutation_test/src/reports/report_formats.dart';
-import 'package:mutation_test/src/builtin_rules.dart';
-import 'package:mutation_test/src/app_progress_bar.dart';
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/configuration/builtin_rules.dart';
+import 'package:mutation_test/src/core/app_progress_bar.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 
 /// This is the primary interface for the mutation testing.
 ///

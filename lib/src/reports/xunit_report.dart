@@ -2,12 +2,12 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/core/commands.dart';
+import 'package:mutation_test/src/core/mutations.dart';
 import 'package:mutation_test/src/reports/file_mutation_results.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:io' show Platform;

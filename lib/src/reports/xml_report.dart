@@ -4,7 +4,7 @@
 
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 
 /// Writes the results of the tests to a xml file in directory [outpath].

@@ -1,9 +1,9 @@
 // Copyright 2021, domohuhn.
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
-import 'package:mutation_test/src/commands.dart';
-import 'package:mutation_test/src/configuration.dart';
-import 'package:mutation_test/src/system_interactions.dart';
+import 'package:mutation_test/src/core/commands.dart';
+import 'package:mutation_test/src/configuration/configuration.dart';
+import 'package:mutation_test/src/core/system_interactions.dart';
 import 'dart:io';
 import 'dart:convert';
 
