@@ -6,12 +6,8 @@ import 'dart:io';
 
 import 'package:mutation_test/src/core/commands.dart';
 import 'package:mutation_test/src/core/mutation.dart';
-import 'package:mutation_test/src/reports/command_line_report.dart';
-import 'package:mutation_test/src/reports/html_report.dart';
-import 'package:mutation_test/src/reports/markdown_report.dart';
+import 'package:mutation_test/src/reports/create_report.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
-import 'package:mutation_test/src/reports/xml_report.dart';
-import 'package:mutation_test/src/reports/xunit_report.dart';
 import 'package:mutation_test/src/core/test_runner.dart';
 import 'package:mutation_test/src/core/errors.dart';
 import 'package:mutation_test/src/configuration/configuration.dart';
@@ -335,39 +331,4 @@ class MutationData {
   /// The object is given to the test runner to run tests on the given [filename].
   MutationData(this.configuration, this.test, this.filename, this.contents,
       this.results, this.bar);
-}
-
-/// Creates the test report in directory [outputPath] from [inputFile]
-/// in the specified [format] using the [results].
-void createReport(ReportData results, String outputPath, String inputFile,
-    ReportFormat format) {
-  writeCommandLineReport(results, results.system);
-  results.sort();
-  switch (format) {
-    case ReportFormat.NONE:
-      return;
-    case ReportFormat.XML:
-      writeXMLReport(outputPath, inputFile, results, results.system);
-      break;
-    case ReportFormat.MARKDOWN:
-      writeMarkdownReport(outputPath, inputFile, results, results.system);
-      break;
-    case ReportFormat.HTML:
-      writeHTMLReport(outputPath, inputFile, results, results.system);
-      break;
-    case ReportFormat.XUNIT:
-      writeXUnitReport(outputPath, inputFile, results, results.system);
-      break;
-    case ReportFormat.JUNIT:
-      writeJUnitReport(outputPath, inputFile, results, results.system);
-      break;
-    case ReportFormat.ALL:
-      writeXMLReport(outputPath, inputFile, results, results.system);
-      writeMarkdownReport(outputPath, inputFile, results, results.system);
-      writeHTMLReport(outputPath, inputFile, results, results.system);
-      writeXUnitReport(outputPath, inputFile, results, results.system);
-      writeJUnitReport(outputPath, inputFile, results, results.system);
-      break;
-  }
-  results.system.writeLine('Output has been written to $outputPath');
 }
