@@ -2,6 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/reports/command_line_report.dart';
 import 'package:mutation_test/src/reports/html_report.dart';
 import 'package:mutation_test/src/reports/markdown_report.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
@@ -23,19 +24,16 @@ void main() {
       'path.dart',
       MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation(0, '0')),
       TestReport(TestResult.Detected),
-      true,
-    );
+          );
     reporter.addTestReport(
       'path.dart',
       MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation(0, '0')),
       TestReport(TestResult.Undetected),
-      true,
     );
     reporter.addTestReport(
       'path.dart',
       MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation(0, '0')),
       TestReport(TestResult.Timeout),
-      true,
     );
     test('Usage test for the reporter', () {
       expect(reporter.builtinRulesAdded, true);
@@ -43,7 +41,19 @@ void main() {
       expect(reporter.success, false);
       expect(reporter.rating, 'N/A');
       reporter.sort();
-      reporter.write();
+    });
+
+    test('write command line report', () {
+      writeCommandLineReport(reporter, reporter.system);
+      
+      var mock = reporter.system as MockSystemInteractions;
+      expect(mock.argLine.length, 6);
+      expect(mock.argLine[0], '  --- Results ---');
+      expect(mock.argLine[1], 'Test group statistics:');
+      expect(mock.argLine[2], '\nTotal tests: 3\nUndetected Mutations: 2 (66.67%)');
+      expect(mock.argLine[3], 'Timeouts: 1');
+      expect(mock.argLine[4].substring(0,16), 'Elapsed: 0:00:00');
+      expect(mock.argLine[5], 'Success: false, Quality rating: N/A');
     });
 
     test('detection numbers', () {
@@ -123,7 +133,19 @@ void main() {
       expect(reporter.success, true);
       expect(reporter.rating, 'N/A');
       reporter.sort();
-      reporter.write();
+    });
+    
+    test('write command line report', () {
+      writeCommandLineReport(reporter, reporter.system);
+      
+      var mock = reporter.system as MockSystemInteractions;
+      expect(mock.argLine.length, 6);
+      expect(mock.argLine[0], '  --- Results ---');
+      expect(mock.argLine[1], 'Test group statistics:');
+      expect(mock.argLine[2], '\nTotal tests: 0\nUndetected Mutations: 0 (0.00%)');
+      expect(mock.argLine[3], 'Timeouts: 0');
+      expect(mock.argLine[4].substring(0,16), 'Elapsed: 0:00:00');
+      expect(mock.argLine[5], 'Success: true, Quality rating: N/A');
     });
 
     test('detection numbers', () {
@@ -163,9 +185,9 @@ void main() {
     test('md', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeMarkdownReport('fake_dir', 'in.xml', data, data.writer);
+      writeMarkdownReport('fake_dir', 'in.xml', data, data.system);
 
-      var mock = data.writer as MockSystemInteractions;
+      var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-report.md');
@@ -176,9 +198,9 @@ void main() {
     test('junit', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeJUnitReport('fake_dir', 'in.xml', data, data.writer);
+      writeJUnitReport('fake_dir', 'in.xml', data, data.system);
 
-      var mock = data.writer as MockSystemInteractions;
+      var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-junit.xml');
@@ -189,9 +211,9 @@ void main() {
     test('xunit', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeXUnitReport('fake_dir', 'in.xml', data, data.writer);
+      writeXUnitReport('fake_dir', 'in.xml', data, data.system);
 
-      var mock = data.writer as MockSystemInteractions;
+      var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-xunit.xml');
@@ -202,9 +224,9 @@ void main() {
     test('xml', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeXMLReport('fake_dir', 'in.xml', data, data.writer);
+      writeXMLReport('fake_dir', 'in.xml', data, data.system);
 
-      var mock = data.writer as MockSystemInteractions;
+      var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-report.xml');
@@ -215,9 +237,9 @@ void main() {
     test('html', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeHTMLReport('fake_dir', 'in.xml', data, data.writer);
+      writeHTMLReport('fake_dir', 'in.xml', data, data.system);
 
-      var mock = data.writer as MockSystemInteractions;
+      var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 2);
       expect(mock.argPaths[0], 'fake_dir/in-report.html');

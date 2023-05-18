@@ -7,7 +7,6 @@ import 'package:mutation_test/src/reports/file_mutation_results.dart';
 import 'package:mutation_test/src/system_interactions.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/ratings.dart';
-import 'package:mutation_test/src/reports/string_helpers.dart';
 import 'package:mutation_test/src/commands.dart';
 
 /// This class holds the results of the mutation test run.
@@ -59,11 +58,11 @@ class ReportData {
 
   Duration get elapsed => _timer.elapsed;
 
-  final SystemInteractions writer;
+  final SystemInteractions system;
 
   /// Creates a results storage and adds [inputFile] to the xml input file list.
   /// [builtinRulesAdded] sets a flag showing if the builtin rules were added.
-  ReportData(String inputFile, this.builtinRulesAdded, this.writer)
+  ReportData(String inputFile, this.builtinRulesAdded, this.system)
       : rules = [] {
     xmlFiles.add(inputFile);
     _timer.start();
@@ -77,9 +76,8 @@ class ReportData {
   int _totalTimeouts = 0;
 
   /// Adds the [test] report to the accumulated statistics.
-  /// This method will print to the command line via the verbose is true.
-  void addTestReport(
-      String file, MutatedLine mutation, TestReport test, bool verbose) {
+  /// This method will print to the command line via SystemInteractions.verboseWriteLine.
+  void addTestReport(String file, MutatedLine mutation, TestReport test) {
     _totalRuns += 1;
     if (!testedFiles.containsKey(file)) {
       throw MutationError('"$file" was not registered in the reporter!');
@@ -87,16 +85,12 @@ class ReportData {
     _addRule(mutation.mutation);
     switch (test.result) {
       case TestResult.Timeout:
-        if (verbose) {
-          print('Timeout for ${test.command}');
-        }
+        system.verboseWriteLine('Timeout for ${test.command}');
         _totalTimeouts += 1;
         addTimeoutMutation(file, mutation);
         break;
       case TestResult.Detected:
-        if (verbose) {
-          print('Found mutation with ${test.command}');
-        }
+        system.verboseWriteLine('Found mutation with ${test.command}');
         if (test.command != null && test.command!.group.isNotEmpty) {
           _groupStatistics.update(test.command!.group, (v) => v + 1,
               ifAbsent: () => 1);
@@ -105,9 +99,7 @@ class ReportData {
         addDetectedMutation(file, mutation);
         break;
       case TestResult.Undetected:
-        if (verbose) {
-          print('Undetected mutation! All tests passed!');
-        }
+        system.verboseWriteLine('Undetected mutation! All tests passed!');
         addUndetectedMutation(file, mutation);
         break;
     }
@@ -160,19 +152,6 @@ class ReportData {
 
   /// Gets the quality rating for this run.
   String get rating => quality.rating(detectedFraction);
-
-  /// Prints the statistics at the end of the execution.
-  void write() {
-    print('  --- Results ---');
-    print('Test group statistics:');
-    _groupStatistics
-        .forEach((k, v) => print('  Group : $k, Found mutations: $v'));
-    print(
-        '\nTotal tests: $_totalRuns\nUndetected Mutations: $undetectedMutations (${asPercentString(undetectedMutations, _totalRuns)})');
-    print('Timeouts: $_totalTimeouts');
-    print('Elapsed: $elapsed');
-    print('Success: $success, Quality rating: $rating');
-  }
 
   /// Sorts mutations by lines.
   void sort() {

@@ -14,20 +14,17 @@ ReportData createTestData() {
     'path.dart',
     MutatedLine(1, 0, 5, 'var x = 0;', 'var x = -0;', Mutation(0, '[0-9]+')),
     TestReport(TestResult.Detected),
-    false,
   );
   reporter.addTestReport(
     'path.dart',
     MutatedLine(1, 0, 5, 'var x = 0;', 'var x = a;', Mutation(0, '[0-9]+')),
     TestReport(TestResult.Undetected),
-    false,
   );
   reporter.addTestReport(
     'path.dart',
     MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;',
         Mutation(0, '[0-9]+', id: 'testId')),
     TestReport(TestResult.Timeout),
-    false,
   );
   return reporter;
 }

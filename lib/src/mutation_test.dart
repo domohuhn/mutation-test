@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:mutation_test/src/commands.dart';
 import 'package:mutation_test/src/mutations.dart';
+import 'package:mutation_test/src/reports/command_line_report.dart';
 import 'package:mutation_test/src/reports/html_report.dart';
 import 'package:mutation_test/src/reports/markdown_report.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
@@ -301,8 +302,7 @@ Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
   final test = await data.test.run(data.configuration);
   timer.stop();
   mutated.line.elapsed = timer.elapsed;
-  data.results.addTestReport(
-      data.filename.path, mutated.line, test, data.configuration.verbose);
+  data.results.addTestReport(data.filename.path, mutated.line, test);
   data.bar.increment();
   data.bar.render();
   return test.result == TestResult.Undetected;
@@ -341,32 +341,32 @@ class MutationData {
 /// in the specified [format] using the [results].
 void createReport(ReportData results, String outputPath, String inputFile,
     ReportFormat format) {
-  results.write();
+  writeCommandLineReport(results, results.system);
   results.sort();
   switch (format) {
     case ReportFormat.NONE:
       return;
     case ReportFormat.XML:
-      writeXMLReport(outputPath, inputFile, results, results.writer);
+      writeXMLReport(outputPath, inputFile, results, results.system);
       break;
     case ReportFormat.MARKDOWN:
-      writeMarkdownReport(outputPath, inputFile, results, results.writer);
+      writeMarkdownReport(outputPath, inputFile, results, results.system);
       break;
     case ReportFormat.HTML:
-      writeHTMLReport(outputPath, inputFile, results, results.writer);
+      writeHTMLReport(outputPath, inputFile, results, results.system);
       break;
     case ReportFormat.XUNIT:
-      writeXUnitReport(outputPath, inputFile, results, results.writer);
+      writeXUnitReport(outputPath, inputFile, results, results.system);
       break;
     case ReportFormat.JUNIT:
-      writeJUnitReport(outputPath, inputFile, results, results.writer);
+      writeJUnitReport(outputPath, inputFile, results, results.system);
       break;
     case ReportFormat.ALL:
-      writeXMLReport(outputPath, inputFile, results, results.writer);
-      writeMarkdownReport(outputPath, inputFile, results, results.writer);
-      writeHTMLReport(outputPath, inputFile, results, results.writer);
-      writeXUnitReport(outputPath, inputFile, results, results.writer);
-      writeJUnitReport(outputPath, inputFile, results, results.writer);
+      writeXMLReport(outputPath, inputFile, results, results.system);
+      writeMarkdownReport(outputPath, inputFile, results, results.system);
+      writeHTMLReport(outputPath, inputFile, results, results.system);
+      writeXUnitReport(outputPath, inputFile, results, results.system);
+      writeJUnitReport(outputPath, inputFile, results, results.system);
       break;
   }
   print('Output has been written to $outputPath');

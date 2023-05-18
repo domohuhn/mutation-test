@@ -14,6 +14,9 @@ import 'dart:io' show Platform;
 
 /// Writes the xunit report in directory [outpath].
 /// The report will have the basename of [input], but ending with "-xunit.xml".
+/// [reporter] holds the results of the test run that will be formatted to xunit
+/// documents.
+/// [system] is used to make the file system interactions testable.
 void writeXUnitReport(
     String outpath, String input, ReportData data, SystemInteractions system) {
   final contents = createXUnitReport(data, false);
@@ -25,6 +28,9 @@ void writeXUnitReport(
 
 /// Writes the junit report in directory [outpath].
 /// The report will have the basename of [input], but ending with "-junit.xml".
+/// [reporter] holds the results of the test run that will be formatted to junit
+/// documents.
+/// [system] is used to make the file system interactions testable.
 void writeJUnitReport(
     String outpath, String input, ReportData data, SystemInteractions system) {
   final contents = createXUnitReport(data, true);

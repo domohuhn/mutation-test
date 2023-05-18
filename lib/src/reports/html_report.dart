@@ -11,6 +11,10 @@ import 'package:mutation_test/src/reports/string_helpers.dart';
 
 /// Writes the results of the tests to a html file in directory [outpath].
 /// The report will be named like the [input], but ending with "-report.html".
+/// [data] holds the results of the test run that will be formatted to html
+/// documents.
+///
+/// [system] is used to make the file system interactions testable.
 void writeHTMLReport(
     String outpath, String input, ReportData data, SystemInteractions system) {
   var index = createToplevelHtmlFile(data);
@@ -27,6 +31,9 @@ void writeHTMLReport(
   });
 }
 
+/// Creates the contents of the top level navigation file.
+/// [reporter] holds the results of the test run that will be formatted to html
+/// documents.
 String createToplevelHtmlFile(ReportData reporter) {
   final rv = StringBuffer(createHtmlFileHeader(
       reporter,
@@ -112,6 +119,11 @@ String createMutationList(int line, FileMutationResults file) {
   return rv.toString();
 }
 
+/// Creates the contents of the top level navigation file.
+/// [reporter] holds the results of the test run that will be formatted to html
+/// documents.
+/// [file] holds the data of the current file.
+/// [toplevelFileName] is used to creat a link back to the top level file.
 String createSourceHtmlFile(
     ReportData reporter, FileMutationResults file, String toplevelFileName) {
   final rv = StringBuffer(createHtmlFileHeader(

@@ -9,6 +9,9 @@ import 'package:mutation_test/src/version.dart';
 
 /// Writes the results of the tests to a markdown file in directory [outpath].
 /// The report will be named like the [input], but ending with "-report.md".
+/// [reporter] holds the results of the test run that will be formatted to markdown
+/// documents.
+/// [system] is used to make the file system interactions testable.
 void writeMarkdownReport(
     String outpath, String input, ReportData data, SystemInteractions system) {
   var text = createMarkdownReport(data);
