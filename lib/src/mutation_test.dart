@@ -12,7 +12,7 @@ import 'package:mutation_test/src/configuration.dart';
 import 'package:mutation_test/src/report_format.dart';
 import 'package:mutation_test/src/builtin_rules.dart';
 import 'package:mutation_test/src/mutation_progress_bar.dart';
-import 'package:mutation_test/src/file_writer.dart';
+import 'package:mutation_test/src/system_interactions.dart';
 
 /// This is the primary interface for the mutation testing.
 ///
@@ -62,7 +62,7 @@ class MutationTest {
   MutationTest(
       this.inputs, this.outputPath, this.verbose, this.dry, this.format,
       {this.ruleFiles, this.builtinRules = true, this.quiet = false})
-      : bar = MutationProgressBar(0, verbose, 0.8, quiet);
+      : bar = MutationProgressBar(0, 0.8, SystemInteractions(verbose, quiet));
 
   /// Performs the mutation tests asynchronously.
   /// The test run uses the options given during construction.
@@ -180,7 +180,8 @@ class MutationTest {
       bool useDefaultConfig = false}) {
     final configuration = Configuration(verbose, dry);
     final tests = TestRunner();
-    final reporter = ResultsReporter(inputFile, addBuiltin, FileWriter());
+    final reporter = ResultsReporter(
+        inputFile, addBuiltin, SystemInteractions(verbose, quiet));
     _testRunner = tests;
     if (ruleFiles != null && ruleFiles.isNotEmpty) {
       for (final rf in ruleFiles) {

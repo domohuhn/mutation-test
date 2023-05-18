@@ -3,7 +3,7 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/errors.dart';
-import 'package:mutation_test/src/file_writer.dart';
+import 'package:mutation_test/src/system_interactions.dart';
 import 'package:mutation_test/src/mutations.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/ratings.dart';
@@ -172,7 +172,7 @@ class ResultsReporter {
 
   Duration get elapsed => _timer.elapsed;
 
-  final FileWriter writer;
+  final SystemInteractions writer;
 
   /// Creates a test runner and adds [inputFile] to the xml input file list.
   /// [builtinRulesAdded] sets the flag in the report file when the builtin rules were added.

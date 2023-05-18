@@ -9,11 +9,11 @@ import 'package:mutation_test/src/commands.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
-import 'mock_file_writer.dart';
+import 'mock_system_interactions.dart';
 
 void main() {
   group('With data', () {
-    var reporter = ResultsReporter('test.xml', true, MockFileWriter());
+    var reporter = ResultsReporter('test.xml', true, MockSystemInteractions());
     reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
       'path.dart',
@@ -112,7 +112,7 @@ void main() {
   });
 
   group('no data', () {
-    var reporter = ResultsReporter('test.xml', false, MockFileWriter());
+    var reporter = ResultsReporter('test.xml', false, MockSystemInteractions());
 
     test('builtin rules', () {
       expect(reporter.builtinRulesAdded, false);
@@ -161,7 +161,7 @@ void main() {
       expect(data.foundAll, false);
       data.writeMarkdownReport('fake_dir', 'in.xml');
 
-      var mock = data.writer as MockFileWriter;
+      var mock = data.writer as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-report.md');
@@ -174,7 +174,7 @@ void main() {
       expect(data.foundAll, false);
       data.writeJUnitReport('fake_dir', 'in.xml');
 
-      var mock = data.writer as MockFileWriter;
+      var mock = data.writer as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-junit.xml');
@@ -187,7 +187,7 @@ void main() {
       expect(data.foundAll, false);
       data.writeXUnitReport('fake_dir', 'in.xml');
 
-      var mock = data.writer as MockFileWriter;
+      var mock = data.writer as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-xunit.xml');
@@ -200,7 +200,7 @@ void main() {
       expect(data.foundAll, false);
       data.writeXMLReport('fake_dir', 'in.xml');
 
-      var mock = data.writer as MockFileWriter;
+      var mock = data.writer as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/in-report.xml');
@@ -213,7 +213,7 @@ void main() {
       expect(data.foundAll, false);
       data.writeHTMLReport('fake_dir', 'in.xml');
 
-      var mock = data.writer as MockFileWriter;
+      var mock = data.writer as MockSystemInteractions;
 
       expect(mock.argPaths.length, 2);
       expect(mock.argPaths[0], 'fake_dir/in-report.html');

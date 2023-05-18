@@ -9,7 +9,7 @@ import 'package:mutation_test/src/oss_licenses.dart';
 /// for the used packages.
 String createLicenseText() {
   var rv = _selfLicense();
-  var ext = ossLicenses;
+  final ext = ossLicenses;
   if (ext.isEmpty) {
     return rv;
   }
