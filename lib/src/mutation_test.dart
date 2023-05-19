@@ -2,8 +2,6 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'dart:io';
-
 import 'package:mutation_test/src/core/core.dart';
 import 'package:mutation_test/src/reports/create_report.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
@@ -44,7 +42,10 @@ class MutationTest {
   bool quiet;
 
   /// Abstraction for the system.
-  SystemInteractions system;
+  late SystemInteractions system;
+
+  /// Factory creating other objects
+  late PlatformFactory platformFactory;
 
   /// Runs the mutation tests using the inputs from [inputs].
   /// Undetected modifications are written to a file in [outputPath] using the
@@ -61,8 +62,13 @@ class MutationTest {
   /// Writing output to the command line can be suppressed if [quiet] is set.
   MutationTest(
       this.inputs, this.outputPath, this.verbose, this.dry, this.format,
-      {this.ruleFiles, this.builtinRules = true, this.quiet = false})
-      : system = SystemInteractions(verbose, quiet) {
+      {this.ruleFiles,
+      this.builtinRules = true,
+      this.quiet = false,
+      PlatformFactory? platform}) {
+    platformFactory = platform ?? PlatformFactory();
+    system = platformFactory.createSystemInteractions(
+        verbose: verbose, quiet: quiet);
     bar = AppProgressBar(0, 0.8, system);
   }
 
@@ -71,17 +77,16 @@ class MutationTest {
   ///
   /// During testing, a new process will be spawned for each given command.
   Future<bool> runMutationTest() async {
-    await _countAll();
+    await count();
     var foundAll = true;
     if (inputs.isNotEmpty) {
       for (final file in inputs) {
-        var result = await _runMutationTest(
-            file, outputPath, verbose, dry, format,
+        var result = await _runMutationTest(file, outputPath, dry, format,
             ruleFiles: ruleFiles, addBuiltin: builtinRules);
         foundAll = result && foundAll;
       }
     } else {
-      await _runMutationTest('', outputPath, verbose, dry, format,
+      foundAll = await _runMutationTest('', outputPath, dry, format,
           ruleFiles: ruleFiles,
           addBuiltin: builtinRules,
           useDefaultConfig: true);
@@ -100,12 +105,12 @@ class MutationTest {
   /// You can perform a [dry] run that wil not run any tests or perform any modifications,
   /// but will list all found mutations per file.
   /// Returns true if all modifications were detected by the test commands.
-  Future<bool> _runMutationTest(String inputFile, String outputPath,
-      bool verbose, bool dry, ReportFormat format,
+  Future<bool> _runMutationTest(
+      String inputFile, String outputPath, bool dry, ReportFormat format,
       {List<String>? ruleFiles,
       bool addBuiltin = true,
       bool useDefaultConfig = false}) async {
-    var data = _createMutationData(inputFile, outputPath, verbose, dry, format,
+    var data = _createMutationData(inputFile, outputPath, dry, format,
         ruleFiles: ruleFiles,
         addBuiltin: addBuiltin,
         useDefaultConfig: useDefaultConfig);
@@ -113,25 +118,25 @@ class MutationTest {
     await checkTests(data.configuration, data.test);
 
     for (final current in data.configuration.files) {
-      final source = File(current.path).readAsStringSync();
+      final source = system.readFile(current.path);
       data.filename = current;
       data.contents = source;
 
-      var count = await countMutations(data);
+      var count = await _countMutations(data);
       data.results.startFileTest(current.path, data.contents);
       data.bar.startFile(current.path, count);
       if (count == 0) {
         continue;
       }
 
-      var failed = await doMutationTests(data);
+      var failed = await _doMutationTests(data);
       data.bar.endFile(failed);
       if (dry) {
         continue;
       }
 
       // restore orignal
-      File(current.path).writeAsStringSync(source);
+      system.writeFile(current.path, source);
       if (!_continue) {
         break;
       }
@@ -140,51 +145,57 @@ class MutationTest {
     return data.results.success;
   }
 
-  /// Count all mutations done in all input files
-  Future<void> _countAll() async {
+  /// Counts all mutations done by all input files
+  Future<int> count() async {
     var totalCount = 0;
     var fileCount = 0;
     for (final file in inputs) {
-      var data = _createMutationData(file, outputPath, false, dry, format,
-          ruleFiles: ruleFiles, addBuiltin: builtinRules);
+      final data = _createMutationDataFromMembers(file, false);
       for (final current in data.configuration.files) {
-        final source = File(current.path).readAsStringSync();
-        data.filename = current;
-        data.contents = source;
-
-        var count = await countMutations(data);
-        totalCount += count;
+        totalCount += await _readFileAndCountMutations(current, data);
         fileCount += 1;
       }
     }
     if (inputs.isEmpty) {
-      var data = _createMutationData('', outputPath, false, dry, format,
-          ruleFiles: ruleFiles,
-          addBuiltin: builtinRules,
-          useDefaultConfig: true);
+      final data = _createMutationDataFromMembers('', true);
       for (final current in data.configuration.files) {
-        final source = File(current.path).readAsStringSync();
-        data.filename = current;
-        data.contents = source;
-
-        var count = await countMutations(data);
-        totalCount += count;
+        totalCount += await _readFileAndCountMutations(current, data);
         fileCount += 1;
       }
     }
     system.writeLine('Found $totalCount mutations in $fileCount source files!');
     bar.mutationCount = totalCount;
+    return totalCount;
   }
 
-  MutationData _createMutationData(String inputFile, String outputPath,
-      bool verbose, bool dry, ReportFormat format,
+  /// Gets the number of total mutations found.
+  /// You must call count() or runMutationTest() first.
+  int get total => bar.total.maximum;
+
+  MutationData _createMutationDataFromMembers(
+      String file, bool useDefaultConfig) {
+    return _createMutationData(file, outputPath, dry, format,
+        ruleFiles: ruleFiles,
+        addBuiltin: builtinRules,
+        useDefaultConfig: useDefaultConfig);
+  }
+
+  Future<int> _readFileAndCountMutations(
+      TargetFile current, MutationData data) async {
+    final source = system.readFile(current.path);
+    data.filename = current;
+    data.contents = source;
+    return await _countMutations(data);
+  }
+
+  MutationData _createMutationData(
+      String inputFile, String outputPath, bool dry, ReportFormat format,
       {List<String>? ruleFiles,
       bool addBuiltin = true,
       bool useDefaultConfig = false}) {
-    final configuration = Configuration(verbose, dry);
-    final tests = TestRunner();
-    final reporter =
-        ReportData(inputFile, addBuiltin, SystemInteractions(verbose, quiet));
+    final configuration = Configuration(system, dry);
+    final tests = platformFactory.createTestRunner();
+    final reporter = ReportData(inputFile, addBuiltin, system);
     _testRunner = tests;
     if (ruleFiles != null && ruleFiles.isNotEmpty) {
       for (final rf in ruleFiles) {
@@ -232,8 +243,8 @@ class MutationTest {
   }
 
   /// Counts the mutations possible mutations in [data].
-  Future<int> countMutations(MutationData data) async {
-    return doMutationTests(data, supressVerbose: true,
+  Future<int> _countMutations(MutationData data) async {
+    return _doMutationTests(data, supressVerbose: true,
         functor: (MutationData data, MutatedCode mutated) async {
       return true;
     });
@@ -243,7 +254,7 @@ class MutationTest {
   /// The unmodified contents of the file are mutated
   /// using all mutation rules in [data] and then the tests are run.
   /// Returns the number of undetected mutations.
-  Future<int> doMutationTests(MutationData data,
+  Future<int> _doMutationTests(MutationData data,
       {Future<bool> Function(MutationData data, MutatedCode mutated) functor =
           _runTest,
       bool supressVerbose = false}) async {
@@ -295,7 +306,7 @@ Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
     return true;
   }
   final Stopwatch timer = Stopwatch()..start();
-  File(data.filename.path).writeAsStringSync(mutated.text);
+  data.results.system.writeFile(data.filename.path, mutated.text);
   final test = await data.test.run(data.configuration, data.results.system);
   timer.stop();
   mutated.line.elapsed = timer.elapsed;

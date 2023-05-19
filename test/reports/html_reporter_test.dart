@@ -8,7 +8,7 @@ import 'package:mutation_test/src/reports/html_report.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
-import '../mock_system_interactions.dart';
+import '../core/mock_system_interactions.dart';
 
 void main() {
   test('Create Toplevel html file', () {

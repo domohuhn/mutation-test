@@ -5,7 +5,7 @@
 import 'package:mutation_test/src/core/app_progress_bar.dart';
 import 'package:test/test.dart';
 
-import '../mock_system_interactions.dart';
+import 'mock_system_interactions.dart';
 
 void main() {
   test('App Progress bar - start file', () {

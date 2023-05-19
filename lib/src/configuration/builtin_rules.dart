@@ -5,7 +5,7 @@
 /// Start of a XML file.
 String _xmlStart() {
   return '''<?xml version="1.0" encoding="UTF-8"?>
-<mutations version="1.0">\n''';
+<mutations version="1.1">\n''';
 }
 
 /// End of a XML file.

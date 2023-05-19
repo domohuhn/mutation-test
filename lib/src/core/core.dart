@@ -9,6 +9,7 @@ export 'package:mutation_test/src/core/mutated_line.dart';
 export 'package:mutation_test/src/core/mutation_data.dart';
 export 'package:mutation_test/src/core/mutation_iterator.dart';
 export 'package:mutation_test/src/core/mutation.dart';
+export 'package:mutation_test/src/core/platform_factory.dart';
 export 'package:mutation_test/src/core/progress_bar.dart';
 export 'package:mutation_test/src/core/range.dart';
 export 'package:mutation_test/src/core/replacements.dart';

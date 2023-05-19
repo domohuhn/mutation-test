@@ -120,7 +120,7 @@ After a input file is processed, a report is generated. You can choose multiple 
 This chapter explains the structure of the input XML documents. They must conform to the following schema:
 ```Xml
 <?xml version="1.0" encoding="UTF-8"?>
-<mutations version="1.0">
+<mutations version="1.1">
     <files>
     ...
     </files>

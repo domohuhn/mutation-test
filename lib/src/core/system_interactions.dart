@@ -20,7 +20,7 @@ class SystemInteractions {
         Directory(dir).createSync(recursive: true);
       }
     }
-    File(path).writeAsStringSync(text);
+    writeFile(path, text);
   }
 
   bool verbose = false;
@@ -52,5 +52,48 @@ class SystemInteractions {
     } else {
       stdout.write(text);
     }
+  }
+
+  /// Synchronously checks if a file exists in [path]
+  bool fileExists(String path) {
+    return File(path).existsSync();
+  }
+
+  /// Synchronously checks if a file exists in [path]
+  bool directoryExists(String path) {
+    return Directory(path).existsSync();
+  }
+
+  /// Synchronously lists all files in [path] whose names match the [patterns].
+  /// If [recurse] is set to true, then the subdirectories will also be included.
+  List<String> listDirectoryContents(
+      String path, bool recurse, List<RegExp> patterns) {
+    List<String> files = [];
+    var tree = Directory(path).listSync(recursive: recurse);
+    for (var f in tree) {
+      if (f is Link || f is Directory) {
+        continue;
+      }
+      if (patterns.isNotEmpty) {
+        for (var pat in patterns) {
+          if (pat.hasMatch(f.path)) {
+            files.add(f.path);
+          }
+        }
+      } else {
+        files.add(f.path);
+      }
+    }
+    return files;
+  }
+
+  /// Synchronously reads the entire file in [path]
+  String readFile(String path) {
+    return File(path).readAsStringSync();
+  }
+
+  /// Synchronously writes the entire [text] to a file called [path]
+  void writeFile(String path, String text) {
+    File(path).writeAsStringSync(text);
   }
 }

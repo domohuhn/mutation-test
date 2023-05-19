@@ -33,6 +33,7 @@ class TestRunner {
     var future = await Process.start(cmd.command, cmd.arguments,
         workingDirectory: cmd.directory);
     _pid = future.pid;
+    _started = true;
     var stdout = '';
     final awaitableStdout =
         future.stdout.transform(Utf8Decoder(allowMalformed: true)).forEach((e) {
@@ -58,6 +59,7 @@ class TestRunner {
     var exitCode = await exitfuture;
     await awaitableStdout;
     await awaitableStderr;
+    _started = false;
 
     final matchesExpectation = exitCode == cmd.expectedReturnValue;
     if (outputOnFailure && (!matchesExpectation || timedout)) {
@@ -79,9 +81,13 @@ class TestRunner {
   }
 
   int _pid = 0;
+  bool _started = false;
 
   /// Kills the current child process
-  void kill() {
-    Process.killPid(_pid, ProcessSignal.sigterm);
+  bool kill() {
+    if (!_started) {
+      return false;
+    }
+    return Process.killPid(_pid, ProcessSignal.sigterm);
   }
 }

@@ -7,7 +7,7 @@ import 'package:mutation_test/src/reports/report_formats.dart';
 import 'package:test/test.dart';
 
 import 'create_test_data.dart';
-import '../mock_system_interactions.dart';
+import '../core/mock_system_interactions.dart';
 
 void main() {
   group('Write Reports', () {

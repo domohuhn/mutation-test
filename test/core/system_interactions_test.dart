@@ -7,11 +7,13 @@ import 'package:test/test.dart';
 import 'dart:io';
 
 void main() {
-  test('Create a file', () {
+  test('Create and read a file', () {
     var writer = SystemInteractions(true, true);
     const path = 'build/moo/out.html';
-    writer.createPathsAndWriteFile(path, 'Somedata');
+    const data = 'Somedata';
+    writer.createPathsAndWriteFile(path, data);
     expect(File(path).existsSync(), true);
+    expect(writer.readFile(path), data);
   });
 
   test('print to terminal - normal', () {
@@ -36,5 +38,40 @@ void main() {
     writer.write('write normal -');
     writer.writeLine('writeLine');
     writer.verboseWriteLine('verboseWriteLine');
+  });
+
+  const dir = 'example';
+  const dir1 = 'example/data';
+  const dir2 = 'example/doesnotexist';
+
+  test('directory exists', () {
+    var sys = SystemInteractions(true, false);
+    expect(sys.directoryExists(dir1), true);
+    expect(sys.directoryExists(dir2), false);
+  });
+
+  test('file exists', () {
+    var sys = SystemInteractions(true, false);
+    expect(sys.fileExists('$dir1/source4.dart'), true);
+    expect(sys.fileExists('$dir2/source4.dart'), false);
+  });
+
+  test('list directory', () {
+    var sys = SystemInteractions(true, false);
+    final list = sys.listDirectoryContents(dir, false, []);
+    list.forEach(print);
+    expect(list.length, 9);
+  });
+
+  test('list directory with pattern', () {
+    var sys = SystemInteractions(true, false);
+    final list = sys.listDirectoryContents(dir, false, [RegExp(r'.*\.dart$')]);
+    expect(list.length, 3);
+  });
+
+  test('list directory recursive with pattern', () {
+    var sys = SystemInteractions(true, false);
+    final list = sys.listDirectoryContents(dir, true, [RegExp(r'.*\.dart$')]);
+    expect(list.length, 4);
   });
 }

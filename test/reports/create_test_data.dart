@@ -6,7 +6,7 @@ import 'package:mutation_test/src/core/mutated_line.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/core/mutation.dart';
 import 'package:mutation_test/src/core/commands.dart';
-import '../mock_system_interactions.dart';
+import '../core/mock_system_interactions.dart';
 
 ReportData createTestData() {
   var reporter = ReportData('test.xml', true, MockSystemInteractions());

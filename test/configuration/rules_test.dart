@@ -2,9 +2,12 @@ import 'package:mutation_test/src/configuration/builtin_rules.dart';
 import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:test/test.dart';
 
+import '../core/mock_system_interactions.dart';
+
 void main() {
+  final mock = MockSystemInteractions();
   test('Switch 2 function arguments 1', () {
-    final configuration = Configuration(false, true);
+    final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
     final testSource = '''
 double testfunc(double x) {
@@ -23,7 +26,7 @@ double testfunc(double x) {
   });
 
   test('Switch 2 function arguments 2', () {
-    final configuration = Configuration(false, true);
+    final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
     final testSource = '''
 // somestuff
@@ -42,7 +45,7 @@ super(name, false) {
   });
 
   test('Switch 3 function arguments', () {
-    final configuration = Configuration(false, true);
+    final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
     final testSource = '''
 double testfunc(double x) {
@@ -59,7 +62,7 @@ double testfunc(double x) {
   });
 
   test('Switch 3 function arguments 2', () {
-    final configuration = Configuration(false, true);
+    final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
     final testSource = '''
 // somestuff
@@ -77,7 +80,7 @@ super(name, false) {
   });
 
   test('Switch 4 function arguments', () {
-    final configuration = Configuration(false, true);
+    final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
     final testSource = '''
 double testfunc(double x) {
@@ -94,7 +97,7 @@ double testfunc(double x) {
   });
 
   test('Switch 4 function arguments 2', () {
-    final configuration = Configuration(false, true);
+    final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
     final testSource = '''
 // somestuff

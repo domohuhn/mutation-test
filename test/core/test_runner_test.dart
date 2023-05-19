@@ -7,12 +7,12 @@ import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:mutation_test/src/core/test_runner.dart';
 import 'package:test/test.dart';
 
-import '../mock_system_interactions.dart';
+import 'mock_system_interactions.dart';
 
 void main() async {
   final mock = MockSystemInteractions();
   test('Run simple process', () async {
-    Configuration config = Configuration(false, false);
+    Configuration config = Configuration(mock, false);
     config.commands.add(Command('dart --version', 'dart', ['--version']));
     var runner = TestRunner();
     final report = await runner.run(config, mock, outputOnFailure: true);
@@ -21,7 +21,7 @@ void main() async {
   });
 
   test('Run simple process 2', () async {
-    Configuration config = Configuration(false, false);
+    Configuration config = Configuration(mock, false);
     var cmd = Command('dart --version', 'dart', ['--version']);
     cmd.expectedReturnValue = 1;
     config.commands.add(cmd);
@@ -34,5 +34,10 @@ void main() async {
     expect(mock.argLine[2], 'Exit code: 0 (expected 1)');
     expect(mock.argLine[3].startsWith('stdout: "'), true);
     expect(mock.argLine[4], 'stderr: ""');
+  });
+
+  test('kill', () {
+    var runner = TestRunner();
+    expect(runner.kill(), false);
   });
 }

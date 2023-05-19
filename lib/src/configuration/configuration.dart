@@ -2,13 +2,8 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
-import 'dart:io';
 import 'package:xml/xml.dart' as xml;
-import 'package:mutation_test/src/core/mutation.dart';
-import 'package:mutation_test/src/core/replacements.dart';
-import 'package:mutation_test/src/core/commands.dart';
-import 'package:mutation_test/src/core/errors.dart';
-import 'package:mutation_test/src/core/range.dart';
+import 'package:mutation_test/src/core/core.dart';
 import 'package:mutation_test/src/reports/ratings.dart';
 
 /// A structure holding the information about the mutation input.
@@ -34,12 +29,13 @@ class Configuration {
 
   /// Lists the excluded sections in files
   List<Range> exclusions;
-  Ratings ratings;
-  bool toplevelFound = false;
-  bool verbose;
-  bool dry;
 
-  Configuration(this.verbose, this.dry)
+  Ratings ratings;
+  bool dry;
+  bool toplevelFound = false;
+  SystemInteractions system;
+
+  Configuration(this.system, this.dry)
       : files = [],
         excludedFiles = [],
         mutations = [],
@@ -48,7 +44,7 @@ class Configuration {
         ratings = Ratings();
 
   /// Constructs the configuration from an xml file in [path]
-  Configuration.fromFile(String path, this.verbose, this.dry)
+  Configuration.fromFile(String path, this.system, this.dry)
       : files = [],
         excludedFiles = [],
         mutations = [],
@@ -60,11 +56,8 @@ class Configuration {
 
   /// Add all rules from [path]
   void addRulesFromFile(String path) {
-    if (verbose) {
-      print('Processing $path');
-    }
-    var file = File(path);
-    final contents = file.readAsStringSync();
+    system.verboseWriteLine('Processing $path');
+    final contents = system.readFile(path);
     parseXMLString(contents);
   }
 
@@ -74,9 +67,7 @@ class Configuration {
     for (final excluded in excludedFiles) {
       files.removeWhere((element) {
         if (element.path == excluded) {
-          if (verbose) {
-            print('Excluding file: $excluded');
-          }
+          system.verboseWriteLine('Excluding file: $excluded');
           return true;
         }
         return false;
@@ -115,12 +106,11 @@ class Configuration {
       throw MutationError(
           'No version attribute found in xml element <mutations>!');
     }
-    if (double.parse(str) != 1.0) {
+    double version = double.parse(str);
+    if (version != 1.0 && version != 1.1) {
       throw MutationError('Configuration file version not supported!');
     }
-    if (verbose) {
-      print('- configuration file version $str');
-    }
+    system.verboseWriteLine('- configuration file version $str');
 
     _processXMLNode(root, 'files', (xml.XmlElement el) {
       _processXMLNode(el, 'file', _addFile);
@@ -129,18 +119,13 @@ class Configuration {
     _processXMLNode(root, 'directories', (xml.XmlElement el) {
       _processXMLNode(el, 'directory', _addDirectory);
     });
-
-    if (verbose) {
-      print(' ${files.length} input files');
-    }
+    system.verboseWriteLine(' ${files.length} input files');
 
     _processXMLNode(root, 'rules', (xml.XmlElement el) {
       _processXMLNode(el, 'literal', _addLiteralRule);
       _processXMLNode(el, 'regex', _addRegexRule);
     });
-    if (verbose) {
-      print(' ${mutations.length} mutation rules');
-    }
+    system.verboseWriteLine(' ${mutations.length} mutation rules');
 
     _processXMLNode(root, 'exclude', (xml.XmlElement el) {
       _processXMLNode(el, 'token', _addTokenRange);
@@ -150,17 +135,13 @@ class Configuration {
       });
       _processXMLNode(el, 'file', _addExcludedFile);
     });
-    if (verbose) {
-      print(' ${exclusions.length} exclusion rules');
-    }
+    system.verboseWriteLine(' ${exclusions.length} exclusion rules');
 
     _processXMLNode(root, 'commands', (xml.XmlElement el) {
       _processXMLNode(el, 'command', _addCommand);
     });
-    if (verbose) {
-      print(
-          ' ${commands.length} commands will be executed to detect mutations');
-    }
+    system.verboseWriteLine(
+        ' ${commands.length} commands will be executed to detect mutations');
 
     _processXMLNode(root, 'threshold', _parseThreshold);
   }
@@ -174,7 +155,7 @@ class Configuration {
 
   void _addFile(xml.XmlElement element) {
     final path = element.innerText.trim();
-    if (!File(path).existsSync()) {
+    if (!system.fileExists(path)) {
       throw MutationError('Input file "$path" not found!');
     }
     var whitelist = <Range>[];
@@ -190,7 +171,7 @@ class Configuration {
 
   void _addDirectory(xml.XmlElement element) {
     final path = element.innerText.trim();
-    if (!Directory(path).existsSync()) {
+    if (!system.directoryExists(path)) {
       throw MutationError('Input directory "$path" not found!');
     }
     var recurseStr = element.getAttribute('recursive');
@@ -204,18 +185,9 @@ class Configuration {
       }
       patterns.add(RegExp(pat));
     });
-    var tree = Directory(path).listSync(recursive: recurse);
-    for (var f in tree) {
-      if (patterns.isNotEmpty) {
-        for (var pat in patterns) {
-          if (pat.hasMatch(f.path) && f is! Link) {
-            files.add(TargetFile(f.path, []));
-          }
-        }
-      } else {
-        files.add(TargetFile(f.path, []));
-      }
-    }
+    files.addAll(system
+        .listDirectoryContents(path, recurse, patterns)
+        .map((e) => TargetFile(e, [])));
   }
 
   void _parseThreshold(xml.XmlElement element) {
@@ -239,9 +211,7 @@ class Configuration {
       ratings.addRating(double.parse(lowerbound), name);
     });
 
-    if (verbose) {
-      print(' $ratings');
-    }
+    system.verboseWriteLine(' $ratings');
   }
 
   void _addTokenRange(xml.XmlElement element) {

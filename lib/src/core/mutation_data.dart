@@ -28,9 +28,6 @@ class MutationData {
   /// A reference to the progress bar.
   final AppProgressBar bar;
 
-  /// Checks if the reporting should be verbose.
-  bool get verbose => configuration.verbose;
-
   /// Constructor for the mutation data.
   /// The object is given to the test runner to run tests on the given [filename].
   MutationData(this.configuration, this.test, this.filename, this.contents,
