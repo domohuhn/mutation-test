@@ -14,13 +14,13 @@ class MockPlatformFactory extends PlatformFactory {
   @override
   SystemInteractions createSystemInteractions(
       {bool verbose = false, bool quiet = false}) {
-    system = MockSystemInteractions();
+    system ??= MockSystemInteractions();
     return system!;
   }
 
   @override
   TestRunner createTestRunner() {
-    runner = MockTestRunner();
+    runner ??= MockTestRunner();
     return runner!;
   }
 }

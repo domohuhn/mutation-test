@@ -39,13 +39,19 @@ class MockSystemInteractions extends SystemInteractions {
     argTexts.clear();
     argLine.clear();
     argverboseLine.clear();
+    rvFileContents.clear();
+    reads = 0;
+    writes = 0;
   }
 
   Map<String, String> rvFileContents = {};
   bool useRealFileSystem = true;
+  int reads = 0;
+  int writes = 0;
 
   @override
   String readFile(String path) {
+    ++reads;
     argPaths.add(path);
     if (useRealFileSystem) {
       return super.readFile(path);
@@ -58,6 +64,7 @@ class MockSystemInteractions extends SystemInteractions {
 
   @override
   void writeFile(String path, String text) {
+    ++writes;
     argPaths.add(path);
     argTexts.add(text);
     if (useRealFileSystem) {
