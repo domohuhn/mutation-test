@@ -50,7 +50,7 @@ void main() {
     expect(ratings.isSuccessful(79.999), false);
   });
 
-  test('Rating - dont sanitize', () {
+  test('Rating - don\'t sanitize', () {
     var ratings = Ratings();
     ratings.failure = 50;
     ratings.sanitize();

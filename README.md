@@ -5,11 +5,11 @@
 
 When writing test cases for software, QA engineers often rely on metrics like
 code coverage to verify that your test cases actually test your program.
-However, you cannot quantify the quality of your tests with such a simple metric. It is possible to reach high line and branch coverage, while you are only testing a fraction of the observable behaviour of your units. The worst case are tests that only call all methods to reach a high line coverage, but do not contain any assertions.
+However, you cannot quantify the quality of your tests with such a simple metric. It is possible to reach high line and branch coverage, while you are only testing a fraction of the observable behavior of your units. The worst case are tests that only call all methods to reach a high line coverage, but do not contain any assertions.
 Sometimes you forget to add an assertion statement in a test case or you removed some assertions during in your development branch so that the continuous integration build succeeds. Ideally, this should be caught during the code review, but any manual process is error prone.
 
 So how can we evaluate the quality of our software tests if line coverage is not a good metric? What is a "good" test? 
-In short, a good test should fail if there are changes of the observable behaviour of the tested procedures.
+In short, a good test should fail if there are changes of the observable behavior of the tested procedures.
 You can evaluate the quality of your tests by modifying a single line of your program and then verify that your tests are sensitive to that change. This process is called [Mutation testing](https://en.wikipedia.org/wiki/Mutation_testing). After a certain number of mutations, the fraction of detected to undetected mutations is an indication of the quality of your tests.
 Performing this procedure manually on a whole program is extremely tedious.
 
@@ -40,7 +40,7 @@ on the respective line:
 
 ![Report for a source file](https://raw.githubusercontent.com/domohuhn/mutation-test/main/doc/file-report.png "Report for a source file")
 
-The application also supports serveral command line options:
+The application also supports several command line options:
 ```bash
 # Prints a summary of all command line options:
 dart pub run mutation_test --help
@@ -81,7 +81,7 @@ written to the terminal and a report file is generated.
 mutation_test is free software, as in "free beer" and "free speech".
 
 mutation_test contains a set of builtin rules, that allow you to start 
-testing right away. However, all rules defining the behaviour of this program
+testing right away. However, all rules defining the behavior of this program
 can be customized. They are defined in XML documents, and you can change:
   - input files and whitelist lines for mutations
   - compile/test commands, expected return codes and timeouts
@@ -148,7 +148,7 @@ mutation_test -s
 # Shows the builtin mutation rules and exclusions:
 mutation_test -g
 ```
-The generated documents also contain some helpful comments on how to create your own rules. You should usually provide two different documents: one with the mutation rules given as argument to "-r" and another one with the input files. The reason why mutation_test always loads two files (unless you disable the builtin ruleset via "--no-builtin" and don't provide your own rules file) is that you can reuse the same set of rules for many different input files.
+The generated documents also contain some helpful comments on how to create your own rules. You should usually provide two different documents: one with the mutation rules given as argument to "-r" and another one with the input files. The reason why mutation_test always loads two files (unless you disable the builtin rule set via "--no-builtin" and don't provide your own rules file) is that you can reuse the same set of rules for many different input files.
 
 ### Files
 The children of "files" elements are individual files:
@@ -287,7 +287,7 @@ Here is a table of all XML elements that are parsed by this program:
 | ---------   | ------------------------------- | ----------- | ----------- |
 | mutations   | files, rules, exclude, commands | version     | Top level element |
 | files       | file                            |             | Holds the list of files to mutate |
-| directories | directory                       | recusive    | Holds the list of directories to search for files |
+| directories | directory                       | recursive   | Holds the list of directories to search for files |
 | exclude     | token, regex, lines             |             | Holds the list of exclusions from mutations. |
 | commands    | command                         |             | Holds the list of commands to run |
 | rules       | literal, regex                  |             | Holds the list of mutation rules |
@@ -314,15 +314,15 @@ The program accepts the following command line arguments:
 | -h             | --help                    | Displays the help message                                                                                 |
 |                | --version                 | Prints the version                                                                                        |
 |                | --about                   | Prints information about the application                                                                  |
-| -b             | --(no-)builtin            | Adds or removes the builtin ruleset                                                                       |
+| -b             | --(no-)builtin            | Adds or removes the builtin rule set                                                                       |
 | -s             | --show-example            | Prints a XML file to the console with every possible option                                               |
-| -g             | --generate-rules          | Prints the builtin ruleset as XML string                                                                  |
+| -g             | --generate-rules          | Prints the builtin rule set as XML string                                                                  |
 | -v             | --verbose                 | Verbose output                                                                                            |
 | -q             | --quiet                   | Disable output                                                                                            |
 | -d             | --dry                     | Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests       |
 | -o             | --output=<directory>      | Sets the output directory (defaults to ".")                                                               |
 | -f             | --format                  | Sets the report file format \[html (default), junit, xunit, md, xml, all, none\]                          |
-| -r             | --rules=<path to XML file>| Overrides the builtin ruleset with the rules in the given XML Document                                    |
+| -r             | --rules=<path to XML file>| Overrides the builtin rule set with the rules in the given XML Document                                    |
 
 The rest are excepted to be paths to input XML configuration files.
 

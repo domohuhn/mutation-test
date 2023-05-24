@@ -7,16 +7,16 @@ import 'package:mutation_test/src/reports/string_helpers.dart';
 import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 
-/// Writes the results of the tests to a xml file in directory [outpath].
+/// Writes the results of the tests to a xml file in directory [outPath].
 /// The report will be named like the [input], but ending with "-report.xml".
 /// [reporter] holds the results of the test run that will be formatted to xml
 /// documents.
 /// [system] is used to make the file system interactions testable.
 void writeXMLReport(
-    String outpath, String input, ReportData data, SystemInteractions system) {
+    String outPath, String input, ReportData data, SystemInteractions system) {
   final text = createXMLReport(data);
   final name =
-      createReportFileName(inputFileOrDefaultName(input), outpath, 'xml');
+      createReportFileName(inputFileOrDefaultName(input), outPath, 'xml');
   system.createPathsAndWriteFile(name, text);
 }
 

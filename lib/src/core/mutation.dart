@@ -12,13 +12,13 @@ const String _backUpIdPrefix = 'NamelessMutationRule';
 
 /// A possible mutation of the source file.
 ///
-/// Each occurence of the pattern will be replaced by one of the replacements and then the test commands are run
+/// Each occurrence of the pattern will be replaced by one of the replacements and then the test commands are run
 /// to check if the mutation is detected.
 class Mutation {
   final String? id;
 
   /// This mutation was parsed as the xth rule.
-  /// Used internally to indentify mutation rules.
+  /// Used internally to identify mutation rules.
   final int index;
   final Pattern pattern;
   final List<Replacement> replacements = [];

@@ -46,9 +46,9 @@ String asPercentString(int fraction, int total) {
   return '${percent.toStringAsFixed(2)}%';
 }
 
-/// Creates a report file name from the [input] file in directory [outpath]
+/// Creates a report file name from the [input] file in directory [outPath]
 /// with the given file [ext].
-String createReportFileName(String input, String outpath, String ext,
+String createReportFileName(String input, String outPath, String ext,
     {bool appendReport = true,
     bool removePathsFromInput = true,
     bool removeInputExt = true}) {
@@ -60,7 +60,7 @@ String createReportFileName(String input, String outpath, String ext,
   if (end == -1) {
     end = fixed.length;
   }
-  var name = '$outpath/${fixed.substring(0, end)}';
+  var name = '$outPath/${fixed.substring(0, end)}';
   if (appendReport) {
     name += '-report';
   }

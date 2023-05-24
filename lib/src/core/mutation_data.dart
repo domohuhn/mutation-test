@@ -13,7 +13,7 @@ class MutationData {
   /// The current configuration
   final Configuration configuration;
 
-  /// The testrunner
+  /// The test runner
   final TestRunner test;
 
   /// Name of the file to mutate

@@ -33,7 +33,7 @@ void main(List<String> arguments) async {
         defaultsTo: false)
     ..addFlag(builtin,
         abbr: 'b',
-        help: 'Add the builtin ruleset',
+        help: 'Add the builtin rule set',
         negatable: true,
         defaultsTo: true)
     ..addFlag(show,
@@ -42,7 +42,7 @@ void main(List<String> arguments) async {
         negatable: false)
     ..addFlag(generateRules,
         abbr: 'g',
-        help: 'Prints the builtin ruleset as XML string',
+        help: 'Prints the builtin rule set as XML string',
         negatable: false)
     ..addFlag(verbose,
         abbr: 'v', help: 'Verbose output', negatable: false, defaultsTo: false)
@@ -182,7 +182,7 @@ written to the terminal and a report file is generated.
 mutation-test is free software, as in "free beer" and "free speech".
 
 mutation-test contains a set of builtin rules, that allow you to start 
-testing right away. However, all rules defining the behaviour of this program
+testing right away. However, all rules defining the behavior of this program
 can be customized. They are defined in XML documents, and you can change:
   - input files and whitelist lines for mutations
   - compile/test commands, expected return codes and timeouts

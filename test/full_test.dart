@@ -8,9 +8,9 @@ import 'package:test/test.dart';
 import 'core/mock_platform_factory.dart';
 import 'core/mock_test_runner.dart';
 
-MutationTest createMutationTest(bool addInfile, bool dry) {
+MutationTest createMutationTest(bool addInFile, bool dry) {
   final mutations = MutationTest(
-      addInfile ? [configPath] : [], 'out', false, dry, ReportFormat.NONE,
+      addInFile ? [configPath] : [], 'out', false, dry, ReportFormat.NONE,
       ruleFiles: [],
       builtinRules: true,
       quiet: true,

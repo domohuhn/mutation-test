@@ -32,7 +32,7 @@ class MutatedLine {
 
   MutatedLine(this.line, int first, int last, this.original, this.mutated,
       this.mutation) {
-    /// make wrong states impossible to repesent
+    /// make wrong states impossible to represent
     start = first >= 0 ? first : 0;
     end = last <= original.length ? last : original.length;
   }
@@ -113,7 +113,9 @@ class MutatedLine {
   }
 }
 
-/// Adds a mutation to the Testrunner.
+/// Creates a new mutated line.
+/// Finds the line in the source file and extracts
+/// the original and mutated code.
 MutatedLine createMutatedLine(
   int absoluteStart,
   int absoluteEnd,

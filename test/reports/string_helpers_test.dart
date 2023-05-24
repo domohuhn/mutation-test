@@ -30,7 +30,7 @@ void main() {
     expect(moo, 'output/input-report.html');
   });
 
-  test('report file name forwardslash', () {
+  test('report file name forward slash', () {
     var moo = createReportFileName('before/input.cpp', 'output', 'html');
     expect(moo, 'output/input-report.html');
   });
@@ -60,7 +60,7 @@ void main() {
     expect(moo, '\\*');
   });
 
-  test('get directory forwardslash', () {
+  test('get directory forward slash', () {
     expect(getDirectory('somefile.cpp'), '');
     expect(getDirectory('path/somefile.cpp'), 'path/');
     expect(getDirectory('more/dirs/path/somefile.cpp'), 'more/dirs/path/');

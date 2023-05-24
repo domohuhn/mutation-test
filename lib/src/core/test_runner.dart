@@ -27,7 +27,7 @@ class TestRunner {
   /// Starts the process and checks its results.
   Future<TestResult> _start(Command cmd, SystemInteractions system,
       {bool outputOnFailure = false}) async {
-    var timedout = false;
+    var timeout = false;
     final stopwatch = Stopwatch();
     stopwatch.start();
     var future = await Process.start(cmd.command, cmd.arguments,
@@ -45,33 +45,33 @@ class TestRunner {
       stderr += e;
     });
 
-    var exitfuture = future.exitCode;
+    var exitFuture = future.exitCode;
     if (cmd.timeout != null) {
-      exitfuture = exitfuture.timeout(cmd.timeout!, onTimeout: () {
+      exitFuture = exitFuture.timeout(cmd.timeout!, onTimeout: () {
         system.writeLine(
             'Command time out after: ${stopwatch.elapsed}! Killing process with pid: ${future.pid}.');
         future.kill(ProcessSignal.sigterm);
-        timedout = true;
+        timeout = true;
         return -1;
       });
     }
 
-    var exitCode = await exitfuture;
+    var exitCode = await exitFuture;
     await awaitableStdout;
     await awaitableStderr;
     _started = false;
 
     final matchesExpectation = exitCode == cmd.expectedReturnValue;
-    if (outputOnFailure && (!matchesExpectation || timedout)) {
+    if (outputOnFailure && (!matchesExpectation || timeout)) {
       system.writeLine('FAILED: $cmd');
       system.writeLine(
-          'Timeout: $timedout (elapsed time: ${stopwatch.elapsed} - exit code may be wrong on timeout)');
+          'Timeout: $timeout (elapsed time: ${stopwatch.elapsed} - exit code may be wrong on timeout)');
       system.writeLine(
           'Exit code: $exitCode (expected ${cmd.expectedReturnValue})');
       system.writeLine('stdout: "$stdout"');
       system.writeLine('stderr: "$stderr"');
     }
-    if (timedout) {
+    if (timeout) {
       return TestResult.Timeout;
     }
     if (!matchesExpectation) {

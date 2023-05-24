@@ -148,7 +148,7 @@ void main() {
         str += mut.formatMutatedCodeToHTML();
         expect(str.isNotEmpty, true);
       } catch (e) {
-        fail('This code should not thrwo an exception!\nGot: $e');
+        fail('This code should not throw an exception!\nGot: $e');
       }
     });
 
@@ -167,7 +167,7 @@ void main() {
         str += mut.formatMutatedCodeToHTML();
         expect(str.isNotEmpty, true);
       } catch (e) {
-        fail('This code should not thrwo an exception!\nGot: $e');
+        fail('This code should not throw an exception!\nGot: $e');
       }
     });
 
@@ -186,7 +186,7 @@ void main() {
         str += mut.formatMutatedCodeToHTML();
         expect(str.isNotEmpty, true);
       } catch (e) {
-        fail('This code should not thrwo an exception!\nGot: $e');
+        fail('This code should not throw an exception!\nGot: $e');
       }
     });
 
@@ -205,7 +205,7 @@ void main() {
         str += mut.formatMutatedCodeToHTML();
         expect(str.isNotEmpty, true);
       } catch (e) {
-        fail('This code should not thrwo an exception!\nGot: $e');
+        fail('This code should not throw an exception!\nGot: $e');
       }
     });
 
@@ -224,7 +224,7 @@ void main() {
         str += mut.formatMutatedCodeToHTML();
         expect(str.isNotEmpty, true);
       } catch (e) {
-        fail('This code should not thrwo an exception!\nGot: $e');
+        fail('This code should not throw an exception!\nGot: $e');
       }
     });
   });

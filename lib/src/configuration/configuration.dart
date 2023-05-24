@@ -32,7 +32,7 @@ class Configuration {
 
   Ratings ratings;
   bool dry;
-  bool toplevelFound = false;
+  bool topLevelFound = false;
   SystemInteractions system;
 
   Configuration(this.system, this.dry)
@@ -81,7 +81,7 @@ class Configuration {
     for (var element in document.findAllElements('mutations')) {
       _processTopLevel(element);
     }
-    if (!toplevelFound) {
+    if (!topLevelFound) {
       throw MutationError('Could not find xml element <mutations>');
     }
     _removeExcludedSourceFiles();
@@ -101,7 +101,7 @@ class Configuration {
 
   void _processTopLevel(xml.XmlElement root) {
     var str = root.getAttribute('version');
-    toplevelFound = true;
+    topLevelFound = true;
     if (str == null) {
       throw MutationError(
           'No version attribute found in xml element <mutations>!');
@@ -202,13 +202,13 @@ class Configuration {
     ratings.failure = double.parse(failure);
 
     _processXMLNode(element, 'rating', (el) {
-      var lowerbound = el.getAttribute('over');
+      var lowerBound = el.getAttribute('over');
       var name = el.getAttribute('name');
-      if (lowerbound == null || name == null) {
+      if (lowerBound == null || name == null) {
         throw MutationError(
-            '<rating> needs attributes "over" and "name" - got $lowerbound, $name');
+            '<rating> needs attributes "over" and "name" - got $lowerBound, $name');
       }
-      ratings.addRating(double.parse(lowerbound), name);
+      ratings.addRating(double.parse(lowerBound), name);
     });
 
     system.verboseWriteLine(' $ratings');
@@ -258,7 +258,7 @@ class Configuration {
     return RegExp(pattern, multiLine: true, dotAll: dotMatchesNewlines);
   }
 
-  /// Parses a <command> token from [element] and adds it to the interal structure.
+  /// Parses a <command> token from [element] and adds it to the internal structure.
   void _addCommand(xml.XmlElement element) {
     final original = element.innerText;
     var text = original.split(' ');

@@ -7,16 +7,16 @@ import 'package:mutation_test/src/reports/string_helpers.dart';
 import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 
-/// Writes the results of the tests to a markdown file in directory [outpath].
+/// Writes the results of the tests to a markdown file in directory [outPath].
 /// The report will be named like the [input], but ending with "-report.md".
 /// [reporter] holds the results of the test run that will be formatted to markdown
 /// documents.
 /// [system] is used to make the file system interactions testable.
 void writeMarkdownReport(
-    String outpath, String input, ReportData data, SystemInteractions system) {
+    String outPath, String input, ReportData data, SystemInteractions system) {
   var text = createMarkdownReport(data);
   final name =
-      createReportFileName(inputFileOrDefaultName(input), outpath, 'md');
+      createReportFileName(inputFileOrDefaultName(input), outPath, 'md');
   system.createPathsAndWriteFile(name, text);
 }
 

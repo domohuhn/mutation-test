@@ -31,13 +31,13 @@ void main() {
     }
   });
 
-  test('exclusion singleline 1', () {
+  test('exclusion single line 1', () {
     for (var i = 0; i < text2.length; i++) {
       expect(exclusion2.isInRange(text2, i), i >= 10 && i <= 23);
     }
   });
 
-  test('exclusion singleline 2', () {
+  test('exclusion single line 2', () {
     for (var i = 0; i < text1.length; i++) {
       expect(exclusion2.isInRange(text1, i), false);
     }
@@ -45,7 +45,7 @@ void main() {
 
   var source2 = File('example/source2.dart').readAsStringSync();
   source2 = source2.replaceAll('\r', '');
-  test('exclusion singleline 3', () {
+  test('exclusion single line 3', () {
     expect(exclusion2.isInRange(source2, 317), false);
     expect(exclusion2.isInRange(source2, 318), true);
     expect(exclusion2.isInRange(source2, 319), true);
@@ -84,13 +84,13 @@ void main() {
       }
     });
 
-    test('exclusion singleline 1', () {
+    test('exclusion single line 1', () {
       for (var i = 0; i < text2.length; i++) {
         expect(exclusion5.isInRange(text2, i), i >= 10 && i <= 23);
       }
     });
 
-    test('exclusion singleline 2', () {
+    test('exclusion single line 2', () {
       for (var i = 0; i < text1.length; i++) {
         expect(exclusion5.isInRange(text1, i), false);
       }

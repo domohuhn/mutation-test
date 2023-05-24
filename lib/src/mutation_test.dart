@@ -51,7 +51,7 @@ class MutationTest {
   /// Undetected modifications are written to a file in [outputPath] using the
   /// specified [format].
   ///
-  /// The testrunner will use builtin mutation rules if [builtinRules] is set to true.
+  /// The test runner will use builtin mutation rules if [builtinRules] is set to true.
   /// Additionally the [ruleFiles] will be loaded.
   ///
   /// The amount of output to the command line is controlled via [verbose].
@@ -98,7 +98,7 @@ class MutationTest {
   /// Undetected modifications are written to a file in [outputPath] using the
   /// specified [format].
   ///
-  /// The testrunner will use builtin mutation rules if [addBuiltin] is set to true.
+  /// The test runner will use builtin mutation rules if [addBuiltin] is set to true.
   /// Additionally the [ruleFiles] will be loaded.
   ///
   /// The amount of output to the command line is controlled via [verbose].
@@ -135,7 +135,7 @@ class MutationTest {
         continue;
       }
 
-      // restore orignal
+      // restore original
       system.writeFile(current.path, source);
       if (!_continue) {
         break;
@@ -244,7 +244,7 @@ class MutationTest {
 
   /// Counts the mutations possible mutations in [data].
   Future<int> _countMutations(MutationData data) async {
-    return _doMutationTests(data, supressVerbose: true,
+    return _doMutationTests(data, suppressVerbose: true,
         functor: (MutationData data, MutatedCode mutated) async {
       return true;
     });
@@ -257,15 +257,15 @@ class MutationTest {
   Future<int> _doMutationTests(MutationData data,
       {Future<bool> Function(MutationData data, MutatedCode mutated) functor =
           _runTest,
-      bool supressVerbose = false}) async {
+      bool suppressVerbose = false}) async {
     var failed = 0;
     for (final mutation in data.configuration.mutations) {
-      if (!supressVerbose) {
+      if (!suppressVerbose) {
         data.results.system.verboseWriteLine('Pattern: ${mutation.pattern}');
       }
       for (final m in mutation.allMutations(data.contents,
           data.filename.whitelist, data.configuration.exclusions)) {
-        if (!supressVerbose) {
+        if (!suppressVerbose) {
           data.results.system.verboseWriteLine('${m.line}');
         }
         if (!_continue) {
@@ -283,7 +283,7 @@ class MutationTest {
   /// No new tests are started if this is set to false
   bool _continue = true;
 
-  /// We need to sent a sigkill to the child process, otherwise the program might hang
+  /// Reference to the test process. We need to sent a sigkill to the child process, otherwise the program might hang
   TestRunner? _testRunner;
 
   /// Aborts the tests and restores the original state of the source code.

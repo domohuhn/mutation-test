@@ -9,32 +9,32 @@ import 'package:mutation_test/src/core/system_interactions.dart';
 import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
 
-/// Writes the results of the tests to a html file in directory [outpath].
+/// Writes the results of the tests to a html file in directory [outPath].
 /// The report will be named like the [input], but ending with "-report.html".
 /// [data] holds the results of the test run that will be formatted to html
 /// documents.
 ///
 /// [system] is used to make the file system interactions testable.
 void writeHTMLReport(
-    String outpath, String input, ReportData data, SystemInteractions system) {
-  var index = createToplevelHtmlFile(data);
-  var fname =
-      createReportFileName(inputFileOrDefaultName(input), outpath, 'html');
-  system.createPathsAndWriteFile(fname, index);
+    String outPath, String input, ReportData data, SystemInteractions system) {
+  final indexContent = createTopLevelHtmlFile(data);
+  final indexName =
+      createReportFileName(inputFileOrDefaultName(input), outPath, 'html');
+  system.createPathsAndWriteFile(indexName, indexContent);
   data.testedFiles.forEach((key, value) {
-    var contents = createSourceHtmlFile(data, value, basename(fname));
-    var sname = createReportFileName(key, outpath, 'html',
+    final contents = createSourceHtmlFile(data, value, basename(indexName));
+    final name = createReportFileName(key, outPath, 'html',
         appendReport: false,
         removeInputExt: false,
         removePathsFromInput: false);
-    system.createPathsAndWriteFile(sname, contents);
+    system.createPathsAndWriteFile(name, contents);
   });
 }
 
 /// Creates the contents of the top level navigation file.
 /// [reporter] holds the results of the test run that will be formatted to html
 /// documents.
-String createToplevelHtmlFile(ReportData reporter) {
+String createTopLevelHtmlFile(ReportData reporter) {
   final rv = StringBuffer(createHtmlFileHeader(
       reporter,
       'top level',
@@ -123,9 +123,9 @@ String createMutationList(int line, FileMutationResults file) {
 /// [reporter] holds the results of the test run that will be formatted to html
 /// documents.
 /// [file] holds the data of the current file.
-/// [toplevelFileName] is used to creat a link back to the top level file.
+/// [topLevelFileName] is used to create a link back to the top level file.
 String createSourceHtmlFile(
-    ReportData reporter, FileMutationResults file, String toplevelFileName) {
+    ReportData reporter, FileMutationResults file, String topLevelFileName) {
   final rv = StringBuffer(createHtmlFileHeader(
       reporter,
       file.path,
@@ -133,22 +133,22 @@ String createSourceHtmlFile(
       file.detectedCount,
       file.timeoutCount,
       false,
-      toplevelFileName));
+      topLevelFileName));
   rv.write(
       '<pre class="fileHeader">          Source code</pre>\n<pre class="fileContents">\n');
   var i = 1;
   for (final src in file.contents.split('\n')) {
-    final fmtln = escapeCharsForHtml(removeNewline(src));
+    final line = escapeCharsForHtml(removeNewline(src));
     if (file.lineHasMutation(i)) {
       final colorClass = file.lineHasProblem(i) ? 'problem' : 'hit';
       rv.write(
-          '''<a name="$i"><button class="collapsible $colorClass"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</pre></button>
+          '''<a name="$i"><button class="collapsible $colorClass"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$line</pre></button>
 <div class="content">
 ${createMutationList(i, file)}
 </div></a>''');
     } else {
       rv.write(
-          '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$fmtln</a>\n');
+          '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$line</a>\n');
     }
     ++i;
   }
@@ -203,13 +203,13 @@ String selectBarColor(double pct) {
 }
 
 String createHtmlFileHeader(ReportData reporter, String current, int total,
-    int detected, int timeouts, bool isToplevel, String toplevelFileName) {
+    int detected, int timeouts, bool isTopLevel, String topLevelFileName) {
   var detectedFraction = total > 0 ? 100.0 * detected / total : 100.0;
   var timeoutFraction = total > 0 ? 100.0 * timeouts / total : 0.0;
   var locationText = current;
-  if (!isToplevel) {
+  if (!isTopLevel) {
     locationText +=
-        ' - <a href="${createParentLinkPrefix(current)}$toplevelFileName">back to top</a>';
+        ' - <a href="${createParentLinkPrefix(current)}$topLevelFileName">back to top</a>';
   }
   final rv = StringBuffer('''
 <!DOCTYPE html>
@@ -255,7 +255,7 @@ String createHtmlFileHeader(ReportData reporter, String current, int total,
      <td class="${selectColor(100.0 - timeoutFraction)}" width="15%">${timeoutFraction.toStringAsFixed(1)} %</td>
      </tr>
 ''');
-  if (isToplevel) {
+  if (isTopLevel) {
     rv.write('''
      <tr>
      <td class="ItemLabel" width="10%">Quality rating:</td>
@@ -287,7 +287,7 @@ String createHtmlFileHeader(ReportData reporter, String current, int total,
 String createFileReportLine(
     String path, int mutations, int detected, int timeouts) {
   var percentage = mutations > 0 ? 100.0 * detected / mutations : 100.0;
-  var timeoutpct = mutations > 0 ? 100.0 * timeouts / mutations : 0.0;
+  var timeoutPercentage = mutations > 0 ? 100.0 * timeouts / mutations : 0.0;
   return '''
 <tr><td class="FileLink" width="60%"><a href="$path.html">$path</a></td>
   <td class="ItemReport" width="10%">
@@ -298,7 +298,7 @@ String createFileReportLine(
   </td>
   <td class="${selectColor(percentage)}" width="10%">${percentage.toStringAsFixed(1)} %</td>
   <td class="${selectColor(percentage)}" width="10%">$detected / $mutations</td>
-  <td class="${selectColor(100.0 - timeoutpct)}" width="10%">$timeouts / $mutations</td>
+  <td class="${selectColor(100.0 - timeoutPercentage)}" width="10%">$timeouts / $mutations</td>
 </tr>
 ''';
 }

@@ -30,7 +30,7 @@ void main() {
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in-junit.xml');
+      expect(mock.argPaths[0], 'fake_dir/in.junit.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length >= 1039, true);
     });
@@ -42,7 +42,7 @@ void main() {
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in-xunit.xml');
+      expect(mock.argPaths[0], 'fake_dir/in.xunit.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length >= 839, true);
     });
@@ -92,8 +92,8 @@ void main() {
       expect(mock.argPaths[1], 'fake_dir/in-report.md');
       expect(mock.argPaths[2], 'fake_dir/in-report.html');
       expect(mock.argPaths[3], 'fake_dir/path.dart.html');
-      expect(mock.argPaths[4], 'fake_dir/in-xunit.xml');
-      expect(mock.argPaths[5], 'fake_dir/in-junit.xml');
+      expect(mock.argPaths[4], 'fake_dir/in.xunit.xml');
+      expect(mock.argPaths[5], 'fake_dir/in.junit.xml');
     });
   });
 }

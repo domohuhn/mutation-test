@@ -59,7 +59,7 @@ class RegexReplacement extends Replacement {
   /// Getter
   String get text => _text;
 
-  /// Higher order funtion that searches for matches of [reg] in text and calls [functor] with each match.
+  /// Higher order function that searches for matches of [reg] in text and calls [functor] with each match.
   /// It is expected that functor will reduce the string length by 1 from the start of the match.
   void _processText(RegExp reg, void Function(Match) functor) {
     var index = 0;

@@ -58,7 +58,7 @@ class LineRange extends Range {
   }
 }
 
-/// A range in the source file defined by a regex (anyhting matching the regex is excluded).
+/// A range in the source file defined by a regex (anything matching the regex is excluded).
 class RegexRange extends Range {
   final RegExp pattern;
 

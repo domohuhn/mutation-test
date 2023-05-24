@@ -206,7 +206,7 @@ void main() {
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in-junit.xml');
+      expect(mock.argPaths[0], 'fake_dir/in.junit.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length >= 1039, true);
     });
@@ -219,7 +219,7 @@ void main() {
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in-xunit.xml');
+      expect(mock.argPaths[0], 'fake_dir/in.xunit.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length >= 839, true);
     });

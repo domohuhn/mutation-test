@@ -11,14 +11,14 @@ import 'create_test_data.dart';
 import '../core/mock_system_interactions.dart';
 
 void main() {
-  test('Create Toplevel html file', () {
-    var result = createToplevelHtmlFile(
+  test('Create top level html file', () {
+    var result = createTopLevelHtmlFile(
         ReportData('test.xml', true, MockSystemInteractions()));
     // exclude report creation time
-    final end1 = emptyToplevel.indexOf('Date:') + 49;
+    final end1 = emptyTopLevel.indexOf('Date:') + 49;
     final start2 = end1 + 26;
-    expect(result.substring(0, end1), emptyToplevel.substring(0, end1));
-    expect(result.substring(start2), emptyToplevel.substring(start2));
+    expect(result.substring(0, end1), emptyTopLevel.substring(0, end1));
+    expect(result.substring(start2), emptyTopLevel.substring(start2));
   });
 
   test('Create html source report', () {
@@ -33,7 +33,7 @@ void main() {
   });
 }
 
-final emptyToplevel = '<!DOCTYPE html>\n'
+final emptyTopLevel = '<!DOCTYPE html>\n'
     '<html lang="en">\n'
     '<head>\n'
     '<meta name="viewport" content="width=device-width, initial-scale=1">\n'

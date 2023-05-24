@@ -2,7 +2,7 @@
 /// via mutation testing.
 ///
 /// Especially for software that has to provide functional safety,
-/// the tests have to be of high quality and recognize any change in behaviour of
+/// the tests have to be of high quality and recognize any change in behavior of
 /// your code.
 /// In order to verify the quality of your tests, create an instance of the "MutationTest"
 /// class and call method runMutationTest().

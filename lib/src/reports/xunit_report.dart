@@ -13,32 +13,32 @@ import 'package:mutation_test/src/version.dart';
 import 'package:xml/xml.dart' as xml;
 import 'dart:io' show Platform;
 
-/// Writes the xunit report in directory [outpath].
-/// The report will have the basename of [input], but ending with "-xunit.xml".
+/// Writes the xunit report in directory [outPath].
+/// The report will have the basename of [input], but ending with ".xunit.xml".
 /// [reporter] holds the results of the test run that will be formatted to xunit
 /// documents.
 /// [system] is used to make the file system interactions testable.
 void writeXUnitReport(
-    String outpath, String input, ReportData data, SystemInteractions system) {
+    String outPath, String input, ReportData data, SystemInteractions system) {
   final contents = createXUnitReport(data, false);
-  final fname = createReportFileName(inputFileOrDefaultName(input), outpath, '',
+  final fileName = createReportFileName(
+      inputFileOrDefaultName(input), outPath, 'xunit.xml',
       appendReport: false);
-  system.createPathsAndWriteFile(
-      '${fname.substring(0, fname.length - 1)}-xunit.xml', contents);
+  system.createPathsAndWriteFile(fileName, contents);
 }
 
-/// Writes the junit report in directory [outpath].
-/// The report will have the basename of [input], but ending with "-junit.xml".
+/// Writes the junit report in directory [outPath].
+/// The report will have the basename of [input], but ending with ".junit.xml".
 /// [reporter] holds the results of the test run that will be formatted to junit
 /// documents.
 /// [system] is used to make the file system interactions testable.
 void writeJUnitReport(
-    String outpath, String input, ReportData data, SystemInteractions system) {
+    String outPath, String input, ReportData data, SystemInteractions system) {
   final contents = createXUnitReport(data, true);
-  final fname = createReportFileName(inputFileOrDefaultName(input), outpath, '',
+  final fileName = createReportFileName(
+      inputFileOrDefaultName(input), outPath, 'junit.xml',
       appendReport: false);
-  system.createPathsAndWriteFile(
-      '${fname.substring(0, fname.length - 1)}-junit.xml', contents);
+  system.createPathsAndWriteFile(fileName, contents);
 }
 
 /// Creates an xunit report xml using the results stored in the [reporter].
@@ -48,7 +48,7 @@ void writeJUnitReport(
 /// or
 /// https://gist.github.com/jclosure/45d7005d120d90ba6430130356e4cd61
 ///
-/// Both of the these schemas should be comatible with external tools such as
+/// Both of the these schemas should be compatible with external tools such as
 /// Polarion.
 ///
 /// If [conformToJUnit] is set to true, the produced output will match
@@ -65,7 +65,7 @@ String createXUnitReport(ReportData reporter, bool conformToJUnit) {
     for (final rule in reporter.rules) {
       builder.element('testsuite', nest: () {
         final filtered = reporter.filterResultsByRuleIndex(rule.index);
-        _addAttributesToTestsuite(filtered, rule, builder, conformToJUnit);
+        _addAttributesToTestSuite(filtered, rule, builder, conformToJUnit);
         filtered.forEach((file, results) {
           _addTestCases(
               builder, file, results.detectedMutations, TestResult.Detected);
@@ -88,7 +88,7 @@ String createXUnitReport(ReportData reporter, bool conformToJUnit) {
           node.parentElement?.name.local == 'testcase');
 }
 
-void _addAttributesToTestsuite(Map<String, FileMutationResults> filtered,
+void _addAttributesToTestSuite(Map<String, FileMutationResults> filtered,
     Mutation rule, xml.XmlBuilder builder, bool conformToJUnit) {
   final tmpNow = DateTime.now().toIso8601String();
   final now = tmpNow.substring(0, tmpNow.lastIndexOf('.'));
