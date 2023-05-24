@@ -6,7 +6,7 @@ repository: https://github.com/domohuhn/mutation-test
 issue_tracker: https://github.com/domohuhn/mutation-test/issues
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 executables:
   mutation_test:

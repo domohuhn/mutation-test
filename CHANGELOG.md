@@ -6,6 +6,7 @@
  - Added optional "id" attribute to rules in the xml configuration file
  - xml configuration file version increased to 1.1
  - Added a column in the generated html report that shows the mutation pattern and id
+ - Require dart 3
 
 ## 1.3.4
  - Improved mutation rules that switch function arguments
