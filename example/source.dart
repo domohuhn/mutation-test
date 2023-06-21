@@ -29,5 +29,7 @@ double inner(double x, double y) {
 }
 
 double outer(double x, double y) {
-  return inner(x, y);
+  return optional(x: x, y: y);
 }
+
+double optional({double x = 1.0, double y = 2.0}) => inner(x, y);

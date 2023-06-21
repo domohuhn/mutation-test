@@ -17,7 +17,7 @@ void main() {
   });
 
   test('print to terminal - normal', () {
-    // more or less a manual test to check if output is visibile and no expection is thrown ...
+    // more or less a manual test to check if output is visible and no exception is thrown ...
     var writer = SystemInteractions(false, false);
     writer.write('write normal -');
     writer.writeLine('writeLine');
@@ -25,7 +25,7 @@ void main() {
   });
 
   test('print to terminal - quiet', () {
-    // more or less a manual test to check if output is visibile and no expection is thrown ...
+    // more or less a manual test to check if output is visible and no exception is thrown ...
     var writer = SystemInteractions(true, true);
     writer.write('write normal -');
     writer.writeLine('writeLine');
@@ -33,7 +33,7 @@ void main() {
   });
 
   test('print to terminal - verbose', () {
-    // more or less a manual test to check if output is visibile and no expection is thrown ...
+    // more or less a manual test to check if output is visible and no exception is thrown ...
     var writer = SystemInteractions(true, false);
     writer.write('write normal -');
     writer.writeLine('writeLine');

@@ -150,16 +150,16 @@ String _xmlRules() {
     </regex>
     <!-- checks if neighboring arguments may have been mixed up -->
     <!-- switch function call arguments. Matches 2 args -->
-    <regex pattern="([\s][a-zA-Z]+?[^(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?)\)\s*;" id="builtin.function.arg2">
+    <regex pattern="([\s][a-zA-Z]+?[^(;\s{}]*?)\s*\(([^,:;{}(]+?),([^,:;{}(]+?)\)\s*;" id="builtin.function.arg2">
       <mutation text="$1($3,$2);"/>
     </regex>
     <!-- switch function call arguments. Matches 3 args -->
-    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;" id="builtin.function.arg3">
+    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,:;{}(]+?),([^,:;{}(]+?),([^,:;{}(]+?)\)\s*;" id="builtin.function.arg3">
       <mutation text="$1($3,$2,$4);"/>
       <mutation text="$1($2,$4,$3);"/>
     </regex>
     <!-- switch function call arguments. Matches 4 args -->
-    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?),([^,;{}(]+?)\)\s*;"  id="builtin.function.arg4">
+    <regex pattern="([\s][a-zA-Z]+?[^\(;\s{}]*?)\s*\(([^,:;{}(]+?),([^,:;{}(]+?),([^,:;{}(]+?),([^,:;{}(]+?)\)\s*;"  id="builtin.function.arg4">
       <mutation text="$1($3,$2,$4,$5);"/>
       <mutation text="$1($2,$4,$3,$5);"/>
       <mutation text="$1($2,$3,$5,$4);"/>

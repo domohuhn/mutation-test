@@ -1,3 +1,6 @@
+## 1.5.0
+ - Optional function arguments are no longer swapped
+
 ## 1.4.0
  - Added junit/xunit style XML reports to conform to the standard for test tools.
    It should now be possible to upload the results in tools like Polarion.

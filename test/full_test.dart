@@ -28,6 +28,10 @@ MutationTest createMutationTest(bool addInFile, bool dry) {
   return mutations;
 }
 
+const total_mutations = 74;
+const total_writes = total_mutations + 2;
+const total_reads = 2 * 2;
+
 void main() async {
   group('default config', () {
     test('Dry run', () async {
@@ -37,7 +41,7 @@ void main() async {
       bool foundAll = await mutations.runMutationTest();
       expect(foundAll, false);
       // runs count then mutations => every file read twice
-      expect(system.reads, 4);
+      expect(system.reads, total_reads);
       expect(system.writes, 0);
       expect(system.argPaths.length, 6);
       expect(system.argPaths[0], 'lib');
@@ -46,7 +50,7 @@ void main() async {
       expect(system.argPaths[3], 'lib');
       expect(system.argPaths[4], file1Path);
       expect(system.argPaths[5], file2Path);
-      expect(mutations.total, 72);
+      expect(mutations.total, total_mutations);
     });
 
     test('Real run', () async {
@@ -55,15 +59,15 @@ void main() async {
       final system = factory.system!;
       bool foundAll = await mutations.runMutationTest();
       expect(foundAll, false);
-      expect(system.reads, 4);
-      expect(system.writes, 74);
-      expect(system.argPaths.length, 80);
+      expect(system.reads, total_reads);
+      expect(system.writes, total_mutations + 2);
+      expect(system.argPaths.length, 82);
       expect(system.argPaths[0], 'lib');
       expect(system.argPaths[1], file1Path);
       expect(system.argPaths[2], file2Path);
       expect(system.argPaths[3], 'lib');
       expect(system.argPaths[4], file1Path);
-      expect(mutations.total, 72);
+      expect(mutations.total, total_mutations);
     });
 
     test('abort', () async {
@@ -83,12 +87,12 @@ void main() async {
       int count = await mutations.count();
       expect(system.reads, 2);
       expect(system.writes, 0);
-      expect(count, 72);
+      expect(count, total_mutations);
       expect(system.argPaths.length, 3);
       expect(system.argPaths[0], 'lib');
       expect(system.argPaths[1], file1Path);
       expect(system.argPaths[2], file2Path);
-      expect(mutations.total, 72);
+      expect(mutations.total, total_mutations);
     });
   });
 
@@ -109,7 +113,7 @@ void main() async {
       expect(system.argPaths[3], configPath);
       expect(system.argPaths[4], file1Path);
       expect(system.argPaths[5], file2Path);
-      expect(mutations.total, 72);
+      expect(mutations.total, total_mutations);
     });
 
     test('Real run', () async {
@@ -119,14 +123,14 @@ void main() async {
       bool foundAll = await mutations.runMutationTest();
       expect(foundAll, false);
       expect(system.reads, 6);
-      expect(system.writes, 74);
-      expect(system.argPaths.length, 80);
+      expect(system.writes, total_mutations + 2);
+      expect(system.argPaths.length, 82);
       expect(system.argPaths[0], configPath);
       expect(system.argPaths[1], file1Path);
       expect(system.argPaths[2], file2Path);
       expect(system.argPaths[3], configPath);
       expect(system.argPaths[4], file1Path);
-      expect(mutations.total, 72);
+      expect(mutations.total, total_mutations);
     });
 
     test('Count all', () async {
@@ -134,12 +138,12 @@ void main() async {
       final factory = mutations.platformFactory as MockPlatformFactory;
       final system = factory.system!;
       int count = await mutations.count();
-      expect(count, 72);
+      expect(count, total_mutations);
       expect(system.argPaths.length, 3);
       expect(system.argPaths[0], configPath);
       expect(system.argPaths[1], file1Path);
       expect(system.argPaths[2], file2Path);
-      expect(mutations.total, 72);
+      expect(mutations.total, total_mutations);
     });
   });
 }
@@ -174,8 +178,10 @@ double inner(double x, double y) {
 }
 
 double outer(double x, double y) {
-  return inner(x, y);
+  return optional(x: x, y: y);
 }
+
+double optional({double x= 1.0, double y = 2.0}) => inner(x, y);
 ''';
 
 const file2Path = 'source2.dart';
