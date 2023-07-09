@@ -10,7 +10,7 @@ import 'core/mock_test_runner.dart';
 
 MutationTest createMutationTest(bool addInFile, bool dry) {
   final mutations = MutationTest(
-      addInFile ? [configPath] : [], 'out', false, dry, ReportFormat.NONE,
+      addInFile ? [configPath] : [], 'out', true, dry, ReportFormat.NONE,
       ruleFiles: [],
       builtinRules: true,
       quiet: true,
@@ -23,6 +23,7 @@ MutationTest createMutationTest(bool addInFile, bool dry) {
   system.rvFileContents[file1Path] = file1;
   system.rvFileContents[file2Path] = file2;
   system.rvFileContents[configPath] = config;
+  system.rvFileContents['pubspec.yaml'] = 'bla';
   final runner = factory.createTestRunner() as MockTestRunner;
   runner.rvReport = TestReport(TestResult.Undetected);
   return mutations;
@@ -30,7 +31,7 @@ MutationTest createMutationTest(bool addInFile, bool dry) {
 
 const total_mutations = 74;
 const total_writes = total_mutations + 2;
-const total_reads = 2 * 2;
+const total_reads = 2 * 2 + 2;
 
 void main() async {
   group('default config', () {
@@ -43,13 +44,15 @@ void main() async {
       // runs count then mutations => every file read twice
       expect(system.reads, total_reads);
       expect(system.writes, 0);
-      expect(system.argPaths.length, 6);
+      expect(system.argPaths.length, total_reads + 2);
       expect(system.argPaths[0], 'lib');
-      expect(system.argPaths[1], file1Path);
-      expect(system.argPaths[2], file2Path);
-      expect(system.argPaths[3], 'lib');
-      expect(system.argPaths[4], file1Path);
-      expect(system.argPaths[5], file2Path);
+      expect(system.argPaths[1], 'pubspec.yaml');
+      expect(system.argPaths[2], file1Path);
+      expect(system.argPaths[3], file2Path);
+      expect(system.argPaths[4], 'lib');
+      expect(system.argPaths[5], 'pubspec.yaml');
+      expect(system.argPaths[6], file1Path);
+      expect(system.argPaths[7], file2Path);
       expect(mutations.total, total_mutations);
     });
 
@@ -61,12 +64,14 @@ void main() async {
       expect(foundAll, false);
       expect(system.reads, total_reads);
       expect(system.writes, total_mutations + 2);
-      expect(system.argPaths.length, 82);
+      expect(system.argPaths.length, 84);
       expect(system.argPaths[0], 'lib');
-      expect(system.argPaths[1], file1Path);
-      expect(system.argPaths[2], file2Path);
-      expect(system.argPaths[3], 'lib');
-      expect(system.argPaths[4], file1Path);
+      expect(system.argPaths[1], 'pubspec.yaml');
+      expect(system.argPaths[2], file1Path);
+      expect(system.argPaths[3], file2Path);
+      expect(system.argPaths[4], 'lib');
+      expect(system.argPaths[5], 'pubspec.yaml');
+      expect(system.argPaths[6], file1Path);
       expect(mutations.total, total_mutations);
     });
 
@@ -85,13 +90,14 @@ void main() async {
       final factory = mutations.platformFactory as MockPlatformFactory;
       final system = factory.system!;
       int count = await mutations.count();
-      expect(system.reads, 2);
+      expect(system.reads, 3);
       expect(system.writes, 0);
       expect(count, total_mutations);
-      expect(system.argPaths.length, 3);
+      expect(system.argPaths.length, 4);
       expect(system.argPaths[0], 'lib');
-      expect(system.argPaths[1], file1Path);
-      expect(system.argPaths[2], file2Path);
+      expect(system.argPaths[1], 'pubspec.yaml');
+      expect(system.argPaths[2], file1Path);
+      expect(system.argPaths[3], file2Path);
       expect(mutations.total, total_mutations);
     });
   });

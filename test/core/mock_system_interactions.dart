@@ -44,6 +44,7 @@ class MockSystemInteractions extends SystemInteractions {
     writes = 0;
   }
 
+  /// all existing files for readFile and fileExists if useRealFileSystem is false
   Map<String, String> rvFileContents = {};
   bool useRealFileSystem = true;
   int reads = 0;
@@ -72,6 +73,7 @@ class MockSystemInteractions extends SystemInteractions {
     }
   }
 
+  /// the list of files returned from listDirectoryContents if useRealFileSystem is false
   List<String> rvFiles = [];
 
   @override

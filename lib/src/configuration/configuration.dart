@@ -87,6 +87,44 @@ class Configuration {
     _removeExcludedSourceFiles();
   }
 
+  /// Tries to infer validation commands if no commands are present.
+  ///
+  /// The method will check if a pubspec.yaml file is found in the current directory.
+  /// If there is one, it will check if flutter test or dart test should be used by
+  /// checking if the file contains .
+  void inferCommandsIfEmpty() {
+    if (commands.isNotEmpty) {
+      return;
+    }
+    system.verboseWriteLine('Trying to detect test commands...');
+    const path = 'pubspec.yaml';
+    if (!system.fileExists(path)) {
+      system.verboseWriteLine('Failed: no "$path" found!');
+      return;
+    }
+    final pubspec = system.readFile(path);
+    // Infer if we should use flutter test by checking for the strings "flutter:" and "sdk: flutter"
+    // see https://docs.flutter.dev/tools/pubspec
+    if (pubspec.contains('flutter:') &&
+        pubspec.contains(RegExp(r'sdk:[ \t]*flutter'))) {
+      system.verboseWriteLine(
+          'Assuming a flutter project based on the contents of "$path". Using "flutter test".');
+      _addInferredCommand('flutter test', 'flutter', ['test']);
+    } else {
+      system.verboseWriteLine(
+          'Assuming a dart project based on the contents of "$path". Using "dart test".');
+      _addInferredCommand('dart test', 'dart', ['test']);
+    }
+  }
+
+  void _addInferredCommand(String text, String program, List<String> args) {
+    var cmd = Command(text, program, args);
+    cmd.expectedReturnValue = 0;
+    cmd.group = 'test';
+    cmd.timeout = Duration(seconds: 60);
+    commands.add(cmd);
+  }
+
   /// Checks if the configuration is valid.
   /// That means at least one input file, one test command and
   /// one mutation rule.

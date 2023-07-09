@@ -1,5 +1,6 @@
 ## 1.5.0
  - Optional function arguments are no longer swapped
+ - If no test command is given, the program will try to infer it from pubspec.yaml
 
 ## 1.4.0
  - Added junit/xunit style XML reports to conform to the standard for test tools.

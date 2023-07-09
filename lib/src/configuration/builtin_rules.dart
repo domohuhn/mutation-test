@@ -237,9 +237,6 @@ String _xmlDartInputs() {
       <matching pattern="\.dart$"/>
     </directory>
   </directories>
-  <commands>
-    <command group="test" expected-return="0" working-directory="." timeout="60">dart test</command>
-  </commands>
 ''';
 }
 

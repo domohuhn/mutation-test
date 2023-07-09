@@ -221,6 +221,7 @@ class MutationTest {
           'No input files found - assuming default dart configuration!');
       configuration.parseXMLString(dartDefaultConfiguration());
     }
+    configuration.inferCommandsIfEmpty();
     configuration.validate();
     reporter.quality = configuration.ratings;
     bar.threshold = configuration.ratings.failure;

@@ -111,9 +111,6 @@ void main() {
         '      <matching pattern="\\.dart\$"/>\n'
         '    </directory>\n'
         '  </directories>\n'
-        '  <commands>\n'
-        '    <command group="test" expected-return="0" working-directory="." timeout="60">dart test</command>\n'
-        '  </commands>\n'
         '</mutations>\n'
         '');
   });
