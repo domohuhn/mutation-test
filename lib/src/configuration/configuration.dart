@@ -99,7 +99,8 @@ class Configuration {
     system.verboseWriteLine('Trying to detect test commands...');
     const path = 'pubspec.yaml';
     if (!system.fileExists(path)) {
-      system.verboseWriteLine('Failed: no "$path" found!');
+      system.writeLine(
+          'Failed to detect test commands: no "$path" found in the current working directory!');
       return;
     }
     final pubspec = system.readFile(path);
