@@ -1,221 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<undetected-mutations>
-<program-version>mutation-test version: 1.4.0</program-version>
-<elapsed>0:02:43.097786</elapsed>
-<result rating="E" success="false"/>
-<rules>
-<ruleset document="./example/config.xml"/><ruleset document="Builtin Rules"/></rules>
-<file name="example/source.dart">
-<mutation line="6">
-<original>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</original>
-<modified>  if (a == b &amp;&amp; (a &lt; c || b &gt; c &amp;&amp; b == c)) {</modified>
-</mutation>
-<mutation line="6">
-<original>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</original>
-<modified>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b != c)) {</modified>
-</mutation>
-<mutation line="6">
-<original>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</original>
-<modified>  if (a == b &amp;&amp; (a &lt; c ||!( b &gt; c )|| b == c)) {</modified>
-</mutation>
-<mutation line="6">
-<original>  if (a == b &amp;&amp; (a &lt; c || b &gt; c || b == c)) {</original>
-<modified>  if (a == b &amp;&amp; (a &lt; c || b &gt; c ||!( b == c))) {</modified>
-</mutation>
-<mutation line="8">
-<original>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</original>
-<modified>  } else if (b &lt;= 0 || c &gt; 0) {</modified>
-</mutation>
-<mutation line="8">
-<original>  } else if (b &lt;= 0 &amp;&amp; c &gt; 0) {</original>
-<modified>  } else if (b &lt; 0 &amp;&amp; c &gt; 0) {</modified>
-</mutation>
-<mutation line="16">
-<original>  return a * b + c;</original>
-<modified>  return a * b - c;</modified>
-</mutation>
-<mutation line="24">
-<original>  return poly(x, y, z, 2.0);</original>
-<modified>  return poly( y,x, z, 2.0);</modified>
-</mutation>
-<mutation line="24">
-<original>  return poly(x, y, z, 2.0);</original>
-<modified>  return poly(x, z, y, 2.0);</modified>
-</mutation>
-<mutation line="24">
-<original>  return poly(x, y, z, 2.0);</original>
-<modified>  return poly(x, y, 2.0, z);</modified>
-</mutation>
-<mutation line="28">
-<original>  return inner2(x, y, 1.0);</original>
-<modified>  return inner2( y,x, 1.0);</modified>
-</mutation>
-<mutation line="28">
-<original>  return inner2(x, y, 1.0);</original>
-<modified>  return inner2(x, 1.0, y);</modified>
-</mutation>
-<mutation line="32">
-<original>  return inner(x, y);</original>
-<modified>  return inner( y,x);</modified>
-</mutation>
-</file>
-<file name="example/source2.dart">
-<mutation line="10">
-<original>  double number1 = 25.0;</original>
-<modified>  double number1 = -25.0;</modified>
-</mutation>
-<mutation line="11">
-<original>  double number2 = 25.0;</original>
-<modified>  double number2 = -25.0;</modified>
-</mutation>
-<mutation line="15">
-<original>    return number1 * x / number2;</original>
-<modified>    return number1 * x * number2;</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y &lt;= 0.0 &amp;&amp; text == &apos;&apos;) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y &lt;= 0.0 || text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y &lt; 0.0 &amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (!(y &lt;= 0.0 &amp;&amp; text != &apos;&apos;)) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (!(y &lt;= 0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y &lt;= 0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (!(y &lt;= 0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="20">
-<original>    if (y &lt;= 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    if (y &lt;= 0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y == 0.0 || text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y != 0.0 &amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y == 0.0 &amp;&amp; text == &apos;&apos;) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (!(y == 0.0 &amp;&amp; text != &apos;&apos;)) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (!(y == 0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y == 0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (!(y == 0.0 )&amp;&amp; text != &apos;&apos;) {</modified>
-</mutation>
-<mutation line="22">
-<original>    } else if (y == 0.0 &amp;&amp; text != &apos;&apos;) {</original>
-<modified>    } else if (y == 0.0 &amp;&amp;!( text != &apos;&apos;)) {</modified>
-</mutation>
-<mutation line="29">
-<original>    if (event.a &amp;&amp;</original>
-<modified>    if (event.a ||</modified>
-</mutation>
-<mutation line="29">
-<original>    if (event.a &amp;&amp;
-        event.b &amp;&amp;
-        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;
-        event.e) {</original>
-<modified>    if (!(event.a &amp;&amp;
-        event.b &amp;&amp;
-        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;
-        event.e)) {</modified>
-</mutation>
-<mutation line="29">
-<original>    if (event.a &amp;&amp;
-        event.b &amp;&amp;</original>
-<modified>    if (event.a &amp;&amp;!(
-        event.b )&amp;&amp;</modified>
-</mutation>
-<mutation line="29">
-<original>    if (event.a &amp;&amp;</original>
-<modified>    if (!(event.a )&amp;&amp;</modified>
-</mutation>
-<mutation line="30">
-<original>        event.b &amp;&amp;</original>
-<modified>        event.b ||</modified>
-</mutation>
-<mutation line="30">
-<original>        event.b &amp;&amp;
-        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        event.b &amp;&amp;!(event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c &amp;&amp; event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d || (!(event.f )&amp;&amp; event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d || (event.f &amp;&amp; event.g)) ||</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d || (event.f &amp;&amp;!( event.g))) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;
-        event.e) {</original>
-<modified>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;!(
-        event.e)) {</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d || (event.f || event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d ||!(event.f &amp;&amp; event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d &amp;&amp; (event.f &amp;&amp; event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c ||!( event.d )|| (event.f &amp;&amp; event.g)) &amp;&amp;</modified>
-</mutation>
-<mutation line="31">
-<original>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</original>
-<modified>        (event.c || event.d || (event.f &amp;&amp;!( event.g))) &amp;&amp;</modified>
-</mutation>
-</file>
-<file name="example/source3.dart">
-</file>
-</undetected-mutations>

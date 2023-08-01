@@ -14,29 +14,29 @@ import 'package:xml/xml.dart' as xml;
 import 'dart:io' show Platform;
 
 /// Writes the xunit report in directory [outPath].
-/// The report will have the basename of [input], but ending with ".xunit.xml".
+/// The report will be named "mutation-test-report.xunit.xml".
 /// [reporter] holds the results of the test run that will be formatted to xunit
 /// documents.
 /// [system] is used to make the file system interactions testable.
 void writeXUnitReport(
-    String outPath, String input, ReportData data, SystemInteractions system) {
+    String outPath, ReportData data, SystemInteractions system) {
   final contents = createXUnitReport(data, false);
   final fileName = createReportFileName(
-      inputFileOrDefaultName(input), outPath, 'xunit.xml',
+      defaultReportName(), outPath, 'xunit.xml',
       appendReport: false);
   system.createPathsAndWriteFile(fileName, contents);
 }
 
 /// Writes the junit report in directory [outPath].
-/// The report will have the basename of [input], but ending with ".junit.xml".
+/// The report will be named "mutation-test-report.junit.xml".
 /// [reporter] holds the results of the test run that will be formatted to junit
 /// documents.
 /// [system] is used to make the file system interactions testable.
 void writeJUnitReport(
-    String outPath, String input, ReportData data, SystemInteractions system) {
+    String outPath, ReportData data, SystemInteractions system) {
   final contents = createXUnitReport(data, true);
   final fileName = createReportFileName(
-      inputFileOrDefaultName(input), outPath, 'junit.xml',
+      defaultReportName(), outPath, 'junit.xml',
       appendReport: false);
   system.createPathsAndWriteFile(fileName, contents);
 }

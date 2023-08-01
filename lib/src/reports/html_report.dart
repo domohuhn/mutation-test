@@ -10,16 +10,15 @@ import 'package:mutation_test/src/version.dart';
 import 'package:mutation_test/src/reports/string_helpers.dart';
 
 /// Writes the results of the tests to a html file in directory [outPath].
-/// The report will be named like the [input], but ending with "-report.html".
+/// The report will be named "mutation-test-report.html".
 /// [data] holds the results of the test run that will be formatted to html
 /// documents.
 ///
 /// [system] is used to make the file system interactions testable.
 void writeHTMLReport(
-    String outPath, String input, ReportData data, SystemInteractions system) {
+    String outPath, ReportData data, SystemInteractions system) {
   final indexContent = createTopLevelHtmlFile(data);
-  final indexName =
-      createReportFileName(inputFileOrDefaultName(input), outPath, 'html');
+  final indexName = createReportFileName(defaultReportName(), outPath, 'html');
   system.createPathsAndWriteFile(indexName, indexContent);
   data.testedFiles.forEach((key, value) {
     final contents = createSourceHtmlFile(data, value, basename(indexName));

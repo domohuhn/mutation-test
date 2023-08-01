@@ -189,12 +189,12 @@ void main() {
     test('md', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeMarkdownReport('fake_dir', 'in.xml', data, data.system);
+      writeMarkdownReport('fake_dir', data, data.system);
 
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in-report.md');
+      expect(mock.argPaths[0], 'fake_dir/mutation-test-report.md');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length, 906);
     });
@@ -202,12 +202,12 @@ void main() {
     test('junit', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeJUnitReport('fake_dir', 'in.xml', data, data.system);
+      writeJUnitReport('fake_dir', data, data.system);
 
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in.junit.xml');
+      expect(mock.argPaths[0], 'fake_dir/mutation-test.junit.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length >= 1039, true);
     });
@@ -215,12 +215,12 @@ void main() {
     test('xunit', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeXUnitReport('fake_dir', 'in.xml', data, data.system);
+      writeXUnitReport('fake_dir', data, data.system);
 
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in.xunit.xml');
+      expect(mock.argPaths[0], 'fake_dir/mutation-test.xunit.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length >= 839, true);
     });
@@ -228,12 +228,12 @@ void main() {
     test('xml', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeXMLReport('fake_dir', 'in.xml', data, data.system);
+      writeXMLReport('fake_dir', data, data.system);
 
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 1);
-      expect(mock.argPaths[0], 'fake_dir/in-report.xml');
+      expect(mock.argPaths[0], 'fake_dir/mutation-test-report.xml');
       expect(mock.argTexts.length, 1);
       expect(mock.argTexts[0].length, 398);
     });
@@ -241,16 +241,16 @@ void main() {
     test('html', () {
       final data = createTestData();
       expect(data.foundAll, false);
-      writeHTMLReport('fake_dir', 'in.xml', data, data.system);
+      writeHTMLReport('fake_dir', data, data.system);
 
       var mock = data.system as MockSystemInteractions;
 
       expect(mock.argPaths.length, 2);
-      expect(mock.argPaths[0], 'fake_dir/in-report.html');
+      expect(mock.argPaths[0], 'fake_dir/mutation-test-report.html');
       expect(mock.argPaths[1], 'fake_dir/path.dart.html');
       expect(mock.argTexts.length, 2);
       expect(mock.argTexts[0].length, 7981);
-      expect(mock.argTexts[1].length, 8843);
+      expect(mock.argTexts[1].length, 8854);
     });
   });
 }

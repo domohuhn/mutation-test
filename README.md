@@ -30,7 +30,7 @@ dart pub run mutation_test
 ```
 
 Running this command may take a long time (hours depending on the size of your code). The output will be written to the directory ./mutation-test-report.
-The default report format is html. A top-level [report](https://domohuhn.github.io/mutation-test/doc/output/config-report.html) will be generated listing all input files:
+The default report format is html. A top-level [report](https://domohuhn.github.io/mutation-test/doc/output/mutation-test-report.html) will be generated listing all input files:
 
 ![Top level report](https://raw.githubusercontent.com/domohuhn/mutation-test/main/doc/top-level-report.png "Top level report")
 

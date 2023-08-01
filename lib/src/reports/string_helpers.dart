@@ -83,11 +83,7 @@ String basename(String path) {
   return path.substring(start);
 }
 
-/// Replaces the input file with a default name if empty
-String inputFileOrDefaultName(String input) {
-  if (input.isNotEmpty) {
-    return input;
-  }
+String defaultReportName() {
   return 'mutation-test';
 }
 

@@ -85,22 +85,21 @@ class MutationTest {
     var foundAll = true;
     if (inputs.isNotEmpty) {
       for (final file in inputs) {
-        var result = await _runMutationTest(file, outputPath, dry, format,
+        var result = await _runMutationTest(file, dry,
             ruleFiles: ruleFiles, addBuiltin: builtinRules);
         foundAll = result && foundAll;
       }
     } else {
-      foundAll = await _runMutationTest('', outputPath, dry, format,
+      foundAll = await _runMutationTest('', dry,
           ruleFiles: ruleFiles,
           addBuiltin: builtinRules,
           useDefaultConfig: true);
     }
+    createReport(reporter, outputPath, format);
     return foundAll;
   }
 
   /// Runs the mutation tests using the xml configuration file [inputFile].
-  /// Undetected modifications are written to a file in [outputPath] using the
-  /// specified [format].
   ///
   /// The test runner will use builtin mutation rules if [addBuiltin] is set to true.
   /// Additionally the [ruleFiles] will be loaded.
@@ -109,8 +108,7 @@ class MutationTest {
   /// You can perform a [dry] run that wil not run any tests or perform any modifications,
   /// but will list all found mutations per file.
   /// Returns true if all modifications were detected by the test commands.
-  Future<bool> _runMutationTest(
-      String inputFile, String outputPath, bool dry, ReportFormat format,
+  Future<bool> _runMutationTest(String inputFile, bool dry,
       {List<String>? ruleFiles,
       bool addBuiltin = true,
       bool useDefaultConfig = false}) async {
@@ -145,7 +143,6 @@ class MutationTest {
         break;
       }
     }
-    createReport(data.results, outputPath, inputFile, format);
     return data.results.success;
   }
 
