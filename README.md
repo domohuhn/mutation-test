@@ -26,7 +26,7 @@ the directory lib/ are input files.
 ```bash
 # Adds the package 
 dart pub add --dev mutation_test
-dart pub run mutation_test
+dart run mutation_test
 ```
 
 Running this command may take a long time (hours depending on the size of your code). The output will be written to the directory ./mutation-test-report.
@@ -43,9 +43,9 @@ on the respective line:
 The application also supports several command line options:
 ```bash
 # Prints a summary of all command line options:
-dart pub run mutation_test --help
+dart run mutation_test --help
 # Run the tests defined in "example/config.xml":
-dart pub run mutation_test example/config.xml
+dart run mutation_test example/config.xml
 # Or a fully customized test run with a rules file and 3 input files:
 # The rules contained in mutation-rules.xml are always used when testing files.
 # inputset1.xml may define special rules for some files that
@@ -54,7 +54,7 @@ dart pub run mutation_test example/config.xml
 # are just tested with the rules from mutation-rules.xml (--rules).
 # The output is written to directory output (-o) and the 
 # report is generated as markdown file (-f md).
-dart pub run mutation_test -f md -o output --rules mutation-rules.xml inputset1.xml \
+dart run mutation_test -f md -o output --rules mutation-rules.xml inputset1.xml \
     source1.cpp source2.cpp
 ```
 The first command in the section above would produce the following [report](https://domohuhn.github.io/mutation-test/doc/output/mutation-test-report.html).
@@ -68,7 +68,7 @@ difference between two commits, e.g. to review a pull request. This is especiall
 
 On linux, you can run an incremental analysis on the changes between the current and last commit by using this command: 
 ```bash
-dart pub run mutation_test $(echo $(git diff --name-only HEAD HEAD~1 | grep -v "^test" | grep ".dart$" | tr '\n' ' '))
+dart run mutation_test $(echo $(git diff --name-only HEAD HEAD~1 | grep -v "^test" | grep ".dart$" | tr '\n' ' '))
 ```
 The command lists all changed files, removes paths starting with test and all files not ending with '.dart', and then runs the mutation test on all remaining files.
 
