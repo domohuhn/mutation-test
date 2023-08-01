@@ -13,8 +13,9 @@ import '../core/mock_system_interactions.dart';
 void main() {
   group('Xunit', () {
     test('Create Empty Xunit report', () {
-      var result = createXUnitReport(
-          ReportData('test.xml', true, MockSystemInteractions()), false);
+      var reporter = ReportData(true, MockSystemInteractions());
+      reporter.addInputFile('test.xml');
+      var result = createXUnitReport(reporter, false);
       expect(result, '<?xml version="1.0"?>\n<testsuites/>');
     });
 
@@ -33,8 +34,9 @@ void main() {
 
   group('Junit', () {
     test('Create Empty Junit report', () {
-      var result = createXUnitReport(
-          ReportData('test.xml', true, MockSystemInteractions()), true);
+      var reporter = ReportData(true, MockSystemInteractions());
+      reporter.addInputFile('test.xml');
+      var result = createXUnitReport(reporter, true);
       expect(result, '<?xml version="1.0"?>\n<testsuites/>');
     });
 

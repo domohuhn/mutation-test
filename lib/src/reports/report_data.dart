@@ -52,7 +52,7 @@ class ReportData {
   }
 
   /// all files that were added as rules
-  List<String> xmlFiles = [];
+  List<String> inputFiles = [];
   Ratings quality = Ratings();
 
   final Stopwatch _timer = Stopwatch();
@@ -61,12 +61,17 @@ class ReportData {
 
   final SystemInteractions system;
 
-  /// Creates a results storage and adds [inputFile] to the xml input file list.
+  /// Creates a results storage.
   /// [builtinRulesAdded] sets a flag showing if the builtin rules were added.
-  ReportData(String inputFile, this.builtinRulesAdded, this.system)
-      : rules = [] {
-    xmlFiles.add(inputFile);
+  ReportData(this.builtinRulesAdded, this.system) : rules = [] {
     _timer.start();
+  }
+
+  /// Adds [inputFile] to the input file list
+  void addInputFile(String inputFile) {
+    if (!inputFiles.contains(inputFile)) {
+      inputFiles.add(inputFile);
+    }
   }
 
   /// whether the builtin rules were added.

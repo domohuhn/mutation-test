@@ -9,7 +9,8 @@ import 'package:mutation_test/src/core/commands.dart';
 import '../core/mock_system_interactions.dart';
 
 ReportData createTestData() {
-  var reporter = ReportData('test.xml', true, MockSystemInteractions());
+  var reporter = ReportData(true, MockSystemInteractions());
+  reporter.addInputFile('test.xml');
   reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
   reporter.addTestReport(
     'path.dart',

@@ -28,7 +28,7 @@ String createXMLReport(ReportData data) {
   text.write('<elapsed>${data.elapsed}</elapsed>\n');
   text.write('<result rating="${data.rating}" success="${data.success}"/>\n');
   text.write('<rules>\n');
-  for (final element in data.xmlFiles) {
+  for (final element in data.inputFiles) {
     text.write('<ruleset document="$element"/>');
   }
   text.write('</rules>\n');

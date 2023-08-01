@@ -42,7 +42,7 @@ ${DateTime.now()}
 | Key           | Value                     |
 | ------------- | ------------------------- |
 ''');
-  for (final element in data.xmlFiles) {
+  for (final element in data.inputFiles) {
     rv.write('| Rules         | $element           |\n');
   }
   rv.write('''

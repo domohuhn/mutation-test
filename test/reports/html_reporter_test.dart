@@ -12,8 +12,9 @@ import '../core/mock_system_interactions.dart';
 
 void main() {
   test('Create top level html file', () {
-    var result = createTopLevelHtmlFile(
-        ReportData('test.xml', true, MockSystemInteractions()));
+    var reporter = ReportData(true, MockSystemInteractions());
+    reporter.addInputFile('test.xml');
+    var result = createTopLevelHtmlFile(reporter);
     // exclude report creation time
     final end1 = emptyTopLevel.indexOf('Date:') + 49;
     final start2 = end1 + 26;

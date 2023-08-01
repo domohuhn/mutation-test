@@ -26,6 +26,9 @@ class MutationTest {
   /// The format in which reports are generated.
   ReportFormat format;
 
+  /// The results of the test run
+  late ReportData reporter;
+
   /// If the test runner should print many messages to the command line.
   bool verbose;
 
@@ -69,6 +72,7 @@ class MutationTest {
     platformFactory = platform ?? PlatformFactory();
     system = platformFactory.createSystemInteractions(
         verbose: verbose, quiet: quiet);
+    reporter = ReportData(builtinRules, system);
     bar = AppProgressBar(0, 0.8, system);
   }
 
@@ -195,17 +199,17 @@ class MutationTest {
       bool useDefaultConfig = false}) {
     final configuration = Configuration(system, dry);
     final tests = platformFactory.createTestRunner();
-    final reporter = ReportData(inputFile, addBuiltin, system);
+    reporter.addInputFile(inputFile);
     _testRunner = tests;
     if (ruleFiles != null && ruleFiles.isNotEmpty) {
       for (final rf in ruleFiles) {
         configuration.addRulesFromFile(rf);
-        reporter.xmlFiles.add(rf);
+        reporter.addInputFile(rf);
       }
     }
     if (addBuiltin) {
       system.verboseWriteLine('Adding the builtin default mutation rules!');
-      reporter.xmlFiles.add('Builtin Rules');
+      reporter.addInputFile('Builtin Rules');
       configuration.parseXMLString(builtinMutationRules());
     }
     if (!useDefaultConfig) {

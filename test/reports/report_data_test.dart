@@ -19,7 +19,8 @@ import '../core/mock_system_interactions.dart';
 
 void main() {
   group('With data', () {
-    var reporter = ReportData('test.xml', true, MockSystemInteractions());
+    var reporter = ReportData(true, MockSystemInteractions());
+    reporter.addInputFile('test.xml');
     reporter.startFileTest('path.dart', 'var x = 0;\n\n// mooo\n');
     reporter.addTestReport(
       'path.dart',
@@ -128,8 +129,8 @@ void main() {
   });
 
   group('no data', () {
-    var reporter = ReportData('test.xml', false, MockSystemInteractions());
-
+    var reporter = ReportData(false, MockSystemInteractions());
+    reporter.addInputFile('test.xml');
     test('builtin rules', () {
       expect(reporter.builtinRulesAdded, false);
       expect(reporter.success, true);
