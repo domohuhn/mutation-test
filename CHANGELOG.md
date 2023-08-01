@@ -1,6 +1,7 @@
 ## 1.5.0
  - Optional function arguments are no longer swapped
  - If no test command is given, the program will try to infer it from pubspec.yaml
+ - A single invocation of the program will now always produce a single report named mutation-test in the given output directory
 
 ## 1.4.0
  - Added junit/xunit style XML reports to conform to the standard for test tools.
