@@ -23,6 +23,12 @@ int findBeginOfLineFromPosition(String text, int position) {
 
 /// Finds the start position of the first [token] before [position] in [text].
 int findFirstTokenBeforePosition(String text, int position, String token) {
+  if (position < 0) {
+    return -1;
+  }
+  if (position >= text.length) {
+    position = text.length;
+  }
   return text.lastIndexOf(token, position);
 }
 

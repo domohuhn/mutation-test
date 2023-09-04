@@ -1,6 +1,8 @@
 // Copyright 2021, domohuhn.
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
+import 'dart:math';
+
 import 'package:mutation_test/src/reports/string_helpers.dart';
 import 'package:test/test.dart';
 
@@ -28,6 +30,17 @@ void main() {
   test('report file name', () {
     var moo = createReportFileName('input.cpp', 'output', 'html');
     expect(moo, 'output/input-report.html');
+  });
+
+  test('findFirstTokenAfterPosition', () {
+    expect(findFirstTokenAfterPosition(text, -1, '\n'), 24);
+    expect(findFirstTokenAfterPosition(text, text.length + 100, '\n'),
+        text.length);
+  });
+
+  test('findFirstTokenBeforePosition', () {
+    expect(findFirstTokenBeforePosition(text, -1, '\n'), -1);
+    expect(findFirstTokenBeforePosition(text, text.length + 100, '\n'), 101);
   });
 
   test('report file name forward slash', () {
