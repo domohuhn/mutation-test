@@ -246,7 +246,9 @@ class MutationTest {
 
   /// Counts the mutations possible mutations in [data].
   Future<int> _countMutations(MutationData data) async {
-    return _doMutationTests(data, suppressVerbose: true,
+    system
+        .verboseWriteLine('Counting mutations in file "${data.filename.path}"');
+    return _doMutationTests(data,
         functor: (MutationData data, MutatedCode mutated) async {
       return true;
     });
@@ -258,25 +260,30 @@ class MutationTest {
   /// Returns the number of undetected mutations.
   Future<int> _doMutationTests(MutationData data,
       {Future<bool> Function(MutationData data, MutatedCode mutated) functor =
-          _runTest,
-      bool suppressVerbose = false}) async {
+          _runTest}) async {
     var failed = 0;
     for (final mutation in data.configuration.mutations) {
-      if (!suppressVerbose) {
-        data.results.system.verboseWriteLine('Pattern: ${mutation.pattern}');
-      }
-      for (final m in mutation.allMutations(data.contents,
-          data.filename.whitelist, data.configuration.exclusions)) {
-        if (!suppressVerbose) {
+      data.results.system.verboseWriteLine('Pattern: ${mutation.pattern}');
+      try {
+        for (final m in mutation.allMutations(data.contents,
+            data.filename.whitelist, data.configuration.exclusions)) {
           data.results.system.verboseWriteLine('${m.line}');
+          if (!_continue) {
+            return failed;
+          }
+          var result = await functor(data, m);
+          if (result) {
+            failed += 1;
+          }
         }
-        if (!_continue) {
-          return failed;
+      } catch (e) {
+        var errorText =
+            'There was an error while processing file "${data.filename.path}" with pattern ';
+        if (mutation.id != null) {
+          errorText += '(id: "${mutation.id}") ';
         }
-        var result = await functor(data, m);
-        if (result) {
-          failed += 1;
-        }
+        throw MutationError(
+            '$errorText"${mutation.pattern}"\n\n $e \n\n Rerun with -v to see a more detailed report.');
       }
     }
     return failed;

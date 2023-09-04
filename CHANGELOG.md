@@ -1,3 +1,6 @@
+## 1.5.1
+ - Fixed a bug that causes the mutation test to stop in case the mutation reduces the code size near the end of the file.
+
 ## 1.5.0
  - Optional function arguments are no longer swapped
  - If no test command is given, the program will try to infer it from pubspec.yaml

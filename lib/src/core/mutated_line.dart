@@ -145,14 +145,16 @@ MutatedLine createMutatedLine(
   if (absoluteStart + 1 == lineStart) {
     line += 1;
   }
-  final mutationEnd = absoluteEnd - lineStart;
+  final mutationEndInOriginal = absoluteEnd - lineStart;
+  // correct the end position in case the length changed.
+  final mutationEnd =
+      mutationEndInOriginal - (original.length - mutated.length);
   final lineEndMutated =
       findEndOfLineFromPosition(mutated, lineStart + mutationEnd);
-
   return MutatedLine(
     line,
     mutationStart,
-    mutationEnd,
+    mutationEndInOriginal,
     original.substring(lineStart, lineEnd),
     mutated.substring(lineStart, lineEndMutated),
     mutation,

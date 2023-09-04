@@ -28,6 +28,12 @@ int findFirstTokenBeforePosition(String text, int position, String token) {
 
 /// Finds the start position of the first [token] after [position] in [text].
 int findFirstTokenAfterPosition(String text, int position, String token) {
+  if (position < 0) {
+    position = 0;
+  }
+  if (position >= text.length) {
+    return text.length;
+  }
   return text.indexOf(token, position);
 }
 
