@@ -103,11 +103,11 @@ class Configuration {
           'Failed to detect test commands: no "$path" found in the current working directory!');
       return;
     }
-    final pubspec = system.readFile(path);
+    final pubSpec = system.readFile(path);
     // Infer if we should use flutter test by checking for the strings "flutter:" and "sdk: flutter"
     // see https://docs.flutter.dev/tools/pubspec
-    if (pubspec.contains('flutter:') &&
-        pubspec.contains(RegExp(r'sdk:[ \t]*flutter'))) {
+    if (pubSpec.contains('flutter:') &&
+        pubSpec.contains(RegExp(r'sdk:[ \t]*flutter'))) {
       system.verboseWriteLine(
           'Assuming a flutter project based on the contents of "$path". Using "flutter test".');
       _addInferredCommand('flutter test', 'flutter', ['test']);
