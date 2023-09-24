@@ -30,3 +30,20 @@ ReportData createTestData() {
   );
   return reporter;
 }
+
+ReportData createTestDataWithNotCovered() {
+  var reporter = createTestData();
+  reporter.addTestReport(
+    'path.dart',
+    MutatedLine(1, 0, 5, 'var x = 0;', 'var x = d;',
+        Mutation(0, '[0-9]+', id: 'testId')),
+    TestReport(TestResult.NotCovered),
+  );
+  reporter.addTestReport(
+    'path.dart',
+    MutatedLine(1, 0, 5, 'var x = 0;', 'var x = e;',
+        Mutation(0, '[0-9]+', id: 'testId')),
+    TestReport(TestResult.NotCovered),
+  );
+  return reporter;
+}

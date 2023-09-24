@@ -17,6 +17,7 @@ void main(List<String> arguments) async {
   final about = 'about';
   final dry = 'dry';
   final output = 'output';
+  final coverage = 'coverage';
   final format = 'format';
   final quiet = 'quiet';
 
@@ -62,6 +63,11 @@ void main(List<String> arguments) async {
         help: 'Sets the output directory',
         valueHelp: 'directory',
         defaultsTo: 'mutation-test-report')
+    ..addOption(coverage,
+        abbr: 'c',
+        help:
+            'Provides the coverage information of your test suites to speed up the mutation test run',
+        valueHelp: 'path to lcov.info')
     ..addOption(format,
         abbr: 'f',
         help: 'Sets the report file format',
@@ -134,17 +140,20 @@ void main(List<String> arguments) async {
           argResults.wasParsed(builtin) &&
           argResults[builtin]) ||
       (ruleDocuments.isEmpty && argResults[builtin]);
-  var mutations = MutationTest(
-      argResults.rest, argResults[output], isVerbose, argResults[dry], fmt,
-      ruleFiles: ruleDocuments, builtinRules: addBuiltin, quiet: isQuiet);
-
-  ProcessSignal.sigint.watch().listen((signal) {
-    print('\nReceived system interrupt!');
-    mutations.abortMutationTest();
-  });
-
   var foundAll = true;
   try {
+    var mutations = MutationTest(
+        argResults.rest, argResults[output], isVerbose, argResults[dry], fmt,
+        ruleFiles: ruleDocuments,
+        builtinRules: addBuiltin,
+        quiet: isQuiet,
+        coverage: argResults[coverage]);
+
+    ProcessSignal.sigint.watch().listen((signal) {
+      print('\nReceived system interrupt!');
+      mutations.abortMutationTest();
+    });
+
     foundAll = await mutations.runMutationTest();
   } catch (e) {
     handleProcessingError(e.toString());

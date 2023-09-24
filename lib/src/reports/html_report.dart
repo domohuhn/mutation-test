@@ -39,7 +39,7 @@ String createTopLevelHtmlFile(ReportData reporter) {
       'top level',
       reporter.totalMutations,
       reporter.foundMutations,
-      reporter.totalTimeouts,
+      reporter.totalBlocked,
       true,
       ''));
   rv.write('''
@@ -47,11 +47,11 @@ String createTopLevelHtmlFile(ReportData reporter) {
 <table width ="80%" cellspacing="1" border="0">
      <tbody>
      <tr><td width="60%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td><td width="10%"></td></tr>
-     <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Timeouts</td></tr>
+     <tr><td class="ItemHead" width="60%">Path</td><td class="ItemHead" width="30%" colspan="3">Detection rate</td><td class="ItemHead" width="10%">Blocked</td></tr>
 ''');
   reporter.testedFiles.forEach((key, value) {
     rv.write(createFileReportLine(
-        key, value.mutationCount, value.detectedCount, value.timeoutCount));
+        key, value.mutationCount, value.detectedCount, value.blockedCount));
   });
 
   rv.write('''
@@ -115,6 +115,10 @@ String createMutationList(int line, FileMutationResults file) {
     rv.write(_createMutationReportList(
         line, file.timeoutMutations, 'Mutations that caused a time out:'));
   }
+  if (file.lineHasMutationNotCovered(line)) {
+    rv.write(_createMutationReportList(
+        line, file.notCoveredByTests, 'Mutations not covered by tests:'));
+  }
   return rv.toString();
 }
 
@@ -130,7 +134,7 @@ String createSourceHtmlFile(
       file.path,
       file.mutationCount,
       file.detectedCount,
-      file.timeoutCount,
+      file.blockedCount,
       false,
       topLevelFileName));
   rv.write(
@@ -202,9 +206,9 @@ String selectBarColor(double pct) {
 }
 
 String createHtmlFileHeader(ReportData reporter, String current, int total,
-    int detected, int timeouts, bool isTopLevel, String topLevelFileName) {
+    int detected, int blocked, bool isTopLevel, String topLevelFileName) {
   var detectedFraction = total > 0 ? 100.0 * detected / total : 100.0;
-  var timeoutFraction = total > 0 ? 100.0 * timeouts / total : 0.0;
+  var blockedFraction = total > 0 ? 100.0 * blocked / total : 0.0;
   var locationText = current;
   if (!isTopLevel) {
     locationText +=
@@ -248,10 +252,10 @@ String createHtmlFileHeader(ReportData reporter, String current, int total,
      <tr>
      <td class="ItemLabel" width="10%">Builtin rules:</td>
      <td class="ItemText" width="35%">${reporter.builtinRulesAdded}</td>
-     <td class="ItemLabel" width="10%">Timeouts:</td>
-     <td class="ItemReport" width="15%">$timeouts</td>
+     <td class="ItemLabel" width="10%">Blocked:</td>
+     <td class="ItemReport" width="15%">$blocked</td>
      <td class="ItemReport" width="15%">$total</td>
-     <td class="${selectColor(100.0 - timeoutFraction)}" width="15%">${timeoutFraction.toStringAsFixed(1)} %</td>
+     <td class="${selectColor(100.0 - blockedFraction)}" width="15%">${blockedFraction.toStringAsFixed(1)} %</td>
      </tr>
 ''');
   if (isTopLevel) {
@@ -284,9 +288,9 @@ String createHtmlFileHeader(ReportData reporter, String current, int total,
 }
 
 String createFileReportLine(
-    String path, int mutations, int detected, int timeouts) {
+    String path, int mutations, int detected, int blocked) {
   var percentage = mutations > 0 ? 100.0 * detected / mutations : 100.0;
-  var timeoutPercentage = mutations > 0 ? 100.0 * timeouts / mutations : 0.0;
+  var timeoutPercentage = mutations > 0 ? 100.0 * blocked / mutations : 0.0;
   return '''
 <tr><td class="FileLink" width="60%"><a href="$path.html">$path</a></td>
   <td class="ItemReport" width="10%">
@@ -297,7 +301,7 @@ String createFileReportLine(
   </td>
   <td class="${selectColor(percentage)}" width="10%">${percentage.toStringAsFixed(1)} %</td>
   <td class="${selectColor(percentage)}" width="10%">$detected / $mutations</td>
-  <td class="${selectColor(100.0 - timeoutPercentage)}" width="10%">$timeouts / $mutations</td>
+  <td class="${selectColor(100.0 - timeoutPercentage)}" width="10%">$blocked / $mutations</td>
 </tr>
 ''';
 }

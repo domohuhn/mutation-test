@@ -73,6 +73,8 @@ String createXUnitReport(ReportData reporter, bool conformToJUnit) {
               TestResult.Undetected);
           _addTestCases(
               builder, file, results.timeoutMutations, TestResult.Timeout);
+          _addTestCases(
+              builder, file, results.notCoveredByTests, TestResult.NotCovered);
         });
         if (conformToJUnit) {
           builder.element('system-out');
@@ -94,12 +96,12 @@ void _addAttributesToTestSuite(Map<String, FileMutationResults> filtered,
   final now = tmpNow.substring(0, tmpNow.lastIndexOf('.'));
   int tests = 0;
   int failures = 0;
-  int timeouts = 0;
+  int errors = 0;
   var total = Duration();
   filtered.forEach((file, results) {
     tests += results.mutationCount;
     failures += results.undetectedCount;
-    timeouts += results.timeoutCount;
+    errors += results.blockedCount;
     total += results.elapsed;
   });
   builder.attribute('id', rule.index);
@@ -107,7 +109,7 @@ void _addAttributesToTestSuite(Map<String, FileMutationResults> filtered,
   builder.attribute('package', rule.xUnitId);
   builder.attribute('tests', tests);
   builder.attribute('failures', failures);
-  builder.attribute('errors', timeouts);
+  builder.attribute('errors', errors);
   builder.attribute('time', total.inMilliseconds * 0.001);
   builder.attribute('timestamp', now);
   String hostname = Platform.localHostname;
@@ -141,6 +143,14 @@ void _addTestCases(xml.XmlBuilder builder, String file, List<MutatedLine> lines,
           builder.attribute('type', 'timeout');
           builder.attribute(
               'message', 'The test command timed out after $elapsedSeconds s');
+          builder.text(
+              '\nFile: $file\nLine: ${line.line}\nOriginal line: ${line.original}\nMutation: ${line.mutated}\n');
+        });
+      }
+      if (type == TestResult.NotCovered) {
+        builder.element('error', nest: () {
+          builder.attribute('type', 'not covered by tests');
+          builder.attribute('message', 'The line is not covered by tests');
           builder.text(
               '\nFile: $file\nLine: ${line.line}\nOriginal line: ${line.original}\nMutation: ${line.mutated}\n');
         });

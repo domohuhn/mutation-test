@@ -33,3 +33,7 @@ double outer(double x, double y) {
 }
 
 double optional({double x = 1.0, double y = 2.0}) => inner(x, y);
+
+double polyNotCovered(double x, double a, double b, double c) {
+  return a * x * x + b * x + c;
+}

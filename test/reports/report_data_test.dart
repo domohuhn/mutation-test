@@ -37,6 +37,17 @@ void main() {
       MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation(0, '0')),
       TestReport(TestResult.Timeout),
     );
+
+    reporter.addTestReport(
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation(0, '0')),
+      TestReport(TestResult.NotCovered),
+    );
+    reporter.addTestReport(
+      'path.dart',
+      MutatedLine(1, 0, 5, 'var x = 0;', 'var x = c;', Mutation(0, '0')),
+      TestReport(TestResult.NotCovered),
+    );
     test('Usage test for the reporter', () {
       expect(reporter.builtinRulesAdded, true);
       expect(reporter.foundMutations, 1);
@@ -49,26 +60,29 @@ void main() {
       writeCommandLineReport(reporter, reporter.system);
 
       var mock = reporter.system as MockSystemInteractions;
-      expect(mock.argLine.length, 6);
+      expect(mock.argLine.length, 7);
       expect(mock.argLine[0], '  --- Results ---');
       expect(mock.argLine[1], 'Test group statistics:');
       expect(mock.argLine[2],
-          '\nTotal tests: 3\nUndetected Mutations: 2 (66.67%)');
+          '\nTotal tests: 5\nUndetected Mutations: 4 (80.00%)');
       expect(mock.argLine[3], 'Timeouts: 1');
-      expect(mock.argLine[4].substring(0, 16), 'Elapsed: 0:00:00');
-      expect(mock.argLine[5], 'Success: false, Quality rating: N/A');
+      expect(mock.argLine[4], 'Not covered by tests: 2');
+      expect(mock.argLine[5].substring(0, 16), 'Elapsed: 0:00:00');
+      expect(mock.argLine[6], 'Success: false, Quality rating: N/A');
     });
 
     test('detection numbers', () {
-      expect(reporter.totalMutations, 3);
+      expect(reporter.totalMutations, 5);
       expect(reporter.totalTimeouts, 1);
-      expect(reporter.undetectedMutations, 2);
+      expect(reporter.undetectedMutations, 4);
+      expect(reporter.totalBlocked, 3);
+      expect(reporter.totalNotCovered, 2);
     });
 
     test('detection fractions', () {
-      expect(reporter.detectedFraction, closeTo(100.0 / 3.0, 0.0001));
-      expect(reporter.undetectedFraction, closeTo(200.0 / 3.0, 0.0001));
-      expect(reporter.timeoutFraction, closeTo(100.0 / 3.0, 0.0001));
+      expect(reporter.detectedFraction, closeTo(20.0, 0.0001));
+      expect(reporter.undetectedFraction, closeTo(80.0, 0.0001));
+      expect(reporter.timeoutFraction, closeTo(20.0, 0.0001));
     });
 
     test('XML report', () {
@@ -106,14 +120,15 @@ void main() {
           '| Key           | Value                     |\n'
           '| ------------- | ------------------------- |\n'
           '| Rules         | test.xml           |\n'
-          '| Mutations     | 3                        |\n'
+          '| Mutations     | 5                        |\n'
           '| Elapsed     | ');
       expect(
           md.substring(start3),
           '                        |\n'
           '| Timeouts      | 1                        |\n'
-          '| Undetected    | 2                        |\n'
-          '| Undetected%   | 66.67%                        |\n'
+          '| Not covered by tests | 2                        |\n'
+          '| Undetected    | 4                        |\n'
+          '| Undetected%   | 80.00%                        |\n'
           '| Quality Rating | N/A |\n'
           '| Success | false |\n'
           '\n'
@@ -142,14 +157,15 @@ void main() {
       writeCommandLineReport(reporter, reporter.system);
 
       var mock = reporter.system as MockSystemInteractions;
-      expect(mock.argLine.length, 6);
+      expect(mock.argLine.length, 7);
       expect(mock.argLine[0], '  --- Results ---');
       expect(mock.argLine[1], 'Test group statistics:');
       expect(
           mock.argLine[2], '\nTotal tests: 0\nUndetected Mutations: 0 (0.00%)');
       expect(mock.argLine[3], 'Timeouts: 0');
-      expect(mock.argLine[4].substring(0, 16), 'Elapsed: 0:00:00');
-      expect(mock.argLine[5], 'Success: true, Quality rating: N/A');
+      expect(mock.argLine[4], 'Not covered by tests: 0');
+      expect(mock.argLine[5].substring(0, 16), 'Elapsed: 0:00:00');
+      expect(mock.argLine[6], 'Success: true, Quality rating: N/A');
     });
 
     test('detection numbers', () {
@@ -196,7 +212,7 @@ void main() {
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/mutation-test-report.md');
       expect(mock.argTexts.length, 1);
-      expect(mock.argTexts[0].length, 906);
+      expect(mock.argTexts[0].length, 958);
     });
 
     test('junit', () {
@@ -249,8 +265,8 @@ void main() {
       expect(mock.argPaths[0], 'fake_dir/mutation-test-report.html');
       expect(mock.argPaths[1], 'fake_dir/path.dart.html');
       expect(mock.argTexts.length, 2);
-      expect(mock.argTexts[0].length, 7981);
-      expect(mock.argTexts[1].length, 8854);
+      expect(mock.argTexts[0].length, 7979);
+      expect(mock.argTexts[1].length, 8853);
     });
   });
 }
@@ -276,6 +292,7 @@ final mdString = '# Mutation report\n'
     '| Mutations     | 0                        |\n'
     '| Elapsed     | 0:00:00.100068                        |\n'
     '| Timeouts      | 0                        |\n'
+    '| Not covered by tests | 0                        |\n'
     '| Undetected    | 0                        |\n'
     '| Undetected%   | 0.00%                        |\n'
     '| Quality Rating | N/A |\n'

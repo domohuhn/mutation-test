@@ -44,6 +44,11 @@ class ReportData {
           .forEach((match) {
         tmp.timeoutMutations.add(match);
       });
+      results.notCoveredByTests
+          .where((element) => element.mutation.index == index)
+          .forEach((match) {
+        tmp.notCoveredByTests.add(match);
+      });
       if (tmp.mutationCount > 0) {
         rv[file] = tmp;
       }
@@ -80,6 +85,7 @@ class ReportData {
   int _totalFound = 0;
   int _totalRuns = 0;
   int _totalTimeouts = 0;
+  int _totalNotCovered = 0;
 
   /// Adds the [test] report to the accumulated statistics.
   /// This method will print to the command line via SystemInteractions.verboseWriteLine.
@@ -108,6 +114,11 @@ class ReportData {
         system.verboseWriteLine('Undetected mutation! All tests passed!');
         addUndetectedMutation(file, mutation);
         break;
+      case TestResult.NotCovered:
+        system.verboseWriteLine('Mutation not tested - not covered by tests');
+        _totalNotCovered += 1;
+        addMutationNotCovered(file, mutation);
+        break;
     }
   }
 
@@ -134,11 +145,16 @@ class ReportData {
   /// Reports the count of test commands that timed out.
   int get totalTimeouts => _totalTimeouts;
 
+  /// Reports the count of mutations that are uncovered by tests.
+  int get totalNotCovered => _totalNotCovered;
+
   /// Reports the count of detected mutations.
   int get foundMutations => _totalFound;
 
   /// Reports the count of undetected mutations.
   int get undetectedMutations => _totalRuns - _totalFound;
+
+  int get totalBlocked => totalNotCovered + totalTimeouts;
 
   /// Reports the percentage of undetected mutations of the total mutations.
   double get undetectedFraction =>
@@ -194,6 +210,15 @@ class ReportData {
   void addTimeoutMutation(String file, MutatedLine mutation) {
     if (testedFiles.containsKey(file)) {
       testedFiles[file]!.timeoutMutations.add(mutation);
+    } else {
+      throw MutationError('"$file" was not registered in the reporter!');
+    }
+  }
+
+  /// Adds a [mutation] from [file] to the not covered by tests list.
+  void addMutationNotCovered(String file, MutatedLine mutation) {
+    if (testedFiles.containsKey(file)) {
+      testedFiles[file]!.notCoveredByTests.add(mutation);
     } else {
       throw MutationError('"$file" was not registered in the reporter!');
     }

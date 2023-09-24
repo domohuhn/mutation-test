@@ -23,7 +23,7 @@ class Command {
 }
 
 /// Result of running a test command
-enum TestResult { Timeout, Detected, Undetected }
+enum TestResult { Timeout, Detected, Undetected, NotCovered }
 
 /// A report after running a test command.
 class TestReport {

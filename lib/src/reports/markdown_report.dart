@@ -48,6 +48,7 @@ ${DateTime.now()}
 | Mutations     | ${data.totalMutations}                        |
 | Elapsed     | ${data.elapsed}                        |
 | Timeouts      | ${data.totalTimeouts}                        |
+| Not covered by tests | ${data.totalNotCovered}                        |
 | Undetected    | ${data.undetectedMutations}                        |
 | Undetected%   | ${asPercentString(data.undetectedMutations, data.totalMutations)}                        |
 ''');

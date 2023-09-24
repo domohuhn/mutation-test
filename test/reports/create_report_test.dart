@@ -20,7 +20,7 @@ void main() {
       expect(mock.argPaths.length, 1);
       expect(mock.argPaths[0], 'fake_dir/mutation-test-report.md');
       expect(mock.argTexts.length, 1);
-      expect(mock.argTexts[0].length, 906);
+      expect(mock.argTexts[0].length, 958);
     });
 
     test('junit', () {
@@ -69,8 +69,8 @@ void main() {
       expect(mock.argPaths[0], 'fake_dir/mutation-test-report.html');
       expect(mock.argPaths[1], 'fake_dir/path.dart.html');
       expect(mock.argTexts.length, 2);
-      expect(mock.argTexts[0].length, 7981);
-      expect(mock.argTexts[1].length, 8854);
+      expect(mock.argTexts[0].length, 7979);
+      expect(mock.argTexts[1].length, 8853);
     });
 
     test('none', () {

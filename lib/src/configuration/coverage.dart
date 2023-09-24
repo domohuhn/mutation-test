@@ -43,7 +43,7 @@ class ProjectLineCoverage {
     if (coveredFiles.containsKey(path)) {
       return coveredFiles[path];
     }
-    var absPath = absolute(path);
+    var absPath = canonicalize(path);
     if (coveredFiles.containsKey(absPath)) {
       return coveredFiles[absPath];
     }
@@ -79,7 +79,9 @@ class ProjectLineCoverage {
         }
         recordStarted = true;
         file = line.substring(3);
-        fileData = coveredFiles.putIfAbsent(file, () => FileCoverage(file));
+        var canonPath = canonicalize(file);
+        fileData =
+            coveredFiles.putIfAbsent(canonPath, () => FileCoverage(file));
       }
       if (line.startsWith('DA:')) {
         if (!recordStarted || fileData == null) {

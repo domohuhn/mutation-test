@@ -24,6 +24,14 @@ void main() {
           false);
       expect(
           coverage.isCoveredByTests(
+              'lib\\src\\configuration\\configuration.dart', 84, 84),
+          true);
+      expect(
+          coverage.isCoveredByTests(
+              'lib\\src\\configuration\\configuration.dart', 85, 85),
+          false);
+      expect(
+          coverage.isCoveredByTests(
               'lib\\src\\configuration\\configuration.dart', 86),
           false);
       expect(

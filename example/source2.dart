@@ -33,4 +33,14 @@ class TestData {
       on = true;
     }
   }
+
+  // excluded:
+  void changeState2(dynamic event) {
+    if (event.a &&
+        event.b &&
+        (event.c || event.d || (event.f && event.g)) &&
+        event.e) {
+      on = true;
+    }
+  }
 }

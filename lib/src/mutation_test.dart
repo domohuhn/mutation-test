@@ -8,6 +8,7 @@ import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/configuration/configuration.dart';
 import 'package:mutation_test/src/reports/report_formats.dart';
 import 'package:mutation_test/src/configuration/builtin_rules.dart';
+import 'package:mutation_test/src/configuration/coverage.dart';
 
 /// This is the primary interface for the mutation testing.
 ///
@@ -50,6 +51,8 @@ class MutationTest {
   /// Factory creating other objects
   late PlatformFactory platformFactory;
 
+  late ProjectLineCoverage coverageData;
+
   /// Runs the mutation tests using the inputs from [inputs].
   /// Undetected modifications are written to a file in [outputPath] using the
   /// specified [format].
@@ -62,18 +65,29 @@ class MutationTest {
   /// but will list all found mutations per file.
   /// Returns true if all modifications were detected by the test commands.
   ///
+  /// You can provide the path to a file with the coverage information of your project in
+  /// the lcov coverage format via the [coverage] argument. If not provided, all mutations
+  /// will be run. However, if there is coverage information, only the mutations with test
+  /// coverage are actually run.
+  ///
   /// Writing output to the command line can be suppressed if [quiet] is set.
   MutationTest(
       this.inputs, this.outputPath, this.verbose, this.dry, this.format,
       {this.ruleFiles,
       this.builtinRules = true,
       this.quiet = false,
-      PlatformFactory? platform}) {
+      PlatformFactory? platform,
+      String? coverage}) {
     platformFactory = platform ?? PlatformFactory();
     system = platformFactory.createSystemInteractions(
         verbose: verbose, quiet: quiet);
     reporter = ReportData(builtinRules, system);
     bar = AppProgressBar(0, 0.8, system);
+    if (coverage != null) {
+      coverageData = ProjectLineCoverage.fromLCOV(system.readFile(coverage));
+    } else {
+      coverageData = ProjectLineCoverage();
+    }
   }
 
   /// Performs the mutation tests asynchronously.
@@ -226,8 +240,8 @@ class MutationTest {
     configuration.validate();
     reporter.quality = configuration.ratings;
     bar.threshold = configuration.ratings.failure;
-    return MutationData(
-        configuration, tests, TargetFile('', []), '', reporter, bar);
+    return MutationData(configuration, tests, TargetFile('', []), '', reporter,
+        bar, coverageData);
   }
 
   /// Checks if the tests in [cfg] can be run by the test runner [executor] on the unmodified sources.
@@ -309,6 +323,12 @@ class MutationTest {
 /// Undetected Mutations are added to the TestRunner in [data].
 /// Returns true if the mutation was not found by the tests.
 Future<bool> _runTest(MutationData data, MutatedCode mutated) async {
+  if (!data.coverageData
+      .isCoveredByTests(data.filename.path, mutated.line.line)) {
+    data.results.addTestReport(
+        data.filename.path, mutated.line, TestReport(TestResult.NotCovered));
+    return true;
+  }
   if (data.configuration.dry) {
     data.results.addTestReport(
         data.filename.path, mutated.line, TestReport(TestResult.Undetected));

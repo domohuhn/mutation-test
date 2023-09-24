@@ -18,6 +18,7 @@ void writeCommandLineReport(ReportData data, SystemInteractions system) {
   system.writeLine(
       '\nTotal tests: ${data.totalMutations}\nUndetected Mutations: ${data.undetectedMutations} (${asPercentString(data.undetectedMutations, data.totalMutations)})');
   system.writeLine('Timeouts: ${data.totalTimeouts}');
+  system.writeLine('Not covered by tests: ${data.totalNotCovered}');
   system.writeLine('Elapsed: ${data.elapsed}');
   system.writeLine('Success: ${data.success}, Quality rating: ${data.rating}');
 }

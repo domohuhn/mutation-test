@@ -13,7 +13,8 @@ class FileMutationResults {
   String contents;
 
   /// total mutation count per file
-  int get mutationCount => detectedCount + timeoutCount + undetectedCount;
+  int get mutationCount =>
+      detectedCount + timeoutCount + undetectedCount + notCoveredCount;
 
   /// detected count per file
   int get detectedCount => detectedMutations.length;
@@ -24,6 +25,11 @@ class FileMutationResults {
   /// detected count per file
   int get undetectedCount => undetectedMutations.length;
 
+  /// detected count per file
+  int get notCoveredCount => notCoveredByTests.length;
+
+  int get blockedCount => timeoutCount + notCoveredCount;
+
   /// undetected mutations in this file
   List<MutatedLine> undetectedMutations;
 
@@ -32,6 +38,9 @@ class FileMutationResults {
 
   /// detected mutations in this file
   List<MutatedLine> timeoutMutations;
+
+  /// mutations in this file not covered by tests
+  List<MutatedLine> notCoveredByTests;
 
   Duration get elapsed {
     var dur = Duration();
@@ -50,7 +59,8 @@ class FileMutationResults {
   FileMutationResults(this.path, this.contents)
       : undetectedMutations = [],
         detectedMutations = [],
-        timeoutMutations = [];
+        timeoutMutations = [],
+        notCoveredByTests = [];
 
   bool lineHasUndetectedMutation(int i) {
     return _lineIsInList(undetectedMutations, i);
@@ -64,15 +74,21 @@ class FileMutationResults {
     return _lineIsInList(timeoutMutations, i);
   }
 
+  bool lineHasMutationNotCovered(int i) {
+    return _lineIsInList(notCoveredByTests, i);
+  }
+
   bool lineHasMutation(int i) {
     return _lineIsInList(undetectedMutations, i) ||
         _lineIsInList(detectedMutations, i) ||
-        _lineIsInList(timeoutMutations, i);
+        _lineIsInList(timeoutMutations, i) ||
+        _lineIsInList(notCoveredByTests, i);
   }
 
   bool lineHasProblem(int i) {
     return _lineIsInList(undetectedMutations, i) ||
-        _lineIsInList(timeoutMutations, i);
+        _lineIsInList(timeoutMutations, i) ||
+        _lineIsInList(notCoveredByTests, i);
   }
 
   bool _lineIsInList(List<MutatedLine> list, int i) {
@@ -88,5 +104,6 @@ class FileMutationResults {
     undetectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
     detectedMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
     timeoutMutations.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
+    notCoveredByTests.sort((lhs, rhs) => lhs.line.compareTo(rhs.line));
   }
 }

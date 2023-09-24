@@ -3,6 +3,7 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/configuration/configuration.dart';
+import 'package:mutation_test/src/configuration/coverage.dart';
 import 'package:mutation_test/src/core/test_runner.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
 
@@ -28,8 +29,10 @@ class MutationData {
   /// A reference to the progress bar.
   final AppProgressBar bar;
 
+  final ProjectLineCoverage coverageData;
+
   /// Constructor for the mutation data.
   /// The object is given to the test runner to run tests on the given [filename].
   MutationData(this.configuration, this.test, this.filename, this.contents,
-      this.results, this.bar);
+      this.results, this.bar, this.coverageData);
 }
