@@ -240,6 +240,23 @@ String _xmlDartInputs() {
 ''';
 }
 
+/// a snippet to exclude strings from the analysis
+String _excludeStrings() {
+  return r'''
+  <exclude>
+    <!-- exclusions for strings -->
+    <regex pattern="&apos;[^&apos;;{}]*?&apos;\s*[;,\)]" dotAll="true"/>
+    <regex pattern="&apos;&apos;&apos;[^{}]*?&apos;&apos;&apos;\s*[;,\)]" dotAll="true"/>
+    <regex pattern="&quot;[^&quot;;{}]*?&quot;\s*[;,\)]" dotAll="true"/>
+    <regex pattern="&quot;&quot;&quot;[^{}]*?&quot;&quot;&quot;\s*[;,\)]" dotAll="true"/>
+  </exclude>
+  ''';
+}
+
+String dartExcludeStringsConfiguration() {
+  return _xmlStart() + _excludeStrings() + _xmlEnd();
+}
+
 /// Returns the default dart configuration
 String dartDefaultConfiguration() {
   return _xmlStart() + _xmlDartInputs() + _xmlEnd();

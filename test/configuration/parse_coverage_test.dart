@@ -33,7 +33,7 @@ void main() {
       expect(
           coverage.isCoveredByTests(
               'lib\\src\\configuration\\configuration.dart', 86),
-          false);
+          true);
       expect(
           coverage.isCoveredByTests(
               'lib\\src\\configuration\\configuration.dart', 87),
@@ -96,6 +96,8 @@ void main() {
     test('parse without error', () {
       try {
         var coverage = ProjectLineCoverage.fromLCOV(contents);
+        expect(coverage.isCoveredByTests('/usr/include/c++/9/bits/move.h', 98),
+            true);
         expect(coverage.isCoveredByTests('/usr/include/c++/9/bits/move.h', 99),
             true);
       } catch (e) {

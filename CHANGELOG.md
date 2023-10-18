@@ -1,6 +1,7 @@
 ## 1.6.0
  - Added the option to exclude lines not covered by tests. You can pass a file with coverage information in the lcov format via
    the command line flag "--coverage".
+ - Added the (experimental) option to strings from the mutations via command line switch.
 
 ## 1.5.1
  - Fixed a bug that causes the mutation test to stop in case the mutation reduces the code size near the end of the file.

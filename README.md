@@ -74,9 +74,30 @@ The command lists all changed files, removes paths starting with test and all fi
 
 Similar versions of this command should work on windows or mac os.
 
+### Speeding up the analysis
+
+In order to reduce the time needed for a full project analysis, you can provide coverage data in the [lcov](https://github.com/linux-test-project/lcov) format when calling the program.
+The dart sdk supports generating the coverage information with a few commands:
+
+```bash
+dart pub global activate coverage
+dart pub global run coverage:test_with_coverage
+dart run mutation_test --coverage coverage/lcov.info
+```
+
+The algorithm to exclude tests uses a conservative approach: It will only exclude mutants that are marked as instrumented and without any hits in the lcov file.
+Lines or files that are not present in the coverage database are assumed to be part of the covered statements.
+
+There is also an experimental option to exclude strings without interpolation as mutation candidates:
+
+```bash
+dart run mutation_test --exclude-strings
+```
+
 ## Features
   - Fully configurable mutation rules via XML documents and regular expressions
   - Sections of files can be whitelisted on a per file basis
+  - Only mutants whose statements are covered will be executed
   - You can add global exclusion rules for e.g. comments, loop conditions via regular expressions
   - Different report formats are supported: html, xunit/junit, markdown and XML
 
@@ -335,6 +356,7 @@ The program accepts the following command line arguments:
 | -o             | --output=<directory>      | Sets the output directory (defaults to ".")                                                               |
 | -f             | --format                  | Sets the report file format \[html (default), junit, xunit, md, xml, all, none\]                          |
 | -r             | --rules=<path to XML file>| Overrides the builtin rule set with the rules in the given XML Document                                    |
+|                | --exclude-strings         | Adds experimental string exclusion                                                                         |
 
 The rest are excepted to be paths to input XML configuration files.
 

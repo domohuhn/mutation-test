@@ -102,4 +102,29 @@ void main() {
       }
     });
   });
+
+  group('String exclusion', () {
+    final exclusionStrDoubleQuote = TokenRange('"', '";');
+    final exclusionStrSingleQuote = TokenRange('\'', '\';');
+
+    const textStrSingleQuote =
+        'var x = \' moo + meow \';\n// a bunch of additional text\n';
+    const textStrDoubleQuote =
+        'var x = " moo + meow ";\n// a bunch of additional text\n';
+
+    test('double quote strings', () {
+      for (var i = 0; i < textStrSingleQuote.length; i++) {
+        expect(exclusionStrDoubleQuote.isInRange(textStrSingleQuote, i), false);
+        expect(exclusionStrDoubleQuote.isInRange(textStrDoubleQuote, i),
+            8 <= i && i <= 21);
+      }
+    });
+    test('single quote strings', () {
+      for (var i = 0; i < textStrSingleQuote.length; i++) {
+        expect(exclusionStrSingleQuote.isInRange(textStrSingleQuote, i),
+            8 <= i && i <= 21);
+        expect(exclusionStrSingleQuote.isInRange(textStrDoubleQuote, i), false);
+      }
+    });
+  });
 }

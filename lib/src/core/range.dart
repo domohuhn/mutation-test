@@ -25,20 +25,20 @@ class TokenRange extends Range {
     if (start < 0) {
       return false;
     }
-    var shiftEnd = endToken.length - 1;
-    var end = findFirstTokenAfterPosition(text, start, endToken);
+    var shiftEnd = endToken.length;
+    var end = findFirstTokenAfterPosition(text, start + 1, endToken);
     if (end < 0 || start >= end) {
       // check if the start of the new position might be the end token of previous range
       // it may be better to search exclusion zones from start of file ...
       if (start == position &&
           position > 0 &&
-          endToken.length > 1 &&
+          endToken.isNotEmpty &&
           isInRange(text, position - 1)) {
         return true;
       }
       return false;
     }
-    return start <= position && position <= end + shiftEnd;
+    return start <= position && position < end + shiftEnd;
   }
 }
 

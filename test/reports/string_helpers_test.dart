@@ -33,8 +33,7 @@ void main() {
 
   test('findFirstTokenAfterPosition', () {
     expect(findFirstTokenAfterPosition(text, -1, '\n'), 24);
-    expect(findFirstTokenAfterPosition(text, text.length + 100, '\n'),
-        text.length);
+    expect(findFirstTokenAfterPosition(text, text.length + 100, '\n'), -1);
   });
 
   test('findFirstTokenBeforePosition', () {

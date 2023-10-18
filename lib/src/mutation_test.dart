@@ -45,6 +45,9 @@ class MutationTest {
   /// If any messages should be printed to the command line.
   bool quiet;
 
+  /// If strings should be excluded.
+  bool excludeStrings;
+
   /// Abstraction for the system.
   late SystemInteractions system;
 
@@ -77,7 +80,8 @@ class MutationTest {
       this.builtinRules = true,
       this.quiet = false,
       PlatformFactory? platform,
-      String? coverage}) {
+      String? coverage,
+      this.excludeStrings = false}) {
     platformFactory = platform ?? PlatformFactory();
     system = platformFactory.createSystemInteractions(
         verbose: verbose, quiet: quiet);
@@ -235,6 +239,10 @@ class MutationTest {
       system.verboseWriteLine(
           'No input files found - assuming default dart configuration!');
       configuration.parseXMLString(dartDefaultConfiguration());
+    }
+    if (excludeStrings) {
+      system.writeLine('[experimental] exclusion of strings is enabled');
+      configuration.parseXMLString(dartExcludeStringsConfiguration());
     }
     configuration.inferCommandsIfEmpty();
     configuration.validate();

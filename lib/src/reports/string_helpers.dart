@@ -38,7 +38,7 @@ int findFirstTokenAfterPosition(String text, int position, String token) {
     position = 0;
   }
   if (position >= text.length) {
-    return text.length;
+    return -1;
   }
   return text.indexOf(token, position);
 }

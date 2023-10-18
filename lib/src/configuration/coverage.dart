@@ -10,24 +10,32 @@ import 'package:mutation_test/src/core/errors.dart';
 /// Coverage data for a file
 class FileCoverage {
   String filename;
-  Set<int> coveredLines;
+  Map<int, int> coverage;
 
-  FileCoverage(this.filename) : coveredLines = <int>{};
+  FileCoverage(this.filename) : coverage = {};
 
-  /// Checks if any line in between start and end is covered.
-  bool isCovered(int start, int end) {
-    if (start <= end) {
+  /// Checks if any line in between start and end is not covered.
+  ///
+  /// Returns true if the line was instrumented and not covered by tests.
+  bool isUncovered(int start, int end) {
+    if (start < end) {
+      int notCoveredCount = 0;
       for (int line = start; line <= end; ++line) {
-        if (_containsLine(line)) {
-          return true;
+        if (_containsUncoveredLine(line)) {
+          notCoveredCount += 1;
         }
       }
-      return false;
+      return notCoveredCount == end - start;
     }
-    return _containsLine(start);
+    return _containsUncoveredLine(start);
   }
 
-  bool _containsLine(int line) => coveredLines.contains(line);
+  bool _containsUncoveredLine(int line) {
+    if (coverage.containsKey(line)) {
+      return coverage[line] == 0;
+    }
+    return false;
+  }
 }
 
 /// This class holds the line coverage information for each source code file
@@ -56,7 +64,8 @@ class ProjectLineCoverage {
   bool isCoveredByTests(String file, int lineStart, [int lineEnd = -1]) {
     var info = getFileOrNull(file);
     if (info != null) {
-      return info.isCovered(lineStart, lineEnd);
+      var rv = info.isUncovered(lineStart, lineEnd);
+      return !rv;
     }
     return true;
   }
@@ -92,8 +101,11 @@ class ProjectLineCoverage {
         try {
           final lineNumber = int.parse(array[0]);
           final hits = int.parse(array[1]);
-          if (hits > 0) {
-            fileData.coveredLines.add(lineNumber);
+          if (fileData.coverage.containsKey(lineNumber)) {
+            fileData.coverage[lineNumber] =
+                fileData.coverage[lineNumber]! + hits;
+          } else {
+            fileData.coverage.putIfAbsent(lineNumber, () => hits);
           }
         } catch (e) {
           throw MutationError(

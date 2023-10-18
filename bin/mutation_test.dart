@@ -20,6 +20,7 @@ void main(List<String> arguments) async {
   final coverage = 'coverage';
   final format = 'format';
   final quiet = 'quiet';
+  final excludeStrings = 'exclude-strings';
 
   final parser = ArgParser()
     ..addFlag(help,
@@ -68,6 +69,11 @@ void main(List<String> arguments) async {
         help:
             'Provides the coverage information of your test suites to speed up the mutation test run',
         valueHelp: 'path to lcov.info')
+    ..addFlag(excludeStrings,
+        help:
+            '(experimental) exclude strings without interpolation from the test',
+        negatable: false,
+        defaultsTo: false)
     ..addOption(format,
         abbr: 'f',
         help: 'Sets the report file format',
@@ -147,7 +153,8 @@ void main(List<String> arguments) async {
         ruleFiles: ruleDocuments,
         builtinRules: addBuiltin,
         quiet: isQuiet,
-        coverage: argResults[coverage]);
+        coverage: argResults[coverage],
+        excludeStrings: argResults[excludeStrings]);
 
     ProcessSignal.sigint.watch().listen((signal) {
       print('\nReceived system interrupt!');
