@@ -177,6 +177,10 @@ String _xmlRules() {
     <regex pattern="/([^=])" id="builtin.arith.div">
       <mutation text="*$1"/>
     </regex>
+    <!-- Removes break; statements for c++ switches -->
+    <regex pattern="break;(\s+)case" id="builtin.switch.break">
+      <mutation text="$1case"/>
+    </regex>
   </rules>
   <!-- This element creates a blacklist, allowing you to exclude parts from the mutations -->
   <exclude>
