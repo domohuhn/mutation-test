@@ -265,8 +265,8 @@ void main() {
       expect(mock.argPaths[0], 'fake_dir/mutation-test-report.html');
       expect(mock.argPaths[1], 'fake_dir/path.dart.html');
       expect(mock.argTexts.length, 2);
-      expect(mock.argTexts[0].length, 7979);
-      expect(mock.argTexts[1].length, 8853);
+      expect(mock.argTexts[0].length, 8167);
+      expect(mock.argTexts[1].length, 9041);
     });
   });
 }

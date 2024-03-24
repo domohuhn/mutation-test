@@ -2,6 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/configuration/coverage.dart';
 import 'package:mutation_test/src/core/mutated_line.dart';
 import 'package:mutation_test/src/reports/file_mutation_results.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
@@ -15,13 +16,16 @@ import 'package:mutation_test/src/reports/string_helpers.dart';
 /// documents.
 ///
 /// [system] is used to make the file system interactions testable.
-void writeHTMLReport(
-    String outPath, ReportData data, SystemInteractions system) {
+/// If the [coverage] is provided, then the report will show the instrumented and
+/// executed lines in the report.
+void writeHTMLReport(String outPath, ReportData data, SystemInteractions system,
+    [ProjectLineCoverage? coverage]) {
   final indexContent = createTopLevelHtmlFile(data);
   final indexName = createReportFileName(defaultReportName(), outPath, 'html');
   system.createPathsAndWriteFile(indexName, indexContent);
   data.testedFiles.forEach((key, value) {
-    final contents = createSourceHtmlFile(data, value, basename(indexName));
+    final contents =
+        createSourceHtmlFile(data, value, basename(indexName), coverage);
     final name = createReportFileName(key, outPath, 'html',
         appendReport: false,
         removeInputExt: false,
@@ -122,13 +126,27 @@ String createMutationList(int line, FileMutationResults file) {
   return rv.toString();
 }
 
+String _getLineNumberFragment(int i, FileMutationResults file,
+    [ProjectLineCoverage? coverage]) {
+  var innerStart = '';
+  var innerEnd = '';
+  if (coverage != null && coverage.lineIsInstrumented(file.path, i)) {
+    final covered = coverage.lineIsCovered(file.path, i);
+    innerStart =
+        covered ? '<span class="covered">' : '<span class="instrumented">';
+    innerEnd = '</span>';
+  }
+  return '<span class="lineNumber">$innerStart${i.toString().padLeft(8)} $innerEnd</span>';
+}
+
 /// Creates the contents of the top level navigation file.
 /// [reporter] holds the results of the test run that will be formatted to html
 /// documents.
 /// [file] holds the data of the current file.
 /// [topLevelFileName] is used to create a link back to the top level file.
 String createSourceHtmlFile(
-    ReportData reporter, FileMutationResults file, String topLevelFileName) {
+    ReportData reporter, FileMutationResults file, String topLevelFileName,
+    [ProjectLineCoverage? coverage]) {
   final rv = StringBuffer(createHtmlFileHeader(
       reporter,
       file.path,
@@ -142,16 +160,16 @@ String createSourceHtmlFile(
   var i = 1;
   for (final src in file.contents.split('\n')) {
     final line = escapeCharsForHtml(removeNewline(src));
+    final number = _getLineNumberFragment(i, file, coverage);
     if (file.lineHasMutation(i)) {
       final colorClass = file.lineHasProblem(i) ? 'problem' : 'hit';
       rv.write(
-          '''<a name="$i"><button class="collapsible $colorClass"><pre class="fileContents"><span class="lineNumber">${i.toString().padLeft(8)} </span>$line</pre></button>
+          '''<a name="$i"><button class="collapsible $colorClass"><pre class="fileContents">$number$line</pre></button>
 <div class="content">
 ${createMutationList(i, file)}
 </div></a>''');
     } else {
-      rv.write(
-          '<a name="$i"><span class="lineNumber">${i.toString().padLeft(8)} </span>$line</a>\n');
+      rv.write('<a name="$i">$number$line</a>\n');
     }
     ++i;
   }
@@ -332,6 +350,13 @@ String getCSSFileContents() {
 
 .hit {
   background-color: #DAE7FE;
+}
+
+.covered {
+  background-color: #9EFF83;
+}
+.instrumented {
+  background-color: #FF8983;
 }
 
 .hit:hover {
@@ -625,6 +650,12 @@ td.barBg
   .hit {
     background-color: #26334F;
   }
+  .covered {
+    background-color: #0A3302;
+  }
+  .instrumented {
+    background-color: #391D1D;
+  }
   .addedLine {
     background-color: rgb(37, 83, 37);
   }
@@ -637,7 +668,6 @@ td.barBg
   a:link, a:visited  {
 	  color: #58a6ff;
 	}
-  
   .match .tooltip {
     background-color: black;
     color: #fff;

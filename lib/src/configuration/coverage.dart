@@ -36,6 +36,16 @@ class FileCoverage {
     }
     return false;
   }
+
+  /// Returns true if a [line] is instrumented and executed
+  bool lineIsCovered(int line) {
+    return lineIsInstrumented(line) && coverage[line]! > 0;
+  }
+
+  /// Returns true if a [line] is instrumented
+  bool lineIsInstrumented(int line) {
+    return coverage.containsKey(line);
+  }
 }
 
 /// This class holds the line coverage information for each source code file
@@ -58,7 +68,8 @@ class ProjectLineCoverage {
     return null;
   }
 
-  /// Checks if the lines in [file] are covered by tests.
+  /// Checks if the lines in [file] are covered by tests. This method should be used
+  /// to determine if a mutation has to be tested.
   ///
   /// Returns true if there is no coverage information for the given file.
   bool isCoveredByTests(String file, int lineStart, [int lineEnd = -1]) {
@@ -68,6 +79,24 @@ class ProjectLineCoverage {
       return !rv;
     }
     return true;
+  }
+
+  /// Checks if the [line] in [file] is instrumented and covered.
+  bool lineIsCovered(String file, int line) {
+    var info = getFileOrNull(file);
+    if (info != null) {
+      return info.lineIsCovered(line);
+    }
+    return false;
+  }
+
+  /// Checks if the [line] in [file] is instrumented.
+  bool lineIsInstrumented(String file, int line) {
+    var info = getFileOrNull(file);
+    if (info != null) {
+      return info.lineIsInstrumented(line);
+    }
+    return false;
   }
 
   ProjectLineCoverage() : coveredFiles = {};

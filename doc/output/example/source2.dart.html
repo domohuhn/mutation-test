@@ -17,6 +17,13 @@
   background-color: #DAE7FE;
 }
 
+.covered {
+  background-color: #9EFF83;
+}
+.instrumented {
+  background-color: #FF8983;
+}
+
 .hit:hover {
   color: white;
   background-color: #6688D4;
@@ -308,6 +315,12 @@ td.barBg
   .hit {
     background-color: #26334F;
   }
+  .covered {
+    background-color: #0A3302;
+  }
+  .instrumented {
+    background-color: #391D1D;
+  }
   .addedLine {
     background-color: rgb(37, 83, 37);
   }
@@ -320,7 +333,6 @@ td.barBg
   a:link, a:visited  {
 	  color: #58a6ff;
 	}
-  
   .match .tooltip {
     background-color: black;
     color: #fff;
@@ -348,7 +360,7 @@ td.barBg
 
      <tr>
      <td class="ItemLabel" width="10%">Date:</td>
-     <td class="ItemText" width="35%">2024-03-24 15:27:37.230520</td>
+     <td class="ItemText" width="35%">2024-03-24 17:47:31.491803</td>
      <td class="ItemLabel" width="10%">Mutations:</td>
      <td class="ItemReport" width="15%">2</td>
      <td class="ItemReport" width="15%">56</td>
@@ -359,9 +371,9 @@ td.barBg
      <td class="ItemLabel" width="10%">Builtin rules:</td>
      <td class="ItemText" width="35%">true</td>
      <td class="ItemLabel" width="10%">Blocked:</td>
-     <td class="ItemReport" width="15%">0</td>
+     <td class="ItemReport" width="15%">32</td>
      <td class="ItemReport" width="15%">56</td>
-     <td class="ItemReportHigh" width="15%">0.0 %</td>
+     <td class="ItemReportLow" width="15%">57.1 %</td>
      </tr>
      </tbody>
      </table>
@@ -398,8 +410,8 @@ td.barBg
 
 </div></a><a name="12"><span class="lineNumber">      12 </span>  bool on = false;</a>
 <a name="13"><span class="lineNumber">      13 </span></a>
-<a name="14"><span class="lineNumber">      14 </span>  double calc(double x) {</a>
-<a name="15"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      15 </span>    return number1 * x / number2;</pre></button>
+<a name="14"><span class="lineNumber"><span class="covered">      14 </span></span>  double calc(double x) {</a>
+<a name="15"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="covered">      15 </span></span>    return number1 * x / number2;</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
 <table class="mutationTable" width="100%">
@@ -411,29 +423,29 @@ td.barBg
 </div></a><a name="16"><span class="lineNumber">      16 </span>  }</a>
 <a name="17"><span class="lineNumber">      17 </span></a>
 <a name="18"><span class="lineNumber">      18 </span>  // just a weird example ...</a>
-<a name="19"><span class="lineNumber">      19 </span>  String format(double y) {</a>
-<a name="20"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      20 </span>    if (y &lt;= 0.0 &amp;&amp; text != '') {</pre></button>
+<a name="19"><span class="lineNumber"><span class="covered">      19 </span></span>  String format(double y) {</a>
+<a name="20"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="covered">      20 </span></span>    if (y &lt;= 0.0 &amp;&amp; text != '') {</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
 <table class="mutationTable" width="100%">
-<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     <span class="changedTokens">if (!(y &lt;= 0.0 )&amp;&amp;</span> text != '') {</span></td><td class="match">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m<span class="tooltip">Id: builtin.if.start</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y <span class="changedTokens">==</span> 0.0 &amp;&amp; text != '') {</span></td><td class="match"><=<span class="tooltip">Id: builtin.op.leq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y &lt;= 0.0 &amp;&amp; text <span class="changedTokens">==</span> '') {</span></td><td class="match">!=<span class="tooltip">Id: builtin.op.neq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y &lt;= 0.0 <span class="changedTokens">||</span> text != '') {</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y <span class="changedTokens">&lt;</span> 0.0 &amp;&amp; text != '') {</span></td><td class="match"><=<span class="tooltip">Id: builtin.op.leq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+    <span class="changedTokens"> if (!(y &lt;= 0.0 &amp;&amp; text != '')) {</span></span></td><td class="match">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms<span class="tooltip">Id: builtin.if</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if <span class="changedTokens">(!(y &lt;= 0.0 )&amp;&amp; text != '')</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if <span class="changedTokens">(y &lt;= 0.0 &amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">9 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y &lt;= 0.0 <span class="changedTokens">&amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr></table>
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y &lt;= 0.0 <span class="changedTokens">||</span> text != '') {</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y &lt;= 0.0 &amp;&amp; text <span class="changedTokens">==</span> '') {</span></td><td class="match">!=<span class="tooltip">Id: builtin.op.neq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y <span class="changedTokens">==</span> 0.0 &amp;&amp; text != '') {</span></td><td class="match"><=<span class="tooltip">Id: builtin.op.leq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y <span class="changedTokens">&lt;</span> 0.0 &amp;&amp; text != '') {</span></td><td class="match"><=<span class="tooltip">Id: builtin.op.leq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+    <span class="changedTokens"> if (!(y &lt;= 0.0 &amp;&amp; text != '')) {</span></span></td><td class="match">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms<span class="tooltip">Id: builtin.if</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if <span class="changedTokens">(!(y &lt;= 0.0 )&amp;&amp; text != '')</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if <span class="changedTokens">(y &lt;= 0.0 &amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+     <span class="changedTokens">if (!(y &lt;= 0.0 )&amp;&amp;</span> text != '') {</span></td><td class="match">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m<span class="tooltip">Id: builtin.if.start</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">9 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (y &lt;= 0.0 <span class="changedTokens">&amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr></table>
 
-</div></a><a name="21"><span class="lineNumber">      21 </span>      return '$text $y';</a>
-<a name="22"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      22 </span>    } else if (y == 0.0 &amp;&amp; text != '') {</pre></button>
+</div></a><a name="21"><span class="lineNumber"><span class="covered">      21 </span></span>      return '$text $y';</a>
+<a name="22"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="covered">      22 </span></span>    } else if (y == 0.0 &amp;&amp; text != '') {</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
 <table class="mutationTable" width="100%">
-<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y <span class="changedTokens">!=</span> 0.0 &amp;&amp; text != '') {</span></td><td class="match">==<span class="tooltip">Id: builtin.op.eq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y == 0.0 &amp;&amp; text <span class="changedTokens">==</span> '') {</span></td><td class="match">!=<span class="tooltip">Id: builtin.op.neq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else<span class="changedTokens"> if (!(y == 0.0 &amp;&amp; text != '')) {</span></span></td><td class="match">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms<span class="tooltip">Id: builtin.if</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if <span class="changedTokens">(!(y == 0.0 )&amp;&amp; text != '')</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if <span class="changedTokens">(y == 0.0 &amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y == 0.0 <span class="changedTokens">||</span> text != '') {</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else <span class="changedTokens">if (!(y == 0.0 )&amp;&amp;</span> text != '') {</span></td><td class="match">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m<span class="tooltip">Id: builtin.if.start</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y == 0.0 <span class="changedTokens">&amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr></table>
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y == 0.0 <span class="changedTokens">||</span> text != '') {</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y <span class="changedTokens">!=</span> 0.0 &amp;&amp; text != '') {</span></td><td class="match">==<span class="tooltip">Id: builtin.op.eq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y == 0.0 &amp;&amp; text <span class="changedTokens">==</span> '') {</span></td><td class="match">!=<span class="tooltip">Id: builtin.op.neq</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else<span class="changedTokens"> if (!(y == 0.0 &amp;&amp; text != '')) {</span></span></td><td class="match">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms<span class="tooltip">Id: builtin.if</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if <span class="changedTokens">(!(y == 0.0 )&amp;&amp; text != '')</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if <span class="changedTokens">(y == 0.0 &amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else <span class="changedTokens">if (!(y == 0.0 )&amp;&amp;</span> text != '') {</span></td><td class="match">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m<span class="tooltip">Id: builtin.if.start</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+     } else if (y == 0.0 <span class="changedTokens">&amp;&amp;!( text != ''))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr></table>
 
-</div></a><a name="23"><span class="lineNumber">      23 </span>      return '$text $y';</a>
+</div></a><a name="23"><span class="lineNumber"><span class="instrumented">      23 </span></span>      return '$text $y';</a>
 <a name="24"><span class="lineNumber">      24 </span>    }</a>
-<a name="25"><span class="lineNumber">      25 </span>    return 'default $y';</a>
+<a name="25"><span class="lineNumber"><span class="covered">      25 </span></span>    return 'default $y';</a>
 <a name="26"><span class="lineNumber">      26 </span>  }</a>
 <a name="27"><span class="lineNumber">      27 </span></a>
-<a name="28"><span class="lineNumber">      28 </span>  void changeState(dynamic event) {</a>
-<a name="29"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      29 </span>    if (event.a &amp;&amp;</pre></button>
+<a name="28"><span class="lineNumber"><span class="instrumented">      28 </span></span>  void changeState(dynamic event) {</a>
+<a name="29"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="instrumented">      29 </span></span>    if (event.a &amp;&amp;</pre></button>
 <div class="content">
-<b>Undetected mutations:</b>
+<b>Mutations not covered by tests:</b>
 <table class="mutationTable" width="100%">
 <tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (event.a <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+    <span class="changedTokens"> if (!(event.a &amp;&amp;
         event.b &amp;&amp;
@@ -441,29 +453,29 @@ td.barBg
         event.e)) {</span></span></td><td class="match">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms<span class="tooltip">Id: builtin.if</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (event.a &amp;<span class="changedTokens">&amp;!(
         event.b )&amp;</span>&amp;</span></td><td class="match">RegExp: pattern=&([^&()]+?)& flags=ms<span class="tooltip">Id: builtin.logical.and_chain</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+     <span class="changedTokens">if (!(event.a )&amp;&amp;</span></span></td><td class="match">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m<span class="tooltip">Id: builtin.if.start</span></td></tr></table>
 
-</div></a><a name="30"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      30 </span>        event.b &amp;&amp;</pre></button>
+</div></a><a name="30"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="instrumented">      30 </span></span>        event.b &amp;&amp;</pre></button>
 <div class="content">
-<b>Undetected mutations:</b>
+<b>Mutations not covered by tests:</b>
 <table class="mutationTable" width="100%">
 <tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         event.b <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         event.b <span class="changedTokens">&amp;&amp;!(</span>event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr></table>
 
-</div></a><a name="31"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      31 </span>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</pre></button>
+</div></a><a name="31"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="instrumented">      31 </span></span>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</pre></button>
 <div class="content">
-<b>Undetected mutations:</b>
+<b>Mutations not covered by tests:</b>
 <table class="mutationTable" width="100%">
-<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c |<span class="changedTokens">|!( event.d )|</span>| (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=\|([^|()]+?)\| flags=ms<span class="tooltip">Id: builtin.logical.or_chain</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">||!(</span>event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">||</span> event.g)) &amp;&amp;</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c <span class="changedTokens">&amp;&amp;</span> event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(!(event.f )&amp;&amp; event.g)</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(event.f &amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">&amp;&amp;!(
-        event.e))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">9 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">&amp;&amp;</span> (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">10 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">&amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr></table>
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">||</span> event.g)) &amp;&amp;</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c <span class="changedTokens">&amp;&amp;</span> event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">&amp;&amp;</span> (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c |<span class="changedTokens">|!( event.d )|</span>| (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=\|([^|()]+?)\| flags=ms<span class="tooltip">Id: builtin.logical.or_chain</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(!(event.f )&amp;&amp; event.g)</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(event.f &amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">&amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">9 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">&amp;&amp;!(
+        event.e))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">10 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">||!(</span>event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr></table>
 
-</div></a><a name="32"><span class="lineNumber">      32 </span>        event.e) {</a>
-<a name="33"><span class="lineNumber">      33 </span>      on = true;</a>
+</div></a><a name="32"><span class="lineNumber"><span class="instrumented">      32 </span></span>        event.e) {</a>
+<a name="33"><span class="lineNumber"><span class="instrumented">      33 </span></span>      on = true;</a>
 <a name="34"><span class="lineNumber">      34 </span>    }</a>
 <a name="35"><span class="lineNumber">      35 </span>  }</a>
 <a name="36"><span class="lineNumber">      36 </span></a>
 <a name="37"><span class="lineNumber">      37 </span>  // excluded:</a>
-<a name="38"><span class="lineNumber">      38 </span>  void changeState2(dynamic event) {</a>
-<a name="39"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      39 </span>    if (event.a &amp;&amp;</pre></button>
+<a name="38"><span class="lineNumber"><span class="instrumented">      38 </span></span>  void changeState2(dynamic event) {</a>
+<a name="39"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="instrumented">      39 </span></span>    if (event.a &amp;&amp;</pre></button>
 <div class="content">
-<b>Undetected mutations:</b>
+<b>Mutations not covered by tests:</b>
 <table class="mutationTable" width="100%">
 <tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (event.a <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+    <span class="changedTokens"> if (!(event.a &amp;&amp;
         event.b &amp;&amp;
@@ -471,57 +483,53 @@ td.barBg
         event.e)) {</span></span></td><td class="match">RegExp: pattern=[\s]if[\s]*\((.*?)\)[\s]*{ flags=ms<span class="tooltip">Id: builtin.if</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+     if (event.a &amp;<span class="changedTokens">&amp;!(
         event.b )&amp;</span>&amp;</span></td><td class="match">RegExp: pattern=&([^&()]+?)& flags=ms<span class="tooltip">Id: builtin.logical.and_chain</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+     <span class="changedTokens">if (!(event.a )&amp;&amp;</span></span></td><td class="match">RegExp: pattern=if\s*\(([^|&\)]*?)([|&][|&]) flags=m<span class="tooltip">Id: builtin.if.start</span></td></tr></table>
 
-</div></a><a name="40"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      40 </span>        event.b &amp;&amp;</pre></button>
+</div></a><a name="40"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="instrumented">      40 </span></span>        event.b &amp;&amp;</pre></button>
 <div class="content">
-<b>Undetected mutations:</b>
+<b>Mutations not covered by tests:</b>
 <table class="mutationTable" width="100%">
-<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         event.b <span class="changedTokens">&amp;&amp;!(</span>event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         event.b <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr></table>
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         event.b <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         event.b <span class="changedTokens">&amp;&amp;!(</span>event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr></table>
 
-</div></a><a name="41"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      41 </span>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</pre></button>
+</div></a><a name="41"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="instrumented">      41 </span></span>        (event.c || event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</pre></button>
 <div class="content">
-<b>Undetected mutations:</b>
+<b>Mutations not covered by tests:</b>
 <table class="mutationTable" width="100%">
-<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(event.f &amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">&amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">&amp;&amp;!(
-        event.e))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(!(event.f )&amp;&amp; event.g)</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">&amp;&amp;</span> (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">||!(</span>event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c <span class="changedTokens">&amp;&amp;</span> event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">9 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">||</span> event.g)) &amp;&amp;</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">10 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c |<span class="changedTokens">|!( event.d )|</span>| (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=\|([^|()]+?)\| flags=ms<span class="tooltip">Id: builtin.logical.or_chain</span></td></tr></table>
+<tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">||</span> event.g)) &amp;&amp;</span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">2 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">||</span></span></td><td class="match">&&<span class="tooltip">Id: builtin.and</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">3 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c <span class="changedTokens">&amp;&amp;</span> event.d || (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">4 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">&amp;&amp;</span> (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">||<span class="tooltip">Id: builtin.or</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">5 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c |<span class="changedTokens">|!( event.d )|</span>| (event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=\|([^|()]+?)\| flags=ms<span class="tooltip">Id: builtin.logical.or_chain</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">6 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(!(event.f )&amp;&amp; event.g)</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">7 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || <span class="changedTokens">(event.f &amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=\(([^$(]*?)&&([^$()]*?)\) flags=m<span class="tooltip">Id: builtin.logical.and_chain2</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">8 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f <span class="changedTokens">&amp;&amp;!( event.g))</span>) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">9 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d || (event.f &amp;&amp; event.g)) <span class="changedTokens">&amp;&amp;!(
+        event.e))</span> {</span></td><td class="match">RegExp: pattern=([|&][|&])([^|&]*?)\) flags=m<span class="tooltip">Id: builtin.if.end</span></td></tr><tr><td colspan="3"><hr class="ruler"/></td></tr><tr><td class="mutationLabel" width="5%">10 :</td><td class="mutationText" width="87%"><span class="addedLine">+         (event.c || event.d <span class="changedTokens">||!(</span>event.f &amp;&amp; event.g)) &amp;&amp;</span></td><td class="match">RegExp: pattern=([|&][|&])[\s]*?\( flags=ms<span class="tooltip">Id: builtin.logical.chain_not</span></td></tr></table>
 
-</div></a><a name="42"><span class="lineNumber">      42 </span>        event.e) {</a>
-<a name="43"><span class="lineNumber">      43 </span>      on = true;</a>
+</div></a><a name="42"><span class="lineNumber"><span class="instrumented">      42 </span></span>        event.e) {</a>
+<a name="43"><span class="lineNumber"><span class="instrumented">      43 </span></span>      on = true;</a>
 <a name="44"><span class="lineNumber">      44 </span>    }</a>
 <a name="45"><span class="lineNumber">      45 </span>  }</a>
 <a name="46"><span class="lineNumber">      46 </span></a>
 <a name="47"><span class="lineNumber">      47 </span>  List&lt;double&gt; values = [];</a>
-<a name="48"><span class="lineNumber">      48 </span>  void fillList(double x) {</a>
-<a name="49"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber">      49 </span>    values = [x,</pre></button>
+<a name="48"><span class="lineNumber"><span class="covered">      48 </span></span>  void fillList(double x) {</a>
+<a name="49"><button class="collapsible hit"><pre class="fileContents"><span class="lineNumber"><span class="covered">      49 </span></span>    values = [x, calc(x), calc(number1)];</pre></button>
 <div class="content">
 <b>Detected mutations:</b>
 <table class="mutationTable" width="100%">
 <tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     values <span class="changedTokens">= []</span>;</span></td><td class="match">RegExp: pattern=([=:>]\s*)\[([^\],]+),([^\]]+)\] flags=m<span class="tooltip">Id: builtin.list.clear</span></td></tr></table>
 
-</div></a><a name="50"><span class="lineNumber">      50 </span>      calc(x),</a>
-<a name="51"><span class="lineNumber">      51 </span>      calc(number1)</a>
-<a name="52"><span class="lineNumber">      52 </span>    ];</a>
-<a name="53"><span class="lineNumber">      53 </span>  }</a>
-<a name="54"><span class="lineNumber">      54 </span></a>
-<a name="55"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      55 </span>  double voidCalls(double x) {</pre></button>
+</div></a><a name="50"><span class="lineNumber">      50 </span>  }</a>
+<a name="51"><span class="lineNumber">      51 </span></a>
+<a name="52"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="covered">      52 </span></span>  double voidCalls(double x) {</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
 <table class="mutationTable" width="100%">
 <tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+   double voidCalls(double x) <span class="changedTokens">{
     </span></span></td><td class="match">RegExp: pattern=([{]\s*)([^\(;=\s}]+\([^;]+\)\s*;) flags=m<span class="tooltip">Id: builtin.function.removeVoidCall1</span></td></tr></table>
 
-</div></a><a name="56"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber">      56 </span>    fillList(x);</pre></button>
+</div></a><a name="53"><button class="collapsible problem"><pre class="fileContents"><span class="lineNumber"><span class="covered">      53 </span></span>    fillList(x);</pre></button>
 <div class="content">
 <b>Undetected mutations:</b>
 <table class="mutationTable" width="100%">
 <tr><td class="mutationLabel" width="5%">1 :</td><td class="mutationText" width="87%"><span class="addedLine">+     fillList(x)<span class="changedTokens">;
     </span></span></td><td class="match">RegExp: pattern=([};]\s*)([^\(;=\s}]+\([^;]+\)\s*;) flags=m<span class="tooltip">Id: builtin.function.removeVoidCall2</span></td></tr></table>
 
-</div></a><a name="57"><span class="lineNumber">      57 </span>    format(x);</a>
-<a name="58"><span class="lineNumber">      58 </span>    return x;</a>
-<a name="59"><span class="lineNumber">      59 </span>  }</a>
-<a name="60"><span class="lineNumber">      60 </span></a>
-<a name="61"><span class="lineNumber">      61 </span>}</a>
-<a name="62"><span class="lineNumber">      62 </span></a>
+</div></a><a name="54"><span class="lineNumber"><span class="covered">      54 </span></span>    format(x);</a>
+<a name="55"><span class="lineNumber">      55 </span>    return x;</a>
+<a name="56"><span class="lineNumber">      56 </span>  }</a>
+<a name="57"><span class="lineNumber">      57 </span>}</a>
+<a name="58"><span class="lineNumber">      58 </span></a>
 </pre>
 <script>
 var coll = document.getElementsByClassName("collapsible");
@@ -548,7 +556,7 @@ for (i = 0; i < coll.length; i++) {
 }
 </script><table width ="100%" cellspacing="0" border="0">
   <tr><td><hr class="ruler"/></td></tr>
-  <tr><td class="footer">Generated by mutation-test version: 1.6.1</td></tr>
+  <tr><td class="footer">Generated by mutation-test version: 1.7.0</td></tr>
 </table>
 </body>
 </html>

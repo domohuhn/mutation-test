@@ -113,7 +113,7 @@ class MutationTest {
           addBuiltin: builtinRules,
           useDefaultConfig: true);
     }
-    createReport(reporter, outputPath, format);
+    createReport(reporter, outputPath, format, coverageData);
     return foundAll;
   }
 
