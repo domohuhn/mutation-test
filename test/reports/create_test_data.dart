@@ -2,6 +2,7 @@
 // License: BSD-3-Clause
 // See LICENSE for the full text of the license
 
+import 'package:mutation_test/src/configuration/coverage.dart';
 import 'package:mutation_test/src/core/mutated_line.dart';
 import 'package:mutation_test/src/reports/report_data.dart';
 import 'package:mutation_test/src/core/mutation.dart';
@@ -29,6 +30,15 @@ ReportData createTestData() {
     TestReport(TestResult.Timeout),
   );
   return reporter;
+}
+
+ProjectLineCoverage createCodeCoverage() {
+  FileCoverage f = FileCoverage('path.dart');
+  f.coverage[1] = 10;
+  f.coverage[2] = 0;
+  ProjectLineCoverage coverage = ProjectLineCoverage();
+  coverage.coveredFiles['path.dart'] = f;
+  return coverage;
 }
 
 ReportData createTestDataWithNotCovered() {
