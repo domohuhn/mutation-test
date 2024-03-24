@@ -24,4 +24,13 @@ void main() {
   test('TestData format 3', () {
     expect(data.format(2.0), 'default 2.0');
   });
+
+  test('TestData list', () {
+    data.fillList(2.0);
+    expect(data.values.length, 3);
+  });
+
+  test('TestData voidCalls', () {
+    expect(data.voidCalls(2.0), 2.0);
+  });
 }

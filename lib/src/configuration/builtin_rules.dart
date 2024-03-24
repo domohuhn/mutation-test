@@ -181,6 +181,17 @@ String _xmlRules() {
     <regex pattern="break;(\s+)case" id="builtin.switch.break">
       <mutation text="$1case"/>
     </regex>
+    <!-- Removes entries in a list in dart -->
+    <regex pattern="([=:>]\s*)\[([^\],]+),([^\]]+)\]" id="builtin.list.clear">
+      <mutation text="$1[]"/>
+    </regex>
+    <!-- Removes function calls that are not returned or assigned to a value -->
+    <regex pattern="([{]\s*)([^\(;=\s}]+\([^;]+\)\s*;)" id="builtin.function.removeVoidCall1">
+      <mutation text="$1"/>
+    </regex>
+    <regex pattern="([};]\s*)([^\(;=\s}]+\([^;]+\)\s*;)" id="builtin.function.removeVoidCall2">
+      <mutation text="$1"/>
+    </regex>
   </rules>
   <!-- This element creates a blacklist, allowing you to exclude parts from the mutations -->
   <exclude>

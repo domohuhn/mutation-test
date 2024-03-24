@@ -43,4 +43,15 @@ class TestData {
       on = true;
     }
   }
+
+  List<double> values = [];
+  void fillList(double x) {
+    values = [x, calc(x), calc(number1)];
+  }
+
+  double voidCalls(double x) {
+    fillList(x);
+    format(x);
+    return x;
+  }
 }

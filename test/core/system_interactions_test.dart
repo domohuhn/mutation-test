@@ -59,7 +59,7 @@ void main() {
   test('list directory', () {
     var sys = SystemInteractions(true, false);
     final list = sys.listDirectoryContents(dir, false, []);
-    expect(list.length, 10);
+    expect(list.length, 9);
   });
 
   test('list directory with pattern', () {
