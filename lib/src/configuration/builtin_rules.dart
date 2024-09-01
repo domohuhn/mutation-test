@@ -218,7 +218,11 @@ String _xmlRules() {
     <!-- It is possible to exclude files using the file element. -->
     <!-- <file>path/to/exclude.dart</file> -->
   </exclude>
-  <!-- Configures the reporting thresholds as percentage of detected mutations -->
+''';
+}
+
+String builtinThresholds() {
+  return '''  <!-- Configures the reporting thresholds as percentage of detected mutations -->
   <!-- Attribute failure is required and must be a floating point number. -->
   <!-- Note: There can only be one threshold element in all input files! -->
   <!-- If no threshold element is found, these values will be used. -->
@@ -241,7 +245,11 @@ String builtinMutationRules() {
 
 /// Returns a complete example file
 String fullXMLFile() {
-  return _xmlStart() + _xmlInputs() + _xmlRules() + _xmlEnd();
+  return _xmlStart() +
+      _xmlInputs() +
+      _xmlRules() +
+      builtinThresholds() +
+      _xmlEnd();
 }
 
 /// Returns the file and test command for default dart libs.

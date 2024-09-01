@@ -1,6 +1,7 @@
 ## 1.7.0
  - Added new builtin rules that remove lines of code (void function calls and contents of arrays)
  - Coverage information is provided in the html report: line numbers of instrumented lines are displayed in red and executed lines are displayed in green
+ - Fixed a problem when the user provides quality thresholds
 
 ## 1.6.0
  - Added the option to exclude lines not covered by tests. You can pass a file with coverage information in the lcov format via

@@ -86,7 +86,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'Library for defining parsers for parsing raw command-line arguments into a set of options and values using GNU and POSIX style options.',
     repository: 'https://github.com/dart-lang/args',
     authors: [],
-    version: '2.4.2',
+    version: '2.5.0',
     license: '''Copyright 2013, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -121,7 +121,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'async',
     description:
-        'Utility functions and classes related to the \'dart:async\' library.',
+        "Utility functions and classes related to the 'dart:async' library.",
     repository: 'https://github.com/dart-lang/async',
     authors: [],
     version: '2.11.0',
@@ -159,7 +159,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'boolean_selector',
     description:
-        'A flexible syntax for boolean expressions, based on a simplified version of Dart\'s expression syntax.',
+        "A flexible syntax for boolean expressions, based on a simplified version of Dart's expression syntax.",
     repository: 'https://github.com/dart-lang/boolean_selector',
     authors: [],
     version: '2.1.1',
@@ -275,7 +275,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     description: 'Coverage data manipulation and formatting',
     repository: 'https://github.com/dart-lang/coverage',
     authors: [],
-    version: '1.7.2',
+    version: '1.8.0',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -353,7 +353,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/dart_pubspec_licenses',
     repository: 'https://github.com/espresso3389/flutter_oss_licenses',
     authors: [],
-    version: '2.0.2',
+    version: '2.0.3',
     license: '''MIT License
 
 Copyright (c) 2019 Takashi Kawasaki
@@ -424,7 +424,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/flutter_oss_licenses',
     repository: 'https://github.com/espresso3389/flutter_oss_licenses',
     authors: [],
-    version: '2.0.1',
+    version: '2.0.3',
     license: '''MIT License
 
 Copyright (c) 2019 Takashi Kawasaki
@@ -457,7 +457,7 @@ SOFTWARE.''',
     repository:
         'https://github.com/dart-lang/webdev/tree/master/frontend_server_client',
     authors: [],
-    version: '3.2.0',
+    version: '4.0.0',
     license: '''Copyright 2020, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -685,7 +685,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/google/json_serializable.dart/tree/master/json_annotation',
     authors: [],
-    version: '4.8.1',
+    version: '4.9.0',
     license: '''Copyright 2017, the Dart project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -719,8 +719,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'lints',
     description:
-        '''Official Dart lint rules. Defines the 'core' and 'recommended' set of lints suggested by the Dart team.
-''',
+        """Official Dart lint rules. Defines the 'core' and 'recommended' set of lints suggested by the Dart team.
+""",
     repository: 'https://github.com/dart-lang/lints',
     authors: [],
     version: '3.0.0',
@@ -834,10 +834,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'meta',
     description:
-        'Annotations used to express developer intentions that can\'t otherwise be deduced by statically analyzing source code.',
+        "Annotations used to express developer intentions that can't otherwise be deduced by statically analyzing source code.",
     repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/meta',
     authors: [],
-    version: '1.12.0',
+    version: '1.15.0',
     license: '''Copyright 2016, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -873,9 +873,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     name: 'mime',
     description:
         'Utilities for handling media (MIME) types, including determining a type from a file extension and file contents.',
-    repository: 'https://github.com/dart-lang/mime',
+    repository: 'https://github.com/dart-lang/tools/tree/main/pkgs/mime',
     authors: [],
-    version: '1.0.5',
+    version: '1.0.6',
     license: '''Copyright 2015, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1117,7 +1117,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'pub_semver',
     description:
-        'Versions and version constraints implementing pub\'s versioning policy. This is very similar to vanilla semver, with a few corner cases.',
+        "Versions and version constraints implementing pub's versioning policy. This is very similar to vanilla semver, with a few corner cases.",
     repository: 'https://github.com/dart-lang/pub_semver',
     authors: [],
     version: '2.1.4',
@@ -1276,7 +1276,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     repository:
         'https://github.com/dart-lang/shelf/tree/master/pkgs/shelf_web_socket',
     authors: [],
-    version: '1.0.4',
+    version: '2.0.0',
     license: '''Copyright 2014, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1311,10 +1311,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
   Package(
     name: 'source_map_stack_trace',
     description: 'A package for applying source maps to stack traces.',
-    repository: 'https://github.com/dart-lang/source_map_stack_trace',
+    repository:
+        'https://github.com/dart-lang/tools/tree/main/pkgs/source_map_stack_trace',
     authors: [],
-    version: '2.1.1',
-    license: '''Copyright 2015, the Dart project authors. 
+    version: '2.1.2',
+    license: '''Copyright 2015, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
@@ -1501,7 +1502,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     description: 'A class for parsing strings using a sequence of patterns.',
     repository: 'https://github.com/dart-lang/string_scanner',
     authors: [],
-    version: '1.2.0',
+    version: '1.3.0',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1576,7 +1577,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A full featured library for writing and running Dart tests across platforms.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test',
     authors: [],
-    version: '1.25.2',
+    version: '1.25.7',
     license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1614,7 +1615,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'The user facing API for structuring Dart tests and checking expectations.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_api',
     authors: [],
-    version: '0.7.0',
+    version: '0.7.2',
     license: '''Copyright 2018, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1652,7 +1653,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A basic library for writing tests and running them on the VM.',
     repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_core',
     authors: [],
-    version: '0.6.0',
+    version: '0.6.4',
     license: '''Copyright 2018, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1728,7 +1729,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
         'A library to communicate with a service implementing the Dart VM service protocol.',
     repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/vm_service',
     authors: [],
-    version: '14.2.0',
+    version: '14.2.5',
     license: '''Copyright 2015, the Dart project authors.
 
 Redistribution and use in source and binary forms, with or without
@@ -1836,12 +1837,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
     isDirectDependency: false,
   ),
   Package(
+    name: 'web_socket',
+    description:
+        'Any easy-to-use library for communicating with WebSockets that has multiple implementations.',
+    repository: 'https://github.com/dart-lang/http/tree/master/pkgs/web_socket',
+    authors: [],
+    version: '0.1.6',
+    license: '''Copyright 2024, the Dart project authors. 
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following
+      disclaimer in the documentation and/or other materials provided
+      with the distribution.
+    * Neither the name of Google LLC nor the names of its
+      contributors may be used to endorse or promote products derived
+      from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
+    isMarkdown: false,
+    isSdk: false,
+    isDirectDependency: false,
+  ),
+  Package(
     name: 'web_socket_channel',
     description:
         'StreamChannel wrappers for WebSockets. Provides a cross-platform WebSocketChannel API, a cross-platform implementation of that API that communicates over an underlying StreamChannel.',
     repository: 'https://github.com/dart-lang/web_socket_channel',
     authors: [],
-    version: '2.4.4',
+    version: '3.0.1',
     license: '''Copyright 2016, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
