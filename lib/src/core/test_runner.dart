@@ -31,7 +31,7 @@ class TestRunner {
     final stopwatch = Stopwatch();
     stopwatch.start();
     var future = await Process.start(cmd.command, cmd.arguments,
-        workingDirectory: cmd.directory);
+        workingDirectory: cmd.directory, runInShell: Platform.isWindows);
     _pid = future.pid;
     _started = true;
     var stdout = '';
