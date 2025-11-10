@@ -30,7 +30,8 @@ void main(List<String> arguments) async {
     ..addFlag(version,
         help: 'Prints the version', negatable: false, defaultsTo: false)
     ..addFlag(about,
-        help: 'Prints information about the application',
+        help:
+            'Prints information about the application and the licenses of its dependencies',
         negatable: false,
         defaultsTo: false)
     ..addFlag(builtin,
