@@ -123,6 +123,7 @@ class Configuration {
     cmd.expectedReturnValue = 0;
     cmd.group = 'test';
     cmd.timeout = Duration(seconds: 60);
+    cmd.directory = '.';
     commands.add(cmd);
   }
 

@@ -1,3 +1,6 @@
+## 1.7.1
+ - Fixed issues when inferring test commands that prevented running the tests
+
 ## 1.7.0
  - Added new builtin rules that remove lines of code (void function calls and contents of arrays)
  - Coverage information is provided in the html report: line numbers of instrumented lines are displayed in red and executed lines are displayed in green
