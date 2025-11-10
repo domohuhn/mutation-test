@@ -298,7 +298,7 @@ class Configuration {
     return RegExp(pattern, multiLine: true, dotAll: dotMatchesNewlines);
   }
 
-  /// Parses a <command> token from [element] and adds it to the internal structure.
+  /// Parses a &lt;command&gt; token from [element] and adds it to the internal structure.
   void _addCommand(xml.XmlElement element) {
     final original = element.innerText;
     var text = original.split(' ');

@@ -6,7 +6,7 @@
 /// your code.
 /// In order to verify the quality of your tests, create an instance of the "MutationTest"
 /// class and call method runMutationTest().
-library mutation_test;
+library;
 
 // Copyright 2021, domohuhn.
 // License: BSD-3-Clause

@@ -171,7 +171,7 @@ void main(List<String> arguments) async {
   exit(0);
 }
 
-void handleCommandLineError(var parser, [String errorMessage = '']) {
+void handleCommandLineError(dynamic parser, [String errorMessage = '']) {
   if (errorMessage != '') {
     print('Error while parsing command line arguments:\n  $errorMessage');
   }
@@ -183,7 +183,7 @@ void handleProcessingError([String errorMessage = '']) {
   exit(1);
 }
 
-void printHelp(var parser) {
+void printHelp(dynamic parser) {
   print('''
 Usage : mutation-test <options> <input xml or source files...>  
 A program that mutates your source code and verifies that the test commands
@@ -234,7 +234,7 @@ Options:''');
   print(parser.usage);
 }
 
-void printUsage(var parser, [int exitCode = 0]) {
+void printUsage(dynamic parser, [int exitCode = 0]) {
   print('''
 Usage : mutation-test <options> <input xml or source files...>  
 Options:''');
