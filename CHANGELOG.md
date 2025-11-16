@@ -1,5 +1,5 @@
 ## 1.7.1
- - Fixed issues when inferring test commands that prevented running the tests
+ - Fixed issues when inferring test commands: the working directory will be set to the current directory and on windows the commands are run inside a shell environment
 
 ## 1.7.0
  - Added new builtin rules that remove lines of code (void function calls and contents of arrays)
