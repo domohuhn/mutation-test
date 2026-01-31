@@ -35,7 +35,6 @@ const allDependencies = <Package>[
   _http_multi_server,
   _http_parser,
   _io,
-  _js,
   _json_annotation,
   _lints,
   _logging,
@@ -732,7 +731,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// dart_pubspec_licenses 3.0.14
+/// dart_pubspec_licenses 3.0.15
 const _dart_pubspec_licenses = Package(
   name: 'dart_pubspec_licenses',
   description:
@@ -741,7 +740,7 @@ const _dart_pubspec_licenses = Package(
       'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/dart_pubspec_licenses',
   repository: 'https://github.com/espresso3389/flutter_oss_licenses',
   authors: [],
-  version: '3.0.14',
+  version: '3.0.15',
   spdxIdentifiers: ['MIT'],
   isMarkdown: false,
   isSdk: false,
@@ -817,7 +816,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// flutter_oss_licenses 3.0.11
+/// flutter_oss_licenses 3.0.12
 const _flutter_oss_licenses = Package(
   name: 'flutter_oss_licenses',
   description:
@@ -826,7 +825,7 @@ const _flutter_oss_licenses = Package(
       'https://github.com/espresso3389/flutter_oss_licenses/tree/master/packages/flutter_oss_licenses',
   repository: 'https://github.com/espresso3389/flutter_oss_licenses',
   authors: [],
-  version: '3.0.11',
+  version: '3.0.12',
   spdxIdentifiers: ['MIT'],
   isMarkdown: false,
   isSdk: false,
@@ -1181,49 +1180,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// js 0.7.2
-const _js = Package(
-  name: 'js',
-  description:
-      'Annotations to create static Dart interfaces for JavaScript APIs.',
-  repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/js',
-  authors: [],
-  version: '0.7.2',
-  spdxIdentifiers: ['BSD-3-Clause'],
-  isMarkdown: false,
-  isSdk: false,
-  dependencies: [],
-  devDependencies: [PackageRef('lints')],
-  license: '''Copyright 2012, the Dart project authors.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above
-      copyright notice, this list of conditions and the following
-      disclaimer in the documentation and/or other materials provided
-      with the distribution.
-    * Neither the name of Google LLC nor the names of its
-      contributors may be used to endorse or promote products derived
-      from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
-);
-
-/// json_annotation 4.9.0
+/// json_annotation 4.10.0
 const _json_annotation = Package(
   name: 'json_annotation',
   description:
@@ -1231,7 +1188,7 @@ const _json_annotation = Package(
   repository:
       'https://github.com/google/json_serializable.dart/tree/master/json_annotation',
   authors: [],
-  version: '4.9.0',
+  version: '4.10.0',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -1265,7 +1222,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// lints 6.0.0
+/// lints 6.1.0
 const _lints = Package(
   name: 'lints',
   description:
@@ -1273,7 +1230,7 @@ const _lints = Package(
 """,
   repository: 'https://github.com/dart-lang/core/tree/main/pkgs/lints',
   authors: [],
-  version: '6.0.0',
+  version: '6.1.0',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -1403,14 +1360,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// matcher 0.12.17
+/// matcher 0.12.18
 const _matcher = Package(
   name: 'matcher',
   description:
       'Support for specifying test expectations via an extensible Matcher class. Also includes a number of built-in Matcher implementations for common cases.',
   repository: 'https://github.com/dart-lang/test/tree/master/pkgs/matcher',
   authors: [],
-  version: '0.12.17',
+  version: '0.12.18',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -1421,7 +1378,7 @@ const _matcher = Package(
     PackageRef('term_glyph'),
     PackageRef('test_api')
   ],
-  devDependencies: [PackageRef('lints'), PackageRef('test')],
+  devDependencies: [PackageRef('test')],
   license: '''Copyright 2014, the Dart project authors. 
 
 Redistribution and use in source and binary forms, with or without
@@ -1451,14 +1408,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// meta 1.17.0
+/// meta 1.18.1
 const _meta = Package(
   name: 'meta',
   description:
       "Annotations used to express developer intentions that can't otherwise be deduced by statically analyzing source code.",
   repository: 'https://github.com/dart-lang/sdk/tree/main/pkg/meta',
   authors: [],
-  version: '1.17.0',
+  version: '1.18.1',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -2809,14 +2766,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// tar 2.0.1
+/// tar 2.0.2
 const _tar = Package(
   name: 'tar',
   description:
       'Memory-efficient, streaming implementation of the tar file format',
   repository: 'https://github.com/simolus3/tar/',
   authors: [],
-  version: '2.0.1',
+  version: '2.0.2',
   spdxIdentifiers: ['MIT'],
   isMarkdown: false,
   isSdk: false,
@@ -2895,14 +2852,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// test 1.26.3
+/// test 1.29.0
 const _test = Package(
   name: 'test',
   description:
       'A full featured library for writing and running Dart tests across platforms.',
   repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test',
   authors: [],
-  version: '1.26.3',
+  version: '1.29.0',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -2914,7 +2871,6 @@ const _test = Package(
     PackageRef('coverage'),
     PackageRef('http_multi_server'),
     PackageRef('io'),
-    PackageRef('js'),
     PackageRef('matcher'),
     PackageRef('node_preamble'),
     PackageRef('package_config'),
@@ -2964,14 +2920,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// test_api 0.7.7
+/// test_api 0.7.9
 const _test_api = Package(
   name: 'test_api',
   description:
       'The user facing API for structuring Dart tests and checking expectations.',
   repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_api',
   authors: [],
-  version: '0.7.7',
+  version: '0.7.9',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -3022,13 +2978,13 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// test_core 0.6.12
+/// test_core 0.6.15
 const _test_core = Package(
   name: 'test_core',
   description: 'A basic library for writing tests and running them on the VM.',
   repository: 'https://github.com/dart-lang/test/tree/master/pkgs/test_core',
   authors: [],
-  version: '0.6.12',
+  version: '0.6.15',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
@@ -3179,14 +3135,14 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.''',
 );
 
-/// watcher 1.1.4
+/// watcher 1.2.1
 const _watcher = Package(
   name: 'watcher',
   description:
       'A file system watcher. It monitors changes to contents of directories and sends notifications when files have been added, removed, or modified.',
   repository: 'https://github.com/dart-lang/tools/tree/main/pkgs/watcher',
   authors: [],
-  version: '1.1.4',
+  version: '1.2.1',
   spdxIdentifiers: ['BSD-3-Clause'],
   isMarkdown: false,
   isSdk: false,
