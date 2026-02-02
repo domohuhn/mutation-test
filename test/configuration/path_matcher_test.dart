@@ -10,7 +10,6 @@ void main() {
     test('no wildcard', () {
       final matcher = PathMatcher('this/is/a/path/without/wildcards', false);
       expect(matcher.patterns.length, 1);
-      print(matcher.patterns[0]);
       expect(matcher.patterns[0], 'this/is/a/path/without/wildcards');
     });
 

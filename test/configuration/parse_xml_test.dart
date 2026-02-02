@@ -126,7 +126,7 @@ void main() {
     expect(
         xml,
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<mutations version="1.1">\n'
+        '<mutations version="1.2">\n'
         '  <directories>\n'
         '    <directory recursive="true">lib\n'
         '      <matching pattern="\\.dart\$"/>\n'
