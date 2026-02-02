@@ -153,7 +153,7 @@ After a input file is processed, a report is generated. You can choose multiple 
 This chapter explains the structure of the input XML documents. They must conform to the following schema:
 ```Xml
 <?xml version="1.0" encoding="UTF-8"?>
-<mutations version="1.1">
+<mutations version="1.2">
     <files>
     ...
     </files>
@@ -254,7 +254,11 @@ You can create rules to exclude portions of source files or the full file from t
   <!-- line index starts at 1 -->
   <lines begin="1" end="2">
   <!-- It is possible to exclude files using the file element. -->
-  <file>path/to/exclude.dart</file>
+  <!-- The path accepts * as wildcard for anything inside a directory (matches until the next /). -->
+  <!-- ** is a wildcard for anything -->
+  <file>path/*/to/**/exclude.dart</file>
+  <!-- You can also exclude full directories -->
+  <directory>path/**/to/*/exclude</directory>
 </exclude>
 ```
 Explicit exclusions have precedence over inclusions. 
@@ -321,7 +325,7 @@ Here is a table of all XML elements that are parsed by this program:
 | mutations   | files, rules, exclude, commands | version     | Top level element |
 | files       | file                            |             | Holds the list of files to mutate |
 | directories | directory                       | recursive   | Holds the list of directories to search for files |
-| exclude     | token, regex, lines             |             | Holds the list of exclusions from mutations. |
+| exclude     | token, regex, lines, file, directory            |             | Holds the list of exclusions from mutations. |
 | commands    | command                         |             | Holds the list of commands to run |
 | rules       | literal, regex                  |             | Holds the list of mutation rules |
 | file        | lines                           |             | Contains the path the to file as text. If there are lines children present, only the given lines are mutated. |

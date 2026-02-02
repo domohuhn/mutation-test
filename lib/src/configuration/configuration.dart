@@ -5,6 +5,7 @@
 import 'package:xml/xml.dart' as xml;
 import 'package:mutation_test/src/core/core.dart';
 import 'package:mutation_test/src/reports/ratings.dart';
+import 'package:mutation_test/src/configuration/path_matcher.dart';
 
 /// A structure holding the information about the mutation input.
 class TargetFile {
@@ -18,8 +19,10 @@ class Configuration {
   /// The list of source files that will be mutated
   List<TargetFile> files;
 
-  /// The list files that are excluded
-  List<String> excludedFiles;
+  /// The list of path patterns that exclude files starting with the pattern
+  ///
+  /// May contain * to match anything in the current directory or ** to match anything.
+  List<PathMatcher> excludedPaths;
 
   /// The mutation rules added from the rules
   List<Mutation> mutations;
@@ -37,7 +40,7 @@ class Configuration {
 
   Configuration(this.system, this.dry)
       : files = [],
-        excludedFiles = [],
+        excludedPaths = [],
         mutations = [],
         commands = [],
         exclusions = [],
@@ -46,7 +49,7 @@ class Configuration {
   /// Constructs the configuration from an xml file in [path]
   Configuration.fromFile(String path, this.system, this.dry)
       : files = [],
-        excludedFiles = [],
+        excludedPaths = [],
         mutations = [],
         commands = [],
         exclusions = [],
@@ -64,9 +67,9 @@ class Configuration {
   /// Removes all input source files from the target file list
   /// that were explicitly excluded in the rules file.
   void _removeExcludedSourceFiles() {
-    for (final excluded in excludedFiles) {
+    for (final excluded in excludedPaths) {
       files.removeWhere((element) {
-        if (element.path == excluded) {
+        if (excluded.matches(element.path)) {
           system.verboseWriteLine('Excluding file: $excluded');
           return true;
         }
@@ -147,8 +150,9 @@ class Configuration {
           'No version attribute found in xml element <mutations>!');
     }
     double version = double.parse(str);
-    if (version != 1.0 && version != 1.1) {
-      throw MutationError('Configuration file version not supported!');
+    if (version != 1.0 && version != 1.1 && version != 1.2) {
+      throw MutationError(
+          'Configuration file version not supported! version="$str" is not one of [1.0, 1.1, 1.2]');
     }
     system.verboseWriteLine('- configuration file version $str');
 
@@ -173,7 +177,8 @@ class Configuration {
       _processXMLNode(el, 'regex', (el) {
         exclusions.add(RegexRange(_parseRegEx(el)));
       });
-      _processXMLNode(el, 'file', _addExcludedFile);
+      _processXMLNode(el, 'file', (el) => _addExcludedPath(el, false));
+      _processXMLNode(el, 'directory', (el) => _addExcludedPath(el, true));
     });
     system.verboseWriteLine(' ${exclusions.length} exclusion rules');
 
@@ -205,8 +210,8 @@ class Configuration {
     files.add(TargetFile(path, whitelist));
   }
 
-  void _addExcludedFile(xml.XmlElement element) {
-    excludedFiles.add(element.innerText.trim());
+  void _addExcludedPath(xml.XmlElement element, bool isDirectory) {
+    excludedPaths.add(PathMatcher(element.innerText.trim(), isDirectory));
   }
 
   void _addDirectory(xml.XmlElement element) {

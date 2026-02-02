@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mutations version="1.0">
+<mutations version="1.2">
   <!-- License: BSD-3-Clause  -->
-  <files>
-    <file>lib/src/commands.dart</file>
-    <file>lib/src/configuration.dart</file>
-    <file>lib/src/errors.dart</file>
-    <file>lib/src/html_reporter.dart</file>
-    <file>lib/src/mutation_progress_bar.dart</file>
-    <file>lib/src/mutation_test.dart</file>
-    <file>lib/src/mutations.dart</file>
-    <file>lib/src/progress_bar.dart</file>
-    <file>lib/src/range.dart</file>
-    <file>lib/src/ratings.dart</file>
-    <file>lib/src/replacements.dart</file>
-    <file>lib/src/report_format.dart</file>
-    <file>lib/src/string_helpers.dart</file>
-    <file>lib/src/test_runner.dart</file>
-    <file>lib/src/version.dart</file>
-  </files>
-
+  <directories>
+    <directory recursive="true">lib</directory>
+  </directories>
+  <exclude>
+    <directory>**/core</directory>
+    <token begin="'''" end="'''"/>
+  </exclude>
   <commands>
     <command group="test" expected-return="0" working-directory=".">dart test</command>
   </commands>

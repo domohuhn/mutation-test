@@ -33,10 +33,31 @@ void main() {
     final configuration = Configuration(mock, true);
     configuration.parseXMLString(_excludeFiles);
     expect(configuration.files.length, 0);
-    expect(configuration.excludedFiles.length, 2);
-    expect(configuration.excludedFiles[0], 'some/file/to/exclude');
-    expect(configuration.excludedFiles[1],
+    expect(configuration.excludedPaths.length, 2);
+    expect(configuration.excludedPaths[0].isDirectory, false);
+    expect(configuration.excludedPaths[0].isFile, true);
+    expect(configuration.excludedPaths[0].patterns[0], 'some/file/to/exclude');
+    expect(configuration.excludedPaths[1].isDirectory, false);
+    expect(configuration.excludedPaths[1].isFile, true);
+    expect(configuration.excludedPaths[1].patterns[0],
         'test/configuration/parse_xml_test.dart');
+  });
+
+  test('Parse dir exclusion', () {
+    final configuration = Configuration(mock, true);
+    configuration.parseXMLString(_excludeDirectory);
+    expect(configuration.files.length, 0);
+    expect(configuration.excludedPaths.length, 2);
+    expect(configuration.excludedPaths[0].isDirectory, true);
+    expect(configuration.excludedPaths[0].isFile, false);
+    expect(configuration.excludedPaths[0].patterns[0], 'lib/');
+    expect(configuration.excludedPaths[0].patterns[1], '**');
+    expect(configuration.excludedPaths[0].patterns[2], '/configuration');
+    expect(configuration.excludedPaths[1].isDirectory, true);
+    expect(configuration.excludedPaths[1].isFile, false);
+    expect(configuration.excludedPaths[1].patterns[0], 'test/configuration/');
+    expect(configuration.excludedPaths[1].patterns[1], '*');
+    expect(configuration.excludedPaths[1].patterns[2], '.dart');
   });
 
   test('Input error - wrong version', () {
@@ -189,6 +210,20 @@ String _excludeFiles = '''
   <exclude>
     <file>some/file/to/exclude</file>
     <file>test/configuration/parse_xml_test.dart</file>
+  </exclude>
+</mutations>
+''';
+
+String _excludeDirectory = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations version="1.0">
+  <files>
+    <file>lib/src/configuration/configuration.dart</file>
+    <file>test/configuration/parse_xml_test.dart</file>
+  </files>
+  <exclude>
+    <directory>lib/**/configuration</directory>
+    <directory>test/configuration/*.dart</directory>
   </exclude>
 </mutations>
 ''';
