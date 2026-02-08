@@ -5,24 +5,45 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:mutation_test/src/core/core.dart';
+
 /// This class matches a string against a pattern with wildcards * and **.
 class PathMatcher {
-  bool _isDirectory = false;
+  final bool _isDirectory;
   bool get isDirectory => _isDirectory;
   bool get isFile => !isDirectory;
-  List<String> patterns = [];
+  bool get hasWildcards => patternParts.any((e) => e == '*' || e == '**');
+  final String path;
+  String get directoryBeforeFirstWildcard {
+    if (patternParts.isEmpty || patternParts[0].contains('*')) {
+      return '.';
+    }
+    final end = patternParts[0].lastIndexOf('/');
+    return patternParts[0].substring(0, end);
+  }
 
-  PathMatcher(String pattern, bool isDirectory) : _isDirectory = isDirectory {
+  String get normalizedPath => normalizePath(path);
+
+  List<String> patternParts = [];
+
+  PathMatcher(this.path, this._isDirectory) {
     int lastTokenStart = 0;
     var lastWasWildcard = false;
-    final normalized = normalizePath(pattern);
+    final normalized = normalizedPath;
+    if (normalized.isEmpty || normalized.contains('/..')) {
+      throw MutationError(
+          'Paths must not be empty or contain "/.." - got "$path"');
+    }
     for (final unit in normalized.codeUnits.indexed) {
       if (unit.$2 == 42) {
         if (lastWasWildcard) {
-          patterns.last = '**';
+          patternParts.last = '**';
         } else {
-          patterns.add(normalized.substring(lastTokenStart, unit.$1));
-          patterns.add('*');
+          final previous = normalized.substring(lastTokenStart, unit.$1);
+          if (previous.isNotEmpty) {
+            patternParts.add(previous);
+          }
+          patternParts.add('*');
         }
         lastTokenStart = unit.$1 + 1;
         lastWasWildcard = true;
@@ -31,7 +52,7 @@ class PathMatcher {
       }
     }
     if (lastTokenStart < normalized.length) {
-      patterns.add(normalized.substring(lastTokenStart));
+      patternParts.add(normalized.substring(lastTokenStart));
     }
   }
 
@@ -60,23 +81,23 @@ class PathMatcher {
   bool matches(String path) {
     final normalized = normalizePath(path);
     int lastChecked = 0;
-    //print('=== BEGIN - patterns $patterns');
+    //print('=== BEGIN - patternParts $patternParts');
     for (int index = 0;
-        index < patterns.length && lastChecked < normalized.length;
+        index < patternParts.length && lastChecked < normalized.length;
         index++) {
-      final compare = patterns[index];
+      final compare = patternParts[index];
       //print("TO CHECK '$compare' ($lastChecked) '${normalized.substring(lastChecked)}'");
       if (compare == '*') {
         //print("simple wildcard");
         // if last pattern and no more / -> match
-        if (index + 1 >= patterns.length) {
+        if (index + 1 >= patternParts.length) {
           return normalized.length >= lastChecked &&
               (_isDirectory || _countPaths(normalized, lastChecked) == 0);
         } else {
           // ignore until next / or start of next pattern
           final nextDirectory = normalized.indexOf('/', lastChecked);
           final nextMatch =
-              normalized.indexOf(patterns[index + 1], lastChecked);
+              normalized.indexOf(patternParts[index + 1], lastChecked);
           //print("NEXT $nextDirectory $nextMatch");
           if (nextDirectory > 0 && nextMatch > 0) {
             lastChecked = min(nextMatch, nextDirectory);
@@ -91,12 +112,13 @@ class PathMatcher {
       } else if (compare == '**') {
         //print("double wildcard");
         // if last pattern -> match
-        if (index + 1 >= patterns.length && normalized.length >= lastChecked) {
+        if (index + 1 >= patternParts.length &&
+            normalized.length >= lastChecked) {
           return true;
         } else {
           // ignore until start of next pattern
           final nextMatch =
-              normalized.indexOf(patterns[index + 1], lastChecked);
+              normalized.indexOf(patternParts[index + 1], lastChecked);
           //print("NEXT $nextMatch");
           if (nextMatch > 0) {
             lastChecked = nextMatch;
@@ -109,7 +131,7 @@ class PathMatcher {
         //print("string compare ${normalized.length} >= $endOfNextMatch && ${normalized.startsWith(compare,lastChecked)} && (${_nextPatternIsWildcard(index)} || ${_nextPathTokenIsADirectory(compare,normalized,lastChecked)})");
         if (normalized.length >= endOfNextMatch &&
             normalized.startsWith(compare, lastChecked)) {
-          if (index + 1 >= patterns.length) {
+          if (index + 1 >= patternParts.length) {
             //print("default string true ${_isDirectory} || ${normalized.length == endOfNextMatch}");
             return _isDirectory || normalized.length == endOfNextMatch;
           } else {

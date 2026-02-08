@@ -28,6 +28,11 @@ String _xmlInputs() {
       <lines begin="13" end="24"/>
       <lines begin="29" end="35"/>
     </file>
+    <!-- Wildcards can used as part of the paths:  -->
+    <!-- adds all files from example that end with .dart  -->
+    <!-- <file>example/*.dart</file> -->
+    <!-- adds all files from example and all subdirectories ending in .dart -->
+    <!-- <file>example/**.dart</file> -->
   </files>
   <!-- You can list all input directories here -->
   <directories>
@@ -217,6 +222,11 @@ String _xmlRules() {
     <!-- lines begin="1" end="2"/-->
     <!-- It is possible to exclude files using the file element. -->
     <!-- <file>path/to/exclude.dart</file> -->
+    <!-- The path accepts * as wildcard for anything inside a directory (matches until the next /). -->
+    <!-- ** is a wildcard that matches any path, even multiple directories -->
+    <!-- <file>path/*/to/**/exclude.dart</file> -->
+    <!-- You can also exclude full directories -->
+    <!-- <directory>path/**/to/*/exclude</directory> -->
   </exclude>
 ''';
 }

@@ -36,10 +36,11 @@ void main() {
     expect(configuration.excludedPaths.length, 2);
     expect(configuration.excludedPaths[0].isDirectory, false);
     expect(configuration.excludedPaths[0].isFile, true);
-    expect(configuration.excludedPaths[0].patterns[0], 'some/file/to/exclude');
+    expect(
+        configuration.excludedPaths[0].patternParts[0], 'some/file/to/exclude');
     expect(configuration.excludedPaths[1].isDirectory, false);
     expect(configuration.excludedPaths[1].isFile, true);
-    expect(configuration.excludedPaths[1].patterns[0],
+    expect(configuration.excludedPaths[1].patternParts[0],
         'test/configuration/parse_xml_test.dart');
   });
 
@@ -50,14 +51,15 @@ void main() {
     expect(configuration.excludedPaths.length, 2);
     expect(configuration.excludedPaths[0].isDirectory, true);
     expect(configuration.excludedPaths[0].isFile, false);
-    expect(configuration.excludedPaths[0].patterns[0], 'lib/');
-    expect(configuration.excludedPaths[0].patterns[1], '**');
-    expect(configuration.excludedPaths[0].patterns[2], '/configuration');
+    expect(configuration.excludedPaths[0].patternParts[0], 'lib/');
+    expect(configuration.excludedPaths[0].patternParts[1], '**');
+    expect(configuration.excludedPaths[0].patternParts[2], '/configuration');
     expect(configuration.excludedPaths[1].isDirectory, true);
     expect(configuration.excludedPaths[1].isFile, false);
-    expect(configuration.excludedPaths[1].patterns[0], 'test/configuration/');
-    expect(configuration.excludedPaths[1].patterns[1], '*');
-    expect(configuration.excludedPaths[1].patterns[2], '.dart');
+    expect(
+        configuration.excludedPaths[1].patternParts[0], 'test/configuration/');
+    expect(configuration.excludedPaths[1].patternParts[1], '*');
+    expect(configuration.excludedPaths[1].patternParts[2], '.dart');
   });
 
   test('Input error - wrong version', () {

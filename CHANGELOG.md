@@ -1,5 +1,6 @@
 ## 1.8.0
- - Added an option to exclude whole directories in the exclude tag.
+ - The input files element now accepts the wildcards * and ** in its path
+ - Added an option to exclude whole directories in the exclude tag. These options also accept the wildcards * and **.
 
 ## 1.7.1
  - Fixed issues when inferring test commands: the working directory will be set to the current directory and on windows the commands are run inside a shell environment

@@ -200,14 +200,30 @@ class Configuration {
 
   void _addFile(xml.XmlElement element) {
     final path = element.innerText.trim();
-    if (!system.fileExists(path)) {
-      throw MutationError('Input file "$path" not found!');
-    }
     var whitelist = <Range>[];
     _processXMLNode(element, 'lines', (el) {
       whitelist.add(_parseLineRange(el));
     });
-    files.add(TargetFile(path, whitelist));
+    final pattern = PathMatcher(path, false);
+    _addFilesFromPatternToTargetList(pattern, whitelist);
+  }
+
+  void _addFilesFromPatternToTargetList(PathMatcher pattern,
+      [List<Range> whitelist = const <Range>[]]) {
+    if (!pattern.hasWildcards) {
+      if (!system.fileExists(pattern.path)) {
+        throw MutationError('Input file "${pattern.path}" not found!');
+      }
+      files.add(TargetFile(pattern.path, whitelist));
+    } else {
+      final allContents = system.listDirectoryContents(
+          pattern.directoryBeforeFirstWildcard, true, []);
+      for (final input in allContents) {
+        if (pattern.matches(input)) {
+          files.add(TargetFile(pattern.normalizePath(input), whitelist));
+        }
+      }
+    }
   }
 
   void _addExcludedPath(xml.XmlElement element, bool isDirectory) {

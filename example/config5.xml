@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations version="1.0">
+  <!-- License: BSD-3-Clause  -->
+  <files>
+    <file>example/*.dart</file>
+  </files>
+  <exclude>
+    <!-- lines can also be globally excluded  -->
+    <lines begin="1" end="2"/>
+  </exclude>
+  <commands>
+    <command group="test" expected-return="0" working-directory=".">dart test test/example_test.dart</command>
+    <command group="test" expected-return="0" working-directory=".">dart test test/example2_test.dart</command>
+  </commands>
+</mutations>

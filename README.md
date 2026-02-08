@@ -184,7 +184,8 @@ mutation_test -g
 The generated documents also contain some helpful comments on how to create your own rules. You should usually provide two different documents: one with the mutation rules given as argument to "-r" and another one with the input files. The reason why mutation_test always loads two files (unless you disable the builtin rule set via "--no-builtin" and don't provide your own rules file) is that you can reuse the same set of rules for many different input files.
 
 ### Files
-The children of "files" elements are individual files:
+The children of "files" elements are individual files, or multiple files if you are using one of the wildcards '*' or '**':
+
 ```Xml
 <files>
     <file>example/source.dart</file>
@@ -195,8 +196,14 @@ The children of "files" elements are individual files:
       <lines begin="13" end="24"/>
       <lines begin="29" end="35"/>
     </file>
+    <!-- Wildcards can used as part of the paths:  -->
+    <!-- adds all files from example that end with .dart  -->
+    <file>example/*.dart</file>
+    <!-- adds all files from example and all subdirectories ending in .dart -->
+    <file>example/**.dart</file>
 </files>
 ```
+
 The application will perform the mutation tests in sequence on the listed files. All mutations that are not in an exclusion or inside a whitelisted area will be applied.
 
 ### Directories
@@ -254,8 +261,9 @@ You can create rules to exclude portions of source files or the full file from t
   <!-- line index starts at 1 -->
   <lines begin="1" end="2">
   <!-- It is possible to exclude files using the file element. -->
+  <file>path/to/exclude.dart</file>
   <!-- The path accepts * as wildcard for anything inside a directory (matches until the next /). -->
-  <!-- ** is a wildcard for anything -->
+  <!-- ** is a wildcard that matches any path, even multiple directories -->
   <file>path/*/to/**/exclude.dart</file>
   <!-- You can also exclude full directories -->
   <directory>path/**/to/*/exclude</directory>

@@ -3,67 +3,84 @@
 // See LICENSE for the full text of the license
 
 import 'package:mutation_test/src/configuration/path_matcher.dart';
+import 'package:mutation_test/src/core/core.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('parse paths', () {
     test('no wildcard', () {
       final matcher = PathMatcher('this/is/a/path/without/wildcards', false);
-      expect(matcher.patterns.length, 1);
-      expect(matcher.patterns[0], 'this/is/a/path/without/wildcards');
+      expect(matcher.patternParts.length, 1);
+      expect(matcher.patternParts[0], 'this/is/a/path/without/wildcards');
+      expect(matcher.hasWildcards, false);
+    });
+
+    test('invalid paths', () {
+      expect(() => PathMatcher('', true), throwsA(isA<MutationError>()));
+      expect(() => PathMatcher('this/is/a/../path.dart', false),
+          throwsA(isA<MutationError>()));
     });
 
     test('one wildcard 1', () {
       final matcher = PathMatcher('this/is/a/path/with/*/wildcards', false);
-      expect(matcher.patterns.length, 3);
-      expect(matcher.patterns[0], 'this/is/a/path/with/');
-      expect(matcher.patterns[1], '*');
-      expect(matcher.patterns[2], '/wildcards');
+      expect(matcher.patternParts.length, 3);
+      expect(matcher.patternParts[0], 'this/is/a/path/with/');
+      expect(matcher.patternParts[1], '*');
+      expect(matcher.patternParts[2], '/wildcards');
+      expect(matcher.hasWildcards, true);
     });
 
     test('one wildcard 2', () {
       final matcher = PathMatcher('this/is/a/path/with/**/wildcards', false);
-      expect(matcher.patterns.length, 3);
-      expect(matcher.patterns[0], 'this/is/a/path/with/');
-      expect(matcher.patterns[1], '**');
-      expect(matcher.patterns[2], '/wildcards');
+      expect(matcher.patternParts.length, 3);
+      expect(matcher.patternParts[0], 'this/is/a/path/with/');
+      expect(matcher.patternParts[1], '**');
+      expect(matcher.patternParts[2], '/wildcards');
+      expect(matcher.hasWildcards, true);
     });
 
     test('one wildcard 3', () {
       final matcher = PathMatcher('this/is/a/path/with/****/wildcards', false);
-      expect(matcher.patterns.length, 3);
-      expect(matcher.patterns[0], 'this/is/a/path/with/');
-      expect(matcher.patterns[1], '**');
-      expect(matcher.patterns[2], '/wildcards');
+      expect(matcher.patternParts.length, 3);
+      expect(matcher.patternParts[0], 'this/is/a/path/with/');
+      expect(matcher.patternParts[1], '**');
+      expect(matcher.patternParts[2], '/wildcards');
     });
 
     test('one wildcard 4', () {
       final matcher = PathMatcher('this/is/a/path/with/*', false);
-      expect(matcher.patterns.length, 2);
-      expect(matcher.patterns[0], 'this/is/a/path/with/');
-      expect(matcher.patterns[1], '*');
+      expect(matcher.patternParts.length, 2);
+      expect(matcher.patternParts[0], 'this/is/a/path/with/');
+      expect(matcher.patternParts[1], '*');
     });
 
     test('one wildcard 5', () {
       final matcher = PathMatcher('this/is/a/path/with/**', false);
-      expect(matcher.patterns.length, 2);
-      expect(matcher.patterns[0], 'this/is/a/path/with/');
-      expect(matcher.patterns[1], '**');
+      expect(matcher.patternParts.length, 2);
+      expect(matcher.patternParts[0], 'this/is/a/path/with/');
+      expect(matcher.patternParts[1], '**');
     });
 
     test('one wildcard 6', () {
       final matcher = PathMatcher('this/is/a/path/with*', false);
-      expect(matcher.patterns.length, 2);
-      expect(matcher.patterns[0], 'this/is/a/path/with');
-      expect(matcher.patterns[1], '*');
+      expect(matcher.patternParts.length, 2);
+      expect(matcher.patternParts[0], 'this/is/a/path/with');
+      expect(matcher.patternParts[1], '*');
     });
 
     test('one wildcard 7', () {
       final matcher = PathMatcher('this/is/a/path/with/*.dart', false);
-      expect(matcher.patterns.length, 3);
-      expect(matcher.patterns[0], 'this/is/a/path/with/');
-      expect(matcher.patterns[1], '*');
-      expect(matcher.patterns[2], '.dart');
+      expect(matcher.patternParts.length, 3);
+      expect(matcher.patternParts[0], 'this/is/a/path/with/');
+      expect(matcher.patternParts[1], '*');
+      expect(matcher.patternParts[2], '.dart');
+    });
+
+    test('one wildcard 8', () {
+      final matcher = PathMatcher('**.dart', false);
+      expect(matcher.patternParts[0], '**');
+      expect(matcher.patternParts[1], '.dart');
+      expect(matcher.patternParts.length, 2);
     });
   });
 
@@ -316,6 +333,26 @@ void main() {
         false,
         false,
         false,
+        true
+      ];
+      for (final path in inputs.indexed) {
+        expect(p.matches(path.$2), outputs[path.$1]);
+      }
+    });
+
+    test('one wildcard 8', () {
+      final p = PathMatcher('**.dart', false);
+      final outputs = [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
         true
       ];
       for (final path in inputs.indexed) {
