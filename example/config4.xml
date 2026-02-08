@@ -2,7 +2,7 @@
 <mutations version="1.0">
   <!-- License: BSD-3-Clause  -->
   <files>
-    <file>**.dart</file>
+    <file>example/**.dart</file>
   </files>
   <exclude>
     <!-- lines can also be globally excluded  -->

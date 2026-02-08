@@ -123,6 +123,18 @@ void main() {
     }, throwsException);
   });
 
+  test('Read from file - wildcard1', () {
+    final configuration =
+        Configuration.fromFile('./example/config5.xml', mock, true);
+    expect(configuration.files.length, 3);
+  });
+
+  test('Read from file - wildcard2', () {
+    final configuration =
+        Configuration.fromFile('./example/config4.xml', mock, true);
+    expect(configuration.files.length, 4);
+  });
+
   test('Dart default rules', () {
     final xml = dartDefaultConfiguration();
     expect(
