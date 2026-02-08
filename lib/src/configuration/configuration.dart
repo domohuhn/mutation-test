@@ -80,6 +80,7 @@ class Configuration {
 
   /// Parses an XML string with the given [contents]
   void parseXMLString(String contents) {
+    topLevelFound = false;
     final document = xml.XmlDocument.parse(contents);
     for (var element in document.findAllElements('mutations')) {
       _processTopLevel(element);

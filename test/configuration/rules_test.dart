@@ -113,4 +113,10 @@ super(name, false) {
       }
     }
   });
+
+  test('string exclusion', () {
+    final configuration = Configuration(mock, true);
+    configuration.parseXMLString(dartExcludeStringsConfiguration());
+    expect(configuration.exclusions.length, 4);
+  });
 }

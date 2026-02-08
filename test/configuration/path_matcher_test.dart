@@ -15,6 +15,15 @@ void main() {
       expect(matcher.hasWildcards, false);
     });
 
+    test('normalized', () {
+      final matcher =
+          PathMatcher('this/is/a////path///without/wildcards', false);
+      expect(matcher.patternParts.length, 1);
+      expect(matcher.normalizedPath, 'this/is/a/path/without/wildcards');
+      expect(matcher.patternParts[0], 'this/is/a/path/without/wildcards');
+      expect(matcher.hasWildcards, false);
+    });
+
     test('invalid paths', () {
       expect(() => PathMatcher('', true), throwsA(isA<MutationError>()));
       expect(() => PathMatcher('this/is/a/../path.dart', false),

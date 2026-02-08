@@ -81,14 +81,11 @@ class PathMatcher {
   bool matches(String path) {
     final normalized = normalizePath(path);
     int lastChecked = 0;
-    //print('=== BEGIN - patternParts $patternParts');
     for (int index = 0;
         index < patternParts.length && lastChecked < normalized.length;
         index++) {
       final compare = patternParts[index];
-      //print("TO CHECK '$compare' ($lastChecked) '${normalized.substring(lastChecked)}'");
       if (compare == '*') {
-        //print("simple wildcard");
         // if last pattern and no more / -> match
         if (index + 1 >= patternParts.length) {
           return normalized.length >= lastChecked &&
@@ -98,7 +95,6 @@ class PathMatcher {
           final nextDirectory = normalized.indexOf('/', lastChecked);
           final nextMatch =
               normalized.indexOf(patternParts[index + 1], lastChecked);
-          //print("NEXT $nextDirectory $nextMatch");
           if (nextDirectory > 0 && nextMatch > 0) {
             lastChecked = min(nextMatch, nextDirectory);
           } else if (nextDirectory > 0) {
@@ -110,7 +106,6 @@ class PathMatcher {
           }
         }
       } else if (compare == '**') {
-        //print("double wildcard");
         // if last pattern -> match
         if (index + 1 >= patternParts.length &&
             normalized.length >= lastChecked) {
@@ -119,7 +114,6 @@ class PathMatcher {
           // ignore until start of next pattern
           final nextMatch =
               normalized.indexOf(patternParts[index + 1], lastChecked);
-          //print("NEXT $nextMatch");
           if (nextMatch > 0) {
             lastChecked = nextMatch;
           } else {
@@ -128,23 +122,18 @@ class PathMatcher {
         }
       } else {
         final endOfNextMatch = lastChecked + compare.length;
-        //print("string compare ${normalized.length} >= $endOfNextMatch && ${normalized.startsWith(compare,lastChecked)} && (${_nextPatternIsWildcard(index)} || ${_nextPathTokenIsADirectory(compare,normalized,lastChecked)})");
         if (normalized.length >= endOfNextMatch &&
             normalized.startsWith(compare, lastChecked)) {
           if (index + 1 >= patternParts.length) {
-            //print("default string true ${_isDirectory} || ${normalized.length == endOfNextMatch}");
             return _isDirectory || normalized.length == endOfNextMatch;
           } else {
-            //print("default string true - continue");
             lastChecked = endOfNextMatch;
           }
         } else {
-          //print("match string false");
           return false;
         }
       }
     }
-    //print("default string false");
     return false;
   }
 }

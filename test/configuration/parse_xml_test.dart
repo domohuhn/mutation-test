@@ -149,12 +149,39 @@ void main() {
         '</mutations>\n'
         '');
   });
+
+  test('invalid inputs - no version', () {
+    final configuration = Configuration(mock, true);
+    expect(() {
+      configuration.parseXMLString(_noVersion);
+    }, throwsException);
+  });
+
+  test('invalid inputs - no root', () {
+    final configuration = Configuration(mock, true);
+    expect(() {
+      configuration.parseXMLString(_noRoot);
+    }, throwsException);
+  });
 }
 
 String _wrongVersion = '''
 <?xml version="1.0" encoding="UTF-8"?>
 <mutations version="0.0">
 </mutations>
+''';
+
+String _noVersion = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations>
+</mutations>
+''';
+
+String _noRoot = '''
+<?xml version="1.0" encoding="UTF-8"?>
+<exclude>
+  <lines/>
+</exclude>
 ''';
 
 String _noLineAttributes = '''
