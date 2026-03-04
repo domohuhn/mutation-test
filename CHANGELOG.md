@@ -1,3 +1,6 @@
+## 1.8.1
+ - Test commands are now spawned in a shell on all platforms
+
 ## 1.8.0
  - The input files element now accepts the wildcards * and ** in its path
  - Added an option to exclude whole directories in the exclude tag. These options also accept the wildcards * and **.
