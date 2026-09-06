@@ -208,6 +208,10 @@ String _xmlRules() {
     <token begin="import &apos;" end="&apos;;"/>
     <token begin="export &quot;" end="&quot;;"/>
     <token begin="import &quot;" end="&quot;;"/>
+    <token begin="part &apos;" end="&apos;;"/>
+    <token begin="part of &apos;" end="&apos;;"/>
+    <token begin="part &quot;" end="&quot;;"/>
+    <token begin="part of &quot;" end="&quot;;"/>
     <!-- excludes anything that matches a pattern  -->
     <!-- multi line comments  -->
     <regex pattern="/[*].*?[*]/" dotAll="true"/>

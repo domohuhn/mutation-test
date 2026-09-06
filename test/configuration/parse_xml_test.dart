@@ -13,7 +13,7 @@ void main() {
   test('Parse builtin rules', () {
     final configuration = Configuration(mock, true);
     configuration.parseXMLString(builtinMutationRules());
-    expect(configuration.exclusions.length, 10);
+    expect(configuration.exclusions.length, 14);
     expect(configuration.mutations.length, 32);
     expect(configuration.files.length, 0);
     expect(configuration.commands.length, 0);
@@ -22,7 +22,7 @@ void main() {
   test('Parse example string', () {
     final configuration = Configuration(mock, true);
     configuration.parseXMLString(fullXMLFile());
-    expect(configuration.exclusions.length, 10);
+    expect(configuration.exclusions.length, 14);
     expect(configuration.mutations.length, 32);
     expect(configuration.files.length, 2);
     expect(configuration.commands.length, 2);
