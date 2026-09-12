@@ -21,6 +21,8 @@ void writeXMLReport(
 
 /// Creates the XML report string
 String createXMLReport(ReportData data) {
+  print(
+      'XML reports are deprecated and will be removed in the future. Please use xunit reports instead.');
   final text = StringBuffer(
       '<?xml version="1.0" encoding="UTF-8"?>\n<undetected-mutations>\n');
   text.write('<program-version>${mutationTestVersion()}</program-version>\n');

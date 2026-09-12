@@ -21,6 +21,8 @@ void writeMarkdownReport(
 
 /// Creates the markdown report string
 String createMarkdownReport(ReportData data) {
+  print(
+      'Markdown reports are deprecated and will be removed in the future. Please use html reports instead.');
   var text = _createMarkdownHeader(data);
   data.testedFiles.forEach((key, value) {
     text += '## Undetected mutations in file : $key\n';

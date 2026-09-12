@@ -1,6 +1,7 @@
 ## 1.8.1
  - Added "part" and "part of" to the default exclusion list
  - The test runner will no longer wait for all eternity if a process has a timeout but ignores SIGKILL
+ - Deprecated markdown and XML reports. Please use html and xunit instead. 
 
 ## 1.8.0
  - The input files element now accepts the wildcards * and ** in its path

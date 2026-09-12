@@ -53,8 +53,8 @@ dart run mutation_test example/config.xml
 # The input files source1.cpp and source2.cpp
 # are just tested with the rules from mutation-rules.xml (--rules).
 # The output is written to directory output (-o) and the 
-# report is generated as markdown file (-f md).
-dart run mutation_test -f md -o output --rules mutation-rules.xml inputset1.xml \
+# report is generated as xunit file (-f xunit).
+dart run mutation_test -f xunit -o output --rules mutation-rules.xml inputset1.xml \
     source1.cpp source2.cpp
 ```
 The first command in the section above would produce the following [report](https://domohuhn.github.io/mutation-test/doc/output/mutation-test-report.html).
@@ -99,7 +99,7 @@ dart run mutation_test --exclude-strings
   - Sections of files can be whitelisted on a per file basis
   - Only mutants whose statements are covered will be executed
   - You can add global exclusion rules for e.g. comments, loop conditions via regular expressions
-  - Different report formats are supported: html, xunit/junit, markdown and XML
+  - Different report formats are supported: html, xunit/junit, markdown (deprecated) and XML (deprecated)
 
 ## A brief description of the program
 mutation_test is a program that mutates your source code and verifies that the test commands
@@ -146,7 +146,7 @@ files may define mutation rules, inputs, exclusions or test commands.
 However, a quality threshold may only be defined once. 
 
 ## Reports
-After a input file is processed, a report is generated. You can choose multiple output formats for the reports. As default, a html file is generated, but you can also choose xunit/junit, markdown or XML. You can see examples of the outputs in the [example folder](example/config-report.md).
+After a input file is processed, a report is generated. You can choose multiple output formats for the reports. As default, a html file is generated, but you can also choose xunit/junit. You can see examples of the outputs in the [example folder](example/config-report.md).
 
 ## Input XML documents
 
@@ -366,7 +366,7 @@ The program accepts the following command line arguments:
 | -q             | --quiet                   | Disable output                                                                                            |
 | -d             | --dry                     | Dry run - loads the configuration and counts the possible mutations in all files, but runs no tests       |
 | -o             | --output=<directory>      | Sets the output directory (defaults to ".")                                                               |
-| -f             | --format                  | Sets the report file format \[html (default), junit, xunit, md, xml, all, none\]                          |
+| -f             | --format                  | Sets the report file format \[html (default), junit, xunit, md, xml, all, none\]. md and xml are deprecated. |
 | -r             | --rules=<path to XML file>| Overrides the builtin rule set with the rules in the given XML Document                                    |
 |                | --exclude-strings         | Adds experimental string exclusion                                                                         |
 
