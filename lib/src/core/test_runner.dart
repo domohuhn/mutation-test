@@ -56,9 +56,10 @@ class TestRunner {
       });
     }
 
-    var exitCode = await exitFuture;
-    await awaitableStdout;
-    await awaitableStderr;
+    final exitCode = await exitFuture;
+    const drainGrace = Duration(seconds: 2);
+    await awaitableStdout.timeout(drainGrace, onTimeout: () {});
+    await awaitableStderr.timeout(drainGrace, onTimeout: () {});
     _started = false;
 
     final matchesExpectation = exitCode == cmd.expectedReturnValue;

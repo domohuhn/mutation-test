@@ -1,6 +1,6 @@
 ## 1.8.1
- - Test commands are now spawned in a shell on all platforms
  - Added "part" and "part of" to the default exclusion list
+ - The test runner will no longer wait for all eternity if a process has a timeout but ignores SIGKILL
 
 ## 1.8.0
  - The input files element now accepts the wildcards * and ** in its path
